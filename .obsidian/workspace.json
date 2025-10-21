@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "MOC/系统优化/思维导图集成指南.md",
+                "file": "MOC/obsidian/链接使用指南.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "思维导图集成指南"
+              "title": "链接使用指南"
             }
           }
         ]
@@ -190,6 +190,7 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "bases:创建新数据库": false,
       "switcher:打开快速切换": false,
       "graph:查看关系图谱": false,
       "canvas:新建白板": false,
@@ -205,6 +206,8 @@
   },
   "active": "fd6c9377a75ca2f1",
   "lastOpenFiles": [
+    "MOC/obsidian/嵌入内容指南.md",
+    "MOC/系统优化/思维导图集成指南.md",
     "MOC/系统优化/个人知识仪表盘.md",
     "_模板/基本笔记模板.md",
     "_模板/概念笔记模板.md",
@@ -228,11 +231,9 @@
     "MOC/obsidian/推荐插件.md",
     "MOC/obsidian/知识图谱指南.md",
     "_模板/周报模版.md",
-    "MOC/obsidian/嵌入内容指南.md",
     "MOC/obsidian",
     "MOC/知识图谱指南.md",
     "MOC/渐进式总结.md",
-    "MOC/标签系统.md",
     "3-资源/思维模型",
     "3-资源/文章摘要",
     "3-资源/课程笔记",
