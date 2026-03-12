@@ -1,0 +1,98 @@
+{
+  "name": "2026最新保姆级节点搭建教程",
+  "children": [
+    {
+      "name": "准备工作",
+      "children": [
+        {
+          "name": "获取工具和代码"
+        },
+        {
+          "name": "购买VPS (推荐CN2 GIA线路)"
+        },
+        {
+          "name": "获取VPS信息 (IP、端口、Root密码)"
+        }
+      ]
+    },
+    {
+      "name": "连接VPS",
+      "children": [
+        {
+          "name": "Windows: CMD/SSH命令"
+        },
+        {
+          "name": "Mac: 终端程序"
+        },
+        {
+          "name": "登录验证 (yes/密文密码)"
+        }
+      ]
+    },
+    {
+      "name": "服务端脚本安装",
+      "children": [
+        {
+          "name": "执行安装指令"
+        },
+        {
+          "name": "保存面板用户名和密码"
+        },
+        {
+          "name": "测试低延迟伪装域名"
+        },
+        {
+          "name": "本地端口转发 (SSH Tunnel)"
+        }
+      ]
+    },
+    {
+      "name": "3X-UI面板配置",
+      "children": [
+        {
+          "name": "登录127.0.0.1控制台"
+        },
+        {
+          "name": "入站管理 (添加VLESS/Trojan)"
+        },
+        {
+          "name": "TLS/Reality设置 (填入SNI、生成密钥)"
+        },
+        {
+          "name": "用户管理 (限制流量/到期时间)"
+        }
+      ]
+    },
+    {
+      "name": "客户端设置",
+      "children": [
+        {
+          "name": "PC端: v2rayN (导入链接/修改IP)"
+        },
+        {
+          "name": "iOS: Shadowrocket (小火箭扫码)"
+        },
+        {
+          "name": "Android: v2rayNG/NekoBox"
+        },
+        {
+          "name": "启用系统代理"
+        }
+      ]
+    },
+    {
+      "name": "进阶与维护",
+      "children": [
+        {
+          "name": "定期续费 (防止VPS回收)"
+        },
+        {
+          "name": "更换机房 (如美西迁至日本软银)"
+        },
+        {
+          "name": "故障排除 (重装系统/更换IP)"
+        }
+      ]
+    }
+  ]
+}
