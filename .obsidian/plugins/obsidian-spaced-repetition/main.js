@@ -44,7 +44,7 @@ var require_moment = __commonJS({
   "node_modules/.pnpm/moment@2.30.1/node_modules/moment/moment.js"(exports, module2) {
     (function(global, factory) {
       typeof exports === "object" && typeof module2 !== "undefined" ? module2.exports = factory() : typeof define === "function" && define.amd ? define(factory) : global.moment = factory();
-    })(exports, function() {
+    })(exports, (function() {
       "use strict";
       var hookCallback;
       function hooks() {
@@ -220,7 +220,7 @@ var require_moment = __commonJS({
         }
         return to3;
       }
-      function Moment3(config) {
+      function Moment4(config) {
         copyConfig(this, config);
         this._d = new Date(config._d != null ? config._d.getTime() : NaN);
         if (!this.isValid()) {
@@ -233,7 +233,7 @@ var require_moment = __commonJS({
         }
       }
       function isMoment(obj) {
-        return obj instanceof Moment3 || obj != null && obj._isAMomentObject != null;
+        return obj instanceof Moment4 || obj != null && obj._isAMomentObject != null;
       }
       function warn(msg) {
         if (hooks.suppressDeprecationWarnings === false && typeof console !== "undefined" && console.warn) {
@@ -1018,15 +1018,15 @@ var require_moment = __commonJS({
           "i"
         );
       }
-      function createDate(y2, m2, d2, h6, M2, s2, ms) {
+      function createDate(y2, m2, d2, h4, M2, s2, ms) {
         var date;
         if (y2 < 100 && y2 >= 0) {
-          date = new Date(y2 + 400, m2, d2, h6, M2, s2, ms);
+          date = new Date(y2 + 400, m2, d2, h4, M2, s2, ms);
           if (isFinite(date.getFullYear())) {
             date.setFullYear(y2);
           }
         } else {
-          date = new Date(y2, m2, d2, h6, M2, s2, ms);
+          date = new Date(y2, m2, d2, h4, M2, s2, ms);
         }
         return date;
       }
@@ -1836,8 +1836,8 @@ var require_moment = __commonJS({
         } else if (militaryOffset) {
           return 0;
         } else {
-          var hm = parseInt(numOffset, 10), m2 = hm % 100, h6 = (hm - m2) / 100;
-          return h6 * 60 + m2;
+          var hm = parseInt(numOffset, 10), m2 = hm % 100, h4 = (hm - m2) / 100;
+          return h4 * 60 + m2;
         }
       }
       function configFromRFC2822(config) {
@@ -2138,7 +2138,7 @@ var require_moment = __commonJS({
         configFromArray(config);
       }
       function createFromConfig(config) {
-        var res = new Moment3(checkOverflow(prepareConfig(config)));
+        var res = new Moment4(checkOverflow(prepareConfig(config)));
         if (res._nextDay) {
           res.add(1, "d");
           res._nextDay = void 0;
@@ -2155,7 +2155,7 @@ var require_moment = __commonJS({
           config._i = input = config._locale.preparse(input);
         }
         if (isMoment(input)) {
-          return new Moment3(checkOverflow(input));
+          return new Moment4(checkOverflow(input));
         } else if (isDate(input)) {
           config._d = input;
         } else if (isArray2(format2)) {
@@ -2699,7 +2699,7 @@ var require_moment = __commonJS({
         );
       }
       function clone3() {
-        return new Moment3(this);
+        return new Moment4(this);
       }
       function isAfter(input, units) {
         var localInput = isMoment(input) ? input : createLocal(input);
@@ -3472,7 +3472,7 @@ var require_moment = __commonJS({
       function getZoneName() {
         return this._isUTC ? "Coordinated Universal Time" : "";
       }
-      var proto = Moment3.prototype;
+      var proto = Moment4.prototype;
       proto.add = add;
       proto.calendar = calendar$1;
       proto.clone = clone3;
@@ -3507,7 +3507,7 @@ var require_moment = __commonJS({
       proto.toISOString = toISOString;
       proto.inspect = inspect;
       if (typeof Symbol !== "undefined" && Symbol.for != null) {
-        proto[Symbol.for("nodejs.util.inspect.custom")] = function() {
+        proto[/* @__PURE__ */ Symbol.for("nodejs.util.inspect.custom")] = function() {
           return "Moment<" + this.format() + ">";
         };
       }
@@ -4035,7 +4035,7 @@ var require_moment = __commonJS({
         // <input type="month" />
       };
       return hooks;
-    });
+    }));
   }
 });
 
@@ -4054,7 +4054,7 @@ var require_lib = __commonJS({
         }
       }
     }
-    module2.exports = function() {
+    module2.exports = (function() {
       var self = {
         count: 0,
         edges: {},
@@ -4131,215 +4131,7 @@ var require_lib = __commonJS({
         self.nodes = {};
       };
       return self;
-    }();
-  }
-});
-
-// node_modules/.pnpm/balanced-match@1.0.2/node_modules/balanced-match/index.js
-var require_balanced_match = __commonJS({
-  "node_modules/.pnpm/balanced-match@1.0.2/node_modules/balanced-match/index.js"(exports, module2) {
-    "use strict";
-    module2.exports = balanced;
-    function balanced(a2, b2, str) {
-      if (a2 instanceof RegExp) a2 = maybeMatch(a2, str);
-      if (b2 instanceof RegExp) b2 = maybeMatch(b2, str);
-      var r2 = range(a2, b2, str);
-      return r2 && {
-        start: r2[0],
-        end: r2[1],
-        pre: str.slice(0, r2[0]),
-        body: str.slice(r2[0] + a2.length, r2[1]),
-        post: str.slice(r2[1] + b2.length)
-      };
-    }
-    function maybeMatch(reg, str) {
-      var m2 = str.match(reg);
-      return m2 ? m2[0] : null;
-    }
-    balanced.range = range;
-    function range(a2, b2, str) {
-      var begs, beg, left, right, result;
-      var ai = str.indexOf(a2);
-      var bi = str.indexOf(b2, ai + 1);
-      var i2 = ai;
-      if (ai >= 0 && bi > 0) {
-        if (a2 === b2) {
-          return [ai, bi];
-        }
-        begs = [];
-        left = str.length;
-        while (i2 >= 0 && !result) {
-          if (i2 == ai) {
-            begs.push(i2);
-            ai = str.indexOf(a2, i2 + 1);
-          } else if (begs.length == 1) {
-            result = [begs.pop(), bi];
-          } else {
-            beg = begs.pop();
-            if (beg < left) {
-              left = beg;
-              right = bi;
-            }
-            bi = str.indexOf(b2, i2 + 1);
-          }
-          i2 = ai < bi && ai >= 0 ? ai : bi;
-        }
-        if (begs.length) {
-          result = [left, right];
-        }
-      }
-      return result;
-    }
-  }
-});
-
-// node_modules/.pnpm/brace-expansion@2.0.1/node_modules/brace-expansion/index.js
-var require_brace_expansion = __commonJS({
-  "node_modules/.pnpm/brace-expansion@2.0.1/node_modules/brace-expansion/index.js"(exports, module2) {
-    var balanced = require_balanced_match();
-    module2.exports = expandTop;
-    var escSlash = "\0SLASH" + Math.random() + "\0";
-    var escOpen = "\0OPEN" + Math.random() + "\0";
-    var escClose = "\0CLOSE" + Math.random() + "\0";
-    var escComma = "\0COMMA" + Math.random() + "\0";
-    var escPeriod = "\0PERIOD" + Math.random() + "\0";
-    function numeric(str) {
-      return parseInt(str, 10) == str ? parseInt(str, 10) : str.charCodeAt(0);
-    }
-    function escapeBraces(str) {
-      return str.split("\\\\").join(escSlash).split("\\{").join(escOpen).split("\\}").join(escClose).split("\\,").join(escComma).split("\\.").join(escPeriod);
-    }
-    function unescapeBraces(str) {
-      return str.split(escSlash).join("\\").split(escOpen).join("{").split(escClose).join("}").split(escComma).join(",").split(escPeriod).join(".");
-    }
-    function parseCommaParts(str) {
-      if (!str)
-        return [""];
-      var parts = [];
-      var m2 = balanced("{", "}", str);
-      if (!m2)
-        return str.split(",");
-      var pre = m2.pre;
-      var body = m2.body;
-      var post = m2.post;
-      var p2 = pre.split(",");
-      p2[p2.length - 1] += "{" + body + "}";
-      var postParts = parseCommaParts(post);
-      if (post.length) {
-        p2[p2.length - 1] += postParts.shift();
-        p2.push.apply(p2, postParts);
-      }
-      parts.push.apply(parts, p2);
-      return parts;
-    }
-    function expandTop(str) {
-      if (!str)
-        return [];
-      if (str.substr(0, 2) === "{}") {
-        str = "\\{\\}" + str.substr(2);
-      }
-      return expand2(escapeBraces(str), true).map(unescapeBraces);
-    }
-    function embrace(str) {
-      return "{" + str + "}";
-    }
-    function isPadded(el) {
-      return /^-?0\d/.test(el);
-    }
-    function lte(i2, y2) {
-      return i2 <= y2;
-    }
-    function gte(i2, y2) {
-      return i2 >= y2;
-    }
-    function expand2(str, isTop) {
-      var expansions = [];
-      var m2 = balanced("{", "}", str);
-      if (!m2) return [str];
-      var pre = m2.pre;
-      var post = m2.post.length ? expand2(m2.post, false) : [""];
-      if (/\$$/.test(m2.pre)) {
-        for (var k = 0; k < post.length; k++) {
-          var expansion = pre + "{" + m2.body + "}" + post[k];
-          expansions.push(expansion);
-        }
-      } else {
-        var isNumericSequence = /^-?\d+\.\.-?\d+(?:\.\.-?\d+)?$/.test(m2.body);
-        var isAlphaSequence = /^[a-zA-Z]\.\.[a-zA-Z](?:\.\.-?\d+)?$/.test(m2.body);
-        var isSequence = isNumericSequence || isAlphaSequence;
-        var isOptions = m2.body.indexOf(",") >= 0;
-        if (!isSequence && !isOptions) {
-          if (m2.post.match(/,.*\}/)) {
-            str = m2.pre + "{" + m2.body + escClose + m2.post;
-            return expand2(str);
-          }
-          return [str];
-        }
-        var n2;
-        if (isSequence) {
-          n2 = m2.body.split(/\.\./);
-        } else {
-          n2 = parseCommaParts(m2.body);
-          if (n2.length === 1) {
-            n2 = expand2(n2[0], false).map(embrace);
-            if (n2.length === 1) {
-              return post.map(function(p2) {
-                return m2.pre + n2[0] + p2;
-              });
-            }
-          }
-        }
-        var N2;
-        if (isSequence) {
-          var x2 = numeric(n2[0]);
-          var y2 = numeric(n2[1]);
-          var width = Math.max(n2[0].length, n2[1].length);
-          var incr = n2.length == 3 ? Math.abs(numeric(n2[2])) : 1;
-          var test = lte;
-          var reverse = y2 < x2;
-          if (reverse) {
-            incr *= -1;
-            test = gte;
-          }
-          var pad = n2.some(isPadded);
-          N2 = [];
-          for (var i2 = x2; test(i2, y2); i2 += incr) {
-            var c2;
-            if (isAlphaSequence) {
-              c2 = String.fromCharCode(i2);
-              if (c2 === "\\")
-                c2 = "";
-            } else {
-              c2 = String(i2);
-              if (pad) {
-                var need = width - c2.length;
-                if (need > 0) {
-                  var z2 = new Array(need + 1).join("0");
-                  if (i2 < 0)
-                    c2 = "-" + z2 + c2.slice(1);
-                  else
-                    c2 = z2 + c2;
-                }
-              }
-            }
-            N2.push(c2);
-          }
-        } else {
-          N2 = [];
-          for (var j2 = 0; j2 < n2.length; j2++) {
-            N2.push.apply(N2, expand2(n2[j2], false));
-          }
-        }
-        for (var j2 = 0; j2 < N2.length; j2++) {
-          for (var k = 0; k < post.length; k++) {
-            var expansion = pre + N2[j2] + post[k];
-            if (!isTop || isSequence || expansion)
-              expansions.push(expansion);
-          }
-        }
-      }
-      return expansions;
-    }
+    })();
   }
 });
 
@@ -4947,7 +4739,7 @@ var require_vhtml = __commonJS({
   "node_modules/.pnpm/vhtml@2.2.0/node_modules/vhtml/dist/vhtml.js"(exports, module2) {
     (function(global, factory) {
       typeof exports === "object" && typeof module2 !== "undefined" ? module2.exports = factory() : typeof define === "function" && define.amd ? define(factory) : global.vhtml = factory();
-    })(exports, function() {
+    })(exports, (function() {
       "use strict";
       var emptyTags = ["area", "base", "br", "col", "command", "embed", "hr", "img", "input", "keygen", "link", "meta", "param", "source", "track", "wbr"];
       var esc = function esc2(str) {
@@ -4962,7 +4754,7 @@ var require_vhtml = __commonJS({
         htmlFor: "for"
       };
       var sanitized = {};
-      function h6(name, attrs) {
+      function h4(name, attrs) {
         var stack = [], s2 = "";
         attrs = attrs || {};
         for (var i2 = arguments.length; i2-- > 2; ) {
@@ -5001,8 +4793,8 @@ var require_vhtml = __commonJS({
         sanitized[s2] = true;
         return s2;
       }
-      return h6;
-    });
+      return h4;
+    }));
   }
 });
 
@@ -5012,13 +4804,13 @@ __export(main_exports, {
   default: () => SRPlugin
 });
 module.exports = __toCommonJS(main_exports);
-var import_obsidian14 = require("obsidian");
+var import_obsidian32 = require("obsidian");
 
 // src/algorithms/base/repetition-item.ts
 var RepetitionItem = class {
   // scheduling
   get hasSchedule() {
-    return this.scheduleInfo != null;
+    return this.scheduleInfo !== null && this.scheduleInfo !== void 0;
   }
   get isNew() {
     return !this.hasSchedule;
@@ -5043,8 +4835,8 @@ var ObsidianVaultNoteLinkInfoFinder = class {
   constructor(metadataCache) {
     this.metadataCache = metadataCache;
   }
-  getResolvedTargetLinksForNotePath(path3) {
-    return this.metadataCache.resolvedLinks[path3];
+  getResolvedTargetLinksForNotePath(path2) {
+    return this.metadataCache.resolvedLinks[path2];
   }
 };
 
@@ -5052,8 +4844,7 @@ var ObsidianVaultNoteLinkInfoFinder = class {
 var import_moment2 = __toESM(require_moment());
 
 // src/constants.ts
-var SCHEDULING_INFO_REGEX = /^---\r?\n((?:.*\r?\n)*)sr-due: (.+)\r?\nsr-interval: (\d+)\r?\nsr-ease: (\d+)\r?\n((?:.*\r?\n)?)---/;
-var YAML_FRONT_MATTER_REGEX = /^---\r?\n((?:.*\r?\n)*?)---/;
+var FLASHCARD_SCHEDULE_INFO = /\s?<!--SR:!.+?-->/g;
 var MULTI_SCHEDULING_EXTRACTOR = /!([\d-]+),(\d+),(\d+)/gm;
 var LEGACY_SCHEDULING_EXTRACTOR = /<!--SR:([\d-]+),(\d+),(\d+)-->/gm;
 var OBSIDIAN_TAG_AT_STARTOFLINE_REGEX = /^#[^\s#]+/gi;
@@ -5080,6 +4871,8 @@ var COLLAPSE_ICON = '<svg viewBox="0 0 100 100" width="8" height="8" class="svg-
 var TICKS_PER_DAY = 24 * 3600 * 1e3;
 var SR_HTML_COMMENT_BEGIN = "<!--SR:";
 var SR_HTML_COMMENT_END = "-->";
+var SR_TAB_VIEW = "spaced-repetition-tab-view";
+var DEBUG_MODE_ENABLED = false;
 
 // src/lang/helpers.ts
 var import_obsidian = require("obsidian");
@@ -5109,6 +4902,7 @@ var ar_default = {
   CURRENT_EASE_HELP_TEXT: ":\u0627\u0644\u0633\u0647\u0648\u0644\u0629 \u0627\u0644\u062D\u0627\u0644\u064A\u0629",
   CURRENT_INTERVAL_HELP_TEXT: ":\u0627\u0644\u0641\u0627\u0635\u0644 \u0627\u0644\u0632\u0645\u0646\u064A \u0627\u0644\u062D\u0627\u0644\u064A",
   CARD_GENERATED_FROM: "${notePath} :\u062A\u0645 \u0625\u0646\u0634\u0627\u0624\u0647\u0627 \u0645\u0646",
+  VIEW_CARD_INFO: "View Card Info",
   // main.ts
   OPEN_NOTE_FOR_REVIEW: "\u0627\u0641\u062A\u062D \u0627\u0644\u0645\u0644\u0627\u062D\u0638\u0629 \u0644\u0644\u0645\u0631\u0627\u062C\u0639\u0629",
   REVIEW_CARDS: "\u0645\u0631\u0627\u062C\u0639\u0629 \u0627\u0644\u0628\u0637\u0627\u0642\u0627\u062A",
@@ -5189,9 +4983,14 @@ var ar_default = {
   REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_RANDOM: "Randomly (once all cards in previous deck reviewed)",
   REVIEW_DECK_ORDER_RANDOM_DECK_AND_CARD: "Random card from random deck",
   DISABLE_CLOZE_CARDS: "\u061Fcloze \u062A\u0639\u0637\u064A\u0644 \u0628\u0637\u0627\u0642\u0627\u062A",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS: "Convert cloze patterns to input fields",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS_DESC: "Replace cloze patterns with input fields when reviewing cloze cards.",
   CONVERT_HIGHLIGHTS_TO_CLOZES: "Convert ==highlights== to clozes",
+  CONVERT_HIGHLIGHTS_TO_CLOZES_DESC: 'Add/remove the <code>${defaultPattern}</code> from your "Cloze Patterns"',
   CONVERT_BOLD_TEXT_TO_CLOZES: "Convert **bolded text** to clozes",
+  CONVERT_BOLD_TEXT_TO_CLOZES_DESC: 'Add/remove the <code>${defaultPattern}</code> from your "Cloze Patterns"',
   CONVERT_CURLY_BRACKETS_TO_CLOZES: "Convert {{curly brackets}} to clozes",
+  CONVERT_CURLY_BRACKETS_TO_CLOZES_DESC: 'Add/remove the <code>${defaultPattern}</code> from your "Cloze Patterns"',
   CLOZE_PATTERNS: "Cloze Patterns",
   CLOZE_PATTERNS_DESC: 'Enter cloze patterns separated by newlines. Check the <a href="${docsUrl}">wiki</a> for guidance.',
   INLINE_CARDS_SEPARATOR: "\u0641\u0627\u0635\u0644 \u0645\u0646 \u0623\u062C\u0644 \u0627\u0644\u0628\u0637\u0627\u0642\u0627\u062A \u0627\u0644\u0645\u0636\u0645\u0646\u0629",
@@ -5214,6 +5013,8 @@ var ar_default = {
   MIN_ONE_DAY: "\u064A\u062C\u0628 \u0623\u0646 \u064A\u0643\u0648\u0646 \u0639\u062F\u062F \u0627\u0644\u0623\u064A\u0627\u0645 1 \u0639\u0644\u0649 \u0627\u0644\u0623\u0642\u0644",
   VALID_NUMBER_WARNING: "\u064A\u0631\u062C\u0649 \u062A\u0642\u062F\u064A\u0645 \u0631\u0642\u0645 \u0635\u0627\u0644\u062D",
   UI: "User Interface",
+  OPEN_IN_TAB: "Open in new tab",
+  OPEN_IN_TAB_DESC: "Turn this off to open the plugin in a modal window",
   SHOW_STATUS_BAR: "Show status bar",
   SHOW_STATUS_BAR_DESC: "Turn this off to hide the flashcard's review status in Obsidian's status bar",
   SHOW_RIBBON_ICON: "Show icon in the ribbon bar",
@@ -5247,6 +5048,13 @@ var ar_default = {
   EXPERIMENTAL: "Experimental",
   HELP: "Help",
   STORE_IN_NOTES: "In the notes",
+  DELETE_SCHEDULING_DATA: "Delete Scheduling Data",
+  DELETE_SCHEDULING_DATA_IN_NOTES_AND_FLASHCARDS: "Delete scheduling data from all notes and flashcards.",
+  DELETE: "Delete",
+  CONFIRM_SCHEDULING_DATA_DELETION: "Are you sure you want to delete all scheduling data from your notes and flashcards? This action cannot be undone.",
+  CONFIRM: "Confirm",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS: "Scheduling data deletion in progress...",
+  SCHEDULING_DATA_HAS_BEEN_DELETED: "Scheduling data has been deleted from all notes and flashcards.",
   // sidebar.ts
   NOTES_REVIEW_QUEUE: "\u0645\u0644\u0627\u062D\u0638\u0627\u062A \u0642\u0627\u0626\u0645\u0629 \u0627\u0644\u0645\u0631\u0627\u062C\u0639\u0629",
   CLOSE: "\u0623\u063A\u0644\u0642",
@@ -5281,7 +5089,26 @@ var ar_default = {
   CARD_TYPES_SUMMARY: " ${totalCardsCount} :\u0625\u062C\u0645\u0627\u0644\u064A \u0639\u062F\u062F \u0627\u0644\u0628\u0637\u0627\u0642\u0627\u062A",
   SEARCH: "Search",
   PREVIOUS: "Previous",
-  NEXT: "Next"
+  NEXT: "Next",
+  // settings.ts
+  SETTINGS_TAB_HEADING: "Settings",
+  MAIN_SETTINGS_PAGE: "MAIN_SETTINGS",
+  // NoteReviewQueue.ts
+  NOTE_REVIEW_QUEUE_HINT: "Click on the 3 dots next to the note to open the review menu.",
+  // StatusBarManager.ts
+  OPEN_DECK_FOR_REVIEW: "Open deck for review",
+  UPDATE_AVAILABLE: "Update available",
+  // Statistics
+  PERIOD_TITLE: "Period",
+  PERIOD_DESC: "Period of time to display in the charts",
+  // Card controls reset button
+  DELETE_SCHEDULING_DATA_OF_CURRENT_CARD: "Delete card scheduling data?",
+  CONFIRM_SCHEDULING_DATA_DELETION_OF_CURRENT_CARD: "Are you sure you want to delete the scheduling data from your current card? This action cannot be undone.",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS_OF_CURRENT_CARD: "Deleting the cards scheduling data...",
+  // Settings > Scheduling
+  START_OF_DAY: "Start of day",
+  START_OF_DAY_DESC: "The time at which the day begins (Format: HH:MM:SS, Default: 00:00:00)",
+  INVALID_START_OF_DAY_WARNING: "Invalid format for start of day"
 };
 
 // src/lang/locale/bn.ts
@@ -5309,6 +5136,7 @@ var cz_default = {
   CURRENT_EASE_HELP_TEXT: "Current Ease: ",
   CURRENT_INTERVAL_HELP_TEXT: "Current Interval: ",
   CARD_GENERATED_FROM: "Generated from: ${notePath}",
+  VIEW_CARD_INFO: "View Card Info",
   // main.ts
   OPEN_NOTE_FOR_REVIEW: "Otev\u0159\xEDt pozn\xE1mku k revizi",
   REVIEW_CARDS: "Pozn\xE1mek k revizi",
@@ -5389,9 +5217,14 @@ var cz_default = {
   REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_RANDOM: "Randomly (once all cards in previous deck reviewed)",
   REVIEW_DECK_ORDER_RANDOM_DECK_AND_CARD: "Random card from random deck",
   DISABLE_CLOZE_CARDS: "Vypnout cloze karti\u010Dky?",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS: "Convert cloze patterns to input fields",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS_DESC: "Replace cloze patterns with input fields when reviewing cloze cards.",
   CONVERT_HIGHLIGHTS_TO_CLOZES: "P\u0159ev\xE9st ==zv\xFDrazn\u011Bn\xED== na clozes?",
+  CONVERT_HIGHLIGHTS_TO_CLOZES_DESC: 'P\u0159idat/odstranit <code>${defaultPattern}</code> z va\u0161ich "Cloze vzor\u016F"',
   CONVERT_BOLD_TEXT_TO_CLOZES: "P\u0159ev\xE9st **tu\u010Dn\xFD text** na clozes?",
+  CONVERT_BOLD_TEXT_TO_CLOZES_DESC: 'P\u0159idat/odstranit <code>${defaultPattern}</code> z va\u0161ich "Cloze vzor\u016F"',
   CONVERT_CURLY_BRACKETS_TO_CLOZES: "P\u0159ev\xE9st {{slo\u017Een\xE9 z\xE1vorky}} na clozes?",
+  CONVERT_CURLY_BRACKETS_TO_CLOZES_DESC: 'P\u0159idat/odstranit <code>${defaultPattern}</code> z va\u0161ich "Cloze vzor\u016F"',
   CLOZE_PATTERNS: "Cloze vzory",
   CLOZE_PATTERNS_DESC: 'Zadejte cloze vzory odd\u011Blen\xE9 od\u0159\xE1dkov\xE1n\xEDm. Check the <a href="${docsUrl}">wiki</a> for guidance.',
   INLINE_CARDS_SEPARATOR: "Odd\u011Blova\u010D pro inline karti\u010Dky",
@@ -5414,6 +5247,8 @@ var cz_default = {
   MIN_ONE_DAY: "Po\u010Det dn\xED mus\xED b\xFDt minim\xE1ln\u011B 1.",
   VALID_NUMBER_WARNING: "Pros\xEDm zadejte validn\xED \u010D\xEDslo.",
   UI: "P\u0159edvolby u\u017Eivatelsk\xE9ho rozhran\xED",
+  OPEN_IN_TAB: "Open in new tab",
+  OPEN_IN_TAB_DESC: "Turn this off to open the plugin in a modal window",
   SHOW_STATUS_BAR: "Show status bar",
   SHOW_STATUS_BAR_DESC: "Turn this off to hide the flashcard's review status in Obsidian's status bar",
   SHOW_RIBBON_ICON: "Show icon in the ribbon bar",
@@ -5447,6 +5282,13 @@ var cz_default = {
   EXPERIMENTAL: "Experimental",
   HELP: "Help",
   STORE_IN_NOTES: "In the notes",
+  DELETE_SCHEDULING_DATA: "Delete Scheduling Data",
+  DELETE_SCHEDULING_DATA_IN_NOTES_AND_FLASHCARDS: "Delete scheduling data from all notes and flashcards.",
+  DELETE: "Delete",
+  CONFIRM_SCHEDULING_DATA_DELETION: "Are you sure you want to delete all scheduling data from your notes and flashcards? This action cannot be undone.",
+  CONFIRM: "Confirm",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS: "Scheduling data deletion in progress...",
+  SCHEDULING_DATA_HAS_BEEN_DELETED: "Scheduling data has been deleted from all notes and flashcards.",
   // sidebar.ts
   NOTES_REVIEW_QUEUE: "Fronta pozn\xE1mek k revizi",
   CLOSE: "Uzav\u0159en\xE9",
@@ -5481,7 +5323,26 @@ var cz_default = {
   CARD_TYPES_SUMMARY: "Karti\u010Dek celkem: ${totalCardsCount}",
   SEARCH: "Search",
   PREVIOUS: "Previous",
-  NEXT: "Next"
+  NEXT: "Next",
+  // settings.ts
+  SETTINGS_TAB_HEADING: "Settings",
+  MAIN_SETTINGS_PAGE: "MAIN_SETTINGS",
+  // NoteReviewQueue.ts
+  NOTE_REVIEW_QUEUE_HINT: "Click on the 3 dots next to the note to open the review menu.",
+  // StatusBarManager.ts
+  OPEN_DECK_FOR_REVIEW: "Open deck for review",
+  UPDATE_AVAILABLE: "Update available",
+  // Statistics
+  PERIOD_TITLE: "Period",
+  PERIOD_DESC: "Period of time to display in the charts",
+  // Card controls reset button
+  DELETE_SCHEDULING_DATA_OF_CURRENT_CARD: "Delete card scheduling data?",
+  CONFIRM_SCHEDULING_DATA_DELETION_OF_CURRENT_CARD: "Are you sure you want to delete the scheduling data from your current card? This action cannot be undone.",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS_OF_CURRENT_CARD: "Deleting the cards scheduling data...",
+  // Settings > Scheduling
+  START_OF_DAY: "Start of day",
+  START_OF_DAY_DESC: "The time at which the day begins (Format: HH:MM:SS, Default: 00:00:00)",
+  INVALID_START_OF_DAY_WARNING: "Invalid format for start of day"
 };
 
 // src/lang/locale/da.ts
@@ -5509,6 +5370,7 @@ var de_default = {
   CURRENT_EASE_HELP_TEXT: "Aktuelle Schwierigkeit: ",
   CURRENT_INTERVAL_HELP_TEXT: "Aktueller Intervall: ",
   CARD_GENERATED_FROM: "Erstellt von: ${notePath}",
+  VIEW_CARD_INFO: "Karteninformationen anzeigen",
   // main.ts
   OPEN_NOTE_FOR_REVIEW: "Notiz zur Wiederholung \xF6ffnen",
   REVIEW_CARDS: "Lernkarten wiederholen",
@@ -5536,13 +5398,13 @@ var de_default = {
   YEARS_STR_IVL_MOBILE: "${interval}j",
   // settings.ts
   SETTINGS_HEADER: "Spaced Repetition",
-  GROUP_TAGS_FOLDERS: "Tags & Folders",
+  GROUP_TAGS_FOLDERS: "Tags & Ordner",
   GROUP_FLASHCARD_REVIEW: "Flashcard Review",
   GROUP_FLASHCARD_SEPARATORS: "Flashcard Separators",
   GROUP_DATA_STORAGE: "Storage of Scheduling Data",
   GROUP_DATA_STORAGE_DESC: "Choose where to store the scheduling data",
   GROUP_FLASHCARDS_NOTES: "Flashcards & Notes",
-  GROUP_CONTRIBUTING: "Contributing",
+  GROUP_CONTRIBUTING: "Helfen",
   CHECK_WIKI: 'Weitere Informationen gibt es im <a href="${wikiUrl}">Wiki</a> (english).',
   GITHUB_DISCUSSIONS: 'Visit the <a href="${discussionsUrl}">discussions</a> section for Q&A help, feedback, and general discussion.',
   GITHUB_ISSUES: 'Raise an issue <a href="${issuesUrl}">here</a> if you have a feature request or a bug report.',
@@ -5550,7 +5412,7 @@ var de_default = {
   CODE_CONTRIBUTION_INFO: '<a href="${codeContributionUrl}">Here\'s</a> how to contribute code to the plugin.',
   TRANSLATION_CONTRIBUTION_INFO: '<a href="${translationContributionUrl}">Here\'s</a> how to translate the plugin to another language.',
   FOLDERS_TO_IGNORE: "Ausgeschlossene Ordner",
-  FOLDERS_TO_IGNORE_DESC: "Enter folder paths or glob patterns on separate lines e.g. Templates/Scripts or **/*.excalidraw.md. This setting is common to both flashcards and notes.",
+  FOLDERS_TO_IGNORE_DESC: "Geben Sie Pfad- oder Globalemuster in separaten Zeilen an, z.B. Templates/Scripts oder **/*.excalidraw.md. Diese Einstellung gilt f\xFCr Flashcards und Notizen.",
   OBSIDIAN_INTEGRATION: "Integration into Obsidian",
   FLASHCARDS: "Lernkarten",
   FLASHCARD_EASY_LABEL: "Einfach Knopf Text",
@@ -5571,7 +5433,7 @@ var de_default = {
   BURY_SIBLINGS_TILL_NEXT_DAY_DESC: "Verwandte Karten sind aus der gleichen Karte generiert worden (z.B. L\xFCckentextkarten oder beidseitige Karten).",
   SHOW_CARD_CONTEXT: "Kontext in den Karten anzeigen?",
   SHOW_CARD_CONTEXT_DESC: "Bsp. Titel > \xDCberschrift 1 > Sektion > ... > Untersektion",
-  SHOW_INTERVAL_IN_REVIEW_BUTTONS: "Show next review time in the review buttons",
+  SHOW_INTERVAL_IN_REVIEW_BUTTONS: "Zeige n\xE4chsten Review-Zeit in den Review-Buttons",
   SHOW_INTERVAL_IN_REVIEW_BUTTONS_DESC: "Useful to know how far in the future your cards are being pushed.",
   CARD_MODAL_HEIGHT_PERCENT: "H\xF6he der Lernkartei in Prozent",
   CARD_MODAL_SIZE_PERCENT_DESC: "Auf kleinen Bildschirmen (z.B. Smartphones) oder bei sehr grossen Bildern sollte dieser Wert auf 100% gesetzt werden.",
@@ -5589,9 +5451,14 @@ var de_default = {
   REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_RANDOM: "Zuf\xE4llige Reihenfolge (sobald alle Karten im vorherigen Stapel wiederholt wurden)",
   REVIEW_DECK_ORDER_RANDOM_DECK_AND_CARD: "Zuf\xE4llige Karte von zuf\xE4lligem Stapel",
   DISABLE_CLOZE_CARDS: "L\xFCckentextkarten deaktivieren?",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS: "Konvertiere L\xFCckentext zu Eingabefelder",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS_DESC: "Ersetze L\xFCckentext mit Eingabefeldern, wenn L\xFCckentextkarten angezeigt werden.",
   CONVERT_HIGHLIGHTS_TO_CLOZES: "==Hervorgehobenen== Text in L\xFCckentextkarten umwandeln?",
+  CONVERT_HIGHLIGHTS_TO_CLOZES_DESC: 'F\xFCge/entferne das <code>${defaultPattern}</code> zu deinen "L\xFCckentextmuster" hinzu',
   CONVERT_BOLD_TEXT_TO_CLOZES: "**Fettgedruckten** Text in L\xFCckentextkarten umwandeln?",
+  CONVERT_BOLD_TEXT_TO_CLOZES_DESC: 'F\xFCge/entferne das <code>${defaultPattern}</code> zu deinen "L\xFCckentextmuster" hinzu',
   CONVERT_CURLY_BRACKETS_TO_CLOZES: "{{Geschweifte Klammern}} Text in L\xFCckentextkarten umwandeln?",
+  CONVERT_CURLY_BRACKETS_TO_CLOZES_DESC: 'F\xFCge/entferne das <code>${defaultPattern}</code> zu deinen "L\xFCckentextmuster" hinzu',
   CLOZE_PATTERNS: "L\xFCckentextmuster",
   CLOZE_PATTERNS_DESC: 'Geben Sie L\xFCckentextmuster durch Zeilenumbr\xFCche getrennt ein. Check the <a href="${docsUrl}">wiki</a> for guidance.',
   INLINE_CARDS_SEPARATOR: "Trennzeichen f\xFCr einzeilige Lernkarten",
@@ -5614,6 +5481,8 @@ var de_default = {
   MIN_ONE_DAY: "Anzahl der Tage muss mindestens 1 sein.",
   VALID_NUMBER_WARNING: "Bitte eine g\xFCltige Zahl eingeben.",
   UI: "User Interface",
+  OPEN_IN_TAB: "\xD6ffne im neuen Tab",
+  OPEN_IN_TAB_DESC: "Schalte dies aus, um die Notizen in einem Modalfenster zu \xF6ffnen",
   SHOW_STATUS_BAR: "Show status bar",
   SHOW_STATUS_BAR_DESC: "Turn this off to hide the flashcard's review status in Obsidian's status bar",
   SHOW_RIBBON_ICON: "Show icon in the ribbon bar",
@@ -5647,6 +5516,13 @@ var de_default = {
   EXPERIMENTAL: "Experimental",
   HELP: "Help",
   STORE_IN_NOTES: "In the notes",
+  DELETE_SCHEDULING_DATA: "Delete Scheduling Data",
+  DELETE_SCHEDULING_DATA_IN_NOTES_AND_FLASHCARDS: "Delete scheduling data from all notes and flashcards.",
+  DELETE: "Delete",
+  CONFIRM_SCHEDULING_DATA_DELETION: "Are you sure you want to delete all scheduling data from your notes and flashcards? This action cannot be undone.",
+  CONFIRM: "Confirm",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS: "Scheduling data deletion in progress...",
+  SCHEDULING_DATA_HAS_BEEN_DELETED: "Scheduling data has been deleted from all notes and flashcards.",
   // sidebar.ts
   NOTES_REVIEW_QUEUE: "Anstehende Notizen zur Wiederholung",
   CLOSE: "Schliessen",
@@ -5679,9 +5555,28 @@ var de_default = {
   CARD_TYPE_YOUNG: "Jung",
   CARD_TYPE_MATURE: "Ausgereift",
   CARD_TYPES_SUMMARY: "Insgesamt ${totalCardsCount} Karten",
-  SEARCH: "Search",
+  SEARCH: "Suche",
   PREVIOUS: "Previous",
-  NEXT: "Next"
+  NEXT: "Next",
+  // settings.ts
+  SETTINGS_TAB_HEADING: "Einstellungen",
+  MAIN_SETTINGS_PAGE: "MAIN_SETTINGS",
+  // NoteReviewQueue.ts
+  NOTE_REVIEW_QUEUE_HINT: "Klicke auf die 3 Punkte neben der Notiz, um das Review-Men\xFC zu \xF6ffnen.",
+  // StatusBarManager.ts
+  OPEN_DECK_FOR_REVIEW: "Stapel zum Wiederholung \xF6ffnen",
+  UPDATE_AVAILABLE: "Update verf\xFCgbar",
+  // Statistics
+  PERIOD_TITLE: "Zeitraum",
+  PERIOD_DESC: "Zeitraum, in dem die Diagramme angezeigt werden",
+  // Card controls reset button
+  DELETE_SCHEDULING_DATA_OF_CURRENT_CARD: "Delete card scheduling data?",
+  CONFIRM_SCHEDULING_DATA_DELETION_OF_CURRENT_CARD: "Are you sure you want to delete the scheduling data from your current card? This action cannot be undone.",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS_OF_CURRENT_CARD: "Deleting the cards scheduling data...",
+  // Settings > Scheduling
+  START_OF_DAY: "Start of day",
+  START_OF_DAY_DESC: "The time at which the day begins (Format: HH:MM:SS, Default: 00:00:00)",
+  INVALID_START_OF_DAY_WARNING: "Invalid format for start of day"
 };
 
 // src/lang/locale/en.ts
@@ -5706,6 +5601,7 @@ var en_default = {
   CURRENT_EASE_HELP_TEXT: "Current Ease: ",
   CURRENT_INTERVAL_HELP_TEXT: "Current Interval: ",
   CARD_GENERATED_FROM: "Generated from: ${notePath}",
+  VIEW_CARD_INFO: "View Card Info",
   // main.ts
   OPEN_NOTE_FOR_REVIEW: "Open a note for review",
   REVIEW_CARDS: "Review flashcards",
@@ -5786,9 +5682,14 @@ var en_default = {
   REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_RANDOM: "Randomly (once all cards in previous deck reviewed)",
   REVIEW_DECK_ORDER_RANDOM_DECK_AND_CARD: "Random card from random deck",
   DISABLE_CLOZE_CARDS: "Disable cloze cards?",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS: "Convert cloze patterns to input fields",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS_DESC: "Replace cloze patterns with input fields when reviewing cloze cards.",
   CONVERT_HIGHLIGHTS_TO_CLOZES: "Convert ==highlights== to clozes",
+  CONVERT_HIGHLIGHTS_TO_CLOZES_DESC: 'Add/remove the <code>${defaultPattern}</code> from your "Cloze Patterns"',
   CONVERT_BOLD_TEXT_TO_CLOZES: "Convert **bolded text** to clozes",
+  CONVERT_BOLD_TEXT_TO_CLOZES_DESC: 'Add/remove the <code>${defaultPattern}</code> from your "Cloze Patterns"',
   CONVERT_CURLY_BRACKETS_TO_CLOZES: "Convert {{curly brackets}} to clozes",
+  CONVERT_CURLY_BRACKETS_TO_CLOZES_DESC: 'Add/remove the <code>${defaultPattern}</code> from your "Cloze Patterns"',
   CLOZE_PATTERNS: "Cloze Patterns",
   CLOZE_PATTERNS_DESC: 'Enter cloze patterns separated by newlines. Check the <a href="${docsUrl}">wiki</a> for guidance.',
   INLINE_CARDS_SEPARATOR: "Separator for inline flashcards",
@@ -5809,6 +5710,8 @@ var en_default = {
   MIN_ONE_DAY: "The number of days must be at least 1.",
   VALID_NUMBER_WARNING: "Please provide a valid number.",
   UI: "User Interface",
+  OPEN_IN_TAB: "Open in new tab",
+  OPEN_IN_TAB_DESC: "Turn this off to open the plugin in a modal window",
   SHOW_STATUS_BAR: "Show status bar",
   SHOW_STATUS_BAR_DESC: "Turn this off to hide the flashcard's review status in Obsidian's status bar",
   SHOW_RIBBON_ICON: "Show icon in the ribbon bar",
@@ -5844,6 +5747,13 @@ var en_default = {
   EXPERIMENTAL: "Experimental",
   HELP: "Help",
   STORE_IN_NOTES: "In the notes",
+  DELETE_SCHEDULING_DATA: "Delete Scheduling Data",
+  DELETE_SCHEDULING_DATA_IN_NOTES_AND_FLASHCARDS: "Delete scheduling data from all notes and flashcards.",
+  DELETE: "Delete",
+  CONFIRM_SCHEDULING_DATA_DELETION: "Are you sure you want to delete all scheduling data from your notes and flashcards? This action cannot be undone.",
+  CONFIRM: "Confirm",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS: "Scheduling data deletion in progress...",
+  SCHEDULING_DATA_HAS_BEEN_DELETED: "Scheduling data has been deleted from all notes and flashcards.",
   // sidebar.ts
   NOTES_REVIEW_QUEUE: "Notes Review Queue",
   CLOSE: "Close",
@@ -5878,7 +5788,26 @@ var en_default = {
   CARD_TYPES_SUMMARY: "Total cards: ${totalCardsCount}",
   SEARCH: "Search",
   PREVIOUS: "Previous",
-  NEXT: "Next"
+  NEXT: "Next",
+  // settings.ts
+  SETTINGS_TAB_HEADING: "Settings",
+  MAIN_SETTINGS_PAGE: "MAIN_SETTINGS",
+  // NoteReviewQueue.ts
+  NOTE_REVIEW_QUEUE_HINT: "Click on the 3 dots next to the note to open the review menu.",
+  // StatusBarManager.ts
+  OPEN_DECK_FOR_REVIEW: "Open deck for review",
+  UPDATE_AVAILABLE: "Update available",
+  // Statistics
+  PERIOD_TITLE: "Period",
+  PERIOD_DESC: "Period of time to display in the charts",
+  // Card controls reset button
+  DELETE_SCHEDULING_DATA_OF_CURRENT_CARD: "Delete card scheduling data?",
+  CONFIRM_SCHEDULING_DATA_DELETION_OF_CURRENT_CARD: "Are you sure you want to delete the scheduling data from your current card? This action cannot be undone.",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS_OF_CURRENT_CARD: "Deleting the cards scheduling data...",
+  // Settings > Scheduling
+  START_OF_DAY: "Start of day",
+  START_OF_DAY_DESC: "The time at which the day begins (Format: HH:MM:SS, Default: 00:00:00)",
+  INVALID_START_OF_DAY_WARNING: "Invalid format for start of day"
 };
 
 // src/lang/locale/en-gb.ts
@@ -5906,6 +5835,7 @@ var es_default = {
   CURRENT_EASE_HELP_TEXT: "Facilidad Actual: ",
   CURRENT_INTERVAL_HELP_TEXT: "Intervalo Actual: ",
   CARD_GENERATED_FROM: "Generado Desde: ${notePath}",
+  VIEW_CARD_INFO: "View Card Info",
   // main.ts
   OPEN_NOTE_FOR_REVIEW: "Abrir nota para revisi\xF3n",
   REVIEW_CARDS: "Revisar Tarjetas",
@@ -5986,9 +5916,14 @@ var es_default = {
   REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_RANDOM: "Randomly (once all cards in previous deck reviewed)",
   REVIEW_DECK_ORDER_RANDOM_DECK_AND_CARD: "Random card from random deck",
   DISABLE_CLOZE_CARDS: "\xBFDeshabilitar deletreo de huecos en las tarjetas?",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS: "Convert cloze patterns to input fields",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS_DESC: "Replace cloze patterns with input fields when reviewing cloze cards.",
   CONVERT_HIGHLIGHTS_TO_CLOZES: "\xBFConvertir ==resaltados== a deletreo de huecos?",
+  CONVERT_HIGHLIGHTS_TO_CLOZES_DESC: 'A\xF1adir/eliminar el <code>${defaultPattern}</code> de tus "Patrones de Deletreo de Huecos"',
   CONVERT_BOLD_TEXT_TO_CLOZES: "\xBFConvertir **texto en negrita** a deletreo de huecos?",
+  CONVERT_BOLD_TEXT_TO_CLOZES_DESC: 'A\xF1adir/eliminar el <code>${defaultPattern}</code> de tus "Patrones de Deletreo de Huecos"',
   CONVERT_CURLY_BRACKETS_TO_CLOZES: "\xBFConvertir {{llaves rizadas}} a deletreo de huecos?",
+  CONVERT_CURLY_BRACKETS_TO_CLOZES_DESC: 'A\xF1adir/eliminar el <code>${defaultPattern}</code> de tus "Patrones de Deletreo de Huecos"',
   CLOZE_PATTERNS: "Patrones de deletreo de huecos",
   CLOZE_PATTERNS_DESC: 'Escriba los patrones de deletreo de huecos separados por saltos de l\xEDnea. . Check the <a href="${docsUrl}">wiki</a> for guidance.',
   INLINE_CARDS_SEPARATOR: "Separador de tarjetas de memorizaci\xF3n en l\xEDnea",
@@ -6011,6 +5946,8 @@ var es_default = {
   MIN_ONE_DAY: "El n\xFAmero de d\xEDas debe ser al menos uno.",
   VALID_NUMBER_WARNING: "Por favor especifique un n\xFAmero v\xE1lido.",
   UI: "User Interface",
+  OPEN_IN_TAB: "Open in new tab",
+  OPEN_IN_TAB_DESC: "Turn this off to open the plugin in a modal window",
   SHOW_STATUS_BAR: "Show status bar",
   SHOW_STATUS_BAR_DESC: "Turn this off to hide the flashcard's review status in Obsidian's status bar",
   SHOW_RIBBON_ICON: "Show icon in the ribbon bar",
@@ -6044,6 +5981,13 @@ var es_default = {
   EXPERIMENTAL: "Experimental",
   HELP: "Help",
   STORE_IN_NOTES: "In the notes",
+  DELETE_SCHEDULING_DATA: "Delete Scheduling Data",
+  DELETE_SCHEDULING_DATA_IN_NOTES_AND_FLASHCARDS: "Delete scheduling data from all notes and flashcards.",
+  DELETE: "Delete",
+  CONFIRM_SCHEDULING_DATA_DELETION: "Are you sure you want to delete all scheduling data from your notes and flashcards? This action cannot be undone.",
+  CONFIRM: "Confirm",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS: "Scheduling data deletion in progress...",
+  SCHEDULING_DATA_HAS_BEEN_DELETED: "Scheduling data has been deleted from all notes and flashcards.",
   // sidebar.ts
   NOTES_REVIEW_QUEUE: "Cola de notas a revisar",
   CLOSE: "Cerrar",
@@ -6079,7 +6023,26 @@ var es_default = {
   CARD_TYPES_SUMMARY: "Tarjetas Totales: ${totalCardsCount}",
   SEARCH: "Search",
   PREVIOUS: "Previous",
-  NEXT: "Next"
+  NEXT: "Next",
+  // settings.ts
+  SETTINGS_TAB_HEADING: "Settings",
+  MAIN_SETTINGS_PAGE: "MAIN_SETTINGS",
+  // NoteReviewQueue.ts
+  NOTE_REVIEW_QUEUE_HINT: "Click on the 3 dots next to the note to open the review menu.",
+  // StatusBarManager.ts
+  OPEN_DECK_FOR_REVIEW: "Open deck for review",
+  UPDATE_AVAILABLE: "Update available",
+  // Statistics
+  PERIOD_TITLE: "Period",
+  PERIOD_DESC: "Period of time to display in the charts",
+  // Card controls reset button
+  DELETE_SCHEDULING_DATA_OF_CURRENT_CARD: "Delete card scheduling data?",
+  CONFIRM_SCHEDULING_DATA_DELETION_OF_CURRENT_CARD: "Are you sure you want to delete the scheduling data from your current card? This action cannot be undone.",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS_OF_CURRENT_CARD: "Deleting the cards scheduling data...",
+  // Settings > Scheduling
+  START_OF_DAY: "Start of day",
+  START_OF_DAY_DESC: "The time at which the day begins (Format: HH:MM:SS, Default: 00:00:00)",
+  INVALID_START_OF_DAY_WARNING: "Invalid format for start of day"
 };
 
 // src/lang/locale/fr.ts
@@ -6104,6 +6067,7 @@ var fr_default = {
   CURRENT_EASE_HELP_TEXT: "Facilit\xE9 actuelle : ",
   CURRENT_INTERVAL_HELP_TEXT: "Intervalle actuel : ",
   CARD_GENERATED_FROM: "G\xE9n\xE9r\xE9 depuis : ${notePath}",
+  VIEW_CARD_INFO: "View Card Info",
   // main.ts
   OPEN_NOTE_FOR_REVIEW: "Ouvrir une note \xE0 apprendre",
   REVIEW_CARDS: "Apprendre les flashcards",
@@ -6184,9 +6148,14 @@ var fr_default = {
   REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_RANDOM: "Al\xE9atoire (quand toutes les cartes du paquet pr\xE9c\xE9dent sont apprises)",
   REVIEW_DECK_ORDER_RANDOM_DECK_AND_CARD: "Carte au hasard dans un paquet au hasard",
   DISABLE_CLOZE_CARDS: "D\xE9sactiver les textes \xE0 trous ?",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS: "Convert cloze patterns to input fields",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS_DESC: "Replace cloze patterns with input fields when reviewing cloze cards.",
   CONVERT_HIGHLIGHTS_TO_CLOZES: "Convertir ==soulignages== en trous ?",
+  CONVERT_HIGHLIGHTS_TO_CLOZES_DESC: 'Ajouter/supprimer le <code>${defaultPattern}</code> de vos "Cloze Patterns"',
   CONVERT_BOLD_TEXT_TO_CLOZES: "Convertir **gras** en trous ?",
+  CONVERT_BOLD_TEXT_TO_CLOZES_DESC: 'Ajouter/supprimer le <code>${defaultPattern}</code> de vos "Cloze Patterns"',
   CONVERT_CURLY_BRACKETS_TO_CLOZES: "Convertir {{crochets}} en trous ?",
+  CONVERT_CURLY_BRACKETS_TO_CLOZES_DESC: 'Ajouter/supprimer le <code>${defaultPattern}</code> de vos "Cloze Patterns"',
   CLOZE_PATTERNS: "Cloze Patterns",
   CLOZE_PATTERNS_DESC: 'Enter cloze patterns separated by newlines. Check the <a href="${docsUrl}">wiki</a> for guidance.',
   INLINE_CARDS_SEPARATOR: "S\xE9parateur pour flashcards en une ligne",
@@ -6207,6 +6176,8 @@ var fr_default = {
   MIN_ONE_DAY: "Le nombre de jours doit \xEAtre au moins 1.",
   VALID_NUMBER_WARNING: "Entrez un nombre valide.",
   UI: "User Interface",
+  OPEN_IN_TAB: "Open in new tab",
+  OPEN_IN_TAB_DESC: "Turn this off to open the plugin in a modal window",
   SHOW_STATUS_BAR: "Show status bar",
   SHOW_STATUS_BAR_DESC: "Turn this off to hide the flashcard's review status in Obsidian's status bar",
   SHOW_RIBBON_ICON: "Show icon in the ribbon bar",
@@ -6242,6 +6213,13 @@ var fr_default = {
   EXPERIMENTAL: "Experimental",
   HELP: "Help",
   STORE_IN_NOTES: "In the notes",
+  DELETE_SCHEDULING_DATA: "Delete Scheduling Data",
+  DELETE_SCHEDULING_DATA_IN_NOTES_AND_FLASHCARDS: "Delete scheduling data from all notes and flashcards.",
+  DELETE: "Delete",
+  CONFIRM_SCHEDULING_DATA_DELETION: "Are you sure you want to delete all scheduling data from your notes and flashcards? This action cannot be undone.",
+  CONFIRM: "Confirm",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS: "Scheduling data deletion in progress...",
+  SCHEDULING_DATA_HAS_BEEN_DELETED: "Scheduling data has been deleted from all notes and flashcards.",
   // sidebar.ts
   NOTES_REVIEW_QUEUE: "Cartes \xE0 apprendre",
   CLOSE: "Fermer",
@@ -6276,7 +6254,26 @@ var fr_default = {
   CARD_TYPES_SUMMARY: "Total de cartes : ${totalCardsCount}",
   SEARCH: "Search",
   PREVIOUS: "Previous",
-  NEXT: "Next"
+  NEXT: "Next",
+  // settings.ts
+  SETTINGS_TAB_HEADING: "Settings",
+  MAIN_SETTINGS_PAGE: "MAIN_SETTINGS",
+  // NoteReviewQueue.ts
+  NOTE_REVIEW_QUEUE_HINT: "Click on the 3 dots next to the note to open the review menu.",
+  // StatusBarManager.ts
+  OPEN_DECK_FOR_REVIEW: "Open deck for review",
+  UPDATE_AVAILABLE: "Update available",
+  // Statistics
+  PERIOD_TITLE: "Period",
+  PERIOD_DESC: "Period of time to display in the charts",
+  // Card controls reset button
+  DELETE_SCHEDULING_DATA_OF_CURRENT_CARD: "Delete card scheduling data?",
+  CONFIRM_SCHEDULING_DATA_DELETION_OF_CURRENT_CARD: "Are you sure you want to delete the scheduling data from your current card? This action cannot be undone.",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS_OF_CURRENT_CARD: "Deleting the cards scheduling data...",
+  // Settings > Scheduling
+  START_OF_DAY: "Start of day",
+  START_OF_DAY_DESC: "The time at which the day begins (Format: HH:MM:SS, Default: 00:00:00)",
+  INVALID_START_OF_DAY_WARNING: "Invalid format for start of day"
 };
 
 // src/lang/locale/hi.ts
@@ -6307,6 +6304,7 @@ var it_default = {
   CURRENT_EASE_HELP_TEXT: "Difficolt\xE0 attuale: ",
   CURRENT_INTERVAL_HELP_TEXT: "Intervallo attuale: ",
   CARD_GENERATED_FROM: "Generato da: ${notePath}",
+  VIEW_CARD_INFO: "View Card Info",
   // main.ts
   OPEN_NOTE_FOR_REVIEW: "Apri una nota per rivisita",
   REVIEW_CARDS: "Rivisita schede",
@@ -6387,9 +6385,14 @@ var it_default = {
   REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_RANDOM: "A caso (quando le schede nel mazzo precedente saranno state riviste)",
   REVIEW_DECK_ORDER_RANDOM_DECK_AND_CARD: "Scheda a caso da mazzo a caso",
   DISABLE_CLOZE_CARDS: "Disabilita schede con spazi da riempire?",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS: "Convert cloze patterns to input fields",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS_DESC: "Replace cloze patterns with input fields when reviewing cloze cards.",
   CONVERT_HIGHLIGHTS_TO_CLOZES: "Convertire ==testo evidenziato== in spazi da riempire?",
+  CONVERT_HIGHLIGHTS_TO_CLOZES_DESC: 'Aggiungi/rimuovi <code>${defaultPattern}</code> dai tuoi "Modelli per spazi da riempire"',
   CONVERT_BOLD_TEXT_TO_CLOZES: "Convertire **testo in grassetto** in spazi da riempire",
+  CONVERT_BOLD_TEXT_TO_CLOZES_DESC: 'Aggiungi/rimuovi <code>${defaultPattern}</code> dai tuoi "Modelli per spazi da riempire"',
   CONVERT_CURLY_BRACKETS_TO_CLOZES: "Convertire {{parentesi graffe}} in spazi da riempire?",
+  CONVERT_CURLY_BRACKETS_TO_CLOZES_DESC: 'Aggiungi/rimuovi <code>${defaultPattern}</code> dai tuoi "Modelli per spazi da riempire"',
   CLOZE_PATTERNS: "Modelli di spazi da riempire",
   CLOZE_PATTERNS_DESC: 'Inserisci i modelli di spazi da riempire separati da a capo. Check the <a href="${docsUrl}">wiki</a> for guidance.',
   INLINE_CARDS_SEPARATOR: "Separatore per schede sulla stessa riga",
@@ -6412,6 +6415,8 @@ var it_default = {
   MIN_ONE_DAY: "Il numero di giorni deve essere almeno 1.",
   VALID_NUMBER_WARNING: "Per favore, mettere un numero valido.",
   UI: "User Interface",
+  OPEN_IN_TAB: "Open in new tab",
+  OPEN_IN_TAB_DESC: "Turn this off to open the plugin in a modal window",
   SHOW_STATUS_BAR: "Show status bar",
   SHOW_STATUS_BAR_DESC: "Turn this off to hide the flashcard's review status in Obsidian's status bar",
   SHOW_RIBBON_ICON: "Show icon in the ribbon bar",
@@ -6445,6 +6450,13 @@ var it_default = {
   EXPERIMENTAL: "Experimental",
   HELP: "Help",
   STORE_IN_NOTES: "In the notes",
+  DELETE_SCHEDULING_DATA: "Delete Scheduling Data",
+  DELETE_SCHEDULING_DATA_IN_NOTES_AND_FLASHCARDS: "Delete scheduling data from all notes and flashcards.",
+  DELETE: "Delete",
+  CONFIRM_SCHEDULING_DATA_DELETION: "Are you sure you want to delete all scheduling data from your notes and flashcards? This action cannot be undone.",
+  CONFIRM: "Confirm",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS: "Scheduling data deletion in progress...",
+  SCHEDULING_DATA_HAS_BEEN_DELETED: "Scheduling data has been deleted from all notes and flashcards.",
   // sidebar.ts
   NOTES_REVIEW_QUEUE: "Coda di note da rivedere",
   CLOSE: "Chiusi",
@@ -6479,7 +6491,26 @@ var it_default = {
   CARD_TYPES_SUMMARY: "Schede tottali: ${totalCardsCount}",
   SEARCH: "Search",
   PREVIOUS: "Previous",
-  NEXT: "Next"
+  NEXT: "Next",
+  // settings.ts
+  SETTINGS_TAB_HEADING: "Settings",
+  MAIN_SETTINGS_PAGE: "MAIN_SETTINGS",
+  // NoteReviewQueue.ts
+  NOTE_REVIEW_QUEUE_HINT: "Click on the 3 dots next to the note to open the review menu.",
+  // StatusBarManager.ts
+  OPEN_DECK_FOR_REVIEW: "Open deck for review",
+  UPDATE_AVAILABLE: "Update available",
+  // Statistics
+  PERIOD_TITLE: "Period",
+  PERIOD_DESC: "Period of time to display in the charts",
+  // Card controls reset button
+  DELETE_SCHEDULING_DATA_OF_CURRENT_CARD: "Delete card scheduling data?",
+  CONFIRM_SCHEDULING_DATA_DELETION_OF_CURRENT_CARD: "Are you sure you want to delete the scheduling data from your current card? This action cannot be undone.",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS_OF_CURRENT_CARD: "Deleting the cards scheduling data...",
+  // Settings > Scheduling
+  START_OF_DAY: "Start of day",
+  START_OF_DAY_DESC: "The time at which the day begins (Format: HH:MM:SS, Default: 00:00:00)",
+  INVALID_START_OF_DAY_WARNING: "Invalid format for start of day"
 };
 
 // src/lang/locale/ja.ts
@@ -6504,6 +6535,7 @@ var ja_default = {
   CURRENT_EASE_HELP_TEXT: "Current Ease: ",
   CURRENT_INTERVAL_HELP_TEXT: "Current Interval: ",
   CARD_GENERATED_FROM: "Generated from: ${notePath}",
+  VIEW_CARD_INFO: "View Card Info",
   // main.ts
   OPEN_NOTE_FOR_REVIEW: "\u30EC\u30D3\u30E5\u30FC\u3059\u308B\u30CE\u30FC\u30C8\u3092\u958B\u304F",
   REVIEW_CARDS: "\u30D5\u30E9\u30C3\u30B7\u30E5\u30AB\u30FC\u30C9\u306E\u30EC\u30D3\u30E5\u30FC",
@@ -6584,9 +6616,14 @@ var ja_default = {
   REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_RANDOM: "Randomly (once all cards in previous deck reviewed)",
   REVIEW_DECK_ORDER_RANDOM_DECK_AND_CARD: "Random card from random deck",
   DISABLE_CLOZE_CARDS: "\u7A74\u57CB\u3081\u30AB\u30FC\u30C9\u3092\u7121\u52B9\u5316\u3057\u307E\u3059\u304B\uFF1F",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS: "Convert cloze patterns to input fields",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS_DESC: "Replace cloze patterns with input fields when reviewing cloze cards.",
   CONVERT_HIGHLIGHTS_TO_CLOZES: "==\u30CF\u30A4\u30E9\u30A4\u30C8==\u3092\u7A74\u57CB\u3081\u3068\u3057\u3066\u4F7F\u7528\u3057\u307E\u3059\u304B\uFF1F",
+  CONVERT_HIGHLIGHTS_TO_CLOZES_DESC: "\u3053\u306E\u30AA\u30D7\u30B7\u30E7\u30F3\u3092\u6709\u52B9\u5316\u3059\u308B\u3068\u3001\u300C\u7A74\u57CB\u3081\u30D1\u30BF\u30FC\u30F3\u300D\u306B${defaultPattern}\u304C\u8FFD\u52A0\u3055\u308C\u307E\u3059\u3002",
   CONVERT_BOLD_TEXT_TO_CLOZES: "**\u30DC\u30FC\u30EB\u30C9\u4F53**\u3092\u7A74\u57CB\u3081\u3068\u3057\u3066\u4F7F\u7528\u3057\u307E\u3059\u304B\uFF1F",
+  CONVERT_BOLD_TEXT_TO_CLOZES_DESC: "\u3053\u306E\u30AA\u30D7\u30B7\u30E7\u30F3\u3092\u6709\u52B9\u5316\u3059\u308B\u3068\u3001\u300C\u7A74\u57CB\u3081\u30D1\u30BF\u30FC\u30F3\u300D\u306B${defaultPattern}\u304C\u8FFD\u52A0\u3055\u308C\u307E\u3059\u3002",
   CONVERT_CURLY_BRACKETS_TO_CLOZES: "{{\u4E2D\u62EC\u5F27}}\u3092\u7A74\u57CB\u3081\u3068\u3057\u3066\u4F7F\u7528\u3057\u307E\u3059\u304B\uFF1F",
+  CONVERT_CURLY_BRACKETS_TO_CLOZES_DESC: "\u3053\u306E\u30AA\u30D7\u30B7\u30E7\u30F3\u3092\u6709\u52B9\u5316\u3059\u308B\u3068\u3001\u300C\u7A74\u57CB\u3081\u30D1\u30BF\u30FC\u30F3\u300D\u306B${defaultPattern}\u304C\u8FFD\u52A0\u3055\u308C\u307E\u3059\u3002",
   CLOZE_PATTERNS: "\u7A74\u57CB\u3081\u30D1\u30BF\u30FC\u30F3",
   CLOZE_PATTERNS_DESC: '\u6539\u884C\u3067\u533A\u5207\u3063\u3066\u7A74\u57CB\u3081\u30D1\u30BF\u30FC\u30F3\u3092\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044\u3002 Check the <a href="${docsUrl}">wiki</a> for guidance.',
   INLINE_CARDS_SEPARATOR: "\u30A4\u30F3\u30E9\u30A4\u30F3\u30D5\u30E9\u30C3\u30B7\u30E5\u30AB\u30FC\u30C9\u306B\u4F7F\u7528\u3059\u308B\u30BB\u30D1\u30EC\u30FC\u30BF\u30FC",
@@ -6609,6 +6646,8 @@ var ja_default = {
   MIN_ONE_DAY: "\u65E5\u6570\u306B\u306F1\u4EE5\u4E0A\u306E\u6570\u5B57\u3092\u6307\u5B9A\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
   VALID_NUMBER_WARNING: "\u6709\u52B9\u306A\u6570\u5B57\u3092\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
   UI: "User Interface",
+  OPEN_IN_TAB: "Open in new tab",
+  OPEN_IN_TAB_DESC: "Turn this off to open the plugin in a modal window",
   SHOW_STATUS_BAR: "Show status bar",
   SHOW_STATUS_BAR_DESC: "Turn this off to hide the flashcard's review status in Obsidian's status bar",
   SHOW_RIBBON_ICON: "Show icon in the ribbon bar",
@@ -6642,6 +6681,13 @@ var ja_default = {
   EXPERIMENTAL: "Experimental",
   HELP: "Help",
   STORE_IN_NOTES: "In the notes",
+  DELETE_SCHEDULING_DATA: "Delete Scheduling Data",
+  DELETE_SCHEDULING_DATA_IN_NOTES_AND_FLASHCARDS: "Delete scheduling data from all notes and flashcards.",
+  DELETE: "Delete",
+  CONFIRM_SCHEDULING_DATA_DELETION: "Are you sure you want to delete all scheduling data from your notes and flashcards? This action cannot be undone.",
+  CONFIRM: "Confirm",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS: "Scheduling data deletion in progress...",
+  SCHEDULING_DATA_HAS_BEEN_DELETED: "Scheduling data has been deleted from all notes and flashcards.",
   // sidebar.ts
   NOTES_REVIEW_QUEUE: "\u30CE\u30FC\u30C8\u30EC\u30D3\u30E5\u30FC\u306E\u30AD\u30E5\u30FC",
   CLOSE: "\u9589\u3058\u308B",
@@ -6676,7 +6722,26 @@ var ja_default = {
   CARD_TYPES_SUMMARY: "\u30AB\u30FC\u30C9\u306E\u5408\u8A08: ${totalCardsCount}\u679A",
   SEARCH: "Search",
   PREVIOUS: "Previous",
-  NEXT: "Next"
+  NEXT: "Next",
+  // settings.ts
+  SETTINGS_TAB_HEADING: "Settings",
+  MAIN_SETTINGS_PAGE: "MAIN_SETTINGS",
+  // NoteReviewQueue.ts
+  NOTE_REVIEW_QUEUE_HINT: "Click on the 3 dots next to the note to open the review menu.",
+  // StatusBarManager.ts
+  OPEN_DECK_FOR_REVIEW: "Open deck for review",
+  UPDATE_AVAILABLE: "Update available",
+  // Statistics
+  PERIOD_TITLE: "Period",
+  PERIOD_DESC: "Period of time to display in the charts",
+  // Card controls reset button
+  DELETE_SCHEDULING_DATA_OF_CURRENT_CARD: "Delete card scheduling data?",
+  CONFIRM_SCHEDULING_DATA_DELETION_OF_CURRENT_CARD: "Are you sure you want to delete the scheduling data from your current card? This action cannot be undone.",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS_OF_CURRENT_CARD: "Deleting the cards scheduling data...",
+  // Settings > Scheduling
+  START_OF_DAY: "Start of day",
+  START_OF_DAY_DESC: "The time at which the day begins (Format: HH:MM:SS, Default: 00:00:00)",
+  INVALID_START_OF_DAY_WARNING: "Invalid format for start of day"
 };
 
 // src/lang/locale/ko.ts
@@ -6701,6 +6766,7 @@ var ko_default = {
   CURRENT_EASE_HELP_TEXT: "Current Ease: ",
   CURRENT_INTERVAL_HELP_TEXT: "Current Interval: ",
   CARD_GENERATED_FROM: "Generated from: ${notePath}",
+  VIEW_CARD_INFO: "View Card Info",
   // main.ts
   OPEN_NOTE_FOR_REVIEW: "\uB9AC\uBDF0\uD560 \uB178\uD2B8 \uC5F4\uAE30",
   REVIEW_CARDS: "\uD50C\uB798\uC2DC\uCE74\uB4DC \uB9AC\uBDF0",
@@ -6781,9 +6847,14 @@ var ko_default = {
   REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_RANDOM: "Randomly (once all cards in previous deck reviewed)",
   REVIEW_DECK_ORDER_RANDOM_DECK_AND_CARD: "Random card from random deck",
   DISABLE_CLOZE_CARDS: "\uBE48 \uCE78 \uCC44\uC6B0\uAE30 \uCE74\uB4DC\uB97C \uBE44\uD65C\uC131\uD654\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS: "Convert cloze patterns to input fields",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS_DESC: "Replace cloze patterns with input fields when reviewing cloze cards.",
   CONVERT_HIGHLIGHTS_TO_CLOZES: "==highlights== \uB97C \uBE48 \uCE78 \uCC44\uC6B0\uAE30\uB85C \uC804\uD658\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?",
+  CONVERT_HIGHLIGHTS_TO_CLOZES_DESC: '"\uBE48 \uCE78 \uCC44\uC6B0\uAE30 \uD328\uD134" \uC5D0\uC11C <code>${defaultPattern}</code> \uB97C \uCD94\uAC00/\uC81C\uAC70\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?',
   CONVERT_BOLD_TEXT_TO_CLOZES: "**bolded text** \uB97C \uBE48 \uCE78 \uCC44\uC6B0\uAE30\uB85C \uC804\uD658\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?",
+  CONVERT_BOLD_TEXT_TO_CLOZES_DESC: '"\uBE48 \uCE78 \uCC44\uC6B0\uAE30 \uD328\uD134" \uC5D0\uC11C <code>${defaultPattern}</code> \uB97C \uCD94\uAC00/\uC81C\uAC70\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?',
   CONVERT_CURLY_BRACKETS_TO_CLOZES: "{{curly brackets}} \uB97C \uBE48 \uCE78 \uCC44\uC6B0\uAE30\uB85C \uC804\uD658\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?",
+  CONVERT_CURLY_BRACKETS_TO_CLOZES_DESC: '"\uBE48 \uCE78 \uCC44\uC6B0\uAE30 \uD328\uD134" \uC5D0\uC11C <code>${defaultPattern}</code> \uB97C \uCD94\uAC00/\uC81C\uAC70\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?',
   CLOZE_PATTERNS: "\uBE48 \uCE78 \uCC44\uC6B0\uAE30 \uD328\uD134",
   CLOZE_PATTERNS_DESC: '\uBE48 \uCE78 \uCC44\uC6B0\uAE30 \uD328\uD134\uC744 \uC785\uB825\uD574\uC8FC\uC138\uC694. \uC904\uBC14\uAFC8\uC73C\uB85C \uAD6C\uBD84\uD569\uB2C8\uB2E4. Check the <a href="${docsUrl}">wiki</a> for guidance.',
   INLINE_CARDS_SEPARATOR: "\uC778\uB77C\uC778 \uD50C\uB798\uC2DC\uCE74\uB4DC \uAD6C\uBD84\uC790",
@@ -6806,6 +6877,8 @@ var ko_default = {
   MIN_ONE_DAY: "\uC801\uC5B4\uB3C4 1\uC774\uC0C1\uC774\uC5B4\uC57C \uD569\uB2C8\uB2E4.",
   VALID_NUMBER_WARNING: "\uC720\uD6A8\uD55C \uC22B\uC790\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694.",
   UI: "User Interface",
+  OPEN_IN_TAB: "Open in new tab",
+  OPEN_IN_TAB_DESC: "Turn this off to open the plugin in a modal window",
   SHOW_STATUS_BAR: "Show status bar",
   SHOW_STATUS_BAR_DESC: "Turn this off to hide the flashcard's review status in Obsidian's status bar",
   SHOW_RIBBON_ICON: "Show icon in the ribbon bar",
@@ -6839,6 +6912,13 @@ var ko_default = {
   EXPERIMENTAL: "Experimental",
   HELP: "Help",
   STORE_IN_NOTES: "In the notes",
+  DELETE_SCHEDULING_DATA: "Delete Scheduling Data",
+  DELETE_SCHEDULING_DATA_IN_NOTES_AND_FLASHCARDS: "Delete scheduling data from all notes and flashcards.",
+  DELETE: "Delete",
+  CONFIRM_SCHEDULING_DATA_DELETION: "Are you sure you want to delete all scheduling data from your notes and flashcards? This action cannot be undone.",
+  CONFIRM: "Confirm",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS: "Scheduling data deletion in progress...",
+  SCHEDULING_DATA_HAS_BEEN_DELETED: "Scheduling data has been deleted from all notes and flashcards.",
   // sidebar.ts
   NOTES_REVIEW_QUEUE: "\uB9AC\uBDF0\uD560 \uB178\uD2B8 \uB300\uAE30\uC5F4",
   CLOSE: "\uB2EB\uAE30",
@@ -6873,14 +6953,261 @@ var ko_default = {
   CARD_TYPES_SUMMARY: "\uC804\uCCB4 \uCE74\uB4DC \uC218: ${totalCardsCount}",
   SEARCH: "Search",
   PREVIOUS: "Previous",
-  NEXT: "Next"
+  NEXT: "Next",
+  // settings.ts
+  SETTINGS_TAB_HEADING: "Settings",
+  MAIN_SETTINGS_PAGE: "MAIN_SETTINGS",
+  // NoteReviewQueue.ts
+  NOTE_REVIEW_QUEUE_HINT: "Click on the 3 dots next to the note to open the review menu.",
+  // StatusBarManager.ts
+  OPEN_DECK_FOR_REVIEW: "Open deck for review",
+  UPDATE_AVAILABLE: "Update available",
+  // Statistics
+  PERIOD_TITLE: "Period",
+  PERIOD_DESC: "Period of time to display in the charts",
+  // Card controls reset button
+  DELETE_SCHEDULING_DATA_OF_CURRENT_CARD: "Delete card scheduling data?",
+  CONFIRM_SCHEDULING_DATA_DELETION_OF_CURRENT_CARD: "Are you sure you want to delete the scheduling data from your current card? This action cannot be undone.",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS_OF_CURRENT_CARD: "Deleting the cards scheduling data...",
+  // Settings > Scheduling
+  START_OF_DAY: "Start of day",
+  START_OF_DAY_DESC: "The time at which the day begins (Format: HH:MM:SS, Default: 00:00:00)",
+  INVALID_START_OF_DAY_WARNING: "Invalid format for start of day"
 };
 
 // src/lang/locale/mr.ts
 var mr_default = {};
 
 // src/lang/locale/nl.ts
-var nl_default = {};
+var nl_default = {
+  // flashcard-modal.tsx
+  DECKS: "Stapel",
+  DUE_CARDS: "Te beoordelen kaarten",
+  NEW_CARDS: "Nieuwe kaarten",
+  TOTAL_CARDS: "Totaal aantal kaarten",
+  BACK: "Terug",
+  SKIP: "Overslaan",
+  EDIT_CARD: "Kaart bewerken",
+  RESET_CARD_PROGRESS: "Voortgang van kaart resetten",
+  HARD: "Moeilijk",
+  GOOD: "Goed",
+  EASY: "Gemakkelijk",
+  SHOW_ANSWER: "Toon antwoord",
+  CARD_PROGRESS_RESET: "Voortgang van kaart is gereset.",
+  SAVE: "Opslaan",
+  CANCEL: "Annuleren",
+  NO_INPUT: "Geen invoer opgegeven.",
+  CURRENT_EASE_HELP_TEXT: "Huidige Moeilijkheid: ",
+  CURRENT_INTERVAL_HELP_TEXT: "Huidige Interval: ",
+  CARD_GENERATED_FROM: "Gegenereerd van: ${notePath}",
+  VIEW_CARD_INFO: "View Card Info",
+  // main.ts
+  OPEN_NOTE_FOR_REVIEW: "Open een notitie voor beoordeling",
+  REVIEW_CARDS: "Beoordeel flitskaarten",
+  REVIEW_DIFFICULTY_FILE_MENU: "Beoordelen: ${difficulty}",
+  REVIEW_NOTE_DIFFICULTY_CMD: "Beoordeel notitie als ${difficulty}",
+  CRAM_ALL_CARDS: "Selecteer een stapel om te stampen",
+  REVIEW_ALL_CARDS: "Beoordeel flitskaarten van alle notities",
+  REVIEW_CARDS_IN_NOTE: "Beoordeel flitskaarten in deze notitie",
+  CRAM_CARDS_IN_NOTE: "Stamp flitskaarten in deze notitie",
+  VIEW_STATS: "Bekijk statistieken",
+  OPEN_REVIEW_QUEUE_VIEW: "Open notities beoordelingswachtrij in zijbalk",
+  STATUS_BAR: "Beoordeling: ${dueNotesCount} notitie(s), ${dueFlashcardsCount} kaart(en) te beoordelen",
+  SYNC_TIME_TAKEN: "Synchronisatie duurde ${t}ms",
+  NOTE_IN_IGNORED_FOLDER: "Notitie is opgeslagen in een genegeerde map (controleer instellingen).",
+  PLEASE_TAG_NOTE: "Tag de notitie correct voor beoordeling (in instellingen).",
+  RESPONSE_RECEIVED: "Reactie ontvangen.",
+  NO_DECK_EXISTS: "Er bestaat geen stapel voor ${deckName}",
+  ALL_CAUGHT_UP: "Je bent nu helemaal bij :D.",
+  // scheduling.ts
+  DAYS_STR_IVL: "${interval} dag(en)",
+  MONTHS_STR_IVL: "${interval} maand(en)",
+  YEARS_STR_IVL: "${interval} jaar",
+  DAYS_STR_IVL_MOBILE: "${interval}d",
+  MONTHS_STR_IVL_MOBILE: "${interval}m",
+  YEARS_STR_IVL_MOBILE: "${interval}j",
+  // settings.ts
+  SETTINGS_HEADER: "Gespreide Herhaling",
+  GROUP_TAGS_FOLDERS: "Tags & Mappen",
+  GROUP_FLASHCARD_REVIEW: "Flitskaart Beoordeling",
+  GROUP_FLASHCARD_SEPARATORS: "Flitskaart Scheidingstekens",
+  GROUP_DATA_STORAGE: "Opslag van planningsgegevens",
+  GROUP_DATA_STORAGE_DESC: "Kies waar de planningsgegevens worden opgeslagen",
+  GROUP_FLASHCARDS_NOTES: "Flitskaarten & Notities",
+  GROUP_CONTRIBUTING: "Bijdragen",
+  CHECK_WIKI: 'Voor meer informatie, bekijk de <a href="${wikiUrl}">wiki</a>.',
+  GITHUB_DISCUSSIONS: 'Bezoek de <a href="${discussionsUrl}">discussies</a> sectie voor Q&A hulp, feedback, en algemene discussie.',
+  GITHUB_ISSUES: 'Meld een probleem <a href="${issuesUrl}">hier</a> als je een functieverzoek of een bugrapport hebt.',
+  GITHUB_SOURCE_CODE: 'De broncode van het project is beschikbaar op <a href="${githubProjectUrl}">GitHub</a>.',
+  CODE_CONTRIBUTION_INFO: '<a href="${codeContributionUrl}">Hier</a> lees je hoe je code kunt bijdragen aan de plugin.',
+  TRANSLATION_CONTRIBUTION_INFO: '<a href="${translationContributionUrl}">Hier</a> lees je hoe je de plugin in een andere taal kunt vertalen.',
+  FOLDERS_TO_IGNORE: "Mappen om te negeren",
+  FOLDERS_TO_IGNORE_DESC: "Voer mappaden of globpatronen in op aparte regels, bijvoorbeeld Templates/Scripts of **/*.excalidraw.md. Deze instelling is gemeenschappelijk voor zowel flitskaarten als notities.",
+  OBSIDIAN_INTEGRATION: "Integratie in Obsidian",
+  FLASHCARDS: "Flitskaarten",
+  FLASHCARD_EASY_LABEL: "Gemakkelijk-knoptekst",
+  FLASHCARD_GOOD_LABEL: "Goed-knoptekst",
+  FLASHCARD_HARD_LABEL: "Moeilijk-knoptekst",
+  FLASHCARD_EASY_DESC: 'Pas het label aan voor de "Gemakkelijk" knop',
+  FLASHCARD_GOOD_DESC: 'Pas het label aan voor de "Goed" knop',
+  FLASHCARD_HARD_DESC: 'Pas het label aan voor de "Moeilijk" knop',
+  REVIEW_BUTTON_DELAY: "Vertraging knopindrukken (ms)",
+  REVIEW_BUTTON_DELAY_DESC: "Voeg een vertraging toe aan de beoordelingsknoppen voordat ze opnieuw kunnen worden ingedrukt.",
+  FLASHCARD_TAGS: "Flitskaarttags",
+  FLASHCARD_TAGS_DESC: "Voer tags in, gescheiden door spaties of nieuwe regels, bijvoorbeeld #flitskaarten #stapel2 #stapel3.",
+  CONVERT_FOLDERS_TO_DECKS: "Converteer mappen naar stapels en substapels",
+  CONVERT_FOLDERS_TO_DECKS_DESC: "Dit is een alternatief voor de optie flitskaarttags hierboven.",
+  INLINE_SCHEDULING_COMMENTS: "Planningsopmerking opslaan op dezelfde regel als de laatste regel van de flitskaart?",
+  INLINE_SCHEDULING_COMMENTS_DESC: "Als u dit inschakelt, wordt de opmaak van de lijst niet verbroken door de HTML-opmerkingen.",
+  BURY_SIBLINGS_TILL_NEXT_DAY: "Begraaf de broer-/zuskaarten tot de volgende dag",
+  BURY_SIBLINGS_TILL_NEXT_DAY_DESC: "Broer-/zuskaarten zijn kaarten die zijn gegenereerd uit dezelfde kaarttekst, bijvoorbeeld cloze-deleties",
+  SHOW_CARD_CONTEXT: "Toon context in kaarten",
+  SHOW_CARD_CONTEXT_DESC: "Bijv. Titel > Kop 1 > Subkop > ... > Subkop",
+  SHOW_INTERVAL_IN_REVIEW_BUTTONS: "Toon volgende herzieningstijd in de beoordelingsknoppen",
+  SHOW_INTERVAL_IN_REVIEW_BUTTONS_DESC: "Handig om te weten hoe ver in de toekomst je kaarten worden uitgesteld.",
+  CARD_MODAL_HEIGHT_PERCENT: "Flitskaart hoogtepercentage",
+  CARD_MODAL_SIZE_PERCENT_DESC: "Moet worden ingesteld op 100% op mobiel of als je zeer grote afbeeldingen hebt",
+  RESET_DEFAULT: "Reset naar standaard",
+  CARD_MODAL_WIDTH_PERCENT: "Flitskaart breedtepercentage",
+  RANDOMIZE_CARD_ORDER: "Flitskaartvolgorde willekeurig tijdens herziening?",
+  REVIEW_CARD_ORDER_WITHIN_DECK: "Volgorde van kaarten in een stapel tijdens herziening",
+  REVIEW_CARD_ORDER_NEW_FIRST_SEQUENTIAL: "Opeenvolgend binnen een stapel (Alle nieuwe kaarten eerst)",
+  REVIEW_CARD_ORDER_DUE_FIRST_SEQUENTIAL: "Opeenvolgend binnen een stapel (Alle kaarten die aan de beurt zijn eerst)",
+  REVIEW_CARD_ORDER_NEW_FIRST_RANDOM: "Willekeurig binnen een stapel (Alle nieuwe kaarten eerst)",
+  REVIEW_CARD_ORDER_DUE_FIRST_RANDOM: "Willekeurig binnen een stapel (Alle kaarten die aan de beurt zijn eerst)",
+  REVIEW_CARD_ORDER_RANDOM_DECK_AND_CARD: "Willekeurige kaart uit willekeurige stapel",
+  REVIEW_DECK_ORDER: "Volgorde waarin stapels worden weergegeven tijdens herziening",
+  REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_SEQUENTIAL: "Opeenvolgend (als alle kaarten in de vorige stapel zijn herzien)",
+  REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_RANDOM: "Willekeurig (als alle kaarten in de vorige stapel zijn herzien)",
+  REVIEW_DECK_ORDER_RANDOM_DECK_AND_CARD: "Willekeurige kaart uit willekeurige stapel",
+  DISABLE_CLOZE_CARDS: "Cloze-kaarten uitschakelen?",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS: "Convert cloze patterns to input fields",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS_DESC: "Replace cloze patterns with input fields when reviewing cloze cards.",
+  CONVERT_HIGHLIGHTS_TO_CLOZES: "Converteer ==highlights== naar clozes",
+  CONVERT_HIGHLIGHTS_TO_CLOZES_DESC: 'Voeg de <code>${defaultPattern}</code> toe aan/verwijder deze uit uw "Cloze-patronen"',
+  CONVERT_BOLD_TEXT_TO_CLOZES: "Converteer **vetgedrukte tekst** naar clozes",
+  CONVERT_BOLD_TEXT_TO_CLOZES_DESC: 'Voeg de <code>${defaultPattern}</code> toe aan/verwijder deze uit uw "Cloze-patronen"',
+  CONVERT_CURLY_BRACKETS_TO_CLOZES: "Converteer {{accolades}} naar clozes",
+  CONVERT_CURLY_BRACKETS_TO_CLOZES_DESC: 'Voeg de <code>${defaultPattern}</code> toe aan/verwijder deze uit uw "Cloze-patronen"',
+  CLOZE_PATTERNS: "Cloze-patronen",
+  CLOZE_PATTERNS_DESC: 'Voer cloze-patronen in, gescheiden door nieuwe regels. Raadpleeg de <a href="${docsUrl}">wiki</a> voor meer informatie.',
+  INLINE_CARDS_SEPARATOR: "Scheidingsteken voor inline flitskaarten",
+  FIX_SEPARATORS_MANUALLY_WARNING: "Houd er rekening mee dat u na het wijzigen hiervan handmatig alle flitskaarten die u al hebt, moet bewerken.",
+  INLINE_REVERSED_CARDS_SEPARATOR: "Scheidingsteken voor inline omgekeerde flitskaarten",
+  MULTILINE_CARDS_SEPARATOR: "Scheidingsteken voor meerregelige flitskaarten",
+  MULTILINE_REVERSED_CARDS_SEPARATOR: "Scheidingsteken voor meerregelige omgekeerde flitskaarten",
+  MULTILINE_CARDS_END_MARKER: "Tekens die het einde van clozes en meerregelige flitskaarten aangeven",
+  NOTES: "Notities",
+  NOTE: "Notitie",
+  REVIEW_PANE_ON_STARTUP: "Notitiebeoordelingsvenster inschakelen bij opstarten",
+  TAGS_TO_REVIEW: "Tags om te beoordelen",
+  TAGS_TO_REVIEW_DESC: "Voer tags in, gescheiden door spaties of nieuwe regels, bijv. #review #tag2 #tag3.",
+  OPEN_RANDOM_NOTE: "Open een willekeurige notitie voor beoordeling",
+  OPEN_RANDOM_NOTE_DESC: "Wanneer u dit uitschakelt, worden notities geordend op belangrijkheid (PageRank).",
+  AUTO_NEXT_NOTE: "Open automatisch de volgende notitie na een beoordeling",
+  MAX_N_DAYS_REVIEW_QUEUE: "Maximum aantal dagen om weer te geven in het notitiebeoordelingspaneel",
+  MIN_ONE_DAY: "Het aantal dagen moet minimaal 1 zijn.",
+  VALID_NUMBER_WARNING: "Geef een geldig getal op.",
+  UI: "Gebruikersinterface",
+  OPEN_IN_TAB: "Open in nieuw tabblad",
+  OPEN_IN_TAB_DESC: "Schakel dit uit om de plugin in een modaal venster te openen",
+  SHOW_STATUS_BAR: "Statusbalk weergeven",
+  SHOW_STATUS_BAR_DESC: "Schakel dit uit om de beoordelingsstatus van de flitskaart te verbergen in de statusbalk van Obsidian",
+  SHOW_RIBBON_ICON: "Pictogram weergeven in de lintbalk",
+  SHOW_RIBBON_ICON_DESC: "Schakel dit uit om het pictogram van de plugin in de lintbalk van Obsidian te verbergen",
+  ENABLE_FILE_MENU_REVIEW_OPTIONS: "Schakel de beoordelingsopties in het bestandsmenu in (bijv. Beoordelen: Gemakkelijk, Goed, Moeilijk)",
+  ENABLE_FILE_MENU_REVIEW_OPTIONS_DESC: "Schakel deze optie uit om uw notities te beoordelen met behulp van de plugin-opdrachten en, indien gedefinieerd, de bijbehorende sneltoetsen voor opdrachten.",
+  INITIALLY_EXPAND_SUBDECKS_IN_TREE: "Stapelstructuren: Vouw substapels aanvankelijk uit",
+  INITIALLY_EXPAND_SUBDECKS_IN_TREE_DESC: "Schakel dit uit om geneste stapels in dezelfde kaart samen te vouwen. Handig als je kaarten hebt die tot meerdere stapels in hetzelfde bestand behoren.",
+  ALGORITHM: "Algoritme",
+  CHECK_ALGORITHM_WIKI: 'Voor meer informatie, bekijk de <a href="${algoUrl}">algoritmedetails</a>.',
+  SM2_OSR_VARIANT: "OSR's variant van SM-2",
+  BASE_EASE: "Basisgemak",
+  BASE_EASE_DESC: "minimum = 130, bij voorkeur ongeveer 250.",
+  BASE_EASE_MIN_WARNING: "Het basisgemak moet minimaal 130 zijn.",
+  LAPSE_INTERVAL_CHANGE: "Intervalwijziging wanneer u een flitskaart/notitie als moeilijk beoordeelt",
+  LAPSE_INTERVAL_CHANGE_DESC: "nieuwInterval = oudInterval * intervalWijziging / 100.",
+  EASY_BONUS: "Gemakkelijk Bonus",
+  EASY_BONUS_DESC: "De Gemakkelijk Bonus stelt u in staat het verschil in intervallen in te stellen tussen het beantwoorden van Goed en Gemakkelijk op een flitskaart/notitie (minimum = 100%).",
+  EASY_BONUS_MIN_WARNING: "De Gemakkelijk Bonus moet minimaal 100 zijn.",
+  LOAD_BALANCE: "Schakel load balancer in",
+  LOAD_BALANCE_DESC: `Het interval wordt iets aangepast, zodat het aantal beoordelingen per dag consistenter is.
+        Het is vergelijkbaar met Anki's fuzz, maar in plaats van willekeurig te zijn, kiest het de dag met het minste aantal beoordelingen.
+        Het is uitgeschakeld voor kleine intervallen.`,
+  MAX_INTERVAL: "Maximum interval in dagen",
+  MAX_INTERVAL_DESC: "Hiermee kunt u een bovengrens voor het interval instellen (standaard = 100 jaar).",
+  MAX_INTERVAL_MIN_WARNING: "Het maximale interval moet minimaal 1 dag zijn.",
+  MAX_LINK_CONTRIB: "Maximale linkbijdrage",
+  MAX_LINK_CONTRIB_DESC: "Maximale bijdrage van de gewogen gemak van gekoppelde notities aan het initi\xEBle gemak.",
+  LOGGING: "Loggen",
+  DISPLAY_SCHEDULING_DEBUG_INFO: "Toon de foutopsporingsinformatie van de planner op de ontwikkelaarsconsole",
+  DISPLAY_PARSER_DEBUG_INFO: "Toon de foutopsporingsinformatie van de parser op de ontwikkelaarsconsole",
+  SCHEDULING: "Plannen",
+  EXPERIMENTAL: "Experimenteel",
+  HELP: "Help",
+  STORE_IN_NOTES: "In de notities",
+  DELETE_SCHEDULING_DATA: "Delete Scheduling Data",
+  DELETE_SCHEDULING_DATA_IN_NOTES_AND_FLASHCARDS: "Delete scheduling data from all notes and flashcards.",
+  DELETE: "Delete",
+  CONFIRM_SCHEDULING_DATA_DELETION: "Are you sure you want to delete all scheduling data from your notes and flashcards? This action cannot be undone.",
+  CONFIRM: "Confirm",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS: "Scheduling data deletion in progress...",
+  SCHEDULING_DATA_HAS_BEEN_DELETED: "Scheduling data has been deleted from all notes and flashcards.",
+  // sidebar.ts
+  NOTES_REVIEW_QUEUE: "Notities beoordelingswachtrij",
+  CLOSE: "Sluiten",
+  NEW: "Nieuw",
+  YESTERDAY: "Gisteren",
+  TODAY: "Vandaag",
+  TOMORROW: "Morgen",
+  // stats-modal.tsx
+  STATS_TITLE: "Statistieken",
+  MONTH: "Maand",
+  QUARTER: "Kwartaal",
+  YEAR: "Jaar",
+  LIFETIME: "Levensduur",
+  FORECAST: "Voorspelling",
+  FORECAST_DESC: "Het aantal kaarten dat in de toekomst aan de beurt is",
+  SCHEDULED: "Gepland",
+  DAYS: "Dagen",
+  NUMBER_OF_CARDS: "Aantal kaarten",
+  REVIEWS_PER_DAY: "Gemiddeld: ${avg} beoordelingen/dag",
+  INTERVALS: "Intervallen",
+  INTERVALS_DESC: "Vertragingen totdat beoordelingen opnieuw worden weergegeven",
+  COUNT: "Aantal",
+  INTERVALS_SUMMARY: "Gemiddeld interval: ${avg}, Langste interval: ${longest}",
+  EASES: "Gemakken",
+  EASES_SUMMARY: "Gemiddeld gemak: ${avgEase}",
+  EASE: "Gemak",
+  CARD_TYPES: "Kaarttypen",
+  CARD_TYPES_DESC: "Dit omvat ook begraven kaarten, indien aanwezig",
+  CARD_TYPE_NEW: "Nieuw",
+  CARD_TYPE_YOUNG: "Jong",
+  CARD_TYPE_MATURE: "Volwassen",
+  CARD_TYPES_SUMMARY: "Totaal aantal kaarten: ${totalCardsCount}",
+  SEARCH: "Zoeken",
+  PREVIOUS: "Vorige",
+  NEXT: "Volgende",
+  // settings.ts
+  SETTINGS_TAB_HEADING: "Settings",
+  MAIN_SETTINGS_PAGE: "MAIN_SETTINGS",
+  // NoteReviewQueue.ts
+  NOTE_REVIEW_QUEUE_HINT: "Click on the 3 dots next to the note to open the review menu.",
+  // StatusBarManager.ts
+  OPEN_DECK_FOR_REVIEW: "Open deck for review",
+  UPDATE_AVAILABLE: "Update available",
+  // Statistics
+  PERIOD_TITLE: "Period",
+  PERIOD_DESC: "Period of time to display in the charts",
+  // Card controls reset button
+  DELETE_SCHEDULING_DATA_OF_CURRENT_CARD: "Delete card scheduling data?",
+  CONFIRM_SCHEDULING_DATA_DELETION_OF_CURRENT_CARD: "Are you sure you want to delete the scheduling data from your current card? This action cannot be undone.",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS_OF_CURRENT_CARD: "Deleting the cards scheduling data...",
+  // Settings > Scheduling
+  START_OF_DAY: "Start of day",
+  START_OF_DAY_DESC: "The time at which the day begins (Format: HH:MM:SS, Default: 00:00:00)",
+  INVALID_START_OF_DAY_WARNING: "Invalid format for start of day"
+};
 
 // src/lang/locale/no.ts
 var no_default = {};
@@ -6907,6 +7234,7 @@ var pl_default = {
   CURRENT_EASE_HELP_TEXT: "Aktualna \u0142atwo\u015B\u0107: ",
   CURRENT_INTERVAL_HELP_TEXT: "Aktualny interwa\u0142: ",
   CARD_GENERATED_FROM: "Wygenerowano z: ${notePath}",
+  VIEW_CARD_INFO: "View Card Info",
   // main.ts
   OPEN_NOTE_FOR_REVIEW: "Otw\xF3rz notatk\u0119 do przegl\u0105du",
   REVIEW_CARDS: "Przegl\u0105daj fiszki",
@@ -6987,9 +7315,14 @@ var pl_default = {
   REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_RANDOM: "Losowo (gdy wszystkie karty w poprzedniej talii przegl\u0105dni\u0119te)",
   REVIEW_DECK_ORDER_RANDOM_DECK_AND_CARD: "Losowa karta z losowej talii",
   DISABLE_CLOZE_CARDS: "Wy\u0142\u0105czy\u0107 karty zamaskowane?",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS: "Convert cloze patterns to input fields",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS_DESC: "Replace cloze patterns with input fields when reviewing cloze cards.",
   CONVERT_HIGHLIGHTS_TO_CLOZES: "Konwertowa\u0107 ==pod\u015Bwietlenia== na karty zamaskowane?",
+  CONVERT_HIGHLIGHTS_TO_CLOZES_DESC: 'Dodaj/usu\u0144 <code>${defaultPattern}</code> z "Wzory kart zamaskowanych"',
   CONVERT_BOLD_TEXT_TO_CLOZES: "Konwertowa\u0107 pogrubiony tekst na karty zamaskowane?",
+  CONVERT_BOLD_TEXT_TO_CLOZES_DESC: 'Dodaj/usu\u0144 <code>${defaultPattern}</code> z "Wzory kart zamaskowanych"',
   CONVERT_CURLY_BRACKETS_TO_CLOZES: "Konwertowa\u0107 {{klamry}} na karty zamaskowane?",
+  CONVERT_CURLY_BRACKETS_TO_CLOZES_DESC: 'Dodaj/usu\u0144 <code>${defaultPattern}</code> z "Wzory kart zamaskowanych"',
   CLOZE_PATTERNS: "Wzory kart zamaskowanych",
   CLOZE_PATTERNS_DESC: 'Wprowad\u017A wzory kart zamaskowanych oddzielone nowymi liniami. Check the <a href="${docsUrl}">wiki</a> for guidance.',
   INLINE_CARDS_SEPARATOR: "Separator dla kart zamaskowanych w linii",
@@ -7012,6 +7345,8 @@ var pl_default = {
   MIN_ONE_DAY: "Liczba dni musi wynosi\u0107 co najmniej 1.",
   VALID_NUMBER_WARNING: "Podaj prawid\u0142ow\u0105 liczb\u0119.",
   UI: "User Interface",
+  OPEN_IN_TAB: "Open in new tab",
+  OPEN_IN_TAB_DESC: "Turn this off to open the plugin in a modal window",
   SHOW_STATUS_BAR: "Show status bar",
   SHOW_STATUS_BAR_DESC: "Turn this off to hide the flashcard's review status in Obsidian's status bar",
   SHOW_RIBBON_ICON: "Show icon in the ribbon bar",
@@ -7045,6 +7380,13 @@ var pl_default = {
   EXPERIMENTAL: "Experimental",
   HELP: "Help",
   STORE_IN_NOTES: "In the notes",
+  DELETE_SCHEDULING_DATA: "Delete Scheduling Data",
+  DELETE_SCHEDULING_DATA_IN_NOTES_AND_FLASHCARDS: "Delete scheduling data from all notes and flashcards.",
+  DELETE: "Delete",
+  CONFIRM_SCHEDULING_DATA_DELETION: "Are you sure you want to delete all scheduling data from your notes and flashcards? This action cannot be undone.",
+  CONFIRM: "Confirm",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS: "Scheduling data deletion in progress...",
+  SCHEDULING_DATA_HAS_BEEN_DELETED: "Scheduling data has been deleted from all notes and flashcards.",
   // sidebar.ts
   NOTES_REVIEW_QUEUE: "Kolejka przegl\u0105du notatek",
   CLOSE: "Zamknij",
@@ -7079,7 +7421,26 @@ var pl_default = {
   CARD_TYPES_SUMMARY: "\u0141\u0105czna liczba kart: ${totalCardsCount}",
   SEARCH: "Search",
   PREVIOUS: "Previous",
-  NEXT: "Next"
+  NEXT: "Next",
+  // settings.ts
+  SETTINGS_TAB_HEADING: "Settings",
+  MAIN_SETTINGS_PAGE: "MAIN_SETTINGS",
+  // NoteReviewQueue.ts
+  NOTE_REVIEW_QUEUE_HINT: "Click on the 3 dots next to the note to open the review menu.",
+  // StatusBarManager.ts
+  OPEN_DECK_FOR_REVIEW: "Open deck for review",
+  UPDATE_AVAILABLE: "Update available",
+  // Statistics
+  PERIOD_TITLE: "Period",
+  PERIOD_DESC: "Period of time to display in the charts",
+  // Card controls reset button
+  DELETE_SCHEDULING_DATA_OF_CURRENT_CARD: "Delete card scheduling data?",
+  CONFIRM_SCHEDULING_DATA_DELETION_OF_CURRENT_CARD: "Are you sure you want to delete the scheduling data from your current card? This action cannot be undone.",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS_OF_CURRENT_CARD: "Deleting the cards scheduling data...",
+  // Settings > Scheduling
+  START_OF_DAY: "Start of day",
+  START_OF_DAY_DESC: "The time at which the day begins (Format: HH:MM:SS, Default: 00:00:00)",
+  INVALID_START_OF_DAY_WARNING: "Invalid format for start of day"
 };
 
 // src/lang/locale/pt.ts
@@ -7107,6 +7468,7 @@ var pt_br_default = {
   CURRENT_EASE_HELP_TEXT: "Facilidade atual: ",
   CURRENT_INTERVAL_HELP_TEXT: "Intervalo atual: ",
   CARD_GENERATED_FROM: "Gerada a partir de: ${notePath}",
+  VIEW_CARD_INFO: "View Card Info",
   // main.ts
   OPEN_NOTE_FOR_REVIEW: "Abrir uma nota para revisar",
   REVIEW_CARDS: "Revisar flashcards",
@@ -7187,9 +7549,14 @@ var pt_br_default = {
   REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_RANDOM: "Randomly (once all cards in previous deck reviewed)",
   REVIEW_DECK_ORDER_RANDOM_DECK_AND_CARD: "Random card from random deck",
   DISABLE_CLOZE_CARDS: "Desabilitar cartas que usam omiss\xE3o de palavras?",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS: "Convert cloze patterns to input fields",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS_DESC: "Replace cloze patterns with input fields when reviewing cloze cards.",
   CONVERT_HIGHLIGHTS_TO_CLOZES: "Converter ==marca-texto== em omiss\xF5es?",
+  CONVERT_HIGHLIGHTS_TO_CLOZES_DESC: 'Adiciona/remove o <code>${defaultPattern}</code> dos seus "Padr\xF5es de Omiss\xE3o"',
   CONVERT_BOLD_TEXT_TO_CLOZES: "Converter **texto em negrito** em omiss\xF5es?",
+  CONVERT_BOLD_TEXT_TO_CLOZES_DESC: 'Adiciona/remove o <code>${defaultPattern}</code> dos seus "Padr\xF5es de Omiss\xE3o"',
   CONVERT_CURLY_BRACKETS_TO_CLOZES: "Converter {{chaves}} em omiss\xF5es?",
+  CONVERT_CURLY_BRACKETS_TO_CLOZES_DESC: 'Adiciona/remove o <code>${defaultPattern}</code> dos seus "Padr\xF5es de Omiss\xE3o"',
   CLOZE_PATTERNS: "Padr\xF5es de Omiss\xE3o",
   CLOZE_PATTERNS_DESC: 'Entre os padr\xF5es de omiss\xE3o separados por quebras de linha. Check the <a href="${docsUrl}">wiki</a> for guidance.',
   INLINE_CARDS_SEPARATOR: "Separador para flashcards inline",
@@ -7212,6 +7579,8 @@ var pt_br_default = {
   MIN_ONE_DAY: "O n\xFAmero de dias deve ser pelo menos 1.",
   VALID_NUMBER_WARNING: "Por favor Insira um n\xFAmero v\xE1lido.",
   UI: "User Interface",
+  OPEN_IN_TAB: "Open in new tab",
+  OPEN_IN_TAB_DESC: "Turn this off to open the plugin in a modal window",
   SHOW_STATUS_BAR: "Show status bar",
   SHOW_STATUS_BAR_DESC: "Turn this off to hide the flashcard's review status in Obsidian's status bar",
   SHOW_RIBBON_ICON: "Show icon in the ribbon bar",
@@ -7245,6 +7614,13 @@ var pt_br_default = {
   EXPERIMENTAL: "Experimental",
   HELP: "Help",
   STORE_IN_NOTES: "In the notes",
+  DELETE_SCHEDULING_DATA: "Delete Scheduling Data",
+  DELETE_SCHEDULING_DATA_IN_NOTES_AND_FLASHCARDS: "Delete scheduling data from all notes and flashcards.",
+  DELETE: "Delete",
+  CONFIRM_SCHEDULING_DATA_DELETION: "Are you sure you want to delete all scheduling data from your notes and flashcards? This action cannot be undone.",
+  CONFIRM: "Confirm",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS: "Scheduling data deletion in progress...",
+  SCHEDULING_DATA_HAS_BEEN_DELETED: "Scheduling data has been deleted from all notes and flashcards.",
   // sidebar.ts
   NOTES_REVIEW_QUEUE: "Fila de Notas para Revisar",
   CLOSE: "Fechar",
@@ -7279,7 +7655,26 @@ var pt_br_default = {
   CARD_TYPES_SUMMARY: "Total de cartas: ${totalCardsCount}",
   SEARCH: "Search",
   PREVIOUS: "Previous",
-  NEXT: "Next"
+  NEXT: "Next",
+  // settings.ts
+  SETTINGS_TAB_HEADING: "Settings",
+  MAIN_SETTINGS_PAGE: "MAIN_SETTINGS",
+  // NoteReviewQueue.ts
+  NOTE_REVIEW_QUEUE_HINT: "Click on the 3 dots next to the note to open the review menu.",
+  // StatusBarManager.ts
+  OPEN_DECK_FOR_REVIEW: "Open deck for review",
+  UPDATE_AVAILABLE: "Update available",
+  // Statistics
+  PERIOD_TITLE: "Period",
+  PERIOD_DESC: "Period of time to display in the charts",
+  // Card controls reset button
+  DELETE_SCHEDULING_DATA_OF_CURRENT_CARD: "Delete card scheduling data?",
+  CONFIRM_SCHEDULING_DATA_DELETION_OF_CURRENT_CARD: "Are you sure you want to delete the scheduling data from your current card? This action cannot be undone.",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS_OF_CURRENT_CARD: "Deleting the cards scheduling data...",
+  // Settings > Scheduling
+  START_OF_DAY: "Start of day",
+  START_OF_DAY_DESC: "The time at which the day begins (Format: HH:MM:SS, Default: 00:00:00)",
+  INVALID_START_OF_DAY_WARNING: "Invalid format for start of day"
 };
 
 // src/lang/locale/ro.ts
@@ -7307,6 +7702,7 @@ var ru_default = {
   CURRENT_EASE_HELP_TEXT: "\u0422\u0435\u043A\u0443\u0449\u0438\u0439 \u043F\u0440\u043E\u0433\u0440\u0435\u0441\u0441: ",
   CURRENT_INTERVAL_HELP_TEXT: "\u0422\u0435\u043A\u0443\u0449\u0438\u0439 \u0438\u043D\u0442\u0435\u0440\u0432\u0430\u043B: ",
   CARD_GENERATED_FROM: "\u0421\u0433\u0435\u043D\u0435\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u043E \u0438\u0437: ${notePath}",
+  VIEW_CARD_INFO: "View Card Info",
   // main.ts
   OPEN_NOTE_FOR_REVIEW: "\u041E\u0442\u043A\u0440\u044B\u0442\u044C \u0437\u0430\u043C\u0435\u0442\u043A\u0443 \u0434\u043B\u044F \u0438\u0437\u0443\u0447\u0435\u043D\u0438\u044F",
   REVIEW_CARDS: "\u0418\u0437\u0443\u0447\u0430\u0442\u044C \u043A\u0430\u0440\u0442\u043E\u0447\u043A\u0438",
@@ -7387,9 +7783,14 @@ var ru_default = {
   REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_RANDOM: "\u0421\u043B\u0443\u0447\u0430\u0439\u043D\u043E (\u043F\u043E\u0441\u043B\u0435 \u0438\u0437\u0443\u0447\u0435\u043D\u0438\u044F \u0432\u0441\u0435\u0445 \u043A\u0430\u0440\u0442 \u0438\u0437 \u043F\u0440\u0435\u0434\u044B\u0434\u0443\u0449\u0435\u0439 \u043A\u043E\u043B\u043E\u0434\u044B)",
   REVIEW_DECK_ORDER_RANDOM_DECK_AND_CARD: "\u0421\u043B\u0443\u0447\u0430\u0439\u043D\u0430\u044F \u043A\u0430\u0440\u0442\u0430 \u0438\u0437 \u0441\u043B\u0443\u0447\u0430\u0439\u043D\u043E\u0439 \u043A\u043E\u043B\u043E\u0434\u044B",
   DISABLE_CLOZE_CARDS: "\u0412\u044B\u043A\u043B\u044E\u0447\u0438\u0442\u044C \u043A\u0430\u0440\u0442\u044B \u0441 \u043F\u0440\u043E\u043F\u0443\u0441\u043A\u0430\u043C\u0438 (\u043F\u0440\u0438\u043C\u0435\u0440: [...])?",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS: "Convert cloze patterns to input fields",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS_DESC: "Replace cloze patterns with input fields when reviewing cloze cards.",
   CONVERT_HIGHLIGHTS_TO_CLOZES: "\u041A\u043E\u043D\u0432\u0435\u0440\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C ==\u0432\u044B\u0434\u0435\u043B\u0435\u043D\u043D\u044B\u0439 \u0442\u0435\u043A\u0441\u0442== \u0432 \u043F\u0440\u043E\u043F\u0443\u0441\u043A\u0438 (\u043F\u0440\u0438\u043C\u0435\u0440: [...])?",
+  CONVERT_HIGHLIGHTS_TO_CLOZES_DESC: '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C/\u0443\u0434\u0430\u043B\u0438\u0442\u044C <code>${defaultPattern}</code> \u0432 \u0432\u0430\u0448\u0438 "\u0428\u0430\u0431\u043B\u043E\u043D\u044B \u043F\u0440\u043E\u043F\u0443\u0441\u043A\u043E\u0432"',
   CONVERT_BOLD_TEXT_TO_CLOZES: "\u041A\u043E\u043D\u0432\u0435\u0440\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C **\u0436\u0438\u0440\u043D\u044B\u0439 \u0442\u0435\u043A\u0441\u0442** \u0432 \u043F\u0440\u043E\u043F\u0443\u0441\u043A\u0438 (\u043F\u0440\u0438\u043C\u0435\u0440: [...])?",
+  CONVERT_BOLD_TEXT_TO_CLOZES_DESC: '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C/\u0443\u0434\u0430\u043B\u0438\u0442\u044C <code>${defaultPattern}</code> \u0432 \u0432\u0430\u0448\u0438 "\u0428\u0430\u0431\u043B\u043E\u043D\u044B \u043F\u0440\u043E\u043F\u0443\u0441\u043A\u043E\u0432"',
   CONVERT_CURLY_BRACKETS_TO_CLOZES: "\u041A\u043E\u043D\u0432\u0435\u0440\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C {{\u0444\u0438\u0433\u0443\u0440\u043D\u044B\u0435 \u0441\u043A\u043E\u0431\u043A\u0438}} \u0432 \u043F\u0440\u043E\u043F\u0443\u0441\u043A\u0438 (\u043F\u0440\u0438\u043C\u0435\u0440: [...])?",
+  CONVERT_CURLY_BRACKETS_TO_CLOZES_DESC: '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C/\u0443\u0434\u0430\u043B\u0438\u0442\u044C <code>${defaultPattern}</code> \u0432 \u0432\u0430\u0448\u0438 "\u0428\u0430\u0431\u043B\u043E\u043D\u044B \u043F\u0440\u043E\u043F\u0443\u0441\u043A\u043E\u0432"',
   CLOZE_PATTERNS: "\u0428\u0430\u0431\u043B\u043E\u043D\u044B \u043F\u0440\u043E\u043F\u0443\u0441\u043A\u043E\u0432",
   CLOZE_PATTERNS_DESC: '\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0448\u0430\u0431\u043B\u043E\u043D\u044B \u043F\u0440\u043E\u043F\u0443\u0441\u043A\u043E\u0432, \u0440\u0430\u0437\u0434\u0435\u043B\u0435\u043D\u043D\u044B\u0435 \u043F\u0435\u0440\u0435\u0432\u043E\u0434\u0430\u043C\u0438 \u0441\u0442\u0440\u043E\u043A. Check the <a href="${docsUrl}">wiki</a> for guidance.',
   INLINE_CARDS_SEPARATOR: "\u0420\u0430\u0437\u0434\u0435\u043B\u0438\u0442\u0435\u043B\u044C \u0434\u043B\u044F \u0432\u043D\u0443\u0442\u0440\u0438\u0441\u0442\u0440\u043E\u0447\u043D\u044B\u0445 \u043A\u0430\u0440\u0442\u043E\u0447\u0435\u043A",
@@ -7412,6 +7813,8 @@ var ru_default = {
   MIN_ONE_DAY: "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0434\u043D\u0435\u0439 \u043D\u0435 \u043C\u0435\u043D\u044C\u0448\u0435 1.",
   VALID_NUMBER_WARNING: "\u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u0432\u0432\u0435\u0434\u0438\u0442\u0435 \u043F\u043E\u0434\u0445\u043E\u0434\u044F\u0449\u0435\u0435 \u0447\u0438\u0441\u043B\u043E.",
   UI: "User Interface",
+  OPEN_IN_TAB: "Open in new tab",
+  OPEN_IN_TAB_DESC: "Turn this off to open the plugin in a modal window",
   SHOW_STATUS_BAR: "Show status bar",
   SHOW_STATUS_BAR_DESC: "Turn this off to hide the flashcard's review status in Obsidian's status bar",
   SHOW_RIBBON_ICON: "Show icon in the ribbon bar",
@@ -7445,6 +7848,13 @@ var ru_default = {
   EXPERIMENTAL: "Experimental",
   HELP: "Help",
   STORE_IN_NOTES: "In the notes",
+  DELETE_SCHEDULING_DATA: "Delete Scheduling Data",
+  DELETE_SCHEDULING_DATA_IN_NOTES_AND_FLASHCARDS: "Delete scheduling data from all notes and flashcards.",
+  DELETE: "Delete",
+  CONFIRM_SCHEDULING_DATA_DELETION: "Are you sure you want to delete all scheduling data from your notes and flashcards? This action cannot be undone.",
+  CONFIRM: "Confirm",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS: "Scheduling data deletion in progress...",
+  SCHEDULING_DATA_HAS_BEEN_DELETED: "Scheduling data has been deleted from all notes and flashcards.",
   // sidebar.ts
   NOTES_REVIEW_QUEUE: "\u041E\u0447\u0435\u0440\u0435\u0434\u044C \u0437\u0430\u043C\u0435\u0442\u043E\u043A \u043D\u0430 \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u0438\u0435",
   CLOSE: "\u0417\u0430\u043A\u0440\u044B\u0442\u044C",
@@ -7479,7 +7889,26 @@ var ru_default = {
   CARD_TYPES_SUMMARY: "\u0412\u0441\u0435\u0433\u043E \u043A\u0430\u0440\u0442\u043E\u0447\u0435\u043A: ${totalCardsCount}",
   SEARCH: "Search",
   PREVIOUS: "Previous",
-  NEXT: "Next"
+  NEXT: "Next",
+  // settings.ts
+  SETTINGS_TAB_HEADING: "Settings",
+  MAIN_SETTINGS_PAGE: "MAIN_SETTINGS",
+  // NoteReviewQueue.ts
+  NOTE_REVIEW_QUEUE_HINT: "Click on the 3 dots next to the note to open the review menu.",
+  // StatusBarManager.ts
+  OPEN_DECK_FOR_REVIEW: "Open deck for review",
+  UPDATE_AVAILABLE: "Update available",
+  // Statistics
+  PERIOD_TITLE: "Period",
+  PERIOD_DESC: "Period of time to display in the charts",
+  // Card controls reset button
+  DELETE_SCHEDULING_DATA_OF_CURRENT_CARD: "Delete card scheduling data?",
+  CONFIRM_SCHEDULING_DATA_DELETION_OF_CURRENT_CARD: "Are you sure you want to delete the scheduling data from your current card? This action cannot be undone.",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS_OF_CURRENT_CARD: "Deleting the cards scheduling data...",
+  // Settings > Scheduling
+  START_OF_DAY: "Start of day",
+  START_OF_DAY_DESC: "The time at which the day begins (Format: HH:MM:SS, Default: 00:00:00)",
+  INVALID_START_OF_DAY_WARNING: "Invalid format for start of day"
 };
 
 // src/lang/locale/sw.ts
@@ -7516,6 +7945,7 @@ var tr_default = {
   CURRENT_EASE_HELP_TEXT: "Mevcut Kolayl\u0131k: ",
   CURRENT_INTERVAL_HELP_TEXT: "Mevcut Aral\u0131k: ",
   CARD_GENERATED_FROM: "${notePath} kayna\u011F\u0131ndan olu\u015Fturuldu.",
+  VIEW_CARD_INFO: "View Card Info",
   // main.ts
   OPEN_NOTE_FOR_REVIEW: "G\xF6zden ge\xE7irmek i\xE7in bir not a\xE7",
   REVIEW_CARDS: "Flash kartlar\u0131 g\xF6zden ge\xE7ir",
@@ -7596,9 +8026,14 @@ var tr_default = {
   REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_RANDOM: "Rastgele olarak (\xD6nceki destedeki t\xFCm kartlar g\xF6zden ge\xE7irildikten sonra)",
   REVIEW_DECK_ORDER_RANDOM_DECK_AND_CARD: "Rastgele desteden rastgele kart",
   DISABLE_CLOZE_CARDS: "Gizli kartlar\u0131 devre d\u0131\u015F\u0131 b\u0131rak?",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS: "Convert cloze patterns to input fields",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS_DESC: "Replace cloze patterns with input fields when reviewing cloze cards.",
   CONVERT_HIGHLIGHTS_TO_CLOZES: "==Vurgulanan== metni gizli kartlara d\xF6n\xFC\u015Ft\xFCr?",
+  CONVERT_HIGHLIGHTS_TO_CLOZES_DESC: '"Cloze Patterns"den <code>${defaultPattern</code> \xF6\u011Fesini ekleyin/kald\u0131r\u0131n',
   CONVERT_BOLD_TEXT_TO_CLOZES: "**Kal\u0131n metni** gizli kartlara d\xF6n\xFC\u015Ft\xFCr?",
+  CONVERT_BOLD_TEXT_TO_CLOZES_DESC: '"Cloze Patterns"den <code>${defaultPattern</code> \xF6\u011Fesini ekleyin/kald\u0131r\u0131n',
   CONVERT_CURLY_BRACKETS_TO_CLOZES: "{{K\u0131v\u0131rc\u0131k parantezleri}} gizli kartlara d\xF6n\xFC\u015Ft\xFCr?",
+  CONVERT_CURLY_BRACKETS_TO_CLOZES_DESC: '"Cloze Patterns"den <code>${defaultPattern</code> \xF6\u011Fesini ekleyin/kald\u0131r\u0131n',
   CLOZE_PATTERNS: "Cloze Patterns",
   CLOZE_PATTERNS_DESC: 'Enter cloze patterns separated by newlines. Check the <a href="${docsUrl}">wiki</a> for guidance.',
   INLINE_CARDS_SEPARATOR: "Sat\u0131r i\xE7i flash kartlar i\xE7in ay\u0131r\u0131c\u0131",
@@ -7619,6 +8054,8 @@ var tr_default = {
   MIN_ONE_DAY: "G\xFCn say\u0131s\u0131 en az 1 olmal\u0131d\u0131r.",
   VALID_NUMBER_WARNING: "L\xFCtfen ge\xE7erli bir say\u0131 girin.",
   UI: "User Interface",
+  OPEN_IN_TAB: "Open in new tab",
+  OPEN_IN_TAB_DESC: "Turn this off to open the plugin in a modal window",
   SHOW_STATUS_BAR: "Show status bar",
   SHOW_STATUS_BAR_DESC: "Turn this off to hide the flashcard's review status in Obsidian's status bar",
   SHOW_RIBBON_ICON: "Show icon in the ribbon bar",
@@ -7654,6 +8091,13 @@ var tr_default = {
   EXPERIMENTAL: "Experimental",
   HELP: "Help",
   STORE_IN_NOTES: "In the notes",
+  DELETE_SCHEDULING_DATA: "Delete Scheduling Data",
+  DELETE_SCHEDULING_DATA_IN_NOTES_AND_FLASHCARDS: "Delete scheduling data from all notes and flashcards.",
+  DELETE: "Delete",
+  CONFIRM_SCHEDULING_DATA_DELETION: "Are you sure you want to delete all scheduling data from your notes and flashcards? This action cannot be undone.",
+  CONFIRM: "Confirm",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS: "Scheduling data deletion in progress...",
+  SCHEDULING_DATA_HAS_BEEN_DELETED: "Scheduling data has been deleted from all notes and flashcards.",
   // sidebar.ts
   NOTES_REVIEW_QUEUE: "Not \u0130nceleme S\u0131ras\u0131",
   CLOSE: "Kapat",
@@ -7688,11 +8132,258 @@ var tr_default = {
   CARD_TYPES_SUMMARY: "Toplam kart: ${totalCardsCount}",
   SEARCH: "Search",
   PREVIOUS: "Previous",
-  NEXT: "Next"
+  NEXT: "Next",
+  // settings.ts
+  SETTINGS_TAB_HEADING: "Settings",
+  MAIN_SETTINGS_PAGE: "MAIN_SETTINGS",
+  // NoteReviewQueue.ts
+  NOTE_REVIEW_QUEUE_HINT: "Click on the 3 dots next to the note to open the review menu.",
+  // StatusBarManager.ts
+  OPEN_DECK_FOR_REVIEW: "Open deck for review",
+  UPDATE_AVAILABLE: "Update available",
+  // Statistics
+  PERIOD_TITLE: "Period",
+  PERIOD_DESC: "Period of time to display in the charts",
+  // Card controls reset button
+  DELETE_SCHEDULING_DATA_OF_CURRENT_CARD: "Delete card scheduling data?",
+  CONFIRM_SCHEDULING_DATA_DELETION_OF_CURRENT_CARD: "Are you sure you want to delete the scheduling data from your current card? This action cannot be undone.",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS_OF_CURRENT_CARD: "Deleting the cards scheduling data...",
+  // Settings > Scheduling
+  START_OF_DAY: "Start of day",
+  START_OF_DAY_DESC: "The time at which the day begins (Format: HH:MM:SS, Default: 00:00:00)",
+  INVALID_START_OF_DAY_WARNING: "Invalid format for start of day"
 };
 
 // src/lang/locale/uk.ts
-var uk_default = {};
+var uk_default = {
+  // flashcard-modal.tsx
+  DECKS: "\u041A\u043E\u043B\u043E\u0434\u0438 \u043A\u0430\u0440\u0442\u043E\u043A",
+  DUE_CARDS: "\u041A\u0430\u0440\u0442\u043A\u0438 \u0434\u043E \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F",
+  NEW_CARDS: "\u041D\u043E\u0432\u0456 \u043A\u0430\u0440\u0442\u043A\u0438",
+  TOTAL_CARDS: "\u0423\u0441\u044C\u043E\u0433\u043E \u043A\u0430\u0440\u0442\u043E\u043A",
+  BACK: "\u041D\u0430\u0437\u0430\u0434",
+  SKIP: "\u041F\u0440\u043E\u043F\u0443\u0441\u0442\u0438\u0442\u0438",
+  EDIT_CARD: "\u0420\u0435\u0434\u0430\u0433\u0443\u0432\u0430\u0442\u0438 \u043A\u0430\u0440\u0442\u043A\u0443",
+  RESET_CARD_PROGRESS: "\u0421\u043A\u0438\u043D\u0443\u0442\u0438 \u043F\u0440\u043E\u0433\u0440\u0435\u0441 \u043A\u0430\u0440\u0442\u043A\u0438",
+  HARD: "\u0412\u0430\u0436\u043A\u043E",
+  GOOD: "\u0414\u043E\u0431\u0440\u0435",
+  EASY: "\u041B\u0435\u0433\u043A\u043E",
+  SHOW_ANSWER: "\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u0438 \u0432\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u044C",
+  CARD_PROGRESS_RESET: "\u041F\u0440\u043E\u0433\u0440\u0435\u0441 \u043A\u0430\u0440\u0442\u043A\u0438 \u0441\u043A\u0438\u043D\u0443\u0442\u043E.",
+  SAVE: "\u0417\u0431\u0435\u0440\u0435\u0433\u0442\u0438",
+  CANCEL: "\u0421\u043A\u0430\u0441\u0443\u0432\u0430\u0442\u0438",
+  NO_INPUT: "\u0414\u0430\u043D\u0456 \u043D\u0435 \u0432\u0432\u0435\u0434\u0435\u043D\u043E.",
+  CURRENT_EASE_HELP_TEXT: "\u041F\u043E\u0442\u043E\u0447\u043D\u0438\u0439 \u043A\u043E\u0435\u0444\u0456\u0446\u0456\u0454\u043D\u0442 \u043B\u0435\u0433\u043A\u043E\u0441\u0442\u0456: ",
+  CURRENT_INTERVAL_HELP_TEXT: "\u041F\u043E\u0442\u043E\u0447\u043D\u0438\u0439 \u0456\u043D\u0442\u0435\u0440\u0432\u0430\u043B: ",
+  CARD_GENERATED_FROM: "\u0421\u0442\u0432\u043E\u0440\u0435\u043D\u043E \u0437: ${notePath}",
+  VIEW_CARD_INFO: "View Card Info",
+  // main.ts
+  OPEN_NOTE_FOR_REVIEW: "\u0412\u0456\u0434\u043A\u0440\u0438\u0442\u0438 \u043D\u043E\u0442\u0430\u0442\u043A\u0443 \u0434\u043B\u044F \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F",
+  REVIEW_CARDS: "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0438 \u043A\u0430\u0440\u0442\u043A\u0438",
+  REVIEW_DIFFICULTY_FILE_MENU: "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0438: ${difficulty}",
+  REVIEW_NOTE_DIFFICULTY_CMD: "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0438 \u043D\u043E\u0442\u0430\u0442\u043A\u0443 \u044F\u043A ${difficulty}",
+  CRAM_ALL_CARDS: "\u0412\u0438\u0431\u0440\u0430\u0442\u0438 \u043A\u043E\u043B\u043E\u0434\u0443 \u0434\u043B\u044F \u0456\u043D\u0442\u0435\u043D\u0441\u0438\u0432\u043D\u043E\u0433\u043E \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F",
+  REVIEW_ALL_CARDS: "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0438 \u043A\u0430\u0440\u0442\u043A\u0438 \u0437 \u0443\u0441\u0456\u0445 \u043D\u043E\u0442\u0430\u0442\u043E\u043A",
+  REVIEW_CARDS_IN_NOTE: "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0438 \u043A\u0430\u0440\u0442\u043A\u0438 \u0432 \u0446\u0456\u0439 \u043D\u043E\u0442\u0430\u0442\u0446\u0456",
+  CRAM_CARDS_IN_NOTE: "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0438 \u043A\u0430\u0440\u0442\u043A\u0438 \u0446\u0456\u0454\u0457 \u043D\u043E\u0442\u0430\u0442\u043A\u0438",
+  VIEW_STATS: "\u041F\u0435\u0440\u0435\u0433\u043B\u044F\u043D\u0443\u0442\u0438 \u0441\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043A\u0443",
+  OPEN_REVIEW_QUEUE_VIEW: "\u0412\u0456\u0434\u043A\u0440\u0438\u0442\u0438 \u0447\u0435\u0440\u0433\u0443 \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F \u043A\u0430\u0440\u0442\u043E\u043A \u0443 \u0431\u0456\u0447\u043D\u0456\u0439 \u043F\u0430\u043D\u0435\u043B\u0456",
+  STATUS_BAR: "\u041F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F: \u043D\u043E\u0442\u0430\u0442\u043E\u043A \u2014 ${dueNotesCount}, \u043A\u0430\u0440\u0442\u043E\u043A \u2014 ${dueFlashcardsCount}",
+  SYNC_TIME_TAKEN: "\u0421\u0438\u043D\u0445\u0440\u043E\u043D\u0456\u0437\u0430\u0446\u0456\u044F: ${t} \u043C\u0441",
+  NOTE_IN_IGNORED_FOLDER: "\u041D\u043E\u0442\u0430\u0442\u043A\u0443 \u0437\u0431\u0435\u0440\u0435\u0436\u0435\u043D\u043E \u0432 \u043F\u0440\u043E\u0456\u0433\u043D\u043E\u0440\u043E\u0432\u0430\u043D\u0456\u0439 \u0442\u0435\u0446\u0456 (\u043F\u0435\u0440\u0435\u0432\u0456\u0440\u0442\u0435 \u043D\u0430\u043B\u0430\u0448\u0442\u0443\u0432\u0430\u043D\u043D\u044F).",
+  PLEASE_TAG_NOTE: "\u0411\u0443\u0434\u044C \u043B\u0430\u0441\u043A\u0430, \u043F\u043E\u0437\u043D\u0430\u0447\u0442\u0435 \u043D\u043E\u0442\u0430\u0442\u043A\u0443 \u0432\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u043D\u0438\u043C\u0438 \u0442\u0435\u0433\u0430\u043C\u0438 \u0434\u043B\u044F \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F (\u0443 \u043D\u0430\u043B\u0430\u0448\u0442\u0443\u0432\u0430\u043D\u043D\u044F\u0445).",
+  RESPONSE_RECEIVED: "\u0412\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u044C \u043E\u0442\u0440\u0438\u043C\u0430\u043D\u043E.",
+  NO_DECK_EXISTS: "\u041A\u043E\u043B\u043E\u0434\u0438 \xAB${deckName}\xBB \u043D\u0435 \u0456\u0441\u043D\u0443\u0454",
+  ALL_CAUGHT_UP: "\u0427\u0443\u0434\u043E\u0432\u043E! \u0423\u0441\u0456 \u043A\u0430\u0440\u0442\u043A\u0438 \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043E :D",
+  // scheduling.ts
+  DAYS_STR_IVL: "${interval} \u0434\u043D.",
+  MONTHS_STR_IVL: "${interval} \u043C\u0456\u0441.",
+  YEARS_STR_IVL: "${interval} \u0440.",
+  DAYS_STR_IVL_MOBILE: "${interval}\u0434",
+  MONTHS_STR_IVL_MOBILE: "${interval}\u043C",
+  YEARS_STR_IVL_MOBILE: "${interval}\u0440",
+  // settings.ts
+  SETTINGS_HEADER: "\u041F\u043B\u0430\u0433\u0456\u043D Spaced Repetition \u0434\u043B\u044F Obsidian",
+  GROUP_TAGS_FOLDERS: "\u0422\u0435\u0433\u0438 \u0442\u0430 \u0442\u0435\u043A\u0438",
+  GROUP_FLASHCARD_REVIEW: "\u041F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F \u043A\u0430\u0440\u0442\u043E\u043A",
+  GROUP_FLASHCARD_SEPARATORS: "\u0420\u043E\u0437\u0434\u0456\u043B\u044C\u043D\u0438\u043A\u0438 \u043A\u0430\u0440\u0442\u043E\u043A",
+  GROUP_DATA_STORAGE: "\u0417\u0431\u0435\u0440\u0456\u0433\u0430\u043D\u043D\u044F \u0434\u0430\u043D\u0438\u0445 \u043F\u043B\u0430\u043D\u0443\u0432\u0430\u043D\u043D\u044F",
+  GROUP_DATA_STORAGE_DESC: "\u041E\u0431\u0435\u0440\u0456\u0442\u044C, \u0434\u0435 \u0437\u0431\u0435\u0440\u0456\u0433\u0430\u0442\u0438 \u0434\u0430\u043D\u0456 \u043F\u043B\u0430\u043D\u0443\u0432\u0430\u043D\u043D\u044F",
+  GROUP_FLASHCARDS_NOTES: "\u041A\u0430\u0440\u0442\u043A\u0438 \u0442\u0430 \u043D\u043E\u0442\u0430\u0442\u043A\u0438",
+  GROUP_CONTRIBUTING: "\u0412\u043D\u0435\u0441\u043E\u043A \u0443 \u043F\u0440\u043E\u0454\u043A\u0442",
+  CHECK_WIKI: '\u0414\u043B\u044F \u0434\u043E\u043A\u043B\u0430\u0434\u043D\u0456\u0448\u043E\u0457 \u0456\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0456\u0457 \u043F\u0435\u0440\u0435\u0433\u043B\u044F\u043D\u044C\u0442\u0435 <a href="${wikiUrl}">wiki</a>.',
+  GITHUB_DISCUSSIONS: '\u0412\u0456\u0434\u0432\u0456\u0434\u0430\u0439\u0442\u0435 \u0440\u043E\u0437\u0434\u0456\u043B <a href="${discussionsUrl}">discussions</a> \u0434\u043B\u044F \u0437\u0430\u043F\u0438\u0442\u0430\u043D\u044C \u0456 \u0432\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u0435\u0439, \u0432\u0456\u0434\u0433\u0443\u043A\u0456\u0432 \u0442\u0430 \u0437\u0430\u0433\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u043E\u0431\u0433\u043E\u0432\u043E\u0440\u0435\u043D\u043D\u044F.',
+  GITHUB_ISSUES: '\u0421\u0442\u0432\u043E\u0440\u0456\u0442\u044C \u0437\u0432\u0435\u0440\u043D\u0435\u043D\u043D\u044F <a href="${issuesUrl}">\u0442\u0443\u0442</a>, \u044F\u043A\u0449\u043E \u043C\u0430\u0454\u0442\u0435 \u0437\u0430\u043F\u0438\u0442 \u043D\u0430 \u0444\u0443\u043D\u043A\u0446\u0456\u044E \u0430\u0431\u043E \u043F\u043E\u0432\u0456\u0434\u043E\u043C\u043B\u0435\u043D\u043D\u044F \u043F\u0440\u043E \u043F\u043E\u043C\u0438\u043B\u043A\u0443.',
+  GITHUB_SOURCE_CODE: '\u0412\u0438\u0445\u0456\u0434\u043D\u0438\u0439 \u043A\u043E\u0434 \u043F\u0440\u043E\u0454\u043A\u0442\u0443 \u0434\u043E\u0441\u0442\u0443\u043F\u043D\u0438\u0439 \u043D\u0430 <a href="${githubProjectUrl}">GitHub</a>.',
+  CODE_CONTRIBUTION_INFO: '<a href="${codeContributionUrl}">\u041E\u0441\u044C</a> \u044F\u043A \u0437\u0440\u043E\u0431\u0438\u0442\u0438 \u0432\u043D\u0435\u0441\u043E\u043A \u0443 \u043A\u043E\u0434 \u043F\u043B\u0430\u0433\u0456\u043D\u0430.',
+  TRANSLATION_CONTRIBUTION_INFO: '<a href="${translationContributionUrl}">\u041E\u0441\u044C</a> \u044F\u043A \u043F\u0435\u0440\u0435\u043A\u043B\u0430\u0441\u0442\u0438 \u043F\u043B\u0430\u0433\u0456\u043D \u043D\u0430 \u0456\u043D\u0448\u0443 \u043C\u043E\u0432\u0443.',
+  FOLDERS_TO_IGNORE: "\u0422\u0435\u043A\u0438 \u0434\u043B\u044F \u0456\u0433\u043D\u043E\u0440\u0443\u0432\u0430\u043D\u043D\u044F",
+  FOLDERS_TO_IGNORE_DESC: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u0448\u043B\u044F\u0445\u0438 \u0442\u0435\u043A \u0430\u0431\u043E glob-\u0448\u0430\u0431\u043B\u043E\u043D\u0438 \u0432 \u043E\u043A\u0440\u0435\u043C\u0438\u0445 \u0440\u044F\u0434\u043A\u0430\u0445, \u043D\u0430\u043F\u0440. Templates/Scripts \u0430\u0431\u043E **/*.excalidraw.md. \u0426\u0435 \u043D\u0430\u043B\u0430\u0448\u0442\u0443\u0432\u0430\u043D\u043D\u044F \u0441\u043F\u0456\u043B\u044C\u043D\u0435 \u0434\u043B\u044F \u043A\u0430\u0440\u0442\u043E\u043A \u0456 \u043D\u043E\u0442\u0430\u0442\u043E\u043A.",
+  OBSIDIAN_INTEGRATION: "\u0406\u043D\u0442\u0435\u0433\u0440\u0430\u0446\u0456\u044F \u0437 Obsidian",
+  FLASHCARDS: "\u041A\u0430\u0440\u0442\u043A\u0438",
+  FLASHCARD_EASY_LABEL: "\u0422\u0435\u043A\u0441\u0442 \u043A\u043D\u043E\u043F\u043A\u0438 \xAB\u041B\u0435\u0433\u043A\u043E\xBB",
+  FLASHCARD_GOOD_LABEL: "\u0422\u0435\u043A\u0441\u0442 \u043A\u043D\u043E\u043F\u043A\u0438 \xAB\u0414\u043E\u0431\u0440\u0435\xBB",
+  FLASHCARD_HARD_LABEL: "\u0422\u0435\u043A\u0441\u0442 \u043A\u043D\u043E\u043F\u043A\u0438 \xAB\u0412\u0430\u0436\u043A\u043E\xBB",
+  FLASHCARD_EASY_DESC: "\u041D\u0430\u043B\u0430\u0448\u0442\u0443\u0439\u0442\u0435 \u043F\u0456\u0434\u043F\u0438\u0441 \u0434\u043B\u044F \u043A\u043D\u043E\u043F\u043A\u0438 \xAB\u041B\u0435\u0433\u043A\u043E\xBB",
+  FLASHCARD_GOOD_DESC: "\u041D\u0430\u043B\u0430\u0448\u0442\u0443\u0439\u0442\u0435 \u043F\u0456\u0434\u043F\u0438\u0441 \u0434\u043B\u044F \u043A\u043D\u043E\u043F\u043A\u0438 \xAB\u0414\u043E\u0431\u0440\u0435\xBB",
+  FLASHCARD_HARD_DESC: "\u041D\u0430\u043B\u0430\u0448\u0442\u0443\u0439\u0442\u0435 \u043F\u0456\u0434\u043F\u0438\u0441 \u0434\u043B\u044F \u043A\u043D\u043E\u043F\u043A\u0438 \xAB\u0412\u0430\u0436\u043A\u043E\xBB",
+  REVIEW_BUTTON_DELAY: "\u0417\u0430\u0442\u0440\u0438\u043C\u043A\u0430 \u043D\u0430\u0442\u0438\u0441\u043A\u0430\u043D\u043D\u044F \u043A\u043D\u043E\u043F\u043A\u0438 (\u043C\u0441)",
+  REVIEW_BUTTON_DELAY_DESC: "\u0414\u043E\u0434\u0430\u0439\u0442\u0435 \u0437\u0430\u0442\u0440\u0438\u043C\u043A\u0443 \u0434\u043E \u043A\u043D\u043E\u043F\u043E\u043A \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F, \u043F\u0435\u0440\u0448 \u043D\u0456\u0436 \u0457\u0445 \u043C\u043E\u0436\u043D\u0430 \u0431\u0443\u0434\u0435 \u043D\u0430\u0442\u0438\u0441\u043D\u0443\u0442\u0438 \u0437\u043D\u043E\u0432\u0443.",
+  FLASHCARD_TAGS: "\u0422\u0435\u0433\u0438 \u043A\u0430\u0440\u0442\u043E\u043A",
+  FLASHCARD_TAGS_DESC: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u0442\u0435\u0433\u0438, \u0440\u043E\u0437\u0434\u0456\u043B\u0435\u043D\u0456 \u043F\u0440\u043E\u0431\u0456\u043B\u0430\u043C\u0438 \u0430\u0431\u043E \u043D\u043E\u0432\u0438\u043C\u0438 \u0440\u044F\u0434\u043A\u0430\u043C\u0438 (\u043D\u0430\u043F\u0440. #flashcards #deck2 #deck3).",
+  CONVERT_FOLDERS_TO_DECKS: "\u041F\u0435\u0440\u0435\u0442\u0432\u043E\u0440\u044E\u0432\u0430\u0442\u0438 \u0442\u0435\u043A\u0438 \u043D\u0430 \u043A\u043E\u043B\u043E\u0434\u0438",
+  CONVERT_FOLDERS_TO_DECKS_DESC: "\u0426\u0435 \u0430\u043B\u044C\u0442\u0435\u0440\u043D\u0430\u0442\u0438\u0432\u043D\u0438\u0439 \u0432\u0430\u0440\u0456\u0430\u043D\u0442 \u0434\u043E \u0442\u0435\u0433\u0456\u0432 \u043A\u0430\u0440\u0442\u043E\u043A \u0432\u0438\u0449\u0435.",
+  INLINE_SCHEDULING_COMMENTS: "\u0417\u0431\u0435\u0440\u0456\u0433\u0430\u0442\u0438 \u043A\u043E\u043C\u0435\u043D\u0442\u0430\u0440 \u043F\u043B\u0430\u043D\u0443\u0432\u0430\u043D\u043D\u044F \u0432 \u0442\u043E\u043C\u0443 \u0436 \u0440\u044F\u0434\u043A\u0443, \u0449\u043E \u0439 \u043E\u0441\u0442\u0430\u043D\u043D\u0456\u0439 \u0440\u044F\u0434\u043E\u043A \u043A\u0430\u0440\u0442\u043A\u0438?",
+  INLINE_SCHEDULING_COMMENTS_DESC: "\u0423\u0432\u0456\u043C\u043A\u043D\u0435\u043D\u043D\u044F \u0446\u044C\u043E\u0433\u043E \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0430 \u043D\u0435 \u0434\u0430\u0441\u0442\u044C HTML-\u043A\u043E\u043C\u0435\u043D\u0442\u0430\u0440\u044F\u043C \u043B\u0430\u043C\u0430\u0442\u0438 \u0444\u043E\u0440\u043C\u0430\u0442\u0443\u0432\u0430\u043D\u043D\u044F \u0441\u043F\u0438\u0441\u043A\u0456\u0432.",
+  BURY_SIBLINGS_TILL_NEXT_DAY: "\u0412\u0456\u0434\u043A\u043B\u0430\u0434\u0430\u0442\u0438 \u0441\u043F\u043E\u0440\u0456\u0434\u043D\u0435\u043D\u0456 \u043A\u0430\u0440\u0442\u043A\u0438 \u0434\u043E \u043D\u0430\u0441\u0442\u0443\u043F\u043D\u043E\u0433\u043E \u0434\u043D\u044F",
+  BURY_SIBLINGS_TILL_NEXT_DAY_DESC: "\u0421\u043F\u043E\u0440\u0456\u0434\u043D\u0435\u043D\u0456 \u2014 \u0446\u0435 \u043A\u0430\u0440\u0442\u043A\u0438, \u0441\u0442\u0432\u043E\u0440\u0435\u043D\u0456 \u0437 \u043E\u0434\u043D\u043E\u0433\u043E \u0439 \u0442\u043E\u0433\u043E \u0441\u0430\u043C\u043E\u0433\u043E \u0442\u0435\u043A\u0441\u0442\u0443, \u043D\u0430\u043F\u0440. cloze-\u0432\u0438\u043B\u0443\u0447\u0435\u043D\u043D\u044F",
+  SHOW_CARD_CONTEXT: "\u041F\u043E\u043A\u0430\u0437\u0443\u0432\u0430\u0442\u0438 \u043A\u043E\u043D\u0442\u0435\u043A\u0441\u0442 \u0443 \u043A\u0430\u0440\u0442\u043A\u0430\u0445",
+  SHOW_CARD_CONTEXT_DESC: "\u043D\u0430\u043F\u0440. \u041D\u0430\u0437\u0432\u0430 > \u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A 1 > \u041F\u0456\u0434\u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A > ... > \u041F\u0456\u0434\u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A",
+  SHOW_INTERVAL_IN_REVIEW_BUTTONS: "\u041F\u043E\u043A\u0430\u0437\u0443\u0432\u0430\u0442\u0438 \u0447\u0430\u0441 \u0434\u043E \u043D\u0430\u0441\u0442\u0443\u043F\u043D\u043E\u0433\u043E \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F \u043D\u0430 \u043A\u043D\u043E\u043F\u043A\u0430\u0445",
+  SHOW_INTERVAL_IN_REVIEW_BUTTONS_DESC: "\u041A\u043E\u0440\u0438\u0441\u043D\u043E \u0437\u043D\u0430\u0442\u0438, \u043D\u0430\u0441\u043A\u0456\u043B\u044C\u043A\u0438 \u0434\u0430\u043B\u0435\u043A\u043E \u0432 \u043C\u0430\u0439\u0431\u0443\u0442\u043D\u0454 \u0432\u0456\u0434\u0441\u0443\u0432\u0430\u044E\u0442\u044C\u0441\u044F \u0432\u0430\u0448\u0456 \u043A\u0430\u0440\u0442\u043A\u0438.",
+  CARD_MODAL_HEIGHT_PERCENT: "\u0412\u0456\u0434\u0441\u043E\u0442\u043E\u043A \u0432\u0438\u0441\u043E\u0442\u0438 \u043A\u0430\u0440\u0442\u043A\u0438",
+  CARD_MODAL_SIZE_PERCENT_DESC: "\u0414\u043B\u044F \u043C\u043E\u0431\u0456\u043B\u044C\u043D\u0438\u0445 \u0430\u0431\u043E \u044F\u043A\u0449\u043E \u043C\u0430\u0454\u0442\u0435 \u0434\u0443\u0436\u0435 \u0432\u0435\u043B\u0438\u043A\u0456 \u0437\u043E\u0431\u0440\u0430\u0436\u0435\u043D\u043D\u044F, \u0432\u0441\u0442\u0430\u043D\u043E\u0432\u0456\u0442\u044C 100%",
+  RESET_DEFAULT: "\u0421\u043A\u0438\u043D\u0443\u0442\u0438 \u0434\u043E \u0442\u0438\u043F\u043E\u0432\u0438\u0445",
+  CARD_MODAL_WIDTH_PERCENT: "\u0412\u0456\u0434\u0441\u043E\u0442\u043E\u043A \u0448\u0438\u0440\u0438\u043D\u0438 \u043A\u0430\u0440\u0442\u043A\u0438",
+  RANDOMIZE_CARD_ORDER: "\u041F\u0435\u0440\u0435\u043C\u0456\u0448\u0443\u0432\u0430\u0442\u0438 \u043F\u043E\u0440\u044F\u0434\u043E\u043A \u043A\u0430\u0440\u0442\u043E\u043A \u043F\u0456\u0434 \u0447\u0430\u0441 \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F?",
+  REVIEW_CARD_ORDER_WITHIN_DECK: "\u041F\u043E\u0440\u044F\u0434\u043E\u043A \u043A\u0430\u0440\u0442\u043E\u043A \u0443 \u043A\u043E\u043B\u043E\u0434\u0456",
+  REVIEW_CARD_ORDER_NEW_FIRST_SEQUENTIAL: "\u041F\u043E\u0441\u043B\u0456\u0434\u043E\u0432\u043D\u043E \u0432 \u043C\u0435\u0436\u0430\u0445 \u043A\u043E\u043B\u043E\u0434\u0438 (\u0441\u043F\u043E\u0447\u0430\u0442\u043A\u0443 \u0432\u0441\u0456 \u043D\u043E\u0432\u0456 \u043A\u0430\u0440\u0442\u043A\u0438)",
+  REVIEW_CARD_ORDER_DUE_FIRST_SEQUENTIAL: "\u041F\u043E\u0441\u043B\u0456\u0434\u043E\u0432\u043D\u043E \u0432 \u043C\u0435\u0436\u0430\u0445 \u043A\u043E\u043B\u043E\u0434\u0438 (\u0441\u043F\u043E\u0447\u0430\u0442\u043A\u0443 \u0432\u0441\u0456 \u0434\u043E \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F)",
+  REVIEW_CARD_ORDER_NEW_FIRST_RANDOM: "\u0412\u0438\u043F\u0430\u0434\u043A\u043E\u0432\u043E \u0432 \u043C\u0435\u0436\u0430\u0445 \u043A\u043E\u043B\u043E\u0434\u0438 (\u0441\u043F\u043E\u0447\u0430\u0442\u043A\u0443 \u0432\u0441\u0456 \u043D\u043E\u0432\u0456 \u043A\u0430\u0440\u0442\u043A\u0438)",
+  REVIEW_CARD_ORDER_DUE_FIRST_RANDOM: "\u0412\u0438\u043F\u0430\u0434\u043A\u043E\u0432\u043E \u0432 \u043C\u0435\u0436\u0430\u0445 \u043A\u043E\u043B\u043E\u0434\u0438 (\u0441\u043F\u043E\u0447\u0430\u0442\u043A\u0443 \u0432\u0441\u0456 \u0434\u043E \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F)",
+  REVIEW_CARD_ORDER_RANDOM_DECK_AND_CARD: "\u0412\u0438\u043F\u0430\u0434\u043A\u043E\u0432\u0430 \u043A\u0430\u0440\u0442\u043A\u0430 \u0437 \u0432\u0438\u043F\u0430\u0434\u043A\u043E\u0432\u043E\u0457 \u043A\u043E\u043B\u043E\u0434\u0438",
+  REVIEW_DECK_ORDER: "\u041F\u043E\u0440\u044F\u0434\u043E\u043A \u0432\u0456\u0434\u043E\u0431\u0440\u0430\u0436\u0435\u043D\u043D\u044F \u043A\u043E\u043B\u043E\u0434 \u043F\u0456\u0434 \u0447\u0430\u0441 \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F",
+  REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_SEQUENTIAL: "\u041F\u043E\u0441\u043B\u0456\u0434\u043E\u0432\u043D\u043E (\u043F\u0456\u0441\u043B\u044F \u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u043D\u044F \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F \u0432\u0441\u0456\u0445 \u043A\u0430\u0440\u0442\u043E\u043A \u0443 \u043F\u043E\u043F\u0435\u0440\u0435\u0434\u043D\u0456\u0439 \u043A\u043E\u043B\u043E\u0434\u0456)",
+  REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_RANDOM: "\u0412\u0438\u043F\u0430\u0434\u043A\u043E\u0432\u043E (\u043F\u0456\u0441\u043B\u044F \u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u043D\u044F \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F \u0432\u0441\u0456\u0445 \u043A\u0430\u0440\u0442\u043E\u043A \u0443 \u043F\u043E\u043F\u0435\u0440\u0435\u0434\u043D\u0456\u0439 \u043A\u043E\u043B\u043E\u0434\u0456)",
+  REVIEW_DECK_ORDER_RANDOM_DECK_AND_CARD: "\u0412\u0438\u043F\u0430\u0434\u043A\u043E\u0432\u0430 \u043A\u0430\u0440\u0442\u043A\u0430 \u0437 \u0432\u0438\u043F\u0430\u0434\u043A\u043E\u0432\u043E\u0457 \u043A\u043E\u043B\u043E\u0434\u0438",
+  DISABLE_CLOZE_CARDS: "\u0412\u0438\u043C\u043A\u043D\u0443\u0442\u0438 cloze-\u043A\u0430\u0440\u0442\u043A\u0438?",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS: "Convert cloze patterns to input fields",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS_DESC: "Replace cloze patterns with input fields when reviewing cloze cards.",
+  CONVERT_HIGHLIGHTS_TO_CLOZES: "\u041F\u0435\u0440\u0435\u0442\u0432\u043E\u0440\u044E\u0432\u0430\u0442\u0438 ==\u0432\u0438\u0434\u0456\u043B\u0435\u043D\u043D\u044F== \u043D\u0430 cloze",
+  CONVERT_HIGHLIGHTS_TO_CLOZES_DESC: "\u0414\u043E\u0434\u0430\u0439\u0442\u0435/\u0432\u0438\u0434\u0430\u043B\u0456\u0442\u044C <code>${defaultPattern}</code> \u0443 \u0432\u0430\u0448\u0438\u0445 cloze-\u0448\u0430\u0431\u043B\u043E\u043D\u0430\u0445",
+  CONVERT_BOLD_TEXT_TO_CLOZES: "\u041F\u0435\u0440\u0435\u0442\u0432\u043E\u0440\u044E\u0432\u0430\u0442\u0438 **\u0436\u0438\u0440\u043D\u0438\u0439 \u0442\u0435\u043A\u0441\u0442** \u043D\u0430 cloze",
+  CONVERT_BOLD_TEXT_TO_CLOZES_DESC: "\u0414\u043E\u0434\u0430\u0439\u0442\u0435/\u0432\u0438\u0434\u0430\u043B\u0456\u0442\u044C <code>${defaultPattern}</code> \u0443 \u0432\u0430\u0448\u0438\u0445 cloze-\u0448\u0430\u0431\u043B\u043E\u043D\u0430\u0445",
+  CONVERT_CURLY_BRACKETS_TO_CLOZES: "\u041F\u0435\u0440\u0435\u0442\u0432\u043E\u0440\u044E\u0432\u0430\u0442\u0438 {{\u0444\u0456\u0433\u0443\u0440\u043D\u0456 \u0434\u0443\u0436\u043A\u0438}} \u043D\u0430 cloze",
+  CONVERT_CURLY_BRACKETS_TO_CLOZES_DESC: "\u0414\u043E\u0434\u0430\u0439\u0442\u0435/\u0432\u0438\u0434\u0430\u043B\u0456\u0442\u044C <code>${defaultPattern}</code> \u0443 \u0432\u0430\u0448\u0438\u0445 cloze-\u0448\u0430\u0431\u043B\u043E\u043D\u0430\u0445",
+  CLOZE_PATTERNS: "Cloze-\u0448\u0430\u0431\u043B\u043E\u043D\u0438",
+  CLOZE_PATTERNS_DESC: '\u0412\u0432\u0435\u0434\u0456\u0442\u044C cloze-\u0448\u0430\u0431\u043B\u043E\u043D\u0438, \u0440\u043E\u0437\u0434\u0456\u043B\u0435\u043D\u0456 \u043D\u043E\u0432\u0438\u043C\u0438 \u0440\u044F\u0434\u043A\u0430\u043C\u0438. \u041F\u0435\u0440\u0435\u0433\u043B\u044F\u043D\u044C\u0442\u0435 <a href="${docsUrl}">wiki</a> \u0434\u043B\u044F \u0434\u043E\u0432\u0456\u0434\u043A\u0438.',
+  INLINE_CARDS_SEPARATOR: "\u0420\u043E\u0437\u0434\u0456\u043B\u044C\u043D\u0438\u043A \u0434\u043B\u044F \u0440\u044F\u0434\u043A\u043E\u0432\u0438\u0445 \u043A\u0430\u0440\u0442\u043E\u043A",
+  FIX_SEPARATORS_MANUALLY_WARNING: "\u041F\u0456\u0441\u043B\u044F \u0437\u043C\u0456\u043D\u0438 \u0446\u044C\u043E\u0433\u043E \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0430 \u043F\u043E\u0442\u0440\u0456\u0431\u043D\u043E \u0432\u0440\u0443\u0447\u043D\u0443 \u0432\u0456\u0434\u0440\u0435\u0434\u0430\u0433\u0443\u0432\u0430\u0442\u0438 \u0432\u0441\u0456 \u043D\u0430\u044F\u0432\u043D\u0456 \u043A\u0430\u0440\u0442\u043A\u0438.",
+  INLINE_REVERSED_CARDS_SEPARATOR: "\u0420\u043E\u0437\u0434\u0456\u043B\u044C\u043D\u0438\u043A \u0434\u043B\u044F \u0440\u044F\u0434\u043A\u043E\u0432\u0438\u0445 \u0434\u0432\u043E\u0431\u0456\u0447\u043D\u0438\u0445 \u043A\u0430\u0440\u0442\u043E\u043A",
+  MULTILINE_CARDS_SEPARATOR: "\u0420\u043E\u0437\u0434\u0456\u043B\u044C\u043D\u0438\u043A \u0434\u043B\u044F \u0431\u0430\u0433\u0430\u0442\u043E\u0440\u044F\u0434\u043A\u043E\u0432\u0438\u0445 \u043A\u0430\u0440\u0442\u043E\u043A",
+  MULTILINE_REVERSED_CARDS_SEPARATOR: "\u0420\u043E\u0437\u0434\u0456\u043B\u044C\u043D\u0438\u043A \u0434\u043B\u044F \u0431\u0430\u0433\u0430\u0442\u043E\u0440\u044F\u0434\u043A\u043E\u0432\u0438\u0445 \u0434\u0432\u043E\u0431\u0456\u0447\u043D\u0438\u0445 \u043A\u0430\u0440\u0442\u043E\u043A",
+  MULTILINE_CARDS_END_MARKER: "\u0421\u0438\u043C\u0432\u043E\u043B\u0438, \u0449\u043E \u043F\u043E\u0437\u043D\u0430\u0447\u0430\u044E\u0442\u044C \u043A\u0456\u043D\u0435\u0446\u044C cloze \u0442\u0430 \u0431\u0430\u0433\u0430\u0442\u043E\u0440\u044F\u0434\u043A\u043E\u0432\u0438\u0445 \u043A\u0430\u0440\u0442\u043E\u043A",
+  NOTES: "\u041D\u043E\u0442\u0430\u0442\u043A\u0438",
+  NOTE: "\u041D\u043E\u0442\u0430\u0442\u043A\u0430",
+  REVIEW_PANE_ON_STARTUP: "\u0423\u0432\u0456\u043C\u043A\u043D\u0443\u0442\u0438 \u043F\u0430\u043D\u0435\u043B\u044C \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F \u043D\u043E\u0442\u0430\u0442\u043E\u043A \u043F\u0456\u0434 \u0447\u0430\u0441 \u0437\u0430\u043F\u0443\u0441\u043A\u0443",
+  TAGS_TO_REVIEW: "\u0422\u0435\u0433\u0438 \u0434\u043B\u044F \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F",
+  TAGS_TO_REVIEW_DESC: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u0442\u0435\u0433\u0438, \u0440\u043E\u0437\u0434\u0456\u043B\u0435\u043D\u0456 \u043F\u0440\u043E\u0431\u0456\u043B\u0430\u043C\u0438 \u0430\u0431\u043E \u043D\u043E\u0432\u0438\u043C\u0438 \u0440\u044F\u0434\u043A\u0430\u043C\u0438, \u043D\u0430\u043F\u0440. #review #tag2 #tag3.",
+  OPEN_RANDOM_NOTE: "\u0412\u0456\u0434\u043A\u0440\u0438\u0442\u0438 \u0432\u0438\u043F\u0430\u0434\u043A\u043E\u0432\u0443 \u043D\u043E\u0442\u0430\u0442\u043A\u0443 \u0434\u043B\u044F \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F",
+  OPEN_RANDOM_NOTE_DESC: "\u041A\u043E\u043B\u0438 \u0432\u0438\u043C\u043A\u043D\u0435\u043D\u043E, \u043D\u043E\u0442\u0430\u0442\u043A\u0438 \u0432\u043F\u043E\u0440\u044F\u0434\u043A\u043E\u0432\u0443\u044E\u0442\u044C\u0441\u044F \u0437\u0430 \u0432\u0430\u0436\u043B\u0438\u0432\u0456\u0441\u0442\u044E (PageRank).",
+  AUTO_NEXT_NOTE: "\u0410\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u043D\u043E \u0432\u0456\u0434\u043A\u0440\u0438\u0432\u0430\u0442\u0438 \u043D\u0430\u0441\u0442\u0443\u043F\u043D\u0443 \u043D\u043E\u0442\u0430\u0442\u043A\u0443 \u043F\u0456\u0441\u043B\u044F \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F",
+  MAX_N_DAYS_REVIEW_QUEUE: "\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u0430 \u043A\u0456\u043B\u044C\u043A\u0456\u0441\u0442\u044C \u0434\u043D\u0456\u0432 \u0443 \u043F\u0430\u043D\u0435\u043B\u0456 \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F \u043D\u043E\u0442\u0430\u0442\u043E\u043A",
+  MIN_ONE_DAY: "\u041A\u0456\u043B\u044C\u043A\u0456\u0441\u0442\u044C \u0434\u043D\u0456\u0432 \u043C\u0430\u0454 \u0431\u0443\u0442\u0438 \u0449\u043E\u043D\u0430\u0439\u043C\u0435\u043D\u0448\u0435 1.",
+  VALID_NUMBER_WARNING: "\u0411\u0443\u0434\u044C \u043B\u0430\u0441\u043A\u0430, \u0432\u0432\u0435\u0434\u0456\u0442\u044C \u043A\u043E\u0440\u0435\u043A\u0442\u043D\u0435 \u0447\u0438\u0441\u043B\u043E.",
+  UI: "\u0406\u043D\u0442\u0435\u0440\u0444\u0435\u0439\u0441",
+  OPEN_IN_TAB: "\u0412\u0456\u0434\u043A\u0440\u0438\u0442\u0438 \u0432 \u043D\u043E\u0432\u0456\u0439 \u0432\u043A\u043B\u0430\u0434\u0446\u0456",
+  OPEN_IN_TAB_DESC: "\u0412\u0438\u043C\u043A\u043D\u0456\u0442\u044C, \u0449\u043E\u0431 \u0432\u0456\u0434\u043A\u0440\u0438\u0432\u0430\u0442\u0438 \u043F\u043B\u0430\u0433\u0456\u043D \u0443 \u043C\u043E\u0434\u0430\u043B\u044C\u043D\u043E\u043C\u0443 \u0432\u0456\u043A\u043D\u0456",
+  SHOW_STATUS_BAR: "\u041F\u043E\u043A\u0430\u0437\u0443\u0432\u0430\u0442\u0438 \u0440\u044F\u0434\u043E\u043A \u0441\u0442\u0430\u043D\u0443",
+  SHOW_STATUS_BAR_DESC: "\u0412\u0438\u043C\u043A\u043D\u0456\u0442\u044C, \u0449\u043E\u0431 \u043F\u0440\u0438\u0445\u043E\u0432\u0430\u0442\u0438 \u0441\u0442\u0430\u043D \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F \u043A\u0430\u0440\u0442\u043E\u043A \u0443 \u0440\u044F\u0434\u043A\u0443 \u0441\u0442\u0430\u043D\u0443 Obsidian",
+  SHOW_RIBBON_ICON: "\u041F\u043E\u043A\u0430\u0437\u0443\u0432\u0430\u0442\u0438 \u0456\u043A\u043E\u043D\u043A\u0443 \u043D\u0430 \u0441\u0442\u0440\u0456\u0447\u0446\u0456",
+  SHOW_RIBBON_ICON_DESC: "\u0412\u0438\u043C\u043A\u043D\u0456\u0442\u044C, \u0449\u043E\u0431 \u043F\u0440\u0438\u0445\u043E\u0432\u0430\u0442\u0438 \u0456\u043A\u043E\u043D\u043A\u0443 \u043F\u043B\u0430\u0433\u0456\u043D\u0430 \u0437\u0456 \u0441\u0442\u0440\u0456\u0447\u043A\u0438 Obsidian",
+  ENABLE_FILE_MENU_REVIEW_OPTIONS: "\u0423\u0432\u0456\u043C\u043A\u043D\u0443\u0442\u0438 \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0438 \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F \u0432 \u043C\u0435\u043D\u044E \u0444\u0430\u0439\u043B\u0443 (\u043D\u0430\u043F\u0440. \u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0438: \u041B\u0435\u0433\u043A\u043E, \u0414\u043E\u0431\u0440\u0435, \u0412\u0430\u0436\u043A\u043E)",
+  ENABLE_FILE_MENU_REVIEW_OPTIONS_DESC: "\u042F\u043A\u0449\u043E \u0432\u0438\u043C\u043A\u043D\u0443\u0442\u0438 \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0438 \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F \u0432 \u043C\u0435\u043D\u044E \u0444\u0430\u0439\u043B\u0443, \u0432\u0438 \u0437\u043C\u043E\u0436\u0435\u0442\u0435 \u043F\u043E\u0432\u0442\u043E\u0440\u044E\u0432\u0430\u0442\u0438 \u043D\u043E\u0442\u0430\u0442\u043A\u0438 \u0437\u0430 \u0434\u043E\u043F\u043E\u043C\u043E\u0433\u043E\u044E \u043A\u043E\u043C\u0430\u043D\u0434 \u043F\u043B\u0430\u0433\u0456\u043D\u0430 \u0442\u0430, \u044F\u043A\u0449\u043E \u043D\u0430\u043B\u0430\u0448\u0442\u043E\u0432\u0430\u043D\u0456, \u0432\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u043D\u0438\u0445 \u0433\u0430\u0440\u044F\u0447\u0438\u0445 \u043A\u043B\u0430\u0432\u0456\u0448.",
+  INITIALLY_EXPAND_SUBDECKS_IN_TREE: "\u0414\u0435\u0440\u0435\u0432\u043E \u043A\u043E\u043B\u043E\u0434 \u0441\u043F\u043E\u0447\u0430\u0442\u043A\u0443 \u043C\u0430\u0454 \u0431\u0443\u0442\u0438 \u0440\u043E\u0437\u0433\u043E\u0440\u043D\u0443\u0442\u0438\u043C",
+  INITIALLY_EXPAND_SUBDECKS_IN_TREE_DESC: "\u0412\u0438\u043C\u043A\u043D\u0456\u0442\u044C, \u0449\u043E\u0431 \u0437\u0433\u043E\u0440\u043D\u0443\u0442\u0438 \u0432\u043A\u043B\u0430\u0434\u0435\u043D\u0456 \u043A\u043E\u043B\u043E\u0434\u0438 \u0432 \u0442\u0456\u0439 \u0441\u0430\u043C\u0456\u0439 \u043A\u0430\u0440\u0442\u0446\u0456. \u041A\u043E\u0440\u0438\u0441\u043D\u043E, \u044F\u043A\u0449\u043E \u0432\u0430\u0448\u0456 \u043A\u0430\u0440\u0442\u043A\u0438 \u043D\u0430\u043B\u0435\u0436\u0430\u0442\u044C \u0434\u043E \u0431\u0430\u0433\u0430\u0442\u044C\u043E\u0445 \u043A\u043E\u043B\u043E\u0434 \u0432 \u043E\u0434\u043D\u043E\u043C\u0443 \u0444\u0430\u0439\u043B\u0456.",
+  ALGORITHM: "\u0410\u043B\u0433\u043E\u0440\u0438\u0442\u043C",
+  CHECK_ALGORITHM_WIKI: '\u0414\u043B\u044F \u0434\u043E\u043A\u043B\u0430\u0434\u043D\u0456\u0448\u043E\u0457 \u0456\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0456\u0457 \u043F\u0435\u0440\u0435\u0433\u043B\u044F\u043D\u044C\u0442\u0435 <a href="${algoUrl}">\u0434\u0435\u0442\u0430\u043B\u0456 \u0430\u043B\u0433\u043E\u0440\u0438\u0442\u043C\u0443</a>.',
+  SM2_OSR_VARIANT: "\u0412\u0430\u0440\u0456\u0430\u043D\u0442 SM-2 \u0432\u0456\u0434 OSR",
+  BASE_EASE: "\u0411\u0430\u0437\u043E\u0432\u0430 \u043B\u0435\u0433\u043A\u0456\u0441\u0442\u044C",
+  BASE_EASE_DESC: "\u043C\u0456\u043D\u0456\u043C\u0443\u043C = 130, \u0431\u0430\u0436\u0430\u043D\u043E \u043F\u0440\u0438\u0431\u043B\u0438\u0437\u043D\u043E 250.",
+  BASE_EASE_MIN_WARNING: "\u0411\u0430\u0437\u043E\u0432\u0430 \u043B\u0435\u0433\u043A\u0456\u0441\u0442\u044C \u043C\u0430\u0454 \u0431\u0443\u0442\u0438 \u0449\u043E\u043D\u0430\u0439\u043C\u0435\u043D\u0448\u0435 130.",
+  LAPSE_INTERVAL_CHANGE: "\u0417\u043C\u0456\u043D\u0430 \u0456\u043D\u0442\u0435\u0440\u0432\u0430\u043B\u0443 \u043F\u0440\u0438 \u0432\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u0456 \xAB\u0412\u0430\u0436\u043A\u043E\xBB \u0434\u043B\u044F \u043A\u0430\u0440\u0442\u043A\u0438/\u043D\u043E\u0442\u0430\u0442\u043A\u0438",
+  LAPSE_INTERVAL_CHANGE_DESC: "\u043D\u043E\u0432\u0438\u0439 \u0456\u043D\u0442\u0435\u0440\u0432\u0430\u043B = \u0441\u0442\u0430\u0440\u0438\u0439 \u0456\u043D\u0442\u0435\u0440\u0432\u0430\u043B \xD7 \u0437\u043C\u0456\u043D\u0430 \u0456\u043D\u0442\u0435\u0440\u0432\u0430\u043B\u0443 / 100.",
+  EASY_BONUS: "\u0411\u043E\u043D\u0443\u0441 \xAB\u041B\u0435\u0433\u043A\u043E\xBB",
+  EASY_BONUS_DESC: "\u0411\u043E\u043D\u0443\u0441 \xAB\u041B\u0435\u0433\u043A\u043E\xBB \u0434\u0430\u0454 \u0437\u043C\u043E\u0433\u0443 \u0437\u0430\u0434\u0430\u0442\u0438 \u0440\u0456\u0437\u043D\u0438\u0446\u044E \u0456\u043D\u0442\u0435\u0440\u0432\u0430\u043B\u0456\u0432 \u043C\u0456\u0436 \u0432\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u044F\u043C\u0438 \xAB\u0414\u043E\u0431\u0440\u0435\xBB \u0456 \xAB\u041B\u0435\u0433\u043A\u043E\xBB \u0434\u043B\u044F \u043A\u0430\u0440\u0442\u043A\u0438/\u043D\u043E\u0442\u0430\u0442\u043A\u0438 (\u043C\u0456\u043D\u0456\u043C\u0443\u043C = 100%).",
+  EASY_BONUS_MIN_WARNING: "\u0411\u043E\u043D\u0443\u0441 \xAB\u041B\u0435\u0433\u043A\u043E\xBB \u043C\u0430\u0454 \u0431\u0443\u0442\u0438 \u0449\u043E\u043D\u0430\u0439\u043C\u0435\u043D\u0448\u0435 100.",
+  LOAD_BALANCE: "\u0423\u0432\u0456\u043C\u043A\u043D\u0443\u0442\u0438 \u0431\u0430\u043B\u0430\u043D\u0441\u0443\u0432\u0430\u043D\u043D\u044F \u043D\u0430\u0432\u0430\u043D\u0442\u0430\u0436\u0435\u043D\u043D\u044F",
+  LOAD_BALANCE_DESC: `\u041D\u0435\u0437\u043D\u0430\u0447\u043D\u043E \u043A\u043E\u0440\u0438\u0433\u0443\u0454 \u0456\u043D\u0442\u0435\u0440\u0432\u0430\u043B, \u0449\u043E\u0431 \u043A\u0456\u043B\u044C\u043A\u0456\u0441\u0442\u044C \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u044C \u043D\u0430 \u0434\u0435\u043D\u044C \u0431\u0443\u043B\u0430 \u0431\u0456\u043B\u044C\u0448 \u0440\u0456\u0432\u043D\u043E\u043C\u0456\u0440\u043D\u043E\u044E.
+        \u0426\u0435 \u044F\u043A fuzz \u0432 Anki, \u0430\u043B\u0435 \u0437\u0430\u043C\u0456\u0441\u0442\u044C \u0432\u0438\u043F\u0430\u0434\u043A\u043E\u0432\u043E\u0441\u0442\u0456 \u043E\u0431\u0438\u0440\u0430\u0454\u0442\u044C\u0441\u044F \u0434\u0435\u043D\u044C \u0437 \u043D\u0430\u0439\u043C\u0435\u043D\u0448\u043E\u044E \u043A\u0456\u043B\u044C\u043A\u0456\u0441\u0442\u044E \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u044C.
+        \u0414\u043B\u044F \u043A\u043E\u0440\u043E\u0442\u043A\u0438\u0445 \u0456\u043D\u0442\u0435\u0440\u0432\u0430\u043B\u0456\u0432 \u0432\u0438\u043C\u043A\u043D\u0435\u043D\u043E.`,
+  MAX_INTERVAL: "\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u0438\u0439 \u0456\u043D\u0442\u0435\u0440\u0432\u0430\u043B \u0443 \u0434\u043D\u044F\u0445",
+  MAX_INTERVAL_DESC: "\u0414\u043E\u0437\u0432\u043E\u043B\u044F\u0454 \u0432\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u0438 \u0432\u0435\u0440\u0445\u043D\u044E \u043C\u0435\u0436\u0443 \u0456\u043D\u0442\u0435\u0440\u0432\u0430\u043B\u0443 (\u0442\u0438\u043F\u043E\u0432\u043E = 100 \u0440\u043E\u043A\u0456\u0432).",
+  MAX_INTERVAL_MIN_WARNING: "\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u0438\u0439 \u0456\u043D\u0442\u0435\u0440\u0432\u0430\u043B \u043C\u0430\u0454 \u0431\u0443\u0442\u0438 \u0449\u043E\u043D\u0430\u0439\u043C\u0435\u043D\u0448\u0435 1 \u0434\u0435\u043D\u044C.",
+  MAX_LINK_CONTRIB: "\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u0438\u0439 \u0432\u043D\u0435\u0441\u043E\u043A \u043F\u043E\u0441\u0438\u043B\u0430\u043D\u044C",
+  MAX_LINK_CONTRIB_DESC: "\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u0438\u0439 \u0432\u043D\u0435\u0441\u043E\u043A \u0437\u0432\u0430\u0436\u0435\u043D\u043E\u0457 \u043B\u0435\u0433\u043A\u043E\u0441\u0442\u0456 \u043F\u043E\u0432'\u044F\u0437\u0430\u043D\u0438\u0445 \u043D\u043E\u0442\u0430\u0442\u043E\u043A \u0443 \u043F\u043E\u0447\u0430\u0442\u043A\u043E\u0432\u0443 \u043B\u0435\u0433\u043A\u0456\u0441\u0442\u044C.",
+  LOGGING: "\u0416\u0443\u0440\u043D\u0430\u043B\u044E\u0432\u0430\u043D\u043D\u044F",
+  DISPLAY_SCHEDULING_DEBUG_INFO: "\u041F\u043E\u043A\u0430\u0437\u0443\u0432\u0430\u0442\u0438 \u043D\u0430\u043B\u0430\u0433\u043E\u0434\u0436\u0443\u0432\u0430\u043B\u044C\u043D\u0443 \u0456\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0456\u044E \u043F\u043B\u0430\u043D\u0443\u0432\u0430\u043B\u044C\u043D\u0438\u043A\u0430 \u0432 \u043A\u043E\u043D\u0441\u043E\u043B\u0456 \u0440\u043E\u0437\u0440\u043E\u0431\u043D\u0438\u043A\u0430",
+  DISPLAY_PARSER_DEBUG_INFO: "\u041F\u043E\u043A\u0430\u0437\u0443\u0432\u0430\u0442\u0438 \u043D\u0430\u043B\u0430\u0433\u043E\u0434\u0436\u0443\u0432\u0430\u043B\u044C\u043D\u0443 \u0456\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0456\u044E \u043F\u0430\u0440\u0441\u0435\u0440\u0430 \u0432 \u043A\u043E\u043D\u0441\u043E\u043B\u0456 \u0440\u043E\u0437\u0440\u043E\u0431\u043D\u0438\u043A\u0430",
+  SCHEDULING: "\u041F\u043B\u0430\u043D\u0443\u0432\u0430\u043D\u043D\u044F",
+  EXPERIMENTAL: "\u0415\u043A\u0441\u043F\u0435\u0440\u0438\u043C\u0435\u043D\u0442\u0430\u043B\u044C\u043D\u0435",
+  HELP: "\u0414\u043E\u0432\u0456\u0434\u043A\u0430",
+  STORE_IN_NOTES: "\u0423 \u043D\u043E\u0442\u0430\u0442\u043A\u0430\u0445",
+  DELETE_SCHEDULING_DATA: "Delete Scheduling Data",
+  DELETE_SCHEDULING_DATA_IN_NOTES_AND_FLASHCARDS: "Delete scheduling data from all notes and flashcards.",
+  DELETE: "Delete",
+  CONFIRM_SCHEDULING_DATA_DELETION: "Are you sure you want to delete all scheduling data from your notes and flashcards? This action cannot be undone.",
+  CONFIRM: "Confirm",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS: "Scheduling data deletion in progress...",
+  SCHEDULING_DATA_HAS_BEEN_DELETED: "Scheduling data has been deleted from all notes and flashcards.",
+  // sidebar.ts
+  NOTES_REVIEW_QUEUE: "\u0427\u0435\u0440\u0433\u0430 \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F \u043D\u043E\u0442\u0430\u0442\u043E\u043A",
+  CLOSE: "\u0417\u0430\u043A\u0440\u0438\u0442\u0438",
+  NEW: "\u041D\u043E\u0432\u0456",
+  YESTERDAY: "\u0412\u0447\u043E\u0440\u0430",
+  TODAY: "\u0421\u044C\u043E\u0433\u043E\u0434\u043D\u0456",
+  TOMORROW: "\u0417\u0430\u0432\u0442\u0440\u0430",
+  // stats-modal.tsx
+  STATS_TITLE: "\u0421\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043A\u0430",
+  MONTH: "\u041C\u0456\u0441\u044F\u0446\u044C",
+  QUARTER: "\u041A\u0432\u0430\u0440\u0442\u0430\u043B",
+  YEAR: "\u0420\u0456\u043A",
+  LIFETIME: "\u0417\u0430 \u0432\u0435\u0441\u044C \u0447\u0430\u0441",
+  FORECAST: "\u041F\u0440\u043E\u0433\u043D\u043E\u0437",
+  FORECAST_DESC: "\u041A\u0456\u043B\u044C\u043A\u0456\u0441\u0442\u044C \u043A\u0430\u0440\u0442\u043E\u043A, \u0449\u043E \u0431\u0443\u0434\u0443\u0442\u044C \u0434\u043E \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F \u0432 \u043C\u0430\u0439\u0431\u0443\u0442\u043D\u044C\u043E\u043C\u0443",
+  SCHEDULED: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E",
+  DAYS: "\u0414\u043D\u0456",
+  NUMBER_OF_CARDS: "\u041A\u0456\u043B\u044C\u043A\u0456\u0441\u0442\u044C \u043A\u0430\u0440\u0442\u043E\u043A",
+  REVIEWS_PER_DAY: "\u0421\u0435\u0440\u0435\u0434\u043D\u0454: ${avg} \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u044C/\u0434\u0435\u043D\u044C",
+  INTERVALS: "\u0406\u043D\u0442\u0435\u0440\u0432\u0430\u043B\u0438",
+  INTERVALS_DESC: "\u0417\u0430\u0442\u0440\u0438\u043C\u043A\u0438, \u043F\u0456\u0441\u043B\u044F \u044F\u043A\u0438\u0445 \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u043D\u044F \u043F\u043E\u043A\u0430\u0437\u0443\u044E\u0442\u044C\u0441\u044F \u0437\u043D\u043E\u0432\u0443",
+  COUNT: "\u041A\u0456\u043B\u044C\u043A\u0456\u0441\u0442\u044C",
+  INTERVALS_SUMMARY: "\u0421\u0435\u0440\u0435\u0434\u043D\u0456\u0439 \u0456\u043D\u0442\u0435\u0440\u0432\u0430\u043B: ${avg}, \u043D\u0430\u0439\u0434\u043E\u0432\u0448\u0438\u0439 \u0456\u043D\u0442\u0435\u0440\u0432\u0430\u043B: ${longest}",
+  EASES: "\u041A\u043E\u0435\u0444\u0456\u0446\u0456\u0454\u043D\u0442\u0438 \u043B\u0435\u0433\u043A\u043E\u0441\u0442\u0456",
+  EASES_SUMMARY: "\u0421\u0435\u0440\u0435\u0434\u043D\u0456\u0439 \u043A\u043E\u0435\u0444\u0456\u0446\u0456\u0454\u043D\u0442 \u043B\u0435\u0433\u043A\u043E\u0441\u0442\u0456: ${avgEase}",
+  EASE: "\u041B\u0435\u0433\u043A\u0456\u0441\u0442\u044C",
+  CARD_TYPES: "\u0422\u0438\u043F\u0438 \u043A\u0430\u0440\u0442\u043E\u043A",
+  CARD_TYPES_DESC: "\u0412\u043A\u043B\u044E\u0447\u0430\u0454 \u0442\u0430\u043A\u043E\u0436 \u0432\u0456\u0434\u043A\u043B\u0430\u0434\u0435\u043D\u0456 \u043A\u0430\u0440\u0442\u043A\u0438, \u044F\u043A\u0449\u043E \u0454",
+  CARD_TYPE_NEW: "\u041D\u043E\u0432\u0456",
+  CARD_TYPE_YOUNG: "\u041C\u043E\u043B\u043E\u0434\u0456",
+  CARD_TYPE_MATURE: "\u0417\u0440\u0456\u043B\u0456",
+  CARD_TYPES_SUMMARY: "\u0423\u0441\u044C\u043E\u0433\u043E \u043A\u0430\u0440\u0442\u043E\u043A: ${totalCardsCount}",
+  SEARCH: "\u041F\u043E\u0448\u0443\u043A",
+  PREVIOUS: "\u041F\u043E\u043F\u0435\u0440\u0435\u0434\u043D\u0456\u0439",
+  NEXT: "\u041D\u0430\u0441\u0442\u0443\u043F\u043D\u0438\u0439",
+  // settings.ts
+  SETTINGS_TAB_HEADING: "Settings",
+  MAIN_SETTINGS_PAGE: "MAIN_SETTINGS",
+  // NoteReviewQueue.ts
+  NOTE_REVIEW_QUEUE_HINT: "Click on the 3 dots next to the note to open the review menu.",
+  // StatusBarManager.ts
+  OPEN_DECK_FOR_REVIEW: "Open deck for review",
+  UPDATE_AVAILABLE: "Update available",
+  // Statistics
+  PERIOD_TITLE: "Period",
+  PERIOD_DESC: "Period of time to display in the charts",
+  // Card controls reset button
+  DELETE_SCHEDULING_DATA_OF_CURRENT_CARD: "Delete card scheduling data?",
+  CONFIRM_SCHEDULING_DATA_DELETION_OF_CURRENT_CARD: "Are you sure you want to delete the scheduling data from your current card? This action cannot be undone.",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS_OF_CURRENT_CARD: "Deleting the cards scheduling data...",
+  // Settings > Scheduling
+  START_OF_DAY: "Start of day",
+  START_OF_DAY_DESC: "The time at which the day begins (Format: HH:MM:SS, Default: 00:00:00)",
+  INVALID_START_OF_DAY_WARNING: "Invalid format for start of day"
+};
 
 // src/lang/locale/ur.ts
 var ur_default = {};
@@ -7716,12 +8407,13 @@ var zh_cn_default = {
   EASY: "\u7B80\u5355",
   SHOW_ANSWER: "\u663E\u793A\u7B54\u6848",
   CARD_PROGRESS_RESET: "\u5361\u7247\u5DF2\u88AB\u91CD\u7F6E\u3002",
-  SAVE: "\u50A8\u5B58",
+  SAVE: "\u4FDD\u5B58",
   CANCEL: "\u53D6\u6D88",
   NO_INPUT: "\u6CA1\u6709\u63D0\u4F9B\u8F93\u5165\u3002",
   CURRENT_EASE_HELP_TEXT: "\u76EE\u524D\u638C\u63E1\u7A0B\u5EA6\uFF1A",
   CURRENT_INTERVAL_HELP_TEXT: "\u76EE\u524D\u95F4\u9694\uFF1A",
   CARD_GENERATED_FROM: "\u751F\u6210\u81EA\uFF1A${notePath}",
+  VIEW_CARD_INFO: "View Card Info",
   // main.ts
   OPEN_NOTE_FOR_REVIEW: "\u6253\u5F00\u4E00\u4E2A\u7B14\u8BB0\u5F00\u59CB\u590D\u4E60",
   REVIEW_CARDS: "\u590D\u4E60\u5361\u7247",
@@ -7732,7 +8424,7 @@ var zh_cn_default = {
   REVIEW_CARDS_IN_NOTE: "\u590D\u4E60\u6B64\u7B14\u8BB0\u4E2D\u7684\u5361\u7247",
   CRAM_CARDS_IN_NOTE: "\u96C6\u4E2D\u590D\u4E60\u6B64\u7B14\u8BB0\u4E2D\u7684\u5361\u7247",
   VIEW_STATS: "\u67E5\u770B\u6570\u636E",
-  OPEN_REVIEW_QUEUE_VIEW: "Open Notes Review Queue in sidebar",
+  OPEN_REVIEW_QUEUE_VIEW: "\u5728\u4FA7\u8FB9\u680F\u4E2D\u6253\u5F00\u7B14\u8BB0\u590D\u4E60\u961F\u5217",
   STATUS_BAR: "\u590D\u4E60: ${dueNotesCount} \u7B14\u8BB0, ${dueFlashcardsCount} \u5361\u7247\u5DF2\u5230\u671F",
   SYNC_TIME_TAKEN: "\u540C\u6B65\u65F6\u95F4 ${t}ms",
   NOTE_IN_IGNORED_FOLDER: "\u7B14\u8BB0\u4FDD\u5B58\u5728\u5DF2\u88AB\u5FFD\u7565\u7684\u8DEF\u5F84\u4E2D\uFF08\u68C0\u67E5\u8BBE\u7F6E\u9009\u9879\uFF09\u3002",
@@ -7749,12 +8441,12 @@ var zh_cn_default = {
   YEARS_STR_IVL_MOBILE: "${interval}\u5E74",
   // settings.ts
   SETTINGS_HEADER: "\u95F4\u9694\u91CD\u590D\u63D2\u4EF6",
-  GROUP_TAGS_FOLDERS: "Tags & Folders",
-  GROUP_FLASHCARD_REVIEW: "Flashcard Review",
-  GROUP_FLASHCARD_SEPARATORS: "Flashcard Separators",
-  GROUP_DATA_STORAGE: "Storage of Scheduling Data",
-  GROUP_DATA_STORAGE_DESC: "Choose where to store the scheduling data",
-  GROUP_FLASHCARDS_NOTES: "Flashcards & Notes",
+  GROUP_TAGS_FOLDERS: "\u6807\u7B7E\u548C\u6587\u4EF6\u5939",
+  GROUP_FLASHCARD_REVIEW: "\u95EA\u5361\u590D\u4E60",
+  GROUP_FLASHCARD_SEPARATORS: "\u95EA\u5B58\u5361\u5206\u9694\u7B26",
+  GROUP_DATA_STORAGE: "\u5B58\u50A8\u8BA1\u5212\u6570\u636E",
+  GROUP_DATA_STORAGE_DESC: "\u9009\u62E9\u5B58\u50A8\u8BA1\u5212\u6570\u636E\u4F4D\u7F6E",
+  GROUP_FLASHCARDS_NOTES: "\u95EA\u5361\u548C\u7B14\u8BB0",
   GROUP_CONTRIBUTING: "Contributing",
   CHECK_WIKI: '\u4E86\u89E3\u66F4\u591A, \u8BF7\u70B9\u51FB<a href="${wikiUrl}">wiki</a>.',
   GITHUB_DISCUSSIONS: 'Visit the <a href="${discussionsUrl}">discussions</a> section for Q&A help, feedback, and general discussion.',
@@ -7763,7 +8455,7 @@ var zh_cn_default = {
   CODE_CONTRIBUTION_INFO: '<a href="${codeContributionUrl}">Here\'s</a> how to contribute code to the plugin.',
   TRANSLATION_CONTRIBUTION_INFO: '<a href="${translationContributionUrl}">Here\'s</a> how to translate the plugin to another language.',
   FOLDERS_TO_IGNORE: "\u5FFD\u7565\u6B64\u6587\u4EF6\u5939",
-  FOLDERS_TO_IGNORE_DESC: "Enter folder paths or glob patterns on separate lines e.g. Templates/Scripts or **/*.excalidraw.md. This setting is common to both flashcards and notes.",
+  FOLDERS_TO_IGNORE_DESC: "\u5728\u5355\u72EC\u4E00\u884C\u4E2D\u8F93\u5165\u6587\u4EF6\u5939\u8DEF\u5F84\u6216\u5168\u5C40\u6A21\u5F0F\uFF0C\u4F8B\u5982 Templates/Scripts \u6216 .excalidraw.md\u3002\u6B64\u8BBE\u7F6E\u5BF9\u95EA\u5B58\u5361\u548C\u7B14\u8BB0\u90FD\u901A\u7528\u3002",
   OBSIDIAN_INTEGRATION: "Integration into Obsidian",
   FLASHCARDS: "\u5361\u7247",
   FLASHCARD_EASY_LABEL: "\u201C\u7B80\u5355\u201D\u6309\u94AE\u6587\u672C",
@@ -7772,20 +8464,20 @@ var zh_cn_default = {
   FLASHCARD_EASY_DESC: "\u81EA\u5B9A\u4E49\u201C\u7B80\u5355\u201D\u6309\u94AE\u7684\u6807\u7B7E",
   FLASHCARD_GOOD_DESC: "\u81EA\u5B9A\u4E49\u201C\u8BB0\u5F97\u201D\u6309\u94AE\u7684\u6807\u7B7E",
   FLASHCARD_HARD_DESC: "\u81EA\u5B9A\u4E49\u201C\u8F83\u96BE\u201D\u6309\u94AE\u7684\u6807\u7B7E",
-  REVIEW_BUTTON_DELAY: "Button Press Delay (ms)",
-  REVIEW_BUTTON_DELAY_DESC: "Add a delay to the review buttons before they can be pressed again.",
+  REVIEW_BUTTON_DELAY: "\u6309\u94AE\u6309\u4E0B\u5EF6\u8FDF\uFF08\u6BEB\u79D2\uFF09",
+  REVIEW_BUTTON_DELAY_DESC: "\u5728\u518D\u6B21\u6309\u4E0B\u590D\u4E60\u6309\u94AE\u524D\u589E\u52A0\u5EF6\u8FDF\u3002",
   FLASHCARD_TAGS: "\u5361\u7247\u6807\u7B7E",
   FLASHCARD_TAGS_DESC: "\u8F93\u5165\u6807\u7B7E\uFF0C\u7528\u7A7A\u683C\u6216\u65B0\u5EFA\u884C\u5206\u9694\uFF0C\u4F8B\u5982\uFF1A#flashcards #deck2 #deck3.",
-  CONVERT_FOLDERS_TO_DECKS: "\u662F\u5426\u5C06\u6587\u4EF6\u5939\u5185\u5BB9\u8F6C\u6362\u4E3A\u5361\u7247\u7EC4\u548C\u5B50\u5361\u7247\u7EC4\uFF1F",
+  CONVERT_FOLDERS_TO_DECKS: "\u5C06\u6587\u4EF6\u5939\u5185\u5BB9\u8F6C\u6362\u4E3A\u5361\u7247\u7EC4\u548C\u5B50\u5361\u7247\u7EC4",
   CONVERT_FOLDERS_TO_DECKS_DESC: "\u6B64\u9009\u9879\u4E3A\u5361\u7247\u6807\u7B7E\u9009\u9879\u7684\u66FF\u4EE3\u9009\u9879\u3002",
-  INLINE_SCHEDULING_COMMENTS: "\u662F\u5426\u5C06\u8BA1\u5212\u91CD\u590D\u65F6\u95F4\u4FDD\u5B58\u5728\u5361\u7247\u6700\u540E\u4E00\u884C\u7684\u540C\u4E00\u884C\uFF1F",
+  INLINE_SCHEDULING_COMMENTS: "\u5C06\u8BA1\u5212\u91CD\u590D\u65E5\u671F\u4FDD\u5B58\u5728\u5361\u7247\u6700\u540E\u4E00\u884C\u7684\u540C\u4E00\u884C",
   INLINE_SCHEDULING_COMMENTS_DESC: "HTML\u6CE8\u91CA\u4E0D\u518D\u7834\u574F\u5217\u8868\u683C\u5F0F",
-  BURY_SIBLINGS_TILL_NEXT_DAY: "\u5C06\u5173\u8054\u5361\u7247\u9690\u85CF\u81F3\u4E0B\u4E00\u5929\uFF1F",
+  BURY_SIBLINGS_TILL_NEXT_DAY: "\u5C06\u5173\u8054\u5361\u7247\u9690\u85CF\u81F3\u4E0B\u4E00\u5929",
   BURY_SIBLINGS_TILL_NEXT_DAY_DESC: "\u5173\u8054\u5361\u7247\u662F\u6765\u81EA\u540C\u4E00\u5361\u7247\u7684\u4E0D\u540C\u5F62\u5F0F\uFF0C \u4F8B\u5982\uFF1A\u5B8C\u5F62\u586B\u7A7A\u5361\u7247",
-  SHOW_CARD_CONTEXT: "\u5728\u5361\u7247\u4E2D\u663E\u793A\u4E0A\u4E0B\u6587\uFF1F",
+  SHOW_CARD_CONTEXT: "\u5728\u5361\u7247\u4E2D\u663E\u793A\u4E0A\u4E0B\u6587",
   SHOW_CARD_CONTEXT_DESC: "\u4F8B\u5982\uFF1A\u6807\u9898 > \u526F\u6807\u9898 > \u5C0F\u6807\u9898 > ... > \u5C0F\u6807\u9898",
-  SHOW_INTERVAL_IN_REVIEW_BUTTONS: "Show next review time in the review buttons",
-  SHOW_INTERVAL_IN_REVIEW_BUTTONS_DESC: "Useful to know how far in the future your cards are being pushed.",
+  SHOW_INTERVAL_IN_REVIEW_BUTTONS: "\u5C06\u4E0B\u6B21\u590D\u4E60\u65F6\u95F4\u663E\u793A\u5728\u590D\u4E60\u6309\u94AE",
+  SHOW_INTERVAL_IN_REVIEW_BUTTONS_DESC: "\u4E86\u89E3\u4F60\u7684\u5361\u7247\u88AB\u63A8\u8FDF\u4E86\u591A\u4E45\u5BF9\u4F60\u5F88\u6709\u7528",
   CARD_MODAL_HEIGHT_PERCENT: "\u5361\u7247\u9AD8\u5EA6\u767E\u5206\u6BD4",
   CARD_MODAL_SIZE_PERCENT_DESC: "\u8BF7\u5728\u79FB\u52A8\u7AEF\u4F7F\u7528\u5E76\u9700\u8981\u6D4F\u89C8\u8F83\u5927\u56FE\u7247\u65F6\u8BBE\u4E3A100%",
   RESET_DEFAULT: "\u91CD\u7F6E\u4E3A\u9ED8\u8BA4",
@@ -7801,10 +8493,15 @@ var zh_cn_default = {
   REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_SEQUENTIAL: "\u987A\u5E8F (\u5728\u524D\u4E00\u5361\u7247\u7EC4\u5185\u5361\u7247\u90FD\u590D\u4E60\u5B8C\u540E)",
   REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_RANDOM: "\u4E71\u5E8F (\u5728\u524D\u4E00\u5361\u7247\u7EC4\u5185\u5361\u7247\u90FD\u590D\u4E60\u5B8C\u540E)",
   REVIEW_DECK_ORDER_RANDOM_DECK_AND_CARD: "\u5361\u7247\u7EC4\u53CA\u5361\u7247\u90FD\u4E71\u5E8F",
-  DISABLE_CLOZE_CARDS: "\u4E0D\u8FDB\u884C\u5B8C\u5F62\u586B\u7A7A\uFF1F",
-  CONVERT_HIGHLIGHTS_TO_CLOZES: "\u5C06 ==\u9AD8\u4EAE== \u8F6C\u6362\u4E3A\u5B8C\u5F62\u586B\u7A7A\uFF1F",
-  CONVERT_BOLD_TEXT_TO_CLOZES: "\u5C06 **\u7C97\u4F53** \u8F6C\u6362\u4E3A\u5B8C\u5F62\u586B\u7A7A\uFF1F",
-  CONVERT_CURLY_BRACKETS_TO_CLOZES: "\u5C06 {{\u5927\u62EC\u53F7}} \u8F6C\u6362\u4E3A\u5B8C\u5F62\u586B\u7A7A\uFF1F",
+  DISABLE_CLOZE_CARDS: "\u4E0D\u8FDB\u884C\u5B8C\u5F62\u586B\u7A7A",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS: "Convert cloze patterns to input fields",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS_DESC: "Replace cloze patterns with input fields when reviewing cloze cards.",
+  CONVERT_HIGHLIGHTS_TO_CLOZES: "\u5C06 ==\u9AD8\u4EAE== \u8F6C\u6362\u4E3A\u5B8C\u5F62\u586B\u7A7A",
+  CONVERT_HIGHLIGHTS_TO_CLOZES_DESC: '\u6DFB\u52A0/\u5220\u9664 "\u5B8C\u5F62\u586B\u7A7A\u6A21\u5F0F" \u4E2D\u7684 <code>${defaultPattern}</code>',
+  CONVERT_BOLD_TEXT_TO_CLOZES: "\u5C06 **\u7C97\u4F53** \u8F6C\u6362\u4E3A\u5B8C\u5F62\u586B\u7A7A",
+  CONVERT_BOLD_TEXT_TO_CLOZES_DESC: '\u6DFB\u52A0/\u5220\u9664 "\u5B8C\u5F62\u586B\u7A7A\u6A21\u5F0F" \u4E2D\u7684 <code>${defaultPattern}</code>',
+  CONVERT_CURLY_BRACKETS_TO_CLOZES: "\u5C06 {{\u5927\u62EC\u53F7}} \u8F6C\u6362\u4E3A\u5B8C\u5F62\u586B\u7A7A",
+  CONVERT_CURLY_BRACKETS_TO_CLOZES_DESC: '\u6DFB\u52A0/\u5220\u9664 "\u5B8C\u5F62\u586B\u7A7A\u6A21\u5F0F" \u4E2D\u7684 <code>${defaultPattern}</code>',
   CLOZE_PATTERNS: "\u5B8C\u5F62\u586B\u7A7A\u6A21\u5F0F",
   CLOZE_PATTERNS_DESC: '\u8F93\u5165\u4EE5\u6362\u884C\u7B26\u5206\u9694\u7684\u5B8C\u5F62\u586B\u7A7A\u6A21\u5F0F. Check the <a href="${docsUrl}">wiki</a> for guidance.',
   INLINE_CARDS_SEPARATOR: "\u5355\u884C\u5361\u7247\u7684\u5206\u9694\u7B26",
@@ -7827,11 +8524,13 @@ var zh_cn_default = {
   MIN_ONE_DAY: "\u5929\u6570\u6700\u5C0F\u503C\u4E3A1",
   VALID_NUMBER_WARNING: "\u8BF7\u8F93\u5165\u6709\u6548\u7684\u6570\u5B57\u3002",
   UI: "User Interface",
-  SHOW_STATUS_BAR: "Show status bar",
-  SHOW_STATUS_BAR_DESC: "Turn this off to hide the flashcard's review status in Obsidian's status bar",
-  SHOW_RIBBON_ICON: "Show icon in the ribbon bar",
-  SHOW_RIBBON_ICON_DESC: "Turn this off to hide the plugin icon from Obsidian's ribbon bar",
-  INITIALLY_EXPAND_SUBDECKS_IN_TREE: "\u7532\u677F\u6811\u6700\u521D\u5E94\u663E\u793A\u4E3A\u5C55\u5F00",
+  OPEN_IN_TAB: "\u5728\u65B0\u6807\u7B7E\u6253\u5F00",
+  OPEN_IN_TAB_DESC: "\u5173\u95ED\u6B64\u9009\u9879\u53EF\u5728\u6A21\u5F0F\u7A97\u53E3\u4E2D\u6253\u5F00\u63D2\u4EF6",
+  SHOW_STATUS_BAR: "\u663E\u793A\u5728\u72B6\u6001\u680F",
+  SHOW_STATUS_BAR_DESC: "\u5C06\u6B64\u5173\u95ED\u4EE5\u9690\u85CF Obsidian \u72B6\u6001\u680F\u4E2D\u7684\u5361\u7247\u590D\u4E60\u72B6\u6001\u3002",
+  SHOW_RIBBON_ICON: "\u5728\u529F\u80FD\u533A\u4E2D\u663E\u793A\u56FE\u6807",
+  SHOW_RIBBON_ICON_DESC: "\u5173\u95ED\u6B64\u9009\u9879\u53EF\u9690\u85CF Obsidian \u529F\u80FD\u533A\u680F\u4E2D\u7684\u63D2\u4EF6\u56FE\u6807",
+  INITIALLY_EXPAND_SUBDECKS_IN_TREE: "\u9ED8\u8BA4\u5728\u5217\u8868\u4E2D\u5C55\u5F00\u5D4C\u5957\u5B50\u724C\u7EC4",
   INITIALLY_EXPAND_SUBDECKS_IN_TREE_DESC: "\u5173\u95ED\u6B64\u9009\u9879\u53EF\u6298\u53E0\u540C\u4E00\u5F20\u5361\u7247\u4E2D\u7684\u5D4C\u5957\u724C\u7EC4\u3002\u5982\u679C\u60A8\u7684\u5361\u7247\u5C5E\u4E8E\u540C\u4E00\u6587\u4EF6\u4E2D\u7684\u8BB8\u591A\u5957\u724C\uFF0C\u5219\u5F88\u6709\u7528\u3002",
   ALGORITHM: "\u7B97\u6CD5",
   CHECK_ALGORITHM_WIKI: '\u4E86\u89E3\u66F4\u591A, \u8BF7\u70B9\u51FB<a href="${algoUrl}">\u7B97\u6CD5\u5B9E\u73B0</a>.',
@@ -7860,6 +8559,13 @@ var zh_cn_default = {
   EXPERIMENTAL: "Experimental",
   HELP: "Help",
   STORE_IN_NOTES: "In the notes",
+  DELETE_SCHEDULING_DATA: "Delete Scheduling Data",
+  DELETE_SCHEDULING_DATA_IN_NOTES_AND_FLASHCARDS: "Delete scheduling data from all notes and flashcards.",
+  DELETE: "Delete",
+  CONFIRM_SCHEDULING_DATA_DELETION: "Are you sure you want to delete all scheduling data from your notes and flashcards? This action cannot be undone.",
+  CONFIRM: "Confirm",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS: "Scheduling data deletion in progress...",
+  SCHEDULING_DATA_HAS_BEEN_DELETED: "Scheduling data has been deleted from all notes and flashcards.",
   // sidebar.ts
   NOTES_REVIEW_QUEUE: "\u7B14\u8BB0\u590D\u4E60\u5E8F\u5217",
   CLOSE: "\u4E34\u8FD1",
@@ -7894,7 +8600,26 @@ var zh_cn_default = {
   CARD_TYPES_SUMMARY: "\u603B\u5361\u7247\u6570: ${totalCardsCount}",
   SEARCH: "Search",
   PREVIOUS: "Previous",
-  NEXT: "Next"
+  NEXT: "Next",
+  // settings.ts
+  SETTINGS_TAB_HEADING: "Settings",
+  MAIN_SETTINGS_PAGE: "MAIN_SETTINGS",
+  // NoteReviewQueue.ts
+  NOTE_REVIEW_QUEUE_HINT: "Click on the 3 dots next to the note to open the review menu.",
+  // StatusBarManager.ts
+  OPEN_DECK_FOR_REVIEW: "Open deck for review",
+  UPDATE_AVAILABLE: "Update available",
+  // Statistics
+  PERIOD_TITLE: "Period",
+  PERIOD_DESC: "Period of time to display in the charts",
+  // Card controls reset button
+  DELETE_SCHEDULING_DATA_OF_CURRENT_CARD: "Delete card scheduling data?",
+  CONFIRM_SCHEDULING_DATA_DELETION_OF_CURRENT_CARD: "Are you sure you want to delete the scheduling data from your current card? This action cannot be undone.",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS_OF_CURRENT_CARD: "Deleting the cards scheduling data...",
+  // Settings > Scheduling
+  START_OF_DAY: "Start of day",
+  START_OF_DAY_DESC: "The time at which the day begins (Format: HH:MM:SS, Default: 00:00:00)",
+  INVALID_START_OF_DAY_WARNING: "Invalid format for start of day"
 };
 
 // src/lang/locale/zh-tw.ts
@@ -7919,6 +8644,7 @@ var zh_tw_default = {
   CURRENT_EASE_HELP_TEXT: "\u76EE\u524D\u638C\u63E1\u7A0B\u5EA6\uFF1A",
   CURRENT_INTERVAL_HELP_TEXT: "\u76EE\u524D\u9593\u9694\u6642\u9593\uFF1A",
   CARD_GENERATED_FROM: "\u751F\u6210\u81EA\uFF1A${notePath}",
+  VIEW_CARD_INFO: "View Card Info",
   // main.ts
   OPEN_NOTE_FOR_REVIEW: "\u6253\u958B\u4E00\u500B\u7B46\u8A18\u958B\u59CB\u5FA9\u7FD2",
   REVIEW_CARDS: "\u5FA9\u7FD2\u5361\u7247",
@@ -7999,9 +8725,14 @@ var zh_tw_default = {
   REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_RANDOM: "\u4E82\u5E8F (\u5728\u524D\u4E00\u724C\u7D44\u5167\u5361\u7247\u90FD\u5FA9\u7FD2\u5B8C\u5F8C)",
   REVIEW_DECK_ORDER_RANDOM_DECK_AND_CARD: "\u724C\u7D44\u53CA\u5361\u7247\u90FD\u4E82\u5E8F",
   DISABLE_CLOZE_CARDS: "\u505C\u7528\u586B\u7A7A\u514B\u6F0F\u5B57\u5361\u7247\uFF1F",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS: "Convert cloze patterns to input fields",
+  CONVERT_CLOZE_PATTERNS_TO_INPUTS_DESC: "Replace cloze patterns with input fields when reviewing cloze cards.",
   CONVERT_HIGHLIGHTS_TO_CLOZES: "\u5C07 ==\u9AD8\u4EAE== \u8F49\u63DB\u70BA\u586B\u7A7A\u514B\u6F0F\u5B57\uFF1F",
+  CONVERT_HIGHLIGHTS_TO_CLOZES_DESC: '\u5728 "\u586B\u7A7A\u514B\u6F0F\u5B57\u6A21\u5F0F" \u4E2D\u52A0\u5165/\u79FB\u9664 <code>${defaultPattern}</code>',
   CONVERT_BOLD_TEXT_TO_CLOZES: "\u5C07 **\u7C97\u9AD4** \u8F49\u63DB\u70BA\u586B\u7A7A\u514B\u6F0F\u5B57\uFF1F",
+  CONVERT_BOLD_TEXT_TO_CLOZES_DESC: '\u5728 "\u586B\u7A7A\u514B\u6F0F\u5B57\u6A21\u5F0F" \u4E2D\u52A0\u5165/\u79FB\u9664 <code>${defaultPattern}</code>',
   CONVERT_CURLY_BRACKETS_TO_CLOZES: "\u5C07 {{\u5927\u62EC\u865F}} \u8F49\u63DB\u70BA\u586B\u7A7A\u514B\u6F0F\u5B57\uFF1F",
+  CONVERT_CURLY_BRACKETS_TO_CLOZES_DESC: '\u5728 "\u586B\u7A7A\u514B\u6F0F\u5B57\u6A21\u5F0F" \u4E2D\u52A0\u5165/\u79FB\u9664 <code>${defaultPattern}</code>',
   CLOZE_PATTERNS: "\u586B\u7A7A\u514B\u6F0F\u5B57\u6A21\u5F0F",
   CLOZE_PATTERNS_DESC: '\u8F38\u5165\u4EE5\u63DB\u884C\u7B26\u5206\u9694\u7684\u586B\u7A7A\u514B\u6F0F\u5B57\u6A21\u5F0F. Check the <a href="${docsUrl}">wiki</a> for guidance.',
   INLINE_CARDS_SEPARATOR: "\u55AE\u884C\u5361\u7247\u7684\u5206\u9694\u5B57\u5143",
@@ -8024,6 +8755,8 @@ var zh_tw_default = {
   MIN_ONE_DAY: "\u5929\u6578\u6700\u5C0F\u503C\u70BA1",
   VALID_NUMBER_WARNING: "\u8ACB\u8F38\u5165\u6709\u6548\u7684\u6578\u5B57\u3002",
   UI: "User Interface",
+  OPEN_IN_TAB: "Open in new tab",
+  OPEN_IN_TAB_DESC: "Turn this off to open the plugin in a modal window",
   SHOW_STATUS_BAR: "Show status bar",
   SHOW_STATUS_BAR_DESC: "Turn this off to hide the flashcard's review status in Obsidian's status bar",
   SHOW_RIBBON_ICON: "Show icon in the ribbon bar",
@@ -8057,6 +8790,13 @@ var zh_tw_default = {
   EXPERIMENTAL: "Experimental",
   HELP: "Help",
   STORE_IN_NOTES: "In the notes",
+  DELETE_SCHEDULING_DATA: "Delete Scheduling Data",
+  DELETE_SCHEDULING_DATA_IN_NOTES_AND_FLASHCARDS: "Delete scheduling data from all notes and flashcards.",
+  DELETE: "Delete",
+  CONFIRM_SCHEDULING_DATA_DELETION: "Are you sure you want to delete all scheduling data from your notes and flashcards? This action cannot be undone.",
+  CONFIRM: "Confirm",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS: "Scheduling data deletion in progress...",
+  SCHEDULING_DATA_HAS_BEEN_DELETED: "Scheduling data has been deleted from all notes and flashcards.",
   // sidebar.ts
   NOTES_REVIEW_QUEUE: "\u7B46\u8A18\u5FA9\u7FD2\u5E8F\u5217",
   CLOSE: "\u81E8\u8FD1",
@@ -8091,7 +8831,26 @@ var zh_tw_default = {
   CARD_TYPES_SUMMARY: "\u7E3D\u5361\u7247\u6578: ${totalCardsCount}",
   SEARCH: "Search",
   PREVIOUS: "Previous",
-  NEXT: "Next"
+  NEXT: "Next",
+  // settings.ts
+  SETTINGS_TAB_HEADING: "Settings",
+  MAIN_SETTINGS_PAGE: "MAIN_SETTINGS",
+  // NoteReviewQueue.ts
+  NOTE_REVIEW_QUEUE_HINT: "Click on the 3 dots next to the note to open the review menu.",
+  // StatusBarManager.ts
+  OPEN_DECK_FOR_REVIEW: "Open deck for review",
+  UPDATE_AVAILABLE: "Update available",
+  // Statistics
+  PERIOD_TITLE: "Period",
+  PERIOD_DESC: "Period of time to display in the charts",
+  // Card controls reset button
+  DELETE_SCHEDULING_DATA_OF_CURRENT_CARD: "Delete card scheduling data?",
+  CONFIRM_SCHEDULING_DATA_DELETION_OF_CURRENT_CARD: "Are you sure you want to delete the scheduling data from your current card? This action cannot be undone.",
+  SCHEDULING_DATA_DELETION_IN_PROGRESS_OF_CURRENT_CARD: "Deleting the cards scheduling data...",
+  // Settings > Scheduling
+  START_OF_DAY: "Start of day",
+  START_OF_DAY_DESC: "The time at which the day begins (Format: HH:MM:SS, Default: 00:00:00)",
+  INVALID_START_OF_DAY_WARNING: "Invalid format for start of day"
 };
 
 // src/lang/helpers.ts
@@ -8200,16 +8959,59 @@ function formatDateYYYYMMDD(ticks) {
   return ticks.format(PREFERRED_DATE_FORMAT);
 }
 var LiveDateProvider = class {
+  constructor() {
+    this.dayBoundary = null;
+  }
   get now() {
     return (0, import_moment.default)();
   }
   get today() {
-    return (0, import_moment.default)().startOf("day");
+    let result = (0, import_moment.default)().startOf("day");
+    if (this.dayBoundary && this.dayBoundary.hour !== 0 && this.dayBoundary.minute !== 0 && this.dayBoundary.second !== 0) {
+      const nowTime = (0, import_moment.default)();
+      const customDayBoundary = (0, import_moment.default)().hour(this.dayBoundary.hour).minute(this.dayBoundary.minute).second(this.dayBoundary.second).millisecond(0);
+      if (nowTime.isBefore(customDayBoundary)) {
+        result = (0, import_moment.default)().startOf("day").subtract(1, "day");
+      } else {
+        result = (0, import_moment.default)().startOf("day");
+      }
+    }
+    return result;
+  }
+  getDayBoundary() {
+    return this.dayBoundary;
+  }
+  setDayBoundary(dayBoundary) {
+    this.dayBoundary = dayBoundary;
   }
 };
 var DateUtil = class {
   static dateStrToMoment(str) {
     return (0, import_moment.default)(str, ALLOWED_DATE_FORMATS);
+  }
+  static strToDayBoundary(str) {
+    const dayStr = str.split(":");
+    if (dayStr.length !== 3) {
+      return null;
+    }
+    const hour = parseInt(dayStr[0]);
+    if (hour < 0 || hour > 23 || Number.isNaN(hour)) {
+      return null;
+    }
+    const minute = parseInt(dayStr[1]);
+    if (minute < 0 || minute > 59 || Number.isNaN(minute)) {
+      return null;
+    }
+    const second = parseInt(dayStr[2]);
+    if (second < 0 || second > 59 || Number.isNaN(second)) {
+      return null;
+    }
+    const dayBoundary = {
+      hour,
+      minute,
+      second
+    };
+    return dayBoundary;
   }
 };
 var globalDateProvider = new LiveDateProvider();
@@ -8238,7 +9040,7 @@ var _RepItemScheduleInfoOsr = class _RepItemScheduleInfoOsr extends RepItemSched
     this.interval = Math.round(interval);
     this.latestEase = latestEase;
     this.delayedBeforeReviewTicks = delayedBeforeReviewTicks;
-    if (dueDate && delayedBeforeReviewTicks == null) {
+    if (dueDate && delayedBeforeReviewTicks === null) {
       this.delayedBeforeReviewTicks = globalDateProvider.today.valueOf() - dueDate.valueOf();
     }
   }
@@ -8271,7 +9073,7 @@ var _RepItemScheduleInfoOsr = class _RepItemScheduleInfoOsr extends RepItemSched
 _RepItemScheduleInfoOsr.dummyDueDateForNewCard = "2000-01-01";
 var RepItemScheduleInfoOsr = _RepItemScheduleInfoOsr;
 
-// src/note-ease-list.ts
+// src/note/note-ease-list.ts
 var NoteEaseList = class {
   constructor(settings) {
     this.dict = {};
@@ -8280,18 +9082,18 @@ var NoteEaseList = class {
   get baseEase() {
     return this.settings.baseEase;
   }
-  hasEaseForPath(path3) {
-    return Object.prototype.hasOwnProperty.call(this.dict, path3);
+  hasEaseForPath(path2) {
+    return Object.prototype.hasOwnProperty.call(this.dict, path2);
   }
-  getEaseByPath(path3) {
+  getEaseByPath(path2) {
     let ease = null;
-    if (this.hasEaseForPath(path3)) {
-      ease = Math.round(this.dict[path3]);
+    if (this.hasEaseForPath(path2)) {
+      ease = Math.round(this.dict[path2]);
     }
     return ease;
   }
-  setEaseForPath(path3, ease) {
-    this.dict[path3] = ease;
+  setEaseForPath(path2, ease) {
+    this.dict[path2] = ease;
   }
 };
 
@@ -8326,7 +9128,7 @@ var SrsAlgorithmOsr = class _SrsAlgorithmOsr {
     result.dueDate = (0, import_moment2.default)(globalDateProvider.today.add(result.interval, "d"));
     return result;
   }
-  noteOnLoadedNote(path3, note, noteEase) {
+  noteOnLoadedNote(path2, note, noteEase) {
     let flashcardsInNoteAvgEase = null;
     if (note) {
       flashcardsInNoteAvgEase = _SrsAlgorithmOsr.calculateFlashcardAvgEase(
@@ -8334,14 +9136,14 @@ var SrsAlgorithmOsr = class _SrsAlgorithmOsr {
         this.settings
       );
     }
-    let ease = null;
+    let ease;
     if (flashcardsInNoteAvgEase && noteEase) {
       ease = (flashcardsInNoteAvgEase + noteEase) / 2;
     } else {
       ease = flashcardsInNoteAvgEase ? flashcardsInNoteAvgEase : noteEase;
     }
     if (ease) {
-      this.noteEaseList.setEaseForPath(path3, ease);
+      this.noteEaseList.setEaseForPath(path2, ease);
     }
   }
   static calculateFlashcardAvgEase(questionList, settings) {
@@ -8391,7 +9193,7 @@ var SrsAlgorithmOsr = class _SrsAlgorithmOsr {
   cardGetResetSchedule() {
     const interval = _SrsAlgorithmOsr.initialInterval;
     const ease = this.settings.baseEase;
-    const dueDate = globalDateProvider.today.add(interval, "d");
+    const dueDate = globalDateProvider.today;
     return new RepItemScheduleInfoOsr(dueDate, interval, ease);
   }
   cardGetNewSchedule(response, notePath, dueDateFlashcardHistogram) {
@@ -8434,13 +9236,863 @@ var SrsAlgorithmOsr = class _SrsAlgorithmOsr {
   }
 };
 
+// src/data-stores/base/data-store.ts
+var DataStore = class _DataStore {
+  static getInstance() {
+    if (!_DataStore.instance) {
+      throw new Error("there is no DataStore instance.");
+    }
+    return _DataStore.instance;
+  }
+};
+
+// src/deck/topic-path.ts
+var TopicPath = class _TopicPath {
+  constructor(path2) {
+    if (path2 === null) throw "null path";
+    if (path2.some((str) => str.includes("/"))) throw "path entries must not contain '/'";
+    this.path = path2;
+  }
+  get hasPath() {
+    return this.path.length > 0;
+  }
+  get isEmptyPath() {
+    return !this.hasPath;
+  }
+  static get emptyPath() {
+    return new _TopicPath([]);
+  }
+  shift() {
+    if (this.isEmptyPath) throw "can't shift an empty path";
+    return this.path.shift();
+  }
+  clone() {
+    return new _TopicPath([...this.path]);
+  }
+  formatAsTag() {
+    if (this.isEmptyPath) throw "Empty path";
+    const result = "#" + this.path.join("/");
+    return result;
+  }
+  static getTopicPathOfFile(noteFile, settings) {
+    let result = _TopicPath.emptyPath;
+    if (settings.convertFoldersToDecks) {
+      const deckPath = noteFile.path.split("/");
+      deckPath.pop();
+      if (deckPath.length !== 0) {
+        result = new _TopicPath(deckPath);
+      }
+    } else {
+      const tagList = this.getTopicPathsFromTagList(
+        noteFile.getAllTagsFromCache()
+      );
+      outer: for (const tagToReview of this.getTopicPathsFromTagList(
+        settings.flashcardTags
+      )) {
+        for (const tag of tagList) {
+          if (tagToReview.isSameOrAncestorOf(tag)) {
+            result = tag;
+            break outer;
+          }
+        }
+      }
+    }
+    return result;
+  }
+  isSameOrAncestorOf(topicPath) {
+    if (this.isEmptyPath) return topicPath.isEmptyPath;
+    if (this.path.length > topicPath.path.length) return false;
+    for (let i2 = 0; i2 < this.path.length; i2++) {
+      if (this.path[i2] !== topicPath.path[i2]) return false;
+    }
+    return true;
+  }
+  static getTopicPathFromCardText(cardText) {
+    var _a2;
+    const path2 = (_a2 = cardText.trimStart().match(OBSIDIAN_TAG_AT_STARTOFLINE_REGEX)) == null ? void 0 : _a2.slice(-1)[0];
+    return (path2 == null ? void 0 : path2.length) > 0 ? _TopicPath.getTopicPathFromTag(path2) : null;
+  }
+  static getTopicPathsFromTagList(tagList) {
+    const result = [];
+    for (const tag of tagList) {
+      if (this.isValidTag(tag)) result.push(_TopicPath.getTopicPathFromTag(tag));
+    }
+    return result;
+  }
+  static isValidTag(tag) {
+    if (tag === null || tag.length === 0) return false;
+    if (tag[0] !== "#") return false;
+    if (tag.length === 1) return false;
+    return true;
+  }
+  static getTopicPathFromTag(tag) {
+    if (tag === null || tag.length === 0) throw "Null/empty tag";
+    if (tag[0] !== "#") throw "Tag must start with #";
+    if (tag.length === 1) throw "Invalid tag";
+    const path2 = tag.replace("#", "").split("/").filter((str) => str);
+    return new _TopicPath(path2);
+  }
+  static getFolderPathFromFilename(noteFile, settings) {
+    let result = _TopicPath.emptyPath;
+    if (settings.convertFoldersToDecks) {
+      const deckPath = noteFile.path.split("/");
+      deckPath.pop();
+      if (deckPath.length !== 0) {
+        result = new _TopicPath(deckPath);
+      }
+    }
+    return result;
+  }
+};
+var TopicPathList = class _TopicPathList {
+  constructor(list, lineNum = null) {
+    if (list === null) throw "TopicPathList null";
+    this.list = list;
+    this.lineNum = lineNum;
+  }
+  get length() {
+    return this.list.length;
+  }
+  isAnyElementSameOrAncestorOf(topicPath) {
+    return this.list.some((item) => item.isSameOrAncestorOf(topicPath));
+  }
+  formatPsv() {
+    return this.format("|");
+  }
+  format(sep2) {
+    return this.list.map((topicPath) => topicPath.formatAsTag()).join(sep2);
+  }
+  static empty() {
+    return new _TopicPathList([]);
+  }
+  static fromPsv(str, lineNum) {
+    const result = _TopicPathList.convertTagListToTopicPathList(str.split("|"));
+    result.lineNum = lineNum;
+    return result;
+  }
+  //
+  // tagList is a list of tags such as:
+  //      ["#flashcards/computing", "#boring-stuff", "#news-worthy"]
+  // validTopicPathList is a list of valid tags, such as those from settings.flashcardTags,E.g.
+  //      ["#flashcards"]
+  //
+  // This returns a filtered version of tagList, containing only topic paths that are considered valid.
+  // Validity is defined as "isAnyElementSameOrAncestorOf", and "#flashcards" is considered the ancestor of
+  // "#flashcards/computing".
+  //
+  // Therefore this would return:
+  //      "#flashcards/computing" (but not "#boring-stuff" or "#news-worthy")
+  //
+  static filterValidTopicPathsFromTagList(list, validTopicPathList, lineNum = null) {
+    const result = [];
+    for (const tag of list.list) {
+      if (validTopicPathList.isAnyElementSameOrAncestorOf(tag)) result.push(tag);
+    }
+    return new _TopicPathList(result, lineNum);
+  }
+  static convertTagListToTopicPathList(tagList) {
+    const result = [];
+    for (const tag of tagList) {
+      if (TopicPath.isValidTag(tag)) result.push(TopicPath.getTopicPathFromTag(tag));
+    }
+    return new _TopicPathList(result);
+  }
+};
+var TopicPathWithWs = class {
+  constructor(topicPath, preWhitespace, postWhitespace) {
+    if (!topicPath || topicPath.isEmptyPath) throw "topicPath null";
+    this.topicPath = topicPath;
+    this.preWhitespace = preWhitespace;
+    this.postWhitespace = postWhitespace;
+  }
+  formatWithWs() {
+    return `${this.preWhitespace}${this.topicPath.formatAsTag()}${this.postWhitespace}`;
+  }
+};
+
+// src/deck/deck.ts
+var Deck = class _Deck {
+  constructor(deckName, parent) {
+    this.deckName = deckName;
+    this.newFlashcards = [];
+    this.dueFlashcards = [];
+    this.subdecks = [];
+    this.parent = parent;
+  }
+  getCardCount(cardListType, includeSubdeckCounts) {
+    let result = 0;
+    if (cardListType === 0 /* NewCard */ || cardListType === 2 /* All */)
+      result += this.newFlashcards.length;
+    if (cardListType === 1 /* DueCard */ || cardListType === 2 /* All */)
+      result += this.dueFlashcards.length;
+    if (includeSubdeckCounts) {
+      for (const deck of this.subdecks) {
+        result += deck.getCardCount(cardListType, includeSubdeckCounts);
+      }
+    }
+    return result;
+  }
+  getDistinctCardCount(cardListType, includeSubdeckCounts) {
+    const cardList = this.getFlattenedCardArray(cardListType, includeSubdeckCounts);
+    const distinctCardSet = new Set(cardList);
+    return distinctCardSet.size;
+  }
+  getFlattenedCardArray(cardListType, includeSubdeckCounts) {
+    let result = [];
+    switch (cardListType) {
+      case 0 /* NewCard */:
+        result = this.newFlashcards;
+        break;
+      case 1 /* DueCard */:
+        result = this.dueFlashcards;
+        break;
+      case 2 /* All */:
+        result = this.newFlashcards.concat(this.dueFlashcards);
+    }
+    if (includeSubdeckCounts) {
+      for (const subdeck of this.subdecks) {
+        result = result.concat(
+          subdeck.getFlattenedCardArray(cardListType, includeSubdeckCounts)
+        );
+      }
+    }
+    return result;
+  }
+  // Returns a count of the number of this question's cards are present in this deck.
+  // (The returned value would be <= question.cards.length)
+  getQuestionCardCount(question) {
+    let result = 0;
+    result += this.getQuestionCardCountForCardListType(question, this.newFlashcards);
+    result += this.getQuestionCardCountForCardListType(question, this.dueFlashcards);
+    return result;
+  }
+  getQuestionCardCountForCardListType(question, cards) {
+    let result = 0;
+    for (let i2 = 0; i2 < cards.length; i2++) {
+      if (Object.is(question, cards[i2].question)) result++;
+    }
+    return result;
+  }
+  static get emptyDeck() {
+    return new _Deck("Root", null);
+  }
+  get isRootDeck() {
+    return this.parent === null;
+  }
+  getDeckByTopicTag(tag) {
+    return this.getDeck(TopicPath.getTopicPathFromTag(tag));
+  }
+  getDeck(topicPath) {
+    return this._getOrCreateDeck(topicPath, false);
+  }
+  getOrCreateDeck(topicPath) {
+    return this._getOrCreateDeck(topicPath, true);
+  }
+  _getOrCreateDeck(topicPath, createAllowed) {
+    if (!topicPath.hasPath) {
+      return this;
+    }
+    const t3 = topicPath.clone();
+    const deckName = t3.shift();
+    for (const subdeck of this.subdecks) {
+      if (deckName === subdeck.deckName) {
+        return subdeck._getOrCreateDeck(t3, createAllowed);
+      }
+    }
+    let result = null;
+    if (createAllowed) {
+      const subdeck = new _Deck(
+        deckName,
+        this
+        /* parent */
+      );
+      this.subdecks.push(subdeck);
+      result = subdeck._getOrCreateDeck(t3, createAllowed);
+    }
+    return result;
+  }
+  getTopicPath() {
+    const list = [];
+    let deck = this;
+    while (!deck.isRootDeck) {
+      list.push(deck.deckName);
+      deck = deck.parent;
+    }
+    return new TopicPath(list.reverse());
+  }
+  getRootDeck() {
+    let deck = this;
+    while (!deck.isRootDeck) {
+      deck = deck.parent;
+    }
+    return deck;
+  }
+  getCard(index, cardListType) {
+    const cardList = this.getCardListForCardType(cardListType);
+    return cardList[index];
+  }
+  getCardListForCardType(cardListType) {
+    return cardListType === 1 /* DueCard */ ? this.dueFlashcards : this.newFlashcards;
+  }
+  appendCard(topicPathList, cardObj) {
+    if (topicPathList.list.length === 0) {
+      this.appendCardToRootDeck(cardObj);
+    } else {
+      for (const topicPath of topicPathList.list) {
+        this.appendCardSingleTopic(topicPath, cardObj);
+      }
+    }
+  }
+  appendCardToRootDeck(cardObj) {
+    this.appendCardSingleTopic(TopicPath.emptyPath, cardObj);
+  }
+  appendCardSingleTopic(topicPath, cardObj) {
+    const deck = this.getOrCreateDeck(topicPath);
+    const cardList = deck.getCardListForCardType(cardObj.cardListType);
+    cardList.push(cardObj);
+  }
+  // The question lists all the topics in which this card is included.
+  // The topics are relative to the base deck, and this method must be called on that deck
+  deleteQuestionFromAllDecks(question, exceptionIfMissing) {
+    for (const card of question.cards) {
+      this.deleteCardFromAllDecks(card, exceptionIfMissing);
+    }
+  }
+  deleteQuestion(question, exceptionIfMissing) {
+    for (const card of question.cards) {
+      this.deleteCardFromThisDeck(card, exceptionIfMissing);
+    }
+  }
+  // The card's question lists all the topics in which this card is included.
+  // The topics are relative to the base deck, and this method must be called on that deck
+  deleteCardFromAllDecks(card, exceptionIfMissing) {
+    for (const topicPath of card.question.topicPathList.list) {
+      const deck = this.getDeck(topicPath);
+      deck.deleteCardFromThisDeck(card, exceptionIfMissing);
+    }
+  }
+  deleteCardFromThisDeck(card, exceptionIfMissing) {
+    const newIdx = this.newFlashcards.indexOf(card);
+    if (newIdx !== -1) this.newFlashcards.splice(newIdx, 1);
+    const dueIdx = this.dueFlashcards.indexOf(card);
+    if (dueIdx !== -1) this.dueFlashcards.splice(dueIdx, 1);
+    if (newIdx === -1 && dueIdx === -1 && exceptionIfMissing) {
+      throw `deleteCardFromThisDeck: Card: ${card.front} not found in deck: ${this.deckName}`;
+    }
+  }
+  deleteCardAtIndex(index, cardListType) {
+    const cardList = this.getCardListForCardType(cardListType);
+    cardList.splice(index, 1);
+  }
+  toDeckArray() {
+    const result = [];
+    result.push(this);
+    for (const subdeck of this.subdecks) {
+      result.push(...subdeck.toDeckArray());
+    }
+    return result;
+  }
+  sortSubdecksList() {
+    this.subdecks.sort((a2, b2) => {
+      if (a2.deckName < b2.deckName) {
+        return -1;
+      } else if (a2.deckName > b2.deckName) {
+        return 1;
+      }
+      return 0;
+    });
+    for (const deck of this.subdecks) {
+      deck.sortSubdecksList();
+    }
+  }
+  debugLogToConsole(desc = null, indent = 0) {
+    let str = desc !== null && desc !== void 0 ? `${desc}: ` : "";
+    str += this.toString(indent);
+    console.log(str);
+  }
+  toString(indent = 0) {
+    let result = "";
+    let indentStr = " ".repeat(indent * 4);
+    result += `${indentStr}${this.deckName}\r
+`;
+    indentStr += "  ";
+    for (let i2 = 0; i2 < this.newFlashcards.length; i2++) {
+      const card = this.newFlashcards[i2];
+      result += `${indentStr}New: ${i2}: ${card.front}::${card.back}\r
+`;
+    }
+    for (let i2 = 0; i2 < this.dueFlashcards.length; i2++) {
+      const card = this.dueFlashcards[i2];
+      const s2 = card.isDue ? "Due" : "Not due";
+      result += `${indentStr}${s2}: ${i2}: ${card.front}::${card.back}\r
+`;
+    }
+    for (const subdeck of this.subdecks) {
+      result += subdeck.toString(indent + 1);
+    }
+    return result;
+  }
+  clone() {
+    return this.copyWithCardFilter(() => true);
+  }
+  copyWithCardFilter(predicate, parent = null) {
+    const result = new _Deck(this.deckName, parent);
+    result.newFlashcards = [...this.newFlashcards.filter((card) => predicate(card))];
+    result.dueFlashcards = [...this.dueFlashcards.filter((card) => predicate(card))];
+    for (const s2 of this.subdecks) {
+      const newParent = result;
+      const newDeck = s2.copyWithCardFilter(predicate, newParent);
+      result.subdecks.push(newDeck);
+    }
+    return result;
+  }
+  static otherListType(cardListType) {
+    let result;
+    if (cardListType === 0 /* NewCard */) result = 1 /* DueCard */;
+    else if (cardListType === 1 /* DueCard */) result = 0 /* NewCard */;
+    else throw "Invalid cardListType";
+    return result;
+  }
+};
+var DeckTreeFilter = class {
+  static filterForReviewableCards(reviewableDeckTree) {
+    return reviewableDeckTree.copyWithCardFilter((card) => !card.question.hasEditLaterTag);
+  }
+  static filterForRemainingCards(questionPostponementList, deckTree, reviewMode) {
+    return deckTree.copyWithCardFilter(
+      (card) => (reviewMode === 0 /* Cram */ || card.isNew || card.isDue) && !questionPostponementList.includes(card.question)
+    );
+  }
+};
+
+// src/card/flashcard-review-sequencer.ts
+var DeckStats = class {
+  constructor(totalCount, dueCount, newCount, cardsInQueueCount, dueCardsInQueueOfThisDeckCount, newCardsInQueueOfThisDeckCount, cardsInQueueOfThisDeckCount, subDecksInQueueOfThisDeckCount, decksInQueueOfThisDeckCount) {
+    this.dueCount = dueCount;
+    this.newCount = newCount;
+    this.totalCount = totalCount;
+    this.cardsInQueueCount = cardsInQueueCount;
+    this.dueCardsInQueueOfThisDeckCount = dueCardsInQueueOfThisDeckCount;
+    this.newCardsInQueueOfThisDeckCount = newCardsInQueueOfThisDeckCount;
+    this.cardsInQueueOfThisDeckCount = cardsInQueueOfThisDeckCount;
+    this.subDecksInQueueOfThisDeckCount = subDecksInQueueOfThisDeckCount;
+    this.decksInQueueOfThisDeckCount = decksInQueueOfThisDeckCount;
+  }
+};
+var FlashcardReviewSequencer = class {
+  constructor(reviewMode, cardSequencer, settings, srsAlgorithm, questionPostponementList, dueDateFlashcardHistogram) {
+    this.reviewMode = reviewMode;
+    this.cardSequencer = cardSequencer;
+    this.settings = settings;
+    this.srsAlgorithm = srsAlgorithm;
+    this.questionPostponementList = questionPostponementList;
+    this.dueDateFlashcardHistogram = dueDateFlashcardHistogram;
+  }
+  get hasCurrentCard() {
+    return this.cardSequencer.currentCard !== null && this.cardSequencer.currentCard !== void 0;
+  }
+  get currentCard() {
+    return this.cardSequencer.currentCard;
+  }
+  get currentQuestion() {
+    var _a2;
+    return (_a2 = this.currentCard) == null ? void 0 : _a2.question;
+  }
+  get currentDeck() {
+    return this.cardSequencer.currentDeck;
+  }
+  get currentNote() {
+    return this.currentQuestion.note;
+  }
+  // originalDeckTree isn't modified by the review process
+  // Only remainingDeckTree
+  setDeckTree(originalDeckTree, remainingDeckTree) {
+    this.cardSequencer.setBaseDeck(remainingDeckTree);
+    this._originalDeckTree = originalDeckTree;
+    this.remainingDeckTree = remainingDeckTree;
+    this.setCurrentDeck(TopicPath.emptyPath);
+  }
+  setCurrentDeck(topicPath) {
+    this.cardSequencer.setIteratorTopicPath(topicPath);
+    this.cardSequencer.nextCard();
+  }
+  get originalDeckTree() {
+    return this._originalDeckTree;
+  }
+  getDeckStats(topicPath) {
+    const totalCount = this._originalDeckTree.getDeck(topicPath).getDistinctCardCount(2 /* All */, true);
+    const remainingDeck = this.remainingDeckTree.getDeck(topicPath);
+    const newCount = remainingDeck.getDistinctCardCount(0 /* NewCard */, true);
+    const dueCount = remainingDeck.getDistinctCardCount(1 /* DueCard */, true);
+    const newCardsInQueueOfThisDeckCount = remainingDeck.getDistinctCardCount(
+      0 /* NewCard */,
+      false
+    );
+    const dueCardsInQueueOfThisDeckCount = remainingDeck.getDistinctCardCount(
+      1 /* DueCard */,
+      false
+    );
+    const cardsInQueueOfThisDeckCount = newCardsInQueueOfThisDeckCount + dueCardsInQueueOfThisDeckCount;
+    const subDecksInQueueOfThisDeckCount = this.getSubDecksWithCardsInQueue(remainingDeck).length;
+    const decksInQueueOfThisDeckCount = cardsInQueueOfThisDeckCount > 0 ? subDecksInQueueOfThisDeckCount + 1 : subDecksInQueueOfThisDeckCount;
+    return new DeckStats(
+      totalCount,
+      dueCount,
+      newCount,
+      dueCount + newCount,
+      dueCardsInQueueOfThisDeckCount,
+      newCardsInQueueOfThisDeckCount,
+      cardsInQueueOfThisDeckCount,
+      subDecksInQueueOfThisDeckCount,
+      decksInQueueOfThisDeckCount
+    );
+  }
+  getSubDecksWithCardsInQueue(deck) {
+    let subDecksWithCardsInQueue = [];
+    deck.subdecks.forEach((subDeck) => {
+      subDecksWithCardsInQueue = subDecksWithCardsInQueue.concat(
+        this.getSubDecksWithCardsInQueue(subDeck)
+      );
+      const newCount = subDeck.getDistinctCardCount(0 /* NewCard */, false);
+      const dueCount = subDeck.getDistinctCardCount(1 /* DueCard */, false);
+      if (newCount + dueCount > 0) subDecksWithCardsInQueue.push(subDeck);
+    });
+    return subDecksWithCardsInQueue;
+  }
+  skipCurrentCard() {
+    this.cardSequencer.deleteCurrentQuestionFromAllDecks();
+  }
+  deleteCurrentCard() {
+    this.cardSequencer.deleteCurrentCardFromAllDecks();
+  }
+  async processReview(response) {
+    switch (this.reviewMode) {
+      case 1 /* Review */:
+        await this.processReviewReviewMode(response);
+        break;
+      case 0 /* Cram */:
+        await this.processReviewCramMode(response);
+        break;
+    }
+  }
+  async processReviewReviewMode(response) {
+    if (response !== 3 /* Reset */ || this.currentCard.hasSchedule) {
+      const oldSchedule = this.currentCard.scheduleInfo;
+      this.currentCard.scheduleInfo = this.determineCardSchedule(response, this.currentCard);
+      await DataStore.getInstance().questionWriteSchedule(this.currentQuestion);
+      if (oldSchedule) {
+        const today = globalDateProvider.today.valueOf();
+        const nDays = Math.ceil(
+          (oldSchedule.dueDateAsUnix - today) / TICKS_PER_DAY
+        );
+        this.dueDateFlashcardHistogram.decrement(nDays);
+      }
+      this.dueDateFlashcardHistogram.increment(this.currentCard.scheduleInfo.interval);
+    }
+    if (response === 3 /* Reset */) {
+      this.cardSequencer.moveCurrentCardToEndOfList();
+      this.cardSequencer.nextCard();
+    } else {
+      if (this.settings.burySiblingCards) {
+        await this.burySiblingCards();
+        this.cardSequencer.deleteCurrentQuestionFromAllDecks();
+      } else {
+        this.deleteCurrentCard();
+      }
+    }
+  }
+  async burySiblingCards() {
+    const remaining = this.currentDeck.getQuestionCardCount(this.currentQuestion);
+    if (remaining > 1) {
+      this.questionPostponementList.add(this.currentQuestion);
+      await this.questionPostponementList.write();
+    }
+  }
+  async processReviewCramMode(response) {
+    if (response === 0 /* Easy */) this.deleteCurrentCard();
+    else {
+      this.cardSequencer.moveCurrentCardToEndOfList();
+      this.cardSequencer.nextCard();
+    }
+  }
+  determineCardSchedule(response, card) {
+    let result;
+    if (response === 3 /* Reset */) {
+      result = this.srsAlgorithm.cardGetResetSchedule();
+    } else {
+      if (card.hasSchedule) {
+        result = this.srsAlgorithm.cardCalcUpdatedSchedule(
+          response,
+          card.scheduleInfo,
+          this.dueDateFlashcardHistogram
+        );
+      } else {
+        const currentNote = card.question.note;
+        result = this.srsAlgorithm.cardGetNewSchedule(
+          response,
+          currentNote.filePath,
+          this.dueDateFlashcardHistogram
+        );
+      }
+    }
+    return result;
+  }
+  async updateCurrentQuestionText(text) {
+    const q2 = this.currentQuestion.questionText;
+    q2.actualQuestion = text;
+    await DataStore.getInstance().questionWrite(this.currentQuestion);
+  }
+};
+
+// src/card/questions/question-postponement-list.ts
+var QuestionPostponementList = class {
+  constructor(plugin, settings, list) {
+    this.plugin = plugin;
+    this.settings = settings;
+    this.list = list;
+  }
+  async clearIfNewDay(data) {
+    const now2 = window.moment(Date.now());
+    const todayDate = now2.format("YYYY-MM-DD");
+    const isNewDay = todayDate !== data.buryDate;
+    if (isNewDay) {
+      data.buryDate = todayDate;
+      this.clear();
+      await this.write();
+    }
+  }
+  clear() {
+    this.list.splice(0);
+  }
+  add(question) {
+    if (!this.includes(question)) this.list.push(question.questionText.textHash);
+  }
+  includes(question) {
+    return this.list.includes(question.questionText.textHash);
+  }
+  async write() {
+    if (this.plugin === null) return;
+    await this.plugin.savePluginData();
+  }
+};
+
 // src/algorithms/osr/osr-note-graph.ts
 var graph = __toESM(require_lib());
 
-// node_modules/.pnpm/minimatch@10.0.1/node_modules/minimatch/dist/esm/index.js
-var import_brace_expansion = __toESM(require_brace_expansion(), 1);
+// node_modules/.pnpm/balanced-match@4.0.4/node_modules/balanced-match/dist/esm/index.js
+var balanced = (a2, b2, str) => {
+  const ma = a2 instanceof RegExp ? maybeMatch(a2, str) : a2;
+  const mb = b2 instanceof RegExp ? maybeMatch(b2, str) : b2;
+  const r2 = ma !== null && mb != null && range(ma, mb, str);
+  return r2 && {
+    start: r2[0],
+    end: r2[1],
+    pre: str.slice(0, r2[0]),
+    body: str.slice(r2[0] + ma.length, r2[1]),
+    post: str.slice(r2[1] + mb.length)
+  };
+};
+var maybeMatch = (reg, str) => {
+  const m2 = str.match(reg);
+  return m2 ? m2[0] : null;
+};
+var range = (a2, b2, str) => {
+  let begs, beg, left, right = void 0, result;
+  let ai = str.indexOf(a2);
+  let bi = str.indexOf(b2, ai + 1);
+  let i2 = ai;
+  if (ai >= 0 && bi > 0) {
+    if (a2 === b2) {
+      return [ai, bi];
+    }
+    begs = [];
+    left = str.length;
+    while (i2 >= 0 && !result) {
+      if (i2 === ai) {
+        begs.push(i2);
+        ai = str.indexOf(a2, i2 + 1);
+      } else if (begs.length === 1) {
+        const r2 = begs.pop();
+        if (r2 !== void 0)
+          result = [r2, bi];
+      } else {
+        beg = begs.pop();
+        if (beg !== void 0 && beg < left) {
+          left = beg;
+          right = bi;
+        }
+        bi = str.indexOf(b2, i2 + 1);
+      }
+      i2 = ai < bi && ai >= 0 ? ai : bi;
+    }
+    if (begs.length && right !== void 0) {
+      result = [left, right];
+    }
+  }
+  return result;
+};
 
-// node_modules/.pnpm/minimatch@10.0.1/node_modules/minimatch/dist/esm/assert-valid-pattern.js
+// node_modules/.pnpm/brace-expansion@5.0.4/node_modules/brace-expansion/dist/esm/index.js
+var escSlash = "\0SLASH" + Math.random() + "\0";
+var escOpen = "\0OPEN" + Math.random() + "\0";
+var escClose = "\0CLOSE" + Math.random() + "\0";
+var escComma = "\0COMMA" + Math.random() + "\0";
+var escPeriod = "\0PERIOD" + Math.random() + "\0";
+var escSlashPattern = new RegExp(escSlash, "g");
+var escOpenPattern = new RegExp(escOpen, "g");
+var escClosePattern = new RegExp(escClose, "g");
+var escCommaPattern = new RegExp(escComma, "g");
+var escPeriodPattern = new RegExp(escPeriod, "g");
+var slashPattern = /\\\\/g;
+var openPattern = /\\{/g;
+var closePattern = /\\}/g;
+var commaPattern = /\\,/g;
+var periodPattern = /\\\./g;
+var EXPANSION_MAX = 1e5;
+function numeric(str) {
+  return !isNaN(str) ? parseInt(str, 10) : str.charCodeAt(0);
+}
+function escapeBraces(str) {
+  return str.replace(slashPattern, escSlash).replace(openPattern, escOpen).replace(closePattern, escClose).replace(commaPattern, escComma).replace(periodPattern, escPeriod);
+}
+function unescapeBraces(str) {
+  return str.replace(escSlashPattern, "\\").replace(escOpenPattern, "{").replace(escClosePattern, "}").replace(escCommaPattern, ",").replace(escPeriodPattern, ".");
+}
+function parseCommaParts(str) {
+  if (!str) {
+    return [""];
+  }
+  const parts = [];
+  const m2 = balanced("{", "}", str);
+  if (!m2) {
+    return str.split(",");
+  }
+  const { pre, body, post } = m2;
+  const p2 = pre.split(",");
+  p2[p2.length - 1] += "{" + body + "}";
+  const postParts = parseCommaParts(post);
+  if (post.length) {
+    ;
+    p2[p2.length - 1] += postParts.shift();
+    p2.push.apply(p2, postParts);
+  }
+  parts.push.apply(parts, p2);
+  return parts;
+}
+function expand(str, options = {}) {
+  if (!str) {
+    return [];
+  }
+  const { max = EXPANSION_MAX } = options;
+  if (str.slice(0, 2) === "{}") {
+    str = "\\{\\}" + str.slice(2);
+  }
+  return expand_(escapeBraces(str), max, true).map(unescapeBraces);
+}
+function embrace(str) {
+  return "{" + str + "}";
+}
+function isPadded(el) {
+  return /^-?0\d/.test(el);
+}
+function lte(i2, y2) {
+  return i2 <= y2;
+}
+function gte(i2, y2) {
+  return i2 >= y2;
+}
+function expand_(str, max, isTop) {
+  const expansions = [];
+  const m2 = balanced("{", "}", str);
+  if (!m2)
+    return [str];
+  const pre = m2.pre;
+  const post = m2.post.length ? expand_(m2.post, max, false) : [""];
+  if (/\$$/.test(m2.pre)) {
+    for (let k = 0; k < post.length && k < max; k++) {
+      const expansion = pre + "{" + m2.body + "}" + post[k];
+      expansions.push(expansion);
+    }
+  } else {
+    const isNumericSequence = /^-?\d+\.\.-?\d+(?:\.\.-?\d+)?$/.test(m2.body);
+    const isAlphaSequence = /^[a-zA-Z]\.\.[a-zA-Z](?:\.\.-?\d+)?$/.test(m2.body);
+    const isSequence = isNumericSequence || isAlphaSequence;
+    const isOptions = m2.body.indexOf(",") >= 0;
+    if (!isSequence && !isOptions) {
+      if (m2.post.match(/,(?!,).*\}/)) {
+        str = m2.pre + "{" + m2.body + escClose + m2.post;
+        return expand_(str, max, true);
+      }
+      return [str];
+    }
+    let n2;
+    if (isSequence) {
+      n2 = m2.body.split(/\.\./);
+    } else {
+      n2 = parseCommaParts(m2.body);
+      if (n2.length === 1 && n2[0] !== void 0) {
+        n2 = expand_(n2[0], max, false).map(embrace);
+        if (n2.length === 1) {
+          return post.map((p2) => m2.pre + n2[0] + p2);
+        }
+      }
+    }
+    let N2;
+    if (isSequence && n2[0] !== void 0 && n2[1] !== void 0) {
+      const x2 = numeric(n2[0]);
+      const y2 = numeric(n2[1]);
+      const width = Math.max(n2[0].length, n2[1].length);
+      let incr = n2.length === 3 && n2[2] !== void 0 ? Math.abs(numeric(n2[2])) : 1;
+      let test = lte;
+      const reverse = y2 < x2;
+      if (reverse) {
+        incr *= -1;
+        test = gte;
+      }
+      const pad = n2.some(isPadded);
+      N2 = [];
+      for (let i2 = x2; test(i2, y2); i2 += incr) {
+        let c2;
+        if (isAlphaSequence) {
+          c2 = String.fromCharCode(i2);
+          if (c2 === "\\") {
+            c2 = "";
+          }
+        } else {
+          c2 = String(i2);
+          if (pad) {
+            const need = width - c2.length;
+            if (need > 0) {
+              const z2 = new Array(need + 1).join("0");
+              if (i2 < 0) {
+                c2 = "-" + z2 + c2.slice(1);
+              } else {
+                c2 = z2 + c2;
+              }
+            }
+          }
+        }
+        N2.push(c2);
+      }
+    } else {
+      N2 = [];
+      for (let j2 = 0; j2 < n2.length; j2++) {
+        N2.push.apply(N2, expand_(n2[j2], max, false));
+      }
+    }
+    for (let j2 = 0; j2 < N2.length; j2++) {
+      for (let k = 0; k < post.length && expansions.length < max; k++) {
+        const expansion = pre + N2[j2] + post[k];
+        if (!isTop || isSequence || expansion) {
+          expansions.push(expansion);
+        }
+      }
+    }
+  }
+  return expansions;
+}
+
+// node_modules/.pnpm/minimatch@10.2.4/node_modules/minimatch/dist/esm/assert-valid-pattern.js
 var MAX_PATTERN_LENGTH = 1024 * 64;
 var assertValidPattern = (pattern) => {
   if (typeof pattern !== "string") {
@@ -8451,7 +10103,7 @@ var assertValidPattern = (pattern) => {
   }
 };
 
-// node_modules/.pnpm/minimatch@10.0.1/node_modules/minimatch/dist/esm/brace-expressions.js
+// node_modules/.pnpm/minimatch@10.2.4/node_modules/minimatch/dist/esm/brace-expressions.js
 var posixClasses = {
   "[:alnum:]": ["\\p{L}\\p{Nl}\\p{Nd}", true],
   "[:alpha:]": ["\\p{L}\\p{Nl}", true],
@@ -8560,14 +10212,65 @@ var parseClass = (glob, position) => {
   return [comb, uflag, endPos - pos, true];
 };
 
-// node_modules/.pnpm/minimatch@10.0.1/node_modules/minimatch/dist/esm/unescape.js
-var unescape = (s2, { windowsPathsNoEscape = false } = {}) => {
-  return windowsPathsNoEscape ? s2.replace(/\[([^\/\\])\]/g, "$1") : s2.replace(/((?!\\).|^)\[([^\/\\])\]/g, "$1$2").replace(/\\([^\/])/g, "$1");
+// node_modules/.pnpm/minimatch@10.2.4/node_modules/minimatch/dist/esm/unescape.js
+var unescape = (s2, { windowsPathsNoEscape = false, magicalBraces = true } = {}) => {
+  if (magicalBraces) {
+    return windowsPathsNoEscape ? s2.replace(/\[([^\/\\])\]/g, "$1") : s2.replace(/((?!\\).|^)\[([^\/\\])\]/g, "$1$2").replace(/\\([^\/])/g, "$1");
+  }
+  return windowsPathsNoEscape ? s2.replace(/\[([^\/\\{}])\]/g, "$1") : s2.replace(/((?!\\).|^)\[([^\/\\{}])\]/g, "$1$2").replace(/\\([^\/{}])/g, "$1");
 };
 
-// node_modules/.pnpm/minimatch@10.0.1/node_modules/minimatch/dist/esm/ast.js
+// node_modules/.pnpm/minimatch@10.2.4/node_modules/minimatch/dist/esm/ast.js
+var _a;
 var types = /* @__PURE__ */ new Set(["!", "?", "+", "*", "@"]);
 var isExtglobType = (c2) => types.has(c2);
+var isExtglobAST = (c2) => isExtglobType(c2.type);
+var adoptionMap = /* @__PURE__ */ new Map([
+  ["!", ["@"]],
+  ["?", ["?", "@"]],
+  ["@", ["@"]],
+  ["*", ["*", "+", "?", "@"]],
+  ["+", ["+", "@"]]
+]);
+var adoptionWithSpaceMap = /* @__PURE__ */ new Map([
+  ["!", ["?"]],
+  ["@", ["?"]],
+  ["+", ["?", "*"]]
+]);
+var adoptionAnyMap = /* @__PURE__ */ new Map([
+  ["!", ["?", "@"]],
+  ["?", ["?", "@"]],
+  ["@", ["?", "@"]],
+  ["*", ["*", "+", "?", "@"]],
+  ["+", ["+", "@", "?", "*"]]
+]);
+var usurpMap = /* @__PURE__ */ new Map([
+  ["!", /* @__PURE__ */ new Map([["!", "@"]])],
+  [
+    "?",
+    /* @__PURE__ */ new Map([
+      ["*", "*"],
+      ["+", "*"]
+    ])
+  ],
+  [
+    "@",
+    /* @__PURE__ */ new Map([
+      ["!", "!"],
+      ["?", "?"],
+      ["@", "@"],
+      ["*", "*"],
+      ["+", "+"]
+    ])
+  ],
+  [
+    "+",
+    /* @__PURE__ */ new Map([
+      ["?", "*"],
+      ["*", "*"]
+    ])
+  ]
+]);
 var startNoTraversal = "(?!(?:^|/)\\.\\.?(?:$|/))";
 var startNoDot = "(?!\\.)";
 var addPatternStart = /* @__PURE__ */ new Set(["[", "."]);
@@ -8577,8 +10280,9 @@ var regExpEscape = (s2) => s2.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 var qmark = "[^/]";
 var star = qmark + "*?";
 var starNoEmpty = qmark + "+?";
-var _root, _hasMagic, _uflag, _parts, _parent, _parentIndex, _negs, _filledNegs, _options, _toString, _emptyExt, _AST_instances, fillNegs_fn, _AST_static, parseAST_fn, partsToRegExp_fn, parseGlob_fn;
-var _AST = class _AST {
+var ID = 0;
+var _root, _hasMagic, _uflag, _parts, _parent, _parentIndex, _negs, _filledNegs, _options, _toString, _emptyExt, _AST_instances, fillNegs_fn, _AST_static, parseAST_fn, canAdoptWithSpace_fn, canAdopt_fn, canAdoptType_fn, adoptWithSpace_fn, adopt_fn, canUsurpType_fn, canUsurp_fn, usurp_fn, flatten_fn, partsToRegExp_fn, parseGlob_fn;
+var AST = class {
   constructor(type, parent, options = {}) {
     __privateAdd(this, _AST_instances);
     __publicField(this, "type");
@@ -8595,6 +10299,7 @@ var _AST = class _AST {
     // set to true if it's an extglob with no children
     // (which really means one child of '')
     __privateAdd(this, _emptyExt, false);
+    __publicField(this, "id", ++ID);
     this.type = type;
     if (type)
       __privateSet(this, _hasMagic, true);
@@ -8605,6 +10310,23 @@ var _AST = class _AST {
     if (type === "!" && !__privateGet(__privateGet(this, _root), _filledNegs))
       __privateGet(this, _negs).push(this);
     __privateSet(this, _parentIndex, __privateGet(this, _parent) ? __privateGet(__privateGet(this, _parent), _parts).length : 0);
+  }
+  get depth() {
+    var _a2, _b;
+    return ((_b = (_a2 = __privateGet(this, _parent)) == null ? void 0 : _a2.depth) != null ? _b : -1) + 1;
+  }
+  [/* @__PURE__ */ Symbol.for("nodejs.util.inspect.custom")]() {
+    var _a2;
+    return {
+      "@@type": "AST",
+      id: this.id,
+      type: this.type,
+      root: __privateGet(this, _root).id,
+      parent: (_a2 = __privateGet(this, _parent)) == null ? void 0 : _a2.id,
+      depth: this.depth,
+      partsLength: __privateGet(this, _parts).length,
+      parts: __privateGet(this, _parts)
+    };
   }
   get hasMagic() {
     if (__privateGet(this, _hasMagic) !== void 0)
@@ -8631,44 +10353,44 @@ var _AST = class _AST {
     for (const p2 of parts) {
       if (p2 === "")
         continue;
-      if (typeof p2 !== "string" && !(p2 instanceof _AST && __privateGet(p2, _parent) === this)) {
+      if (typeof p2 !== "string" && !(p2 instanceof _a && __privateGet(p2, _parent) === this)) {
         throw new Error("invalid part: " + p2);
       }
       __privateGet(this, _parts).push(p2);
     }
   }
   toJSON() {
-    var _a;
+    var _a2;
     const ret = this.type === null ? __privateGet(this, _parts).slice().map((p2) => typeof p2 === "string" ? p2 : p2.toJSON()) : [this.type, ...__privateGet(this, _parts).map((p2) => p2.toJSON())];
     if (this.isStart() && !this.type)
       ret.unshift([]);
-    if (this.isEnd() && (this === __privateGet(this, _root) || __privateGet(__privateGet(this, _root), _filledNegs) && ((_a = __privateGet(this, _parent)) == null ? void 0 : _a.type) === "!")) {
+    if (this.isEnd() && (this === __privateGet(this, _root) || __privateGet(__privateGet(this, _root), _filledNegs) && ((_a2 = __privateGet(this, _parent)) == null ? void 0 : _a2.type) === "!")) {
       ret.push({});
     }
     return ret;
   }
   isStart() {
-    var _a;
+    var _a2;
     if (__privateGet(this, _root) === this)
       return true;
-    if (!((_a = __privateGet(this, _parent)) == null ? void 0 : _a.isStart()))
+    if (!((_a2 = __privateGet(this, _parent)) == null ? void 0 : _a2.isStart()))
       return false;
     if (__privateGet(this, _parentIndex) === 0)
       return true;
     const p2 = __privateGet(this, _parent);
     for (let i2 = 0; i2 < __privateGet(this, _parentIndex); i2++) {
       const pp = __privateGet(p2, _parts)[i2];
-      if (!(pp instanceof _AST && pp.type === "!")) {
+      if (!(pp instanceof _a && pp.type === "!")) {
         return false;
       }
     }
     return true;
   }
   isEnd() {
-    var _a, _b, _c;
+    var _a2, _b, _c;
     if (__privateGet(this, _root) === this)
       return true;
-    if (((_a = __privateGet(this, _parent)) == null ? void 0 : _a.type) === "!")
+    if (((_a2 = __privateGet(this, _parent)) == null ? void 0 : _a2.type) === "!")
       return true;
     if (!((_b = __privateGet(this, _parent)) == null ? void 0 : _b.isEnd()))
       return false;
@@ -8684,16 +10406,16 @@ var _AST = class _AST {
       this.push(part.clone(this));
   }
   clone(parent) {
-    const c2 = new _AST(this.type, parent);
+    const c2 = new _a(this.type, parent);
     for (const p2 of __privateGet(this, _parts)) {
       c2.copyIn(p2);
     }
     return c2;
   }
   static fromGlob(pattern, options = {}) {
-    var _a;
-    const ast = new _AST(null, void 0, options);
-    __privateMethod(_a = _AST, _AST_static, parseAST_fn).call(_a, pattern, ast, 0, options);
+    var _a2;
+    const ast = new _a(null, void 0, options);
+    __privateMethod(_a2 = _a, _AST_static, parseAST_fn).call(_a2, pattern, ast, 0, options, 0);
     return ast;
   }
   // returns the regular expression if there's magic, or the unescaped
@@ -8786,15 +10508,17 @@ var _AST = class _AST {
   // is ^(?!\.), we can just prepend (?!\.) to the pattern (either root
   // or start or whatever) and prepend ^ or / at the Regexp construction.
   toRegExpSource(allowDot) {
-    var _a;
+    var _a2;
     const dot = allowDot != null ? allowDot : !!__privateGet(this, _options).dot;
-    if (__privateGet(this, _root) === this)
+    if (__privateGet(this, _root) === this) {
+      __privateMethod(this, _AST_instances, flatten_fn).call(this);
       __privateMethod(this, _AST_instances, fillNegs_fn).call(this);
-    if (!this.type) {
-      const noEmpty = this.isStart() && this.isEnd();
+    }
+    if (!isExtglobAST(this)) {
+      const noEmpty = this.isStart() && this.isEnd() && !__privateGet(this, _parts).some((s2) => typeof s2 !== "string");
       const src = __privateGet(this, _parts).map((p2) => {
-        var _a2;
-        const [re, _2, hasMagic, uflag] = typeof p2 === "string" ? __privateMethod(_a2 = _AST, _AST_static, parseGlob_fn).call(_a2, p2, __privateGet(this, _hasMagic), noEmpty) : p2.toRegExpSource(allowDot);
+        var _a3;
+        const [re, _2, hasMagic, uflag] = typeof p2 === "string" ? __privateMethod(_a3 = _a, _AST_static, parseGlob_fn).call(_a3, p2, __privateGet(this, _hasMagic), noEmpty) : p2.toRegExpSource(allowDot);
         __privateSet(this, _hasMagic, __privateGet(this, _hasMagic) || hasMagic);
         __privateSet(this, _uflag, __privateGet(this, _uflag) || uflag);
         return re;
@@ -8817,7 +10541,7 @@ var _AST = class _AST {
         }
       }
       let end = "";
-      if (this.isEnd() && __privateGet(__privateGet(this, _root), _filledNegs) && ((_a = __privateGet(this, _parent)) == null ? void 0 : _a.type) === "!") {
+      if (this.isEnd() && __privateGet(__privateGet(this, _root), _filledNegs) && ((_a2 = __privateGet(this, _parent)) == null ? void 0 : _a2.type) === "!") {
         end = "(?:$|\\/)";
       }
       const final2 = start2 + src + end;
@@ -8833,9 +10557,10 @@ var _AST = class _AST {
     let body = __privateMethod(this, _AST_instances, partsToRegExp_fn).call(this, dot);
     if (this.isStart() && this.isEnd() && !body && this.type !== "!") {
       const s2 = this.toString();
-      __privateSet(this, _parts, [s2]);
-      this.type = null;
-      __privateSet(this, _hasMagic, void 0);
+      const me = this;
+      __privateSet(me, _parts, [s2]);
+      me.type = null;
+      __privateSet(me, _hasMagic, void 0);
       return [s2, unescape(this.toString()), false, false];
     }
     let bodyDotAllowed = !repeated || allowDot || dot || !startNoDot ? "" : __privateMethod(this, _AST_instances, partsToRegExp_fn).call(this, true);
@@ -8904,8 +10629,9 @@ fillNegs_fn = function() {
   return this;
 };
 _AST_static = new WeakSet();
-parseAST_fn = function(str, ast, pos, opt) {
-  var _a, _b;
+parseAST_fn = function(str, ast, pos, opt, extDepth) {
+  var _a2, _b, _c, _d, _e;
+  const maxDepth = (_a2 = opt.maxExtglobRecursion) != null ? _a2 : 2;
   let escaping = false;
   let inBrace = false;
   let braceStart = -1;
@@ -8937,11 +10663,12 @@ parseAST_fn = function(str, ast, pos, opt) {
         acc2 += c2;
         continue;
       }
-      if (!opt.noext && isExtglobType(c2) && str.charAt(i3) === "(") {
+      const doRecurse = !opt.noext && isExtglobType(c2) && str.charAt(i3) === "(" && extDepth <= maxDepth;
+      if (doRecurse) {
         ast.push(acc2);
         acc2 = "";
-        const ext2 = new _AST(c2, ast);
-        i3 = __privateMethod(_a = _AST, _AST_static, parseAST_fn).call(_a, str, ext2, i3, opt);
+        const ext2 = new _a(c2, ast);
+        i3 = __privateMethod(_b = _a, _AST_static, parseAST_fn).call(_b, str, ext2, i3, opt, extDepth + 1);
         ast.push(ext2);
         continue;
       }
@@ -8951,7 +10678,7 @@ parseAST_fn = function(str, ast, pos, opt) {
     return i3;
   }
   let i2 = pos + 1;
-  let part = new _AST(null, ast);
+  let part = new _a(null, ast);
   const parts = [];
   let acc = "";
   while (i2 < str.length) {
@@ -8978,19 +10705,22 @@ parseAST_fn = function(str, ast, pos, opt) {
       acc += c2;
       continue;
     }
-    if (isExtglobType(c2) && str.charAt(i2) === "(") {
+    const doRecurse = !opt.noext && isExtglobType(c2) && str.charAt(i2) === "(" && /* c8 ignore start - the maxDepth is sufficient here */
+    (extDepth <= maxDepth || ast && __privateMethod(_c = ast, _AST_instances, canAdoptType_fn).call(_c, c2));
+    if (doRecurse) {
+      const depthAdd = ast && __privateMethod(_d = ast, _AST_instances, canAdoptType_fn).call(_d, c2) ? 0 : 1;
       part.push(acc);
       acc = "";
-      const ext2 = new _AST(c2, part);
+      const ext2 = new _a(c2, part);
       part.push(ext2);
-      i2 = __privateMethod(_b = _AST, _AST_static, parseAST_fn).call(_b, str, ext2, i2, opt);
+      i2 = __privateMethod(_e = _a, _AST_static, parseAST_fn).call(_e, str, ext2, i2, opt, extDepth + depthAdd);
       continue;
     }
     if (c2 === "|") {
       part.push(acc);
       acc = "";
       parts.push(part);
-      part = new _AST(null, ast);
+      part = new _a(null, ast);
       continue;
     }
     if (c2 === ")") {
@@ -9009,6 +10739,102 @@ parseAST_fn = function(str, ast, pos, opt) {
   __privateSet(ast, _parts, [str.substring(pos - 1)]);
   return i2;
 };
+canAdoptWithSpace_fn = function(child) {
+  return __privateMethod(this, _AST_instances, canAdopt_fn).call(this, child, adoptionWithSpaceMap);
+};
+canAdopt_fn = function(child, map3 = adoptionMap) {
+  if (!child || typeof child !== "object" || child.type !== null || __privateGet(child, _parts).length !== 1 || this.type === null) {
+    return false;
+  }
+  const gc = __privateGet(child, _parts)[0];
+  if (!gc || typeof gc !== "object" || gc.type === null) {
+    return false;
+  }
+  return __privateMethod(this, _AST_instances, canAdoptType_fn).call(this, gc.type, map3);
+};
+canAdoptType_fn = function(c2, map3 = adoptionAnyMap) {
+  var _a2;
+  return !!((_a2 = map3.get(this.type)) == null ? void 0 : _a2.includes(c2));
+};
+adoptWithSpace_fn = function(child, index) {
+  const gc = __privateGet(child, _parts)[0];
+  const blank = new _a(null, gc, this.options);
+  __privateGet(blank, _parts).push("");
+  gc.push(blank);
+  __privateMethod(this, _AST_instances, adopt_fn).call(this, child, index);
+};
+adopt_fn = function(child, index) {
+  const gc = __privateGet(child, _parts)[0];
+  __privateGet(this, _parts).splice(index, 1, ...__privateGet(gc, _parts));
+  for (const p2 of __privateGet(gc, _parts)) {
+    if (typeof p2 === "object")
+      __privateSet(p2, _parent, this);
+  }
+  __privateSet(this, _toString, void 0);
+};
+canUsurpType_fn = function(c2) {
+  const m2 = usurpMap.get(this.type);
+  return !!(m2 == null ? void 0 : m2.has(c2));
+};
+canUsurp_fn = function(child) {
+  if (!child || typeof child !== "object" || child.type !== null || __privateGet(child, _parts).length !== 1 || this.type === null || __privateGet(this, _parts).length !== 1) {
+    return false;
+  }
+  const gc = __privateGet(child, _parts)[0];
+  if (!gc || typeof gc !== "object" || gc.type === null) {
+    return false;
+  }
+  return __privateMethod(this, _AST_instances, canUsurpType_fn).call(this, gc.type);
+};
+usurp_fn = function(child) {
+  const m2 = usurpMap.get(this.type);
+  const gc = __privateGet(child, _parts)[0];
+  const nt2 = m2 == null ? void 0 : m2.get(gc.type);
+  if (!nt2)
+    return false;
+  __privateSet(this, _parts, __privateGet(gc, _parts));
+  for (const p2 of __privateGet(this, _parts)) {
+    if (typeof p2 === "object") {
+      __privateSet(p2, _parent, this);
+    }
+  }
+  this.type = nt2;
+  __privateSet(this, _toString, void 0);
+  __privateSet(this, _emptyExt, false);
+};
+flatten_fn = function() {
+  var _a2, _b;
+  if (!isExtglobAST(this)) {
+    for (const p2 of __privateGet(this, _parts)) {
+      if (typeof p2 === "object") {
+        __privateMethod(_a2 = p2, _AST_instances, flatten_fn).call(_a2);
+      }
+    }
+  } else {
+    let iterations = 0;
+    let done = false;
+    do {
+      done = true;
+      for (let i2 = 0; i2 < __privateGet(this, _parts).length; i2++) {
+        const c2 = __privateGet(this, _parts)[i2];
+        if (typeof c2 === "object") {
+          __privateMethod(_b = c2, _AST_instances, flatten_fn).call(_b);
+          if (__privateMethod(this, _AST_instances, canAdopt_fn).call(this, c2)) {
+            done = false;
+            __privateMethod(this, _AST_instances, adopt_fn).call(this, c2, i2);
+          } else if (__privateMethod(this, _AST_instances, canAdoptWithSpace_fn).call(this, c2)) {
+            done = false;
+            __privateMethod(this, _AST_instances, adoptWithSpace_fn).call(this, c2, i2);
+          } else if (__privateMethod(this, _AST_instances, canUsurp_fn).call(this, c2)) {
+            done = false;
+            __privateMethod(this, _AST_instances, usurp_fn).call(this, c2);
+          }
+        }
+      }
+    } while (!done && ++iterations < 10);
+  }
+  __privateSet(this, _toString, void 0);
+};
 partsToRegExp_fn = function(dot) {
   return __privateGet(this, _parts).map((p2) => {
     if (typeof p2 === "string") {
@@ -9023,12 +10849,23 @@ parseGlob_fn = function(glob, hasMagic, noEmpty = false) {
   let escaping = false;
   let re = "";
   let uflag = false;
+  let inStar = false;
   for (let i2 = 0; i2 < glob.length; i2++) {
     const c2 = glob.charAt(i2);
     if (escaping) {
       escaping = false;
       re += (reSpecials.has(c2) ? "\\" : "") + c2;
       continue;
+    }
+    if (c2 === "*") {
+      if (inStar)
+        continue;
+      inStar = true;
+      re += noEmpty && /^[*]+$/.test(glob) ? starNoEmpty : star;
+      hasMagic = true;
+      continue;
+    } else {
+      inStar = false;
     }
     if (c2 === "\\") {
       if (i2 === glob.length - 1) {
@@ -9048,14 +10885,6 @@ parseGlob_fn = function(glob, hasMagic, noEmpty = false) {
         continue;
       }
     }
-    if (c2 === "*") {
-      if (noEmpty && glob === "*")
-        re += starNoEmpty;
-      else
-        re += star;
-      hasMagic = true;
-      continue;
-    }
     if (c2 === "?") {
       re += qmark;
       hasMagic = true;
@@ -9065,15 +10894,18 @@ parseGlob_fn = function(glob, hasMagic, noEmpty = false) {
   }
   return [re, unescape(glob), !!hasMagic, uflag];
 };
-__privateAdd(_AST, _AST_static);
-var AST = _AST;
+__privateAdd(AST, _AST_static);
+_a = AST;
 
-// node_modules/.pnpm/minimatch@10.0.1/node_modules/minimatch/dist/esm/escape.js
-var escape = (s2, { windowsPathsNoEscape = false } = {}) => {
+// node_modules/.pnpm/minimatch@10.2.4/node_modules/minimatch/dist/esm/escape.js
+var escape = (s2, { windowsPathsNoEscape = false, magicalBraces = false } = {}) => {
+  if (magicalBraces) {
+    return windowsPathsNoEscape ? s2.replace(/[?*()[\]{}]/g, "[$&]") : s2.replace(/[?*()[\]\\{}]/g, "\\$&");
+  }
   return windowsPathsNoEscape ? s2.replace(/[?*()[\]]/g, "[$&]") : s2.replace(/[?*()[\]\\]/g, "\\$&");
 };
 
-// node_modules/.pnpm/minimatch@10.0.1/node_modules/minimatch/dist/esm/index.js
+// node_modules/.pnpm/minimatch@10.2.4/node_modules/minimatch/dist/esm/index.js
 var minimatch = (p2, pattern, options = {}) => {
   assertValidPattern(pattern);
   if (!options.nocomment && pattern.charAt(0) === "#") {
@@ -9138,7 +10970,7 @@ var path = {
 };
 var sep = defaultPlatform === "win32" ? path.win32.sep : path.posix.sep;
 minimatch.sep = sep;
-var GLOBSTAR = Symbol("globstar **");
+var GLOBSTAR = /* @__PURE__ */ Symbol("globstar **");
 minimatch.GLOBSTAR = GLOBSTAR;
 var qmark2 = "[^/]";
 var star2 = qmark2 + "*?";
@@ -9189,7 +11021,7 @@ var braceExpand = (pattern, options = {}) => {
   if (options.nobrace || !/\{(?:(?!\{).)*\}/.test(pattern)) {
     return [pattern];
   }
-  return (0, import_brace_expansion.default)(pattern);
+  return expand(pattern, { max: options.braceExpandMax });
 };
 minimatch.braceExpand = braceExpand;
 var makeRe = (pattern, options = {}) => new Minimatch(pattern, options).makeRe();
@@ -9205,8 +11037,10 @@ var match = (list, pattern, options = {}) => {
 minimatch.match = match;
 var globMagic = /[?*]|[+@!]\(.*?\)|\[|\]/;
 var regExpEscape2 = (s2) => s2.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+var _Minimatch_instances, matchGlobstar_fn, matchGlobStarBodySections_fn, matchOne_fn;
 var Minimatch = class {
   constructor(pattern, options = {}) {
+    __privateAdd(this, _Minimatch_instances);
     __publicField(this, "options");
     __publicField(this, "set");
     __publicField(this, "pattern");
@@ -9223,14 +11057,18 @@ var Minimatch = class {
     __publicField(this, "isWindows");
     __publicField(this, "platform");
     __publicField(this, "windowsNoMagicRoot");
+    __publicField(this, "maxGlobstarRecursion");
     __publicField(this, "regexp");
+    var _a2;
     assertValidPattern(pattern);
     options = options || {};
     this.options = options;
+    this.maxGlobstarRecursion = (_a2 = options.maxGlobstarRecursion) != null ? _a2 : 200;
     this.pattern = pattern;
     this.platform = options.platform || defaultPlatform;
     this.isWindows = this.platform === "win32";
-    this.windowsPathsNoEscape = !!options.windowsPathsNoEscape || options.allowWindowsEscape === false;
+    const awe = "allowWindowsEscape";
+    this.windowsPathsNoEscape = !!options.windowsPathsNoEscape || options[awe] === false;
     if (this.windowsPathsNoEscape) {
       this.pattern = this.pattern.replace(/\\/g, "/");
     }
@@ -9287,7 +11125,10 @@ var Minimatch = class {
         const isUNC = s2[0] === "" && s2[1] === "" && (s2[2] === "?" || !globMagic.test(s2[2])) && !globMagic.test(s2[3]);
         const isDrive = /^[a-z]:/i.test(s2[0]);
         if (isUNC) {
-          return [...s2.slice(0, 4), ...s2.slice(4).map((ss) => this.parse(ss))];
+          return [
+            ...s2.slice(0, 4),
+            ...s2.slice(4).map((ss) => this.parse(ss))
+          ];
         } else if (isDrive) {
           return [s2[0], ...s2.slice(1).map((ss) => this.parse(ss))];
         }
@@ -9559,7 +11400,8 @@ var Minimatch = class {
   // out of pattern, then that's fine, as long as all
   // the parts match.
   matchOne(file, pattern, partial = false) {
-    const options = this.options;
+    let fileStartIndex = 0;
+    let patternStartIndex = 0;
     if (this.isWindows) {
       const fileDrive = typeof file[0] === "string" && /^[a-z]:$/i.test(file[0]);
       const fileUNC = !fileDrive && file[0] === "" && file[1] === "" && file[2] === "?" && /^[a-z]:$/i.test(file[3]);
@@ -9568,14 +11410,14 @@ var Minimatch = class {
       const fdi = fileUNC ? 3 : fileDrive ? 0 : void 0;
       const pdi = patternUNC ? 3 : patternDrive ? 0 : void 0;
       if (typeof fdi === "number" && typeof pdi === "number") {
-        const [fd, pd] = [file[fdi], pattern[pdi]];
+        const [fd, pd] = [
+          file[fdi],
+          pattern[pdi]
+        ];
         if (fd.toLowerCase() === pd.toLowerCase()) {
           pattern[pdi] = fd;
-          if (pdi > fdi) {
-            pattern = pattern.slice(pdi);
-          } else if (fdi > pdi) {
-            file = file.slice(fdi);
-          }
+          patternStartIndex = pdi;
+          fileStartIndex = fdi;
         }
       }
     }
@@ -9583,71 +11425,10 @@ var Minimatch = class {
     if (optimizationLevel >= 2) {
       file = this.levelTwoFileOptimize(file);
     }
-    this.debug("matchOne", this, { file, pattern });
-    this.debug("matchOne", file.length, pattern.length);
-    for (var fi = 0, pi = 0, fl = file.length, pl = pattern.length; fi < fl && pi < pl; fi++, pi++) {
-      this.debug("matchOne loop");
-      var p2 = pattern[pi];
-      var f2 = file[fi];
-      this.debug(pattern, p2, f2);
-      if (p2 === false) {
-        return false;
-      }
-      if (p2 === GLOBSTAR) {
-        this.debug("GLOBSTAR", [pattern, p2, f2]);
-        var fr = fi;
-        var pr = pi + 1;
-        if (pr === pl) {
-          this.debug("** at the end");
-          for (; fi < fl; fi++) {
-            if (file[fi] === "." || file[fi] === ".." || !options.dot && file[fi].charAt(0) === ".")
-              return false;
-          }
-          return true;
-        }
-        while (fr < fl) {
-          var swallowee = file[fr];
-          this.debug("\nglobstar while", file, fr, pattern, pr, swallowee);
-          if (this.matchOne(file.slice(fr), pattern.slice(pr), partial)) {
-            this.debug("globstar found match!", fr, fl, swallowee);
-            return true;
-          } else {
-            if (swallowee === "." || swallowee === ".." || !options.dot && swallowee.charAt(0) === ".") {
-              this.debug("dot detected!", file, fr, pattern, pr);
-              break;
-            }
-            this.debug("globstar swallow a segment, and continue");
-            fr++;
-          }
-        }
-        if (partial) {
-          this.debug("\n>>> no match, partial?", file, fr, pattern, pr);
-          if (fr === fl) {
-            return true;
-          }
-        }
-        return false;
-      }
-      let hit;
-      if (typeof p2 === "string") {
-        hit = f2 === p2;
-        this.debug("string match", p2, f2, hit);
-      } else {
-        hit = p2.test(f2);
-        this.debug("pattern match", p2, f2, hit);
-      }
-      if (!hit)
-        return false;
+    if (pattern.includes(GLOBSTAR)) {
+      return __privateMethod(this, _Minimatch_instances, matchGlobstar_fn).call(this, file, pattern, partial, fileStartIndex, patternStartIndex);
     }
-    if (fi === fl && pi === pl) {
-      return true;
-    } else if (fi === fl) {
-      return partial;
-    } else if (pi === pl) {
-      return fi === fl - 1 && file[fi] === "";
-    } else {
-      throw new Error("wtf?");
-    }
+    return __privateMethod(this, _Minimatch_instances, matchOne_fn).call(this, file, pattern, partial, fileStartIndex, patternStartIndex);
   }
   braceExpand() {
     return braceExpand(this.pattern, this.options);
@@ -9710,16 +11491,27 @@ var Minimatch = class {
             pp[i2] = twoStar;
           }
         } else if (next === void 0) {
-          pp[i2 - 1] = prev + "(?:\\/|" + twoStar + ")?";
+          pp[i2 - 1] = prev + "(?:\\/|\\/" + twoStar + ")?";
         } else if (next !== GLOBSTAR) {
           pp[i2 - 1] = prev + "(?:\\/|\\/" + twoStar + "\\/)" + next;
           pp[i2 + 1] = GLOBSTAR;
         }
       });
-      return pp.filter((p2) => p2 !== GLOBSTAR).join("/");
+      const filtered = pp.filter((p2) => p2 !== GLOBSTAR);
+      if (this.partial && filtered.length >= 1) {
+        const prefixes = [];
+        for (let i2 = 1; i2 <= filtered.length; i2++) {
+          prefixes.push(filtered.slice(0, i2).join("/"));
+        }
+        return "(?:" + prefixes.join("|") + ")";
+      }
+      return filtered.join("/");
     }).join("|");
     const [open, close] = set2.length > 1 ? ["(?:", ")"] : ["", ""];
     re = "^" + open + re + close + "$";
+    if (this.partial) {
+      re = "^(?:\\/|" + open + re.slice(1, -1) + close + ")$";
+    }
     if (this.negate)
       re = "^(?!" + re + ").+$";
     try {
@@ -9786,17 +11578,153 @@ var Minimatch = class {
     return minimatch.defaults(def).Minimatch;
   }
 };
+_Minimatch_instances = new WeakSet();
+matchGlobstar_fn = function(file, pattern, partial, fileIndex, patternIndex) {
+  const firstgs = pattern.indexOf(GLOBSTAR, patternIndex);
+  const lastgs = pattern.lastIndexOf(GLOBSTAR);
+  const [head, body, tail] = partial ? [
+    pattern.slice(patternIndex, firstgs),
+    pattern.slice(firstgs + 1),
+    []
+  ] : [
+    pattern.slice(patternIndex, firstgs),
+    pattern.slice(firstgs + 1, lastgs),
+    pattern.slice(lastgs + 1)
+  ];
+  if (head.length) {
+    const fileHead = file.slice(fileIndex, fileIndex + head.length);
+    if (!__privateMethod(this, _Minimatch_instances, matchOne_fn).call(this, fileHead, head, partial, 0, 0)) {
+      return false;
+    }
+    fileIndex += head.length;
+    patternIndex += head.length;
+  }
+  let fileTailMatch = 0;
+  if (tail.length) {
+    if (tail.length + fileIndex > file.length)
+      return false;
+    let tailStart = file.length - tail.length;
+    if (__privateMethod(this, _Minimatch_instances, matchOne_fn).call(this, file, tail, partial, tailStart, 0)) {
+      fileTailMatch = tail.length;
+    } else {
+      if (file[file.length - 1] !== "" || fileIndex + tail.length === file.length) {
+        return false;
+      }
+      tailStart--;
+      if (!__privateMethod(this, _Minimatch_instances, matchOne_fn).call(this, file, tail, partial, tailStart, 0)) {
+        return false;
+      }
+      fileTailMatch = tail.length + 1;
+    }
+  }
+  if (!body.length) {
+    let sawSome = !!fileTailMatch;
+    for (let i3 = fileIndex; i3 < file.length - fileTailMatch; i3++) {
+      const f2 = String(file[i3]);
+      sawSome = true;
+      if (f2 === "." || f2 === ".." || !this.options.dot && f2.startsWith(".")) {
+        return false;
+      }
+    }
+    return partial || sawSome;
+  }
+  const bodySegments = [[[], 0]];
+  let currentBody = bodySegments[0];
+  let nonGsParts = 0;
+  const nonGsPartsSums = [0];
+  for (const b2 of body) {
+    if (b2 === GLOBSTAR) {
+      nonGsPartsSums.push(nonGsParts);
+      currentBody = [[], 0];
+      bodySegments.push(currentBody);
+    } else {
+      currentBody[0].push(b2);
+      nonGsParts++;
+    }
+  }
+  let i2 = bodySegments.length - 1;
+  const fileLength = file.length - fileTailMatch;
+  for (const b2 of bodySegments) {
+    b2[1] = fileLength - (nonGsPartsSums[i2--] + b2[0].length);
+  }
+  return !!__privateMethod(this, _Minimatch_instances, matchGlobStarBodySections_fn).call(this, file, bodySegments, fileIndex, 0, partial, 0, !!fileTailMatch);
+};
+// return false for "nope, not matching"
+// return null for "not matching, cannot keep trying"
+matchGlobStarBodySections_fn = function(file, bodySegments, fileIndex, bodyIndex, partial, globStarDepth, sawTail) {
+  const bs = bodySegments[bodyIndex];
+  if (!bs) {
+    for (let i2 = fileIndex; i2 < file.length; i2++) {
+      sawTail = true;
+      const f2 = file[i2];
+      if (f2 === "." || f2 === ".." || !this.options.dot && f2.startsWith(".")) {
+        return false;
+      }
+    }
+    return sawTail;
+  }
+  const [body, after] = bs;
+  while (fileIndex <= after) {
+    const m2 = __privateMethod(this, _Minimatch_instances, matchOne_fn).call(this, file.slice(0, fileIndex + body.length), body, partial, fileIndex, 0);
+    if (m2 && globStarDepth < this.maxGlobstarRecursion) {
+      const sub = __privateMethod(this, _Minimatch_instances, matchGlobStarBodySections_fn).call(this, file, bodySegments, fileIndex + body.length, bodyIndex + 1, partial, globStarDepth + 1, sawTail);
+      if (sub !== false) {
+        return sub;
+      }
+    }
+    const f2 = file[fileIndex];
+    if (f2 === "." || f2 === ".." || !this.options.dot && f2.startsWith(".")) {
+      return false;
+    }
+    fileIndex++;
+  }
+  return partial || null;
+};
+matchOne_fn = function(file, pattern, partial, fileIndex, patternIndex) {
+  let fi;
+  let pi;
+  let pl;
+  let fl;
+  for (fi = fileIndex, pi = patternIndex, fl = file.length, pl = pattern.length; fi < fl && pi < pl; fi++, pi++) {
+    this.debug("matchOne loop");
+    let p2 = pattern[pi];
+    let f2 = file[fi];
+    this.debug(pattern, p2, f2);
+    if (p2 === false || p2 === GLOBSTAR) {
+      return false;
+    }
+    let hit;
+    if (typeof p2 === "string") {
+      hit = f2 === p2;
+      this.debug("string match", p2, f2, hit);
+    } else {
+      hit = p2.test(f2);
+      this.debug("pattern match", p2, f2, hit);
+    }
+    if (!hit)
+      return false;
+  }
+  if (fi === fl && pi === pl) {
+    return true;
+  } else if (fi === fl) {
+    return partial;
+  } else if (pi === pl) {
+    return fi === fl - 1 && file[fi] === "";
+  } else {
+    throw new Error("wtf?");
+  }
+};
 minimatch.AST = AST;
 minimatch.Minimatch = Minimatch;
 minimatch.escape = escape;
 minimatch.unescape = unescape;
 
 // src/utils/fs.ts
-function isSupportedFileType(path3) {
-  return path3.split(".").pop().toLowerCase() === "md";
+function isSupportedFileType(path2) {
+  return path2.split(".").pop().toLowerCase() === "md";
 }
-function pathMatchesPattern(path3, pattern) {
-  return path3.startsWith(pattern) || minimatch(path3, pattern);
+function pathMatchesPattern(path2, pattern) {
+  return path2.startsWith(pattern) || minimatch(path2, pattern);
 }
 
 // src/algorithms/osr/osr-note-graph.ts
@@ -9816,20 +11744,20 @@ var OsrNoteGraph = class {
     this.pageranks = {};
     graph.reset();
   }
-  processLinks(path3) {
-    if (this.incomingLinks[path3] === void 0) {
-      this.incomingLinks[path3] = [];
+  processLinks(path2) {
+    if (this.incomingLinks[path2] === void 0) {
+      this.incomingLinks[path2] = [];
     }
-    const targetLinks = this.vaultNoteLinkInfoFinder.getResolvedTargetLinksForNotePath(path3) || {};
+    const targetLinks = this.vaultNoteLinkInfoFinder.getResolvedTargetLinksForNotePath(path2) || {};
     for (const targetPath in targetLinks) {
       if (this.incomingLinks[targetPath] === void 0) this.incomingLinks[targetPath] = [];
       if (isSupportedFileType(targetPath)) {
         const linkCount = targetLinks[targetPath];
         this.incomingLinks[targetPath].push({
-          sourcePath: path3,
+          sourcePath: path2,
           linkCount
         });
-        graph.link(path3, targetPath, linkCount);
+        graph.link(path2, targetPath, linkCount);
       }
     }
   }
@@ -9860,585 +11788,6 @@ var OsrNoteGraph = class {
     graph.rank(0.85, 1e-6, (node, rank2) => {
       this.pageranks[node] = rank2 * 1e4;
     });
-  }
-};
-
-// src/data-store-algorithm/data-store-algorithm.ts
-var DataStoreAlgorithm = class _DataStoreAlgorithm {
-  static getInstance() {
-    if (!_DataStoreAlgorithm.instance) {
-      throw new Error("there is no DataStoreAlgorithm instance.");
-    }
-    return _DataStoreAlgorithm.instance;
-  }
-};
-
-// src/data-stores/base/data-store.ts
-var DataStore = class _DataStore {
-  static getInstance() {
-    if (!_DataStore.instance) {
-      throw new Error("there is no DataStore instance.");
-    }
-    return _DataStore.instance;
-  }
-};
-
-// src/topic-path.ts
-var TopicPath = class _TopicPath {
-  constructor(path3) {
-    if (path3 == null) throw "null path";
-    if (path3.some((str) => str.includes("/"))) throw "path entries must not contain '/'";
-    this.path = path3;
-  }
-  get hasPath() {
-    return this.path.length > 0;
-  }
-  get isEmptyPath() {
-    return !this.hasPath;
-  }
-  static get emptyPath() {
-    return new _TopicPath([]);
-  }
-  shift() {
-    if (this.isEmptyPath) throw "can't shift an empty path";
-    return this.path.shift();
-  }
-  clone() {
-    return new _TopicPath([...this.path]);
-  }
-  formatAsTag() {
-    if (this.isEmptyPath) throw "Empty path";
-    const result = "#" + this.path.join("/");
-    return result;
-  }
-  static getTopicPathOfFile(noteFile, settings) {
-    let deckPath = [];
-    let result = _TopicPath.emptyPath;
-    if (settings.convertFoldersToDecks) {
-      deckPath = noteFile.path.split("/");
-      deckPath.pop();
-      if (deckPath.length != 0) {
-        result = new _TopicPath(deckPath);
-      }
-    } else {
-      const tagList = this.getTopicPathsFromTagList(
-        noteFile.getAllTagsFromCache()
-      );
-      outer: for (const tagToReview of this.getTopicPathsFromTagList(
-        settings.flashcardTags
-      )) {
-        for (const tag of tagList) {
-          if (tagToReview.isSameOrAncestorOf(tag)) {
-            result = tag;
-            break outer;
-          }
-        }
-      }
-    }
-    return result;
-  }
-  isSameOrAncestorOf(topicPath) {
-    if (this.isEmptyPath) return topicPath.isEmptyPath;
-    if (this.path.length > topicPath.path.length) return false;
-    for (let i2 = 0; i2 < this.path.length; i2++) {
-      if (this.path[i2] != topicPath.path[i2]) return false;
-    }
-    return true;
-  }
-  static getTopicPathFromCardText(cardText) {
-    var _a;
-    const path3 = (_a = cardText.trimStart().match(OBSIDIAN_TAG_AT_STARTOFLINE_REGEX)) == null ? void 0 : _a.slice(-1)[0];
-    return (path3 == null ? void 0 : path3.length) > 0 ? _TopicPath.getTopicPathFromTag(path3) : null;
-  }
-  static getTopicPathsFromTagList(tagList) {
-    const result = [];
-    for (const tag of tagList) {
-      if (this.isValidTag(tag)) result.push(_TopicPath.getTopicPathFromTag(tag));
-    }
-    return result;
-  }
-  static isValidTag(tag) {
-    if (tag == null || tag.length == 0) return false;
-    if (tag[0] != "#") return false;
-    if (tag.length == 1) return false;
-    return true;
-  }
-  static getTopicPathFromTag(tag) {
-    if (tag == null || tag.length == 0) throw "Null/empty tag";
-    if (tag[0] != "#") throw "Tag must start with #";
-    if (tag.length == 1) throw "Invalid tag";
-    const path3 = tag.replace("#", "").split("/").filter((str) => str);
-    return new _TopicPath(path3);
-  }
-  static getFolderPathFromFilename(noteFile, settings) {
-    let result = _TopicPath.emptyPath;
-    if (settings.convertFoldersToDecks) {
-      const deckPath = noteFile.path.split("/");
-      deckPath.pop();
-      if (deckPath.length != 0) {
-        result = new _TopicPath(deckPath);
-      }
-    }
-    return result;
-  }
-};
-var TopicPathList = class _TopicPathList {
-  constructor(list, lineNum = null) {
-    if (list == null) throw "TopicPathList null";
-    this.list = list;
-    this.lineNum = lineNum;
-  }
-  get length() {
-    return this.list.length;
-  }
-  isAnyElementSameOrAncestorOf(topicPath) {
-    return this.list.some((item) => item.isSameOrAncestorOf(topicPath));
-  }
-  formatPsv() {
-    return this.format("|");
-  }
-  format(sep2) {
-    return this.list.map((topicPath) => topicPath.formatAsTag()).join(sep2);
-  }
-  static empty() {
-    return new _TopicPathList([]);
-  }
-  static fromPsv(str, lineNum) {
-    const result = _TopicPathList.convertTagListToTopicPathList(str.split("|"));
-    result.lineNum = lineNum;
-    return result;
-  }
-  //
-  // tagList is a list of tags such as:
-  //      ["#flashcards/computing", "#boring-stuff", "#news-worthy"]
-  // validTopicPathList is a list of valid tags, such as those from settings.flashcardTags,E.g.
-  //      ["#flashcards"]
-  //
-  // This returns a filtered version of tagList, containing only topic paths that are considered valid.
-  // Validity is defined as "isAnyElementSameOrAncestorOf", and "#flashcards" is considered the ancestor of
-  // "#flashcards/computing".
-  //
-  // Therefore this would return:
-  //      "#flashcards/computing" (but not "#boring-stuff" or "#news-worthy")
-  //
-  static filterValidTopicPathsFromTagList(list, validTopicPathList, lineNum = null) {
-    const result = [];
-    for (const tag of list.list) {
-      if (validTopicPathList.isAnyElementSameOrAncestorOf(tag)) result.push(tag);
-    }
-    return new _TopicPathList(result, lineNum);
-  }
-  static convertTagListToTopicPathList(tagList) {
-    const result = [];
-    for (const tag of tagList) {
-      if (TopicPath.isValidTag(tag)) result.push(TopicPath.getTopicPathFromTag(tag));
-    }
-    return new _TopicPathList(result);
-  }
-};
-var TopicPathWithWs = class {
-  constructor(topicPath, preWhitespace, postWhitespace) {
-    if (!topicPath || topicPath.isEmptyPath) throw "topicPath null";
-    this.topicPath = topicPath;
-    this.preWhitespace = preWhitespace;
-    this.postWhitespace = postWhitespace;
-  }
-  formatWithWs() {
-    return `${this.preWhitespace}${this.topicPath.formatAsTag()}${this.postWhitespace}`;
-  }
-};
-
-// src/flashcard-review-sequencer.ts
-var DeckStats = class {
-  constructor(dueCount, newCount, totalCount) {
-    this.dueCount = dueCount;
-    this.newCount = newCount;
-    this.totalCount = totalCount;
-  }
-};
-var FlashcardReviewSequencer = class {
-  constructor(reviewMode, cardSequencer, settings, srsAlgorithm, questionPostponementList, dueDateFlashcardHistogram) {
-    this.reviewMode = reviewMode;
-    this.cardSequencer = cardSequencer;
-    this.settings = settings;
-    this.srsAlgorithm = srsAlgorithm;
-    this.questionPostponementList = questionPostponementList;
-    this.dueDateFlashcardHistogram = dueDateFlashcardHistogram;
-  }
-  get hasCurrentCard() {
-    return this.cardSequencer.currentCard != null;
-  }
-  get currentCard() {
-    return this.cardSequencer.currentCard;
-  }
-  get currentQuestion() {
-    var _a;
-    return (_a = this.currentCard) == null ? void 0 : _a.question;
-  }
-  get currentDeck() {
-    return this.cardSequencer.currentDeck;
-  }
-  get currentNote() {
-    return this.currentQuestion.note;
-  }
-  // originalDeckTree isn't modified by the review process
-  // Only remainingDeckTree
-  setDeckTree(originalDeckTree, remainingDeckTree) {
-    this.cardSequencer.setBaseDeck(remainingDeckTree);
-    this._originalDeckTree = originalDeckTree;
-    this.remainingDeckTree = remainingDeckTree;
-    this.setCurrentDeck(TopicPath.emptyPath);
-  }
-  setCurrentDeck(topicPath) {
-    this.cardSequencer.setIteratorTopicPath(topicPath);
-    this.cardSequencer.nextCard();
-  }
-  get originalDeckTree() {
-    return this._originalDeckTree;
-  }
-  getDeckStats(topicPath) {
-    const totalCount = this._originalDeckTree.getDeck(topicPath).getDistinctCardCount(2 /* All */, true);
-    const remainingDeck = this.remainingDeckTree.getDeck(topicPath);
-    const newCount = remainingDeck.getDistinctCardCount(0 /* NewCard */, true);
-    const dueCount = remainingDeck.getDistinctCardCount(1 /* DueCard */, true);
-    return new DeckStats(dueCount, newCount, totalCount);
-  }
-  skipCurrentCard() {
-    this.cardSequencer.deleteCurrentQuestionFromAllDecks();
-  }
-  deleteCurrentCard() {
-    this.cardSequencer.deleteCurrentCardFromAllDecks();
-  }
-  async processReview(response) {
-    switch (this.reviewMode) {
-      case 1 /* Review */:
-        await this.processReviewReviewMode(response);
-        break;
-      case 0 /* Cram */:
-        await this.processReviewCramMode(response);
-        break;
-    }
-  }
-  async processReviewReviewMode(response) {
-    if (response != 3 /* Reset */ || this.currentCard.hasSchedule) {
-      const oldSchedule = this.currentCard.scheduleInfo;
-      this.currentCard.scheduleInfo = this.determineCardSchedule(response, this.currentCard);
-      await DataStore.getInstance().questionWriteSchedule(this.currentQuestion);
-      if (oldSchedule) {
-        const today = globalDateProvider.today.valueOf();
-        const nDays = Math.ceil(
-          (oldSchedule.dueDateAsUnix - today) / TICKS_PER_DAY
-        );
-        this.dueDateFlashcardHistogram.decrement(nDays);
-      }
-      this.dueDateFlashcardHistogram.increment(this.currentCard.scheduleInfo.interval);
-    }
-    if (response == 3 /* Reset */) {
-      this.cardSequencer.moveCurrentCardToEndOfList();
-      this.cardSequencer.nextCard();
-    } else {
-      if (this.settings.burySiblingCards) {
-        await this.burySiblingCards();
-        this.cardSequencer.deleteCurrentQuestionFromAllDecks();
-      } else {
-        this.deleteCurrentCard();
-      }
-    }
-  }
-  async burySiblingCards() {
-    const remaining = this.currentDeck.getQuestionCardCount(this.currentQuestion);
-    if (remaining > 1) {
-      this.questionPostponementList.add(this.currentQuestion);
-      await this.questionPostponementList.write();
-    }
-  }
-  async processReviewCramMode(response) {
-    if (response == 0 /* Easy */) this.deleteCurrentCard();
-    else {
-      this.cardSequencer.moveCurrentCardToEndOfList();
-      this.cardSequencer.nextCard();
-    }
-  }
-  determineCardSchedule(response, card) {
-    let result;
-    if (response == 3 /* Reset */) {
-      result = this.srsAlgorithm.cardGetResetSchedule();
-    } else {
-      if (card.hasSchedule) {
-        result = this.srsAlgorithm.cardCalcUpdatedSchedule(
-          response,
-          card.scheduleInfo,
-          this.dueDateFlashcardHistogram
-        );
-      } else {
-        const currentNote = card.question.note;
-        result = this.srsAlgorithm.cardGetNewSchedule(
-          response,
-          currentNote.filePath,
-          this.dueDateFlashcardHistogram
-        );
-      }
-    }
-    return result;
-  }
-  async updateCurrentQuestionText(text) {
-    const q2 = this.currentQuestion.questionText;
-    q2.actualQuestion = text;
-    await DataStore.getInstance().questionWrite(this.currentQuestion);
-  }
-};
-
-// src/deck.ts
-var Deck2 = class _Deck {
-  constructor(deckName, parent) {
-    this.deckName = deckName;
-    this.newFlashcards = [];
-    this.dueFlashcards = [];
-    this.subdecks = [];
-    this.parent = parent;
-  }
-  getCardCount(cardListType, includeSubdeckCounts) {
-    let result = 0;
-    if (cardListType == 0 /* NewCard */ || cardListType == 2 /* All */)
-      result += this.newFlashcards.length;
-    if (cardListType == 1 /* DueCard */ || cardListType == 2 /* All */)
-      result += this.dueFlashcards.length;
-    if (includeSubdeckCounts) {
-      for (const deck of this.subdecks) {
-        result += deck.getCardCount(cardListType, includeSubdeckCounts);
-      }
-    }
-    return result;
-  }
-  getDistinctCardCount(cardListType, includeSubdeckCounts) {
-    const cardList = this.getFlattenedCardArray(cardListType, includeSubdeckCounts);
-    const distinctCardSet = new Set(cardList);
-    return distinctCardSet.size;
-  }
-  getFlattenedCardArray(cardListType, includeSubdeckCounts) {
-    let result = [];
-    switch (cardListType) {
-      case 0 /* NewCard */:
-        result = this.newFlashcards;
-        break;
-      case 1 /* DueCard */:
-        result = this.dueFlashcards;
-        break;
-      case 2 /* All */:
-        result = this.newFlashcards.concat(this.dueFlashcards);
-    }
-    if (includeSubdeckCounts) {
-      for (const subdeck of this.subdecks) {
-        result = result.concat(
-          subdeck.getFlattenedCardArray(cardListType, includeSubdeckCounts)
-        );
-      }
-    }
-    return result;
-  }
-  // Returns a count of the number of this question's cards are present in this deck.
-  // (The returned value would be <= question.cards.length)
-  getQuestionCardCount(question) {
-    let result = 0;
-    result += this.getQuestionCardCountForCardListType(question, this.newFlashcards);
-    result += this.getQuestionCardCountForCardListType(question, this.dueFlashcards);
-    return result;
-  }
-  getQuestionCardCountForCardListType(question, cards) {
-    let result = 0;
-    for (let i2 = 0; i2 < cards.length; i2++) {
-      if (Object.is(question, cards[i2].question)) result++;
-    }
-    return result;
-  }
-  static get emptyDeck() {
-    return new _Deck("Root", null);
-  }
-  get isRootDeck() {
-    return this.parent == null;
-  }
-  getDeckByTopicTag(tag) {
-    return this.getDeck(TopicPath.getTopicPathFromTag(tag));
-  }
-  getDeck(topicPath) {
-    return this._getOrCreateDeck(topicPath, false);
-  }
-  getOrCreateDeck(topicPath) {
-    return this._getOrCreateDeck(topicPath, true);
-  }
-  _getOrCreateDeck(topicPath, createAllowed) {
-    if (!topicPath.hasPath) {
-      return this;
-    }
-    const t3 = topicPath.clone();
-    const deckName = t3.shift();
-    for (const subdeck of this.subdecks) {
-      if (deckName === subdeck.deckName) {
-        return subdeck._getOrCreateDeck(t3, createAllowed);
-      }
-    }
-    let result = null;
-    if (createAllowed) {
-      const subdeck = new _Deck(
-        deckName,
-        this
-        /* parent */
-      );
-      this.subdecks.push(subdeck);
-      result = subdeck._getOrCreateDeck(t3, createAllowed);
-    }
-    return result;
-  }
-  getTopicPath() {
-    const list = [];
-    let deck = this;
-    while (!deck.isRootDeck) {
-      list.push(deck.deckName);
-      deck = deck.parent;
-    }
-    return new TopicPath(list.reverse());
-  }
-  getRootDeck() {
-    let deck = this;
-    while (!deck.isRootDeck) {
-      deck = deck.parent;
-    }
-    return deck;
-  }
-  getCard(index, cardListType) {
-    const cardList = this.getCardListForCardType(cardListType);
-    return cardList[index];
-  }
-  getCardListForCardType(cardListType) {
-    return cardListType == 1 /* DueCard */ ? this.dueFlashcards : this.newFlashcards;
-  }
-  appendCard(topicPathList, cardObj) {
-    if (topicPathList.list.length == 0) {
-      this.appendCardToRootDeck(cardObj);
-    } else {
-      for (const topicPath of topicPathList.list) {
-        this.appendCardSingleTopic(topicPath, cardObj);
-      }
-    }
-  }
-  appendCardToRootDeck(cardObj) {
-    this.appendCardSingleTopic(TopicPath.emptyPath, cardObj);
-  }
-  appendCardSingleTopic(topicPath, cardObj) {
-    const deck = this.getOrCreateDeck(topicPath);
-    const cardList = deck.getCardListForCardType(cardObj.cardListType);
-    cardList.push(cardObj);
-  }
-  // The question lists all the topics in which this card is included.
-  // The topics are relative to the base deck, and this method must be called on that deck
-  deleteQuestionFromAllDecks(question, exceptionIfMissing) {
-    for (const card of question.cards) {
-      this.deleteCardFromAllDecks(card, exceptionIfMissing);
-    }
-  }
-  deleteQuestion(question, exceptionIfMissing) {
-    for (const card of question.cards) {
-      this.deleteCardFromThisDeck(card, exceptionIfMissing);
-    }
-  }
-  // The card's question lists all the topics in which this card is included.
-  // The topics are relative to the base deck, and this method must be called on that deck
-  deleteCardFromAllDecks(card, exceptionIfMissing) {
-    for (const topicPath of card.question.topicPathList.list) {
-      const deck = this.getDeck(topicPath);
-      deck.deleteCardFromThisDeck(card, exceptionIfMissing);
-    }
-  }
-  deleteCardFromThisDeck(card, exceptionIfMissing) {
-    const newIdx = this.newFlashcards.indexOf(card);
-    if (newIdx != -1) this.newFlashcards.splice(newIdx, 1);
-    const dueIdx = this.dueFlashcards.indexOf(card);
-    if (dueIdx != -1) this.dueFlashcards.splice(dueIdx, 1);
-    if (newIdx == -1 && dueIdx == -1 && exceptionIfMissing) {
-      throw `deleteCardFromThisDeck: Card: ${card.front} not found in deck: ${this.deckName}`;
-    }
-  }
-  deleteCardAtIndex(index, cardListType) {
-    const cardList = this.getCardListForCardType(cardListType);
-    cardList.splice(index, 1);
-  }
-  toDeckArray() {
-    const result = [];
-    result.push(this);
-    for (const subdeck of this.subdecks) {
-      result.push(...subdeck.toDeckArray());
-    }
-    return result;
-  }
-  sortSubdecksList() {
-    this.subdecks.sort((a2, b2) => {
-      if (a2.deckName < b2.deckName) {
-        return -1;
-      } else if (a2.deckName > b2.deckName) {
-        return 1;
-      }
-      return 0;
-    });
-    for (const deck of this.subdecks) {
-      deck.sortSubdecksList();
-    }
-  }
-  debugLogToConsole(desc = null, indent = 0) {
-    let str = desc != null ? `${desc}: ` : "";
-    console.log(str += this.toString(indent));
-  }
-  toString(indent = 0) {
-    let result = "";
-    let indentStr = " ".repeat(indent * 4);
-    result += `${indentStr}${this.deckName}\r
-`;
-    indentStr += "  ";
-    for (let i2 = 0; i2 < this.newFlashcards.length; i2++) {
-      const card = this.newFlashcards[i2];
-      result += `${indentStr}New: ${i2}: ${card.front}::${card.back}\r
-`;
-    }
-    for (let i2 = 0; i2 < this.dueFlashcards.length; i2++) {
-      const card = this.dueFlashcards[i2];
-      const s2 = card.isDue ? "Due" : "Not due";
-      result += `${indentStr}${s2}: ${i2}: ${card.front}::${card.back}\r
-`;
-    }
-    for (const subdeck of this.subdecks) {
-      result += subdeck.toString(indent + 1);
-    }
-    return result;
-  }
-  clone() {
-    return this.copyWithCardFilter(() => true);
-  }
-  copyWithCardFilter(predicate, parent = null) {
-    const result = new _Deck(this.deckName, parent);
-    result.newFlashcards = [...this.newFlashcards.filter((card) => predicate(card))];
-    result.dueFlashcards = [...this.dueFlashcards.filter((card) => predicate(card))];
-    for (const s2 of this.subdecks) {
-      const newParent = result;
-      const newDeck = s2.copyWithCardFilter(predicate, newParent);
-      result.subdecks.push(newDeck);
-    }
-    return result;
-  }
-  static otherListType(cardListType) {
-    let result;
-    if (cardListType == 0 /* NewCard */) result = 1 /* DueCard */;
-    else if (cardListType == 1 /* DueCard */) result = 0 /* NewCard */;
-    else throw "Invalid cardListType";
-    return result;
-  }
-};
-var DeckTreeFilter = class {
-  static filterForReviewableCards(reviewableDeckTree) {
-    return reviewableDeckTree.copyWithCardFilter((card) => !card.question.hasEditLaterTag);
-  }
-  static filterForRemainingCards(questionPostponementList, deckTree, reviewMode) {
-    return deckTree.copyWithCardFilter(
-      (card) => (reviewMode == 0 /* Cram */ || card.isNew || card.isDue) && !questionPostponementList.includes(card.question)
-    );
   }
 };
 
@@ -10479,13 +11828,13 @@ var ValueCountDict = class {
 };
 var RandomNumberProvider = class {
   getInteger(lowerBound, upperBound) {
-    const range = upperBound - lowerBound + 1;
-    return Math.floor(Math.random() * range) + lowerBound;
+    const range2 = upperBound - lowerBound + 1;
+    return Math.floor(Math.random() * range2) + lowerBound;
   }
 };
 var StaticRandomNumberProvider = class {
   getInteger(lowerBound, upperBound) {
-    if (lowerBound != this.expectedLowerBound || upperBound != this.expectedUpperBound)
+    if (lowerBound !== this.expectedLowerBound || upperBound !== this.expectedUpperBound)
       throw `lowerBound: A${lowerBound}/E${this.expectedLowerBound}, upperBound: A${upperBound}/E${this.expectedUpperBound}`;
     return this.next;
   }
@@ -10529,7 +11878,7 @@ var WeightedRandomNumber = class _WeightedRandomNumber {
 var globalRandomNumberProvider = new RandomNumberProvider();
 var staticRandomNumberProvider = new StaticRandomNumberProvider();
 
-// src/deck-tree-iterator.ts
+// src/deck/deck-tree-iterator.ts
 var CardOrder = /* @__PURE__ */ ((CardOrder2) => {
   CardOrder2[CardOrder2["NewFirstSequential"] = 0] = "NewFirstSequential";
   CardOrder2[CardOrder2["NewFirstRandom"] = 1] = "NewFirstRandom";
@@ -10545,11 +11894,12 @@ var DeckOrder = /* @__PURE__ */ ((DeckOrder2) => {
 })(DeckOrder || {});
 var SingleDeckIterator = class _SingleDeckIterator {
   get hasCurrentCard() {
-    return this.cardIdx != null;
+    return this.cardIdx !== null && this.cardIdx !== void 0;
   }
   get currentCard() {
     let result = null;
-    if (this.cardIdx != null) result = this.deck.getCard(this.cardIdx, this.cardListType);
+    if (this.cardIdx !== null && this.cardIdx !== void 0)
+      result = this.deck.getCard(this.cardIdx, this.cardListType);
     return result;
   }
   constructor(iteratorOrder) {
@@ -10580,15 +11930,15 @@ var SingleDeckIterator = class _SingleDeckIterator {
     this.cardIdx = cardIdx;
   }
   nextCard() {
-    if (this.iteratorOrder.cardOrder == 4 /* EveryCardRandomDeckAndCard */) {
+    if (this.iteratorOrder.cardOrder === 4 /* EveryCardRandomDeckAndCard */) {
       this.nextRandomCard();
     } else {
-      if (this.cardListType == null) {
+      if (this.cardListType === null) {
         this.setCardListType(this.preferredCardListType);
       }
       if (!this.nextCardWithinCurrentList()) {
-        if (this.cardListType == this.preferredCardListType) {
-          this.setCardListType(Deck2.otherListType(this.cardListType));
+        if (this.cardListType === this.preferredCardListType) {
+          this.setCardListType(Deck.otherListType(this.cardListType));
           if (!this.nextCardWithinCurrentList()) {
             this.setCardListType(null);
           }
@@ -10597,7 +11947,7 @@ var SingleDeckIterator = class _SingleDeckIterator {
         }
       }
     }
-    return this.cardIdx != null;
+    return this.cardIdx !== null && this.cardIdx !== void 0;
   }
   nextRandomCard() {
     const newCount = this.deck.newFlashcards.length;
@@ -10642,7 +11992,7 @@ var SingleDeckIterator = class _SingleDeckIterator {
     this.cardIdx = null;
   }
   ensureCurrentCard() {
-    if (this.cardIdx == null || this.cardListType == null) throw "no current card";
+    if (this.cardIdx === null || this.cardListType === null) throw "no current card";
   }
   static getCardListTypeForIterator(iteratorOrder) {
     let result = null;
@@ -10661,25 +12011,25 @@ var SingleDeckIterator = class _SingleDeckIterator {
 };
 var DeckTreeIterator = class _DeckTreeIterator {
   get hasCurrentCard() {
-    return this.deckIdx != null && this.singleDeckIterator.hasCurrentCard;
+    return this.deckIdx !== null && this.deckIdx !== void 0 && this.singleDeckIterator.hasCurrentCard;
   }
   get currentTopicPath() {
-    var _a;
-    return (_a = this.currentDeck) == null ? void 0 : _a.getTopicPath();
+    var _a2;
+    return (_a2 = this.currentDeck) == null ? void 0 : _a2.getTopicPath();
   }
   get currentDeck() {
-    if (this.deckIdx == null) return null;
+    if (this.deckIdx === null || this.deckIdx === void 0) return null;
     return this.deckArray[this.deckIdx];
   }
   get currentCard() {
     let result = null;
-    if (this.deckIdx != null && this.singleDeckIterator.hasCurrentCard)
+    if (this.deckIdx !== null && this.deckIdx !== void 0 && this.singleDeckIterator.hasCurrentCard)
       result = this.singleDeckIterator.currentCard;
     return result;
   }
   get currentQuestion() {
-    var _a;
-    return (_a = this.currentCard) == null ? void 0 : _a.question;
+    var _a2;
+    return (_a2 = this.currentCard) == null ? void 0 : _a2.question;
   }
   constructor(iteratorOrder, baseDeckTree) {
     this.singleDeckIterator = new SingleDeckIterator(iteratorOrder);
@@ -10709,17 +12059,18 @@ var DeckTreeIterator = class _DeckTreeIterator {
   }
   setDeckIdx(deckIdx) {
     this.deckIdx = deckIdx;
-    if (deckIdx != null) this.singleDeckIterator.setDeck(this.deckArray[deckIdx]);
+    if (deckIdx !== null && deckIdx !== void 0)
+      this.singleDeckIterator.setDeck(this.deckArray[deckIdx]);
   }
   nextCard() {
     let result = false;
     if (this.hasCurrentCard) {
       this.baseDeckTree.deleteCardFromAllDecks(this.currentCard, true);
     }
-    if (this.iteratorOrder.cardOrder == 4 /* EveryCardRandomDeckAndCard */) {
+    if (this.iteratorOrder.cardOrder === 4 /* EveryCardRandomDeckAndCard */) {
       result = this.nextCardEveryCardRandomDeck();
     } else {
-      if (this.deckIdx == null) {
+      if (this.deckIdx === null || this.deckIdx === void 0) {
         this.chooseNextDeck(true);
       }
       while (this.deckIdx < this.deckArray.length) {
@@ -10768,7 +12119,7 @@ var DeckTreeIterator = class _DeckTreeIterator {
         weights[i2] = cardCount;
       }
     }
-    if (Object.keys(weights).length == 0) return false;
+    if (Object.keys(weights).length === 0) return false;
     const [deckIdx, cardIdx] = this.weightedRandomNumber.getRandomValues(weights);
     this.setDeckIdx(deckIdx);
     this.singleDeckIterator.setNewOrDueCardIdx(cardIdx);
@@ -10790,14 +12141,14 @@ var DeckTreeIterator = class _DeckTreeIterator {
     this.singleDeckIterator.moveCurrentCardToEndOfList();
   }
   removeCurrentDeckIfEmpty() {
-    if (this.currentDeck.getCardCount(2 /* All */, false) == 0) {
+    if (this.currentDeck.getCardCount(2 /* All */, false) === 0) {
       this.deckArray.splice(this.deckIdx, 1);
       if (this.deckIdx < this.deckArray.length) this.setDeckIdx(this.deckIdx);
     }
   }
 };
 
-// src/stats.ts
+// src/deck/stats.ts
 var Stats = class {
   constructor() {
     this.eases = new ValueCountDict();
@@ -10834,7 +12185,7 @@ var Stats = class {
   }
 };
 
-// src/deck-tree-stats-calculator.ts
+// src/deck/deck-tree-stats-calculator.ts
 var DeckTreeStatsCalculator = class {
   calculate(deckTree) {
     const iteratorOrder = {
@@ -10868,7 +12219,7 @@ var _DueDateHistogram = class _DueDateHistogram {
     // Value - Count of notes due
     this.dueDatesMap = /* @__PURE__ */ new Map();
     this.dueDatesMap = /* @__PURE__ */ new Map();
-    if (rec != null) {
+    if (rec !== null && rec !== void 0) {
       Object.entries(rec).forEach(([key, value]) => {
         this.dueDatesMap.set(Number(key), value);
       });
@@ -10961,6 +12312,7 @@ var CardDueDateHistogram = class extends DueDateHistogram {
 };
 
 // src/file.ts
+var import_moment3 = __toESM(require_moment());
 var import_obsidian2 = require("obsidian");
 
 // src/utils/strings.ts
@@ -10988,7 +12340,7 @@ function cyrb53(str, seed = 0) {
 }
 function convertToStringOrEmpty(v2) {
   let result = "";
-  if (v2 != null && v2 != void 0) {
+  if (v2 !== null && v2 !== void 0) {
     result = v2 + "";
   }
   return result;
@@ -11031,7 +12383,7 @@ function splitNoteIntoFrontmatterAndContent(str) {
 function findLineIndexOfSearchStringIgnoringWs(lines, searchString) {
   let result = -1;
   for (let i2 = 0; i2 < lines.length; i2++) {
-    if (lines[i2].trim() == searchString) {
+    if (lines[i2].trim() === searchString) {
       result = i2;
       break;
     }
@@ -11062,7 +12414,7 @@ var MultiLineTextFinder = class _MultiLineTextFinder {
         sourceTextArray,
         searchTextArray
       );
-      if (lineNo !== null) {
+      if (lineNo !== null && lineNo !== void 0) {
         const replacementTextArray = splitTextIntoLineArray(replacementText);
         const linesToRemove = searchTextArray.length;
         sourceTextArray.splice(lineNo, linesToRemove, ...replacementTextArray);
@@ -11078,8 +12430,8 @@ var MultiLineTextFinder = class _MultiLineTextFinder {
     for (let sourceIdx = 0; sourceIdx < sourceText.length; sourceIdx++) {
       const sourceLine = sourceText[sourceIdx].trim();
       const searchLine = searchText[searchIdx].trim();
-      if (searchLine == sourceLine) {
-        if (searchIdx == maxSearchIdx) {
+      if (searchLine === sourceLine) {
+        if (searchIdx === maxSearchIdx) {
           result = sourceIdx - searchIdx;
           break;
         }
@@ -11095,10 +12447,11 @@ var MultiLineTextFinder = class _MultiLineTextFinder {
 // src/file.ts
 var frontmatterTagPseudoLineNum = -1;
 var SrTFile = class {
-  constructor(vault, metadataCache, file) {
+  constructor(vault, metadataCache, fileManager, file) {
     this.vault = vault;
     this.metadataCache = metadataCache;
     this.file = file;
+    this.fileManager = fileManager;
   }
   get path() {
     return this.file.path;
@@ -11108,6 +12461,28 @@ var SrTFile = class {
   }
   get tfile() {
     return this.file;
+  }
+  async getNoteSchedule() {
+    let result = null;
+    const frontmatter = await this.getFrontmatter();
+    if (frontmatter && frontmatter.has("sr-due") && frontmatter.has("sr-interval") && frontmatter.has("sr-ease")) {
+      const dueDate = (0, import_moment3.default)(frontmatter.get("sr-due"), ALLOWED_DATE_FORMATS);
+      const interval = parseFloat(frontmatter.get("sr-interval"));
+      const ease = parseFloat(frontmatter.get("sr-ease"));
+      result = new RepItemScheduleInfoOsr(dueDate, interval, ease);
+    }
+    return result;
+  }
+  async setNoteSchedule(repItemScheduleInfo) {
+    const schedInfo = repItemScheduleInfo;
+    const dueString = formatDateYYYYMMDD(schedInfo.dueDate);
+    const interval = schedInfo.interval;
+    const ease = schedInfo.latestEase;
+    await this.fileManager.processFrontMatter(this.tfile, (frontmatter) => {
+      frontmatter["sr-due"] = dueString;
+      frontmatter["sr-interval"] = interval;
+      frontmatter["sr-ease"] = ease;
+    });
   }
   async getFrontmatter() {
     const fileCachedData = this.metadataCache.getFileCache(this.file) || {};
@@ -11126,10 +12501,10 @@ var SrTFile = class {
     return result;
   }
   getAllTagsFromText() {
-    var _a;
+    var _a2;
     const result = [];
     const fileCachedData = this.metadataCache.getFileCache(this.file) || {};
-    if (((_a = fileCachedData.tags) == null ? void 0 : _a.length) > 0) {
+    if (((_a2 = fileCachedData.tags) == null ? void 0 : _a2.length) > 0) {
       result.push(...fileCachedData.tags);
     }
     result.push(...this.getFrontmatterTags(fileCachedData.frontmatter));
@@ -11137,7 +12512,7 @@ var SrTFile = class {
   }
   getFrontmatterTags(frontmatter) {
     const result = [];
-    const frontmatterTags = frontmatter != null ? frontmatter["tags"] + "" : null;
+    const frontmatterTags = frontmatter !== null && frontmatter !== void 0 ? frontmatter["tags"] + "" : null;
     if (frontmatterTags) {
       const tagStrList = parseObsidianFrontmatterTag(frontmatterTags);
       for (const str of tagStrList) {
@@ -11187,7 +12562,7 @@ var SrTFile = class {
     const frontMatter = fileCache == null ? void 0 : fileCache.frontmatter;
     if (frontMatter && (frontMatter == null ? void 0 : frontMatter.direction)) {
       const str = (frontMatter.direction + "").toLowerCase();
-      result = str == "rtl" ? 2 /* Rtl */ : 1 /* Ltr */;
+      result = str === "rtl" ? 2 /* Rtl */ : 1 /* Ltr */;
     }
     return result;
   }
@@ -11199,7 +12574,7 @@ var SrTFile = class {
   }
 };
 
-// src/note.ts
+// src/note/note.ts
 var Note = class {
   get hasChanged() {
     return this.questionList.some((question) => question.hasChanged);
@@ -11220,12 +12595,12 @@ var Note = class {
     }
   }
   debugLogToConsole(desc = "") {
-    var _a;
+    var _a2;
     let str = `Note: ${desc}: ${this.questionList.length} questions\r
 `;
     for (let i2 = 0; i2 < this.questionList.length; i2++) {
       const q2 = this.questionList[i2];
-      str += `[${i2}]: ${q2.questionType}: ${q2.lineNo}: ${(_a = q2.topicPathList) == null ? void 0 : _a.format("|")}: ${q2.questionText.original}\r
+      str += `[${i2}]: ${q2.questionType}: ${q2.lineNo}: ${(_a2 = q2.topicPathList) == null ? void 0 : _a2.format("|")}: ${q2.questionText.original}\r
 `;
     }
     console.debug(str);
@@ -11242,7 +12617,7 @@ var Note = class {
   }
 };
 
-// src/card.ts
+// src/card/card.ts
 var Card = class extends RepetitionItem {
   constructor(init) {
     super();
@@ -11252,17 +12627,21 @@ var Card = class extends RepetitionItem {
     return this.isNew ? 0 /* NewCard */ : 1 /* DueCard */;
   }
   formatSchedule() {
-    let result = "";
-    if (this.hasSchedule) result = this.scheduleInfo.formatCardScheduleForHtmlComment();
-    else result = "New";
-    return result;
+    return this.hasSchedule ? this.scheduleInfo.formatCardScheduleForHtmlComment() : "New";
   }
 };
 
-// src/parser.ts
-var import_clozecraft = __toESM(require_dist());
+// src/data-store-algorithm/data-store-algorithm.ts
+var DataStoreAlgorithm = class _DataStoreAlgorithm {
+  static getInstance() {
+    if (!_DataStoreAlgorithm.instance) {
+      throw new Error("there is no DataStoreAlgorithm instance.");
+    }
+    return _DataStoreAlgorithm.instance;
+  }
+};
 
-// src/question.ts
+// src/card/questions/question.ts
 var QuestionText = class _QuestionText {
   constructor(original, topicPathWithWs, actualQuestion, textDirection, blockId) {
     this.original = original;
@@ -11282,20 +12661,19 @@ var QuestionText = class _QuestionText {
   static splitText(original, settings) {
     const originalWithoutSR = DataStore.getInstance().questionRemoveScheduleInfo(original);
     let actualQuestion = originalWithoutSR.trimEnd();
-    let topicPathWithWs = null;
-    let blockId = null;
+    let topicPathWithWs;
     const topicPath = TopicPath.getTopicPathFromCardText(originalWithoutSR);
     if (topicPath == null ? void 0 : topicPath.hasPath) {
       const [preTopicPathWs, cardText2] = stringTrimStart(originalWithoutSR);
       const cardText3 = cardText2.replaceAll(OBSIDIAN_TAG_AT_STARTOFLINE_REGEX, "");
-      let postTopicPathWs = null;
+      let postTopicPathWs;
       [postTopicPathWs, actualQuestion] = stringTrimStart(cardText3);
       if (!settings.convertFoldersToDecks) {
         topicPathWithWs = new TopicPathWithWs(topicPath, preTopicPathWs, postTopicPathWs);
       }
     }
-    [actualQuestion, blockId] = this.extractObsidianBlockId(actualQuestion);
-    return [topicPathWithWs, actualQuestion, blockId];
+    const [strippedQuestion, blockId] = this.extractObsidianBlockId(actualQuestion);
+    return [topicPathWithWs, strippedQuestion, blockId];
   }
   static extractObsidianBlockId(text) {
     let question = text;
@@ -11416,136 +12794,8 @@ ${scheduleHtml}`;
   }
 };
 
-// src/parser.ts
-var debugParser = false;
-function setDebugParser(value) {
-  debugParser = value;
-}
-var ParsedQuestionInfo = class {
-  constructor(cardType, text, firstLineNum, lastLineNum) {
-    this.cardType = cardType;
-    this.text = text;
-    this.firstLineNum = firstLineNum;
-    this.lastLineNum = lastLineNum;
-  }
-  isQuestionLineNum(lineNum) {
-    return lineNum >= this.firstLineNum && lineNum <= this.lastLineNum;
-  }
-};
-function markerInsideCodeBlock(text, marker, markerIndex) {
-  let goingBack = markerIndex - 1, goingForward = markerIndex + marker.length;
-  let backTicksBefore = 0, backTicksAfter = 0;
-  while (goingBack >= 0) {
-    if (text[goingBack] === "`") backTicksBefore++;
-    goingBack--;
-  }
-  while (goingForward < text.length) {
-    if (text[goingForward] === "`") backTicksAfter++;
-    goingForward++;
-  }
-  return backTicksBefore % 2 === 1 && backTicksAfter % 2 === 1;
-}
-function hasInlineMarker(text, marker) {
-  if (marker.length == 0) return false;
-  const markerIdx = text.indexOf(marker);
-  if (markerIdx === -1) return false;
-  return !markerInsideCodeBlock(text, marker, markerIdx);
-}
-function parse(text, options) {
-  if (debugParser) {
-    console.log("Text to parse:\n<<<" + text + ">>>");
-  }
-  const inlineSeparators = [
-    { separator: options.singleLineCardSeparator, type: 0 /* SingleLineBasic */ },
-    { separator: options.singleLineReversedCardSeparator, type: 1 /* SingleLineReversed */ }
-  ];
-  inlineSeparators.sort((a2, b2) => b2.separator.length - a2.separator.length);
-  const cards = [];
-  let cardText = "";
-  let cardType = null;
-  let firstLineNo = 0, lastLineNo = 0;
-  const clozecrafter = new import_clozecraft.ClozeCrafter(options.clozePatterns);
-  const lines = text.replaceAll("\r\n", "\n").split("\n");
-  for (let i2 = 0; i2 < lines.length; i2++) {
-    const currentLine = lines[i2], currentTrimmed = lines[i2].trim();
-    if (currentLine.startsWith("<!--") && !currentLine.startsWith("<!--SR:")) {
-      while (i2 + 1 < lines.length && !currentLine.includes("-->")) i2++;
-      i2++;
-      continue;
-    }
-    const isEmptyLine = currentTrimmed.length == 0;
-    const hasMultilineCardEndMarker = options.multilineCardEndMarker && currentTrimmed == options.multilineCardEndMarker;
-    if (
-      // We've probably reached the end of a card
-      isEmptyLine && !options.multilineCardEndMarker || // Empty line & we're not picking up any card
-      isEmptyLine && cardType == null || // We've reached the end of a multi line card &
-      //  we're using custom end markers
-      hasMultilineCardEndMarker
-    ) {
-      if (cardType) {
-        lastLineNo = i2 - 1;
-        cards.push(
-          new ParsedQuestionInfo(cardType, cardText.trimEnd(), firstLineNo, lastLineNo)
-        );
-        cardType = null;
-      }
-      cardText = "";
-      firstLineNo = i2 + 1;
-      continue;
-    }
-    if (cardText.length > 0) {
-      cardText += "\n";
-    }
-    cardText += currentLine.trimEnd();
-    for (const { separator, type } of inlineSeparators) {
-      if (hasInlineMarker(currentLine, separator)) {
-        cardType = type;
-        break;
-      }
-    }
-    if (cardType == 0 /* SingleLineBasic */ || cardType == 1 /* SingleLineReversed */) {
-      cardText = currentLine;
-      firstLineNo = i2;
-      if (i2 + 1 < lines.length && lines[i2 + 1].startsWith("<!--SR:")) {
-        cardText += "\n" + lines[i2 + 1];
-        i2++;
-      }
-      lastLineNo = i2;
-      cards.push(new ParsedQuestionInfo(cardType, cardText, firstLineNo, lastLineNo));
-      cardType = null;
-      cardText = "";
-    } else if (currentTrimmed === options.multilineCardSeparator) {
-      if (cardText.length > 1) {
-        cardType = 2 /* MultiLineBasic */;
-      }
-    } else if (currentTrimmed === options.multilineReversedCardSeparator) {
-      if (cardText.length > 1) {
-        cardType = 3 /* MultiLineReversed */;
-      }
-    } else if (currentLine.startsWith("```") || currentLine.startsWith("~~~")) {
-      const codeBlockClose = currentLine.match(/`+|~+/)[0];
-      while (i2 + 1 < lines.length && !lines[i2 + 1].startsWith(codeBlockClose)) {
-        i2++;
-        cardText += "\n" + lines[i2];
-      }
-      cardText += "\n" + codeBlockClose;
-      i2++;
-    } else if (cardType === null && clozecrafter.isClozeNote(currentLine)) {
-      cardType = 4 /* Cloze */;
-    }
-  }
-  if (cardType && cardText) {
-    lastLineNo = lines.length - 1;
-    cards.push(new ParsedQuestionInfo(cardType, cardText.trimEnd(), firstLineNo, lastLineNo));
-  }
-  if (debugParser) {
-    console.log("Parsed cards:\n", cards);
-  }
-  return cards;
-}
-
-// src/question-type.ts
-var import_clozecraft2 = __toESM(require_dist());
+// src/card/questions/question-type.ts
+var import_clozecraft = __toESM(require_dist());
 var CardFrontBack = class {
   // The caller is responsible for any required trimming of leading/trailing spaces
   constructor(front, back) {
@@ -11614,9 +12864,9 @@ var QuestionTypeMultiLineReversed = class {
 };
 var QuestionTypeCloze = class {
   expand(questionText, settings) {
-    const clozecrafter = new import_clozecraft2.ClozeCrafter(settings.clozePatterns);
+    const clozecrafter = new import_clozecraft.ClozeCrafter(settings.clozePatterns);
     const clozeNote = clozecrafter.createClozeNote(questionText);
-    const clozeFormatter = new QuestionTypeClozeFormatter();
+    const clozeFormatter = settings.convertClozePatternsToInputs ? new QuestionTypeClozeInputFormatter() : new QuestionTypeClozeFormatter();
     let front, back;
     const result = [];
     for (let i2 = 0; i2 < clozeNote.numCards; i2++) {
@@ -11633,6 +12883,17 @@ var QuestionTypeClozeFormatter = class {
   }
   showingAnswer(answer, _hint) {
     return `<span style='color:#2196f3'>${answer}</span>`;
+  }
+  hiding(answer, hint) {
+    return `<span style='color:var(--code-comment)'>${!hint ? "[...]" : `[${hint}]`}</span>`;
+  }
+};
+var QuestionTypeClozeInputFormatter = class {
+  asking(answer, hint) {
+    return `<span style='color:#2196f3'><input class="cloze-input" type="text" size="${!answer ? 1 : answer.length}" />${!hint ? "" : `[${hint}]`}</span>`;
+  }
+  showingAnswer(answer, _hint) {
+    return `<span class="cloze-answer" style='color:#2196f3'>${answer}</span>`;
   }
   hiding(answer, hint) {
     return `<span style='color:var(--code-comment)'>${!hint ? "[...]" : `[${hint}]`}</span>`;
@@ -11662,8 +12923,136 @@ var QuestionTypeFactory = class {
   }
 };
 
+// src/parser.ts
+var import_clozecraft2 = __toESM(require_dist());
+var debugParser = false;
+function setDebugParser(value) {
+  debugParser = value;
+}
+var ParsedQuestionInfo = class {
+  constructor(cardType, text, firstLineNum, lastLineNum) {
+    this.cardType = cardType;
+    this.text = text;
+    this.firstLineNum = firstLineNum;
+    this.lastLineNum = lastLineNum;
+  }
+  isQuestionLineNum(lineNum) {
+    return lineNum >= this.firstLineNum && lineNum <= this.lastLineNum;
+  }
+};
+function markerInsideCodeBlock(text, marker, markerIndex) {
+  let goingBack = markerIndex - 1, goingForward = markerIndex + marker.length;
+  let backTicksBefore = 0, backTicksAfter = 0;
+  while (goingBack >= 0) {
+    if (text[goingBack] === "`") backTicksBefore++;
+    goingBack--;
+  }
+  while (goingForward < text.length) {
+    if (text[goingForward] === "`") backTicksAfter++;
+    goingForward++;
+  }
+  return backTicksBefore % 2 === 1 && backTicksAfter % 2 === 1;
+}
+function hasInlineMarker(text, marker) {
+  if (marker.length === 0) return false;
+  const markerIdx = text.indexOf(marker);
+  if (markerIdx === -1) return false;
+  return !markerInsideCodeBlock(text, marker, markerIdx);
+}
+function parse(text, options) {
+  if (debugParser) {
+    console.log("Text to parse:\n<<<" + text + ">>>");
+  }
+  const inlineSeparators = [
+    { separator: options.singleLineCardSeparator, type: 0 /* SingleLineBasic */ },
+    { separator: options.singleLineReversedCardSeparator, type: 1 /* SingleLineReversed */ }
+  ];
+  inlineSeparators.sort((a2, b2) => b2.separator.length - a2.separator.length);
+  const cards = [];
+  let cardText = "";
+  let cardType = null;
+  let firstLineNo = 0, lastLineNo;
+  const clozecrafter = new import_clozecraft2.ClozeCrafter(options.clozePatterns);
+  const lines = text.replaceAll("\r\n", "\n").split("\n");
+  for (let i2 = 0; i2 < lines.length; i2++) {
+    const currentLine = lines[i2], currentTrimmed = lines[i2].trim();
+    if (currentLine.startsWith("<!--") && !currentLine.startsWith("<!--SR:")) {
+      while (i2 + 1 < lines.length && !currentLine.includes("-->")) i2++;
+      i2++;
+      continue;
+    }
+    const isEmptyLine = currentTrimmed.length === 0;
+    const hasMultilineCardEndMarker = options.multilineCardEndMarker && currentTrimmed === options.multilineCardEndMarker;
+    if (
+      // We've probably reached the end of a card
+      isEmptyLine && !options.multilineCardEndMarker || // Empty line & we're not picking up any card
+      isEmptyLine && cardType === null || // We've reached the end of a multi line card &
+      //  we're using custom end markers
+      hasMultilineCardEndMarker
+    ) {
+      if (cardType) {
+        lastLineNo = i2 - 1;
+        cards.push(
+          new ParsedQuestionInfo(cardType, cardText.trimEnd(), firstLineNo, lastLineNo)
+        );
+        cardType = null;
+      }
+      cardText = "";
+      firstLineNo = i2 + 1;
+      continue;
+    }
+    if (cardText.length > 0) {
+      cardText += "\n";
+    }
+    cardText += currentLine.trimEnd();
+    for (const { separator, type } of inlineSeparators) {
+      if (hasInlineMarker(currentLine, separator)) {
+        cardType = type;
+        break;
+      }
+    }
+    if (cardType === 0 /* SingleLineBasic */ || cardType === 1 /* SingleLineReversed */) {
+      cardText = currentLine;
+      firstLineNo = i2;
+      if (i2 + 1 < lines.length && lines[i2 + 1].startsWith("<!--SR:")) {
+        cardText += "\n" + lines[i2 + 1];
+        i2++;
+      }
+      lastLineNo = i2;
+      cards.push(new ParsedQuestionInfo(cardType, cardText, firstLineNo, lastLineNo));
+      cardType = null;
+      cardText = "";
+    } else if (currentTrimmed === options.multilineCardSeparator) {
+      if (cardText.length > 1) {
+        cardType = 2 /* MultiLineBasic */;
+      }
+    } else if (currentTrimmed === options.multilineReversedCardSeparator) {
+      if (cardText.length > 1) {
+        cardType = 3 /* MultiLineReversed */;
+      }
+    } else if (currentLine.startsWith("```") || currentLine.startsWith("~~~")) {
+      const codeBlockClose = currentLine.match(/`+|~+/)[0];
+      while (i2 + 1 < lines.length && !lines[i2 + 1].startsWith(codeBlockClose)) {
+        i2++;
+        cardText += "\n" + lines[i2];
+      }
+      cardText += "\n" + codeBlockClose;
+      i2++;
+    } else if (cardType === null && clozecrafter.isClozeNote(currentLine)) {
+      cardType = 4 /* Cloze */;
+    }
+  }
+  if (cardType && cardText) {
+    lastLineNo = lines.length - 1;
+    cards.push(new ParsedQuestionInfo(cardType, cardText.trimEnd(), firstLineNo, lastLineNo));
+  }
+  if (debugParser) {
+    console.log("Parsed cards:\n", cards);
+  }
+  return cards;
+}
+
 // src/settings.ts
-var import_obsidian3 = require("obsidian");
 var DEFAULT_SETTINGS = {
   // flashcards
   flashcardTags: ["#flashcards"],
@@ -11672,6 +13061,7 @@ var DEFAULT_SETTINGS = {
   randomizeCardOrder: null,
   flashcardCardOrder: "DueFirstRandom",
   flashcardDeckOrder: "PrevDeckComplete_Sequential",
+  convertClozePatternsToInputs: false,
   convertHighlightsToClozes: true,
   convertBoldTextToClozes: false,
   convertCurlyBracketsToClozes: false,
@@ -11696,12 +13086,16 @@ var DEFAULT_SETTINGS = {
   initiallyExpandAllSubdecksInTree: false,
   showContextInCards: true,
   showIntervalInReviewButtons: true,
-  flashcardHeightPercentage: import_obsidian3.Platform.isMobile ? 100 : 80,
-  flashcardWidthPercentage: import_obsidian3.Platform.isMobile ? 100 : 40,
+  flashcardHeightPercentage: 60,
+  flashcardWidthPercentage: 60,
+  flashcardHeightPercentageMobile: 100,
+  flashcardWidthPercentageMobile: 100,
   flashcardEasyText: t("EASY"),
   flashcardGoodText: t("GOOD"),
   flashcardHardText: t("HARD"),
   reviewButtonDelay: 0,
+  openViewInNewTab: false,
+  openViewInNewTabMobile: false,
   // algorithm
   algorithm: "SM-2-OSR" /* SM_2_OSR */,
   baseEase: 250,
@@ -11710,6 +13104,7 @@ var DEFAULT_SETTINGS = {
   loadBalance: true,
   maximumInterval: 36525,
   maxLinkFactor: 1,
+  startOfDay: "00:00:00",
   // storage
   dataStore: "NOTES" /* NOTES */,
   cardCommentOnSameLine: false,
@@ -11718,12 +13113,12 @@ var DEFAULT_SETTINGS = {
   showParserDebugMessages: false
 };
 function upgradeSettings(settings) {
-  if (settings.randomizeCardOrder != null && settings.flashcardCardOrder == null && settings.flashcardDeckOrder == null) {
+  if (settings.randomizeCardOrder !== null && settings.randomizeCardOrder !== void 0 && (settings.flashcardCardOrder === null || settings.flashcardCardOrder === void 0) && (settings.flashcardDeckOrder === null || settings.flashcardDeckOrder === void 0)) {
     settings.flashcardCardOrder = settings.randomizeCardOrder ? "DueFirstRandom" : "DueFirstSequential";
     settings.flashcardDeckOrder = "PrevDeckComplete_Sequential";
     settings.randomizeCardOrder = null;
   }
-  if (settings.clozePatterns == null) {
+  if (settings.clozePatterns === null || settings.clozePatterns === void 0) {
     settings.clozePatterns = [];
     if (settings.convertHighlightsToClozes)
       settings.clozePatterns.push("==[123;;]answer[;;hint]==");
@@ -11737,8 +13132,8 @@ var SettingsUtil = class _SettingsUtil {
   static isFlashcardTag(settings, tag) {
     return _SettingsUtil.isTagInList(settings.flashcardTags, tag);
   }
-  static isPathInNoteIgnoreFolder(settings, path3) {
-    return settings.noteFoldersToIgnore.some((folder) => pathMatchesPattern(path3, folder));
+  static isPathInNoteIgnoreFolder(settings, path2) {
+    return settings.noteFoldersToIgnore.some((folder) => pathMatchesPattern(path2, folder));
   }
   static isAnyTagANoteReviewTag(settings, tags) {
     for (const tag of tags) {
@@ -11770,7 +13165,7 @@ var SettingsUtil = class _SettingsUtil {
   }
 };
 
-// src/note-question-parser.ts
+// src/note/note-question-parser.ts
 var NoteQuestionParser = class {
   constructor(settings) {
     this.settings = settings;
@@ -11784,7 +13179,7 @@ var NoteQuestionParser = class {
       const tagCompleteList = noteFile.getAllTagsFromText();
       [this.frontmatterText, this.contentText] = splitNoteIntoFrontmatterAndContent(noteText);
       let textDirection = noteFile.getTextDirection();
-      if (textDirection == 0 /* Unspecified */) textDirection = defaultTextDirection;
+      if (textDirection === 0 /* Unspecified */) textDirection = defaultTextDirection;
       this.questionList = this.doCreateQuestionList(
         noteText,
         textDirection,
@@ -11908,7 +13303,7 @@ var NoteQuestionParser = class {
   determineFrontmatterTopicPathList(flashcardTagList, frontmatterLineCount) {
     let result = null;
     const noteLevelTagList = flashcardTagList.filter(
-      (item) => item.position.start.line == frontmatterTagPseudoLineNum && this.isNoteLevelFlashcardTag(item)
+      (item) => item.position.start.line === frontmatterTagPseudoLineNum && this.isNoteLevelFlashcardTag(item)
     );
     if (noteLevelTagList.length > 0) {
       if (this.frontmatterText) {
@@ -11932,9 +13327,9 @@ var NoteQuestionParser = class {
     );
     let list = [];
     for (const tag of contentTagCacheList) {
-      if (list.length != 0) {
+      if (list.length !== 0) {
         const startLineNum = list[0].position.start.line;
-        if (startLineNum != tag.position.start.line) {
+        if (startLineNum !== tag.position.start.line) {
           result.push(this.createTopicPathList(list, startLineNum));
           list = [];
         }
@@ -12000,7 +13395,7 @@ var NoteQuestionParser = class {
   }
 };
 
-// src/note-file-loader.ts
+// src/note/note-file-loader.ts
 var NoteFileLoader = class {
   constructor(settings) {
     this.settings = settings;
@@ -12023,7 +13418,7 @@ var NoteFileLoader = class {
 // src/core.ts
 var OsrCore = class {
   constructor() {
-    this._reviewableDeckTree = new Deck2("root", null);
+    this._reviewableDeckTree = new Deck("root", null);
   }
   get noteReviewQueue() {
     return this._noteReviewQueue;
@@ -12054,14 +13449,28 @@ var OsrCore = class {
     this._questionPostponementList = questionPostponementList;
     this._dueDateFlashcardHistogram = new CardDueDateHistogram();
     this._dueDateNoteHistogram = new NoteDueDateHistogram();
+    try {
+      const startOfDayElements = this.settings.startOfDay.split(":");
+      if (startOfDayElements.length !== 3) {
+        throw new Error("Invalid format for start of day");
+      }
+      const dayBoundary = {
+        hour: parseInt(startOfDayElements[0]),
+        minute: parseInt(startOfDayElements[1]),
+        second: parseInt(startOfDayElements[2])
+      };
+      globalDateProvider.setDayBoundary(dayBoundary);
+    } catch (e2) {
+      console.error("Invalid format for start of day", e2);
+    }
   }
   loadInit() {
     this.osrNoteGraph = new OsrNoteGraph(this.osrNoteLinkInfoFinder);
     this._noteReviewQueue.init();
-    this.fullDeckTree = new Deck2("root", null);
+    this.fullDeckTree = new Deck("root", null);
   }
   async processFile(noteFile) {
-    const schedule = await DataStoreAlgorithm.getInstance().noteGetSchedule(noteFile);
+    const schedule = await noteFile.getNoteSchedule();
     let note = null;
     this.osrNoteGraph.processLinks(noteFile.path);
     const topicPath = this.findTopicPath(noteFile);
@@ -12072,10 +13481,10 @@ var OsrCore = class {
     SrsAlgorithm.getInstance().noteOnLoadedNote(noteFile.path, note, schedule == null ? void 0 : schedule.latestEase);
     const tags = noteFile.getAllTagsFromCache();
     const matchedNoteTags = SettingsUtil.filterForNoteReviewTag(this.settings, tags);
-    if (matchedNoteTags.length == 0) {
+    if (matchedNoteTags.length === 0) {
       return;
     }
-    const noteSchedule = await DataStoreAlgorithm.getInstance().noteGetSchedule(noteFile);
+    const noteSchedule = await noteFile.getNoteSchedule();
     this._noteReviewQueue.addNoteToQueue(noteFile, noteSchedule, matchedNoteTags);
   }
   finaliseLoad() {
@@ -12094,9 +13503,9 @@ var OsrCore = class {
     if (this.dataChangedHandler) this.dataChangedHandler();
   }
   async saveNoteReviewResponse(noteFile, response, settings) {
-    const originalNoteSchedule = await DataStoreAlgorithm.getInstance().noteGetSchedule(noteFile);
+    const originalNoteSchedule = await noteFile.getNoteSchedule();
     let noteSchedule;
-    if (originalNoteSchedule == null) {
+    if (originalNoteSchedule === null) {
       noteSchedule = SrsAlgorithm.getInstance().noteCalcNewSchedule(
         noteFile.path,
         this.osrNoteGraph,
@@ -12111,7 +13520,7 @@ var OsrCore = class {
         this._dueDateNoteHistogram
       );
     }
-    await DataStoreAlgorithm.getInstance().noteSetSchedule(noteFile, noteSchedule);
+    await noteFile.setNoteSchedule(noteSchedule);
     this._noteReviewQueue.updateScheduleInfo(noteFile, noteSchedule);
     this.calculateDerivedInfo();
     await this.buryAllCardsInNote(settings, noteFile);
@@ -12179,63 +13588,14 @@ var OsrAppCore = class extends OsrCore {
     }
   }
   createSrTFile(note) {
-    return new SrTFile(this.app.vault, this.app.metadataCache, note);
+    return new SrTFile(this.app.vault, this.app.metadataCache, this.app.fileManager, note);
   }
 };
 
 // src/data-store-algorithm/data-store-in-note-algorithm-osr.ts
-var import_moment3 = __toESM(require_moment());
 var DataStoreInNoteAlgorithmOsr = class {
   constructor(settings) {
     this.settings = settings;
-  }
-  async noteGetSchedule(note) {
-    let result = null;
-    const frontmatter = await note.getFrontmatter();
-    if (frontmatter && frontmatter.has("sr-due") && frontmatter.has("sr-interval") && frontmatter.has("sr-ease")) {
-      const dueDate = (0, import_moment3.default)(frontmatter.get("sr-due"), ALLOWED_DATE_FORMATS);
-      const interval = parseFloat(frontmatter.get("sr-interval"));
-      const ease = parseFloat(frontmatter.get("sr-ease"));
-      result = new RepItemScheduleInfoOsr(dueDate, interval, ease);
-    }
-    return result;
-  }
-  async noteSetSchedule(note, repItemScheduleInfo) {
-    let fileText = await note.read();
-    const schedInfo = repItemScheduleInfo;
-    const dueString = formatDateYYYYMMDD(schedInfo.dueDate);
-    const interval = schedInfo.interval;
-    const ease = schedInfo.latestEase;
-    if (SCHEDULING_INFO_REGEX.test(fileText)) {
-      const schedulingInfo = SCHEDULING_INFO_REGEX.exec(fileText);
-      fileText = fileText.replace(
-        SCHEDULING_INFO_REGEX,
-        `---
-${schedulingInfo[1]}sr-due: ${dueString}
-sr-interval: ${interval}
-sr-ease: ${ease}
-${schedulingInfo[5]}---`
-      );
-    } else if (YAML_FRONT_MATTER_REGEX.test(fileText)) {
-      const existingYaml = YAML_FRONT_MATTER_REGEX.exec(fileText);
-      fileText = fileText.replace(
-        YAML_FRONT_MATTER_REGEX,
-        `---
-${existingYaml[1]}sr-due: ${dueString}
-sr-interval: ${interval}
-sr-ease: ${ease}
----`
-      );
-    } else {
-      fileText = `---
-sr-due: ${dueString}
-sr-interval: ${interval}
-sr-ease: ${ease}
----
-
-${fileText}`;
-    }
-    await note.write(fileText);
   }
   questionFormatScheduleAsHtmlComment(question) {
     let result = SR_HTML_COMMENT_BEGIN;
@@ -12278,7 +13638,7 @@ var StoreInNotes = class {
       const ease = parseInt(match2[3]);
       const dueDate = DateUtil.dateStrToMoment(dueDateStr);
       let info;
-      if (dueDate == null || formatDateYYYYMMDD(dueDate) == RepItemScheduleInfoOsr.dummyDueDateForNewCard) {
+      if (dueDate === null || formatDateYYYYMMDD(dueDate) === RepItemScheduleInfoOsr.dummyDueDateForNewCard) {
         info = null;
       } else {
         const delayBeforeReviewTicks = dueDate.valueOf() - globalDateProvider.today.valueOf();
@@ -12302,57 +13662,1048 @@ var StoreInNotes = class {
   }
 };
 
-// src/gui/flashcard-modal.tsx
-var import_obsidian7 = require("obsidian");
+// src/note/next-note-review-handler.ts
+var import_obsidian4 = require("obsidian");
 
-// src/gui/deck-list-view.tsx
+// src/ui/obsidian-ui-components/modals/review-deck-selection-modal.tsx
+var import_obsidian3 = require("obsidian");
+var ReviewDeckSelectionModal = class extends import_obsidian3.FuzzySuggestModal {
+  constructor(app, deckKeys) {
+    super(app);
+    this.deckKeys = [];
+    this.deckKeys = deckKeys;
+  }
+  getItems() {
+    return this.deckKeys;
+  }
+  getItemText(item) {
+    return item;
+  }
+  onChooseItem(deckKey, _2) {
+    this.close();
+    this.submitCallback(deckKey);
+  }
+};
+
+// src/note/next-note-review-handler.ts
+var NextNoteReviewHandler = class {
+  get lastSelectedReviewDeck() {
+    return this._lastSelectedReviewDeck;
+  }
+  get noteReviewQueue() {
+    return this._noteReviewQueue;
+  }
+  constructor(app, settings, noteReviewQueue) {
+    this.app = app;
+    this.settings = settings;
+    this._noteReviewQueue = noteReviewQueue;
+  }
+  async autoReviewNextNote() {
+    if (this.settings.autoNextNote) {
+      if (!this._lastSelectedReviewDeck) {
+        const reviewDeckKeys = this._noteReviewQueue.reviewDeckNameList;
+        if (reviewDeckKeys.length > 0) this._lastSelectedReviewDeck = reviewDeckKeys[0];
+        else {
+          new import_obsidian4.Notice(t("ALL_CAUGHT_UP"));
+          return;
+        }
+      }
+      this.reviewNextNote(this._lastSelectedReviewDeck);
+    }
+  }
+  async reviewNextNoteModal() {
+    const reviewDeckNames = this._noteReviewQueue.reviewDeckNameList;
+    if (reviewDeckNames.length === 1) {
+      this.reviewNextNote(reviewDeckNames[0]);
+    } else {
+      const deckSelectionModal = new ReviewDeckSelectionModal(this.app, reviewDeckNames);
+      deckSelectionModal.submitCallback = (deckKey) => this.reviewNextNote(deckKey);
+      deckSelectionModal.open();
+    }
+  }
+  async reviewNextNote(deckKey) {
+    if (!this._noteReviewQueue.reviewDeckNameList.contains(deckKey)) {
+      new import_obsidian4.Notice(t("NO_DECK_EXISTS", { deckName: deckKey }));
+      return;
+    }
+    this._lastSelectedReviewDeck = deckKey;
+    const deck = this._noteReviewQueue.reviewDecks.get(deckKey);
+    const notefile = deck.determineNextNote(this.settings.openRandomNote);
+    if (notefile) {
+      await this.openNote(deckKey, notefile.tfile);
+    } else {
+      new import_obsidian4.Notice(t("ALL_CAUGHT_UP"));
+    }
+  }
+  async openNote(deckName, file) {
+    this._lastSelectedReviewDeck = deckName;
+    await this.app.workspace.getLeaf().openFile(file);
+  }
+};
+
+// src/note/note-review-deck.ts
+var SchedNote = class {
+  constructor(note, dueUnix) {
+    this.note = note;
+    this.dueUnix = dueUnix;
+  }
+  isDue(todayUnix) {
+    return this.dueUnix <= todayUnix;
+  }
+};
+var NoteReviewDeck = class {
+  constructor(name) {
+    this._newNotes = [];
+    this._scheduledNotes = [];
+    this._dueNotesCount = 0;
+    this._deckName = name;
+    this._activeFolders = /* @__PURE__ */ new Set([this._deckName, t("TODAY")]);
+  }
+  get deckName() {
+    return this._deckName;
+  }
+  get newNotes() {
+    return this._newNotes;
+  }
+  get scheduledNotes() {
+    return this._scheduledNotes;
+  }
+  get dueNotesCount() {
+    return this._dueNotesCount;
+  }
+  get activeFolders() {
+    return this._activeFolders;
+  }
+  calcDueNotesCount(todayUnix) {
+    this._dueNotesCount = 0;
+    this.scheduledNotes.forEach((scheduledNote) => {
+      if (scheduledNote.isDue(todayUnix)) {
+        this._dueNotesCount++;
+      }
+    });
+  }
+  sortNotesByDateAndImportance(pageranks) {
+    this._newNotes = this.newNotes.sort(
+      (a2, b2) => (pageranks[b2.path] || 0) - (pageranks[a2.path] || 0)
+    );
+    this._scheduledNotes = this.scheduledNotes.sort((a2, b2) => {
+      const result = a2.dueUnix - b2.dueUnix;
+      if (result !== 0) {
+        return result;
+      }
+      return (pageranks[b2.note.path] || 0) - (pageranks[a2.note.path] || 0);
+    });
+  }
+  determineNextNote(openRandomNote) {
+    const todayUnix = globalDateProvider.today.valueOf();
+    const dueNotes = this.scheduledNotes.filter((note) => note.isDue(todayUnix));
+    if (dueNotes.length > 0) {
+      const index = openRandomNote ? globalRandomNumberProvider.getInteger(0, dueNotes.length - 1) : 0;
+      return dueNotes[index].note;
+    }
+    if (this.newNotes.length > 0) {
+      const index = openRandomNote ? globalRandomNumberProvider.getInteger(0, this.newNotes.length - 1) : 0;
+      return this.newNotes[index];
+    }
+    return null;
+  }
+};
+
+// src/note/note-review-queue.ts
+var NoteReviewQueue = class {
+  get reviewDecks() {
+    return this._reviewDecks;
+  }
+  get dueNotesCount() {
+    return this._dueNotesCount;
+  }
+  get reviewDeckNameList() {
+    return [...this._reviewDecks.keys()];
+  }
+  init() {
+    this._reviewDecks = /* @__PURE__ */ new Map();
+  }
+  calcDueNotesCount(todayUnix) {
+    this._dueNotesCount = 0;
+    this._reviewDecks.forEach((reviewDeck) => {
+      reviewDeck.calcDueNotesCount(todayUnix);
+      this._dueNotesCount += reviewDeck.dueNotesCount;
+    });
+  }
+  addNoteToQueue(noteFile, noteSchedule, matchedNoteTags) {
+    for (const matchedNoteTag of matchedNoteTags) {
+      if (!this.reviewDecks.has(matchedNoteTag)) {
+        this.reviewDecks.set(matchedNoteTag, new NoteReviewDeck(matchedNoteTag));
+      }
+    }
+    if (noteSchedule === null) {
+      for (const matchedNoteTag of matchedNoteTags) {
+        this.reviewDecks.get(matchedNoteTag).newNotes.push(noteFile);
+      }
+    } else {
+      for (const matchedNoteTag of matchedNoteTags) {
+        this.reviewDecks.get(matchedNoteTag).scheduledNotes.push(new SchedNote(noteFile, noteSchedule.dueDateAsUnix));
+      }
+    }
+  }
+  updateScheduleInfo(note, scheduleInfo) {
+    for (const reviewDeck of this.reviewDecks.values()) {
+      const isNewNoteInDeck = reviewDeck.newNotes.some(
+        (newNote) => newNote.path === note.path
+      );
+      const isScheduledNoteInDeck = reviewDeck.scheduledNotes.some(
+        (scheduledNote) => scheduledNote.note.path === note.path
+      );
+      const isInDeck = isNewNoteInDeck || isScheduledNoteInDeck;
+      if (!isInDeck) continue;
+      if (isNewNoteInDeck) {
+        const indexOfNote = reviewDeck.newNotes.findIndex(
+          (newNote) => newNote.path === note.path
+        );
+        reviewDeck.newNotes.splice(indexOfNote, 1);
+        reviewDeck.scheduledNotes.push(new SchedNote(note, scheduleInfo.dueDate.valueOf()));
+      } else if (isScheduledNoteInDeck) {
+        const scheduledNote = reviewDeck.scheduledNotes.find(
+          (scheduledNote2) => scheduledNote2.note.path === note.path
+        );
+        scheduledNote.dueUnix = scheduleInfo.dueDate.valueOf();
+      }
+      break;
+    }
+  }
+};
+
+// src/plugin-data.ts
+var DEFAULT_DATA = {
+  settings: DEFAULT_SETTINGS,
+  buryDate: "",
+  buryList: [],
+  historyDeck: null
+};
+
+// src/ui/obsidian-ui-components/item-views/review-queue-list-view.tsx
+var import_obsidian5 = require("obsidian");
+var REVIEW_QUEUE_VIEW_TYPE = "review-queue-list-view";
+var ReviewQueueListView = class extends import_obsidian5.ItemView {
+  get noteReviewQueue() {
+    return this.nextNoteReviewHandler.noteReviewQueue;
+  }
+  constructor(leaf, nextNoteReviewHandler, settings, plugin) {
+    super(leaf);
+    this.nextNoteReviewHandler = nextNoteReviewHandler;
+    this.settings = settings;
+    this.plugin = plugin;
+    if (this.settings.enableNoteReviewPaneOnStartup) {
+      this.registerEvent(this.app.workspace.on("file-open", () => this.redraw()));
+      this.registerEvent(this.app.vault.on("rename", () => this.redraw()));
+    }
+  }
+  getViewType() {
+    return REVIEW_QUEUE_VIEW_TYPE;
+  }
+  getDisplayText() {
+    return t("NOTES_REVIEW_QUEUE");
+  }
+  getIcon() {
+    return "SpacedRepIcon";
+  }
+  onHeaderMenu(menu) {
+    menu.addItem((item) => {
+      item.setTitle(t("CLOSE")).setIcon("cross").onClick(() => {
+        this.app.workspace.detachLeavesOfType(REVIEW_QUEUE_VIEW_TYPE);
+      });
+    });
+  }
+  redraw() {
+    if (!this.noteReviewQueue.reviewDecks) return;
+    this.contentEl.empty();
+    this.contentEl.addClass("sr-note-review-page");
+    this.headerEl = this.contentEl.createDiv("sr-note-review-header");
+    const titleWrapper = this.headerEl.createDiv("sr-note-review-header-title-wrapper");
+    const titleIcon = titleWrapper.createDiv("sr-note-review-header-title-icon");
+    (0, import_obsidian5.setIcon)(titleIcon, "lucide-file-clock");
+    titleWrapper.createDiv("sr-note-review-header-title").setText(t("OPEN_NOTE_FOR_REVIEW"));
+    const subTitleWrapper = this.contentEl.createDiv("sr-note-review-header-subtitle-wrapper");
+    subTitleWrapper.createDiv("sr-note-review-header-subtitle").setText(t("NOTE_REVIEW_QUEUE_HINT"));
+    this.treeEl = this.contentEl.createDiv("tree-item nav-folder mod-root");
+    this.createTree(this.treeEl);
+  }
+  createTree(parentEl) {
+    const childrenEl = parentEl.createDiv(
+      "tree-item-children nav-folder-children"
+    );
+    for (const [deckKey, deck] of this.noteReviewQueue.reviewDecks) {
+      const deckCollapsed = !deck.activeFolders.has(deck.deckName);
+      this.createDeckTreeItem(childrenEl, deckKey, deck, deckCollapsed);
+    }
+  }
+  createDeckTreeItem(parentEl, deckKey, deck, deckCollapsed) {
+    const deckFolderEl = this.createFolder(
+      parentEl,
+      deckKey,
+      deckCollapsed,
+      false,
+      deck
+    ).getElementsByClassName("tree-item-children nav-folder-children")[0];
+    if (deck.newNotes.length > 0) {
+      this.createNewNotesFolder(deckFolderEl, deck, deckCollapsed);
+    }
+    if (deck.scheduledNotes.length > 0) {
+      this.createScheduledNotesFolder(deckFolderEl, deck, deckCollapsed);
+    }
+  }
+  createNewNotesFolder(parentEl, deck, deckCollapsed) {
+    const activeFile = this.app.workspace.getActiveFile();
+    const newNotesFolderEl = this.createFolder(
+      parentEl,
+      t("NEW"),
+      !deck.activeFolders.has(t("NEW")),
+      deckCollapsed,
+      deck
+    );
+    for (const newFile of deck.newNotes) {
+      const fileIsOpen = activeFile !== void 0 && activeFile !== null && newFile.path === activeFile.path;
+      if (fileIsOpen) {
+        deck.activeFolders.add(deck.deckName);
+        deck.activeFolders.add(t("NEW"));
+        this.changeFolderFolding(newNotesFolderEl);
+        this.changeFolderFolding(parentEl);
+      }
+      this.createFile(
+        newNotesFolderEl,
+        newFile.tfile,
+        fileIsOpen,
+        !deck.activeFolders.has(t("NEW")),
+        deck
+      );
+    }
+  }
+  createScheduledNotesFolder(parentEl, deck, deckCollapsed) {
+    const activeFile = this.app.workspace.getActiveFile();
+    const now2 = Date.now();
+    let currUnix = -1;
+    let schedFolderEl = null, folderTitle = "";
+    const maxDaysToRender = this.settings.maxNDaysNotesReviewQueue;
+    for (const sNote of deck.scheduledNotes) {
+      if (sNote.dueUnix !== currUnix) {
+        const nDays = Math.ceil((sNote.dueUnix - now2) / TICKS_PER_DAY);
+        if (nDays > maxDaysToRender) {
+          break;
+        }
+        if (nDays === -1) {
+          folderTitle = t("YESTERDAY");
+        } else if (nDays === 0) {
+          folderTitle = t("TODAY");
+        } else if (nDays === 1) {
+          folderTitle = t("TOMORROW");
+        } else {
+          folderTitle = new Date(sNote.dueUnix).toDateString();
+        }
+        schedFolderEl = this.createFolder(
+          parentEl,
+          folderTitle,
+          !deck.activeFolders.has(folderTitle),
+          deckCollapsed,
+          deck
+        );
+        currUnix = sNote.dueUnix;
+      }
+      const fileIsOpen = activeFile && sNote.note.path === activeFile.path;
+      if (fileIsOpen) {
+        deck.activeFolders.add(deck.deckName);
+        deck.activeFolders.add(folderTitle);
+        this.changeFolderFolding(schedFolderEl);
+        this.changeFolderFolding(parentEl);
+      }
+      this.createFile(
+        schedFolderEl,
+        sNote.note.tfile,
+        fileIsOpen,
+        !deck.activeFolders.has(folderTitle),
+        deck
+      );
+    }
+  }
+  createFolder(parentEl, folderTitle, collapsed, hidden, deck) {
+    const folderEl = parentEl.createDiv("tree-item nav-folder");
+    const folderTitleEl = folderEl.createDiv("tree-item-self nav-folder-title");
+    folderTitleEl.classList.add("is-clickable");
+    const childrenEl = folderEl.createDiv(
+      "tree-item-children nav-folder-children"
+    );
+    const collapseIconEl = folderTitleEl.createDiv(
+      "tree-item-icon collapse-icon nav-folder-collapse-indicator"
+    );
+    collapseIconEl.innerHTML = COLLAPSE_ICON;
+    folderTitleEl.createDiv("tree-item-inner nav-folder-title-content").setText(folderTitle);
+    if (collapsed && !folderEl.hasClass("is-collapsed")) {
+      folderEl.addClass("is-collapsed");
+      collapseIconEl.addClass("is-collapsed");
+    } else {
+      folderEl.removeClass("is-collapsed");
+      const collapseIconEl2 = folderEl.find("div.nav-folder-collapse-indicator");
+      collapseIconEl2.removeClass("is-collapsed");
+    }
+    if (hidden) {
+      folderEl.style.display = "none";
+    }
+    folderTitleEl.onClickEvent(() => {
+      this.changeFolderFolding(folderEl, !folderEl.hasClass("is-collapsed"));
+      childrenEl.style.display = !folderEl.hasClass("is-collapsed") ? "block" : "none";
+      if (!folderEl.hasClass("is-collapsed")) {
+        deck.activeFolders.delete(folderTitle);
+      } else {
+        deck.activeFolders.add(folderTitle);
+      }
+    });
+    return folderEl;
+  }
+  createFile(folderEl, file, fileElActive, hidden, deck) {
+    const childrenEl = folderEl.getElementsByClassName(
+      "tree-item-children nav-folder-children"
+    )[0];
+    const navFileEl = childrenEl.createDiv("nav-file");
+    if (hidden) {
+      childrenEl.style.display = "none";
+    }
+    const navFileTitle = navFileEl.createDiv("tree-item-self nav-file-title");
+    navFileTitle.addClass("is-clickable");
+    if (fileElActive) {
+      navFileTitle.addClass("is-active");
+    }
+    const navFileTitleInner = navFileTitle.createDiv(
+      "tree-item-inner nav-file-title-content"
+    );
+    navFileTitleInner.setText(file.basename);
+    navFileTitleInner.addEventListener(
+      "click",
+      async (event) => {
+        event.preventDefault();
+        await this.nextNoteReviewHandler.openNote(deck.deckName, file);
+        return false;
+      },
+      false
+    );
+    const navFileContextBtn = navFileTitle.createDiv(
+      "sr-review-context-btn clickable-icon"
+    );
+    (0, import_obsidian5.setIcon)(navFileContextBtn, "ellipsis-vertical");
+    navFileContextBtn.addEventListener("click", async (event) => {
+      event.preventDefault();
+      const fileMenu = new import_obsidian5.Menu();
+      fileMenu.addItem((item) => {
+        item.setTitle(
+          t("REVIEW_DIFFICULTY_FILE_MENU", {
+            difficulty: this.plugin.data.settings.flashcardEasyText
+          })
+        ).setIcon("SpacedRepIcon").onClick(() => {
+          this.plugin.saveNoteReviewResponse(file, 0 /* Easy */);
+        });
+      });
+      fileMenu.addItem((item) => {
+        item.setTitle(
+          t("REVIEW_DIFFICULTY_FILE_MENU", {
+            difficulty: this.plugin.data.settings.flashcardGoodText
+          })
+        ).setIcon("SpacedRepIcon").onClick(() => {
+          this.plugin.saveNoteReviewResponse(file, 1 /* Good */);
+        });
+      });
+      fileMenu.addItem((item) => {
+        item.setTitle(
+          t("REVIEW_DIFFICULTY_FILE_MENU", {
+            difficulty: this.plugin.data.settings.flashcardHardText
+          })
+        ).setIcon("SpacedRepIcon").onClick(() => {
+          this.plugin.saveNoteReviewResponse(file, 2 /* Hard */);
+        });
+      });
+      fileMenu.showAtPosition({
+        x: event.pageX,
+        y: event.pageY
+      });
+      fileMenu.showAtMouseEvent(event);
+      return false;
+    });
+  }
+  changeFolderFolding(folderEl, collapsed = false) {
+    if (collapsed && !folderEl.hasClass("is-collapsed")) {
+      folderEl.addClass("is-collapsed");
+      folderEl.firstElementChild.firstElementChild.classList.add("is-collapsed");
+    } else {
+      folderEl.removeClass("is-collapsed");
+      folderEl.firstElementChild.firstElementChild.classList.remove("is-collapsed");
+    }
+  }
+};
+
+// src/ui/ui-manager.tsx
+var import_obsidian31 = require("obsidian");
+
+// src/icons/app-icon.ts
+var import_obsidian6 = require("obsidian");
+function appIcon() {
+  (0, import_obsidian6.addIcon)(
+    "SpacedRepIcon",
+    `<path fill="currentColor" stroke="currentColor" d="M 88.960938 17.257812 L 47.457031 17.257812 C 45.679688 17.257812 44.230469 18.703125 44.230469 20.484375 L 44.230469 86.558594 C 44.230469 88.335938 45.679688 89.785156 47.457031 89.785156 L 88.960938 89.785156 C 90.738281 89.785156 92.1875 88.335938 92.1875 86.558594 L 92.1875 20.484375 C 92.1875 18.703125 90.738281 17.257812 88.960938 17.257812 Z M 88.28125 85.878906 L 48.136719 85.878906 L 48.136719 21.164062 L 88.28125 21.164062 Z M 88.28125 85.878906 "/>
+        <path fill="currentColor" stroke="currentColor"  d="M 88.960938 9.445312 L 61.667969 9.445312 C 59.925781 3.816406 54.011719 0.515625 48.269531 2.054688 L 8.183594 12.796875 C 2.304688 14.371094 -1.199219 20.4375 0.378906 26.316406 L 17.476562 90.140625 C 18.796875 95.066406 23.269531 98.324219 28.144531 98.324219 C 29.085938 98.324219 30.046875 98.199219 31 97.945312 L 40.765625 95.328125 C 42.625 96.75 44.941406 97.597656 47.457031 97.597656 L 88.960938 97.597656 C 95.046875 97.597656 100 92.644531 100 86.558594 L 100 20.484375 C 100 14.398438 95.046875 9.445312 88.960938 9.445312 Z M 29.988281 94.171875 C 26.1875 95.191406 22.269531 92.925781 21.25 89.128906 L 4.152344 25.304688 C 3.132812 21.507812 5.394531 17.585938 9.195312 16.570312 L 49.28125 5.828125 C 52.578125 4.945312 55.960938 6.53125 57.464844 9.445312 L 47.457031 9.445312 C 41.371094 9.445312 36.417969 14.398438 36.417969 20.484375 L 36.417969 86.558594 C 36.417969 88.558594 36.957031 90.433594 37.890625 92.054688 Z M 96.09375 86.558594 C 96.09375 90.492188 92.894531 93.691406 88.960938 93.691406 L 47.457031 93.691406 C 43.523438 93.691406 40.324219 90.492188 40.324219 86.558594 L 40.324219 20.484375 C 40.324219 16.550781 43.523438 13.351562 47.457031 13.351562 L 88.960938 13.351562 C 92.894531 13.351562 96.09375 16.550781 96.09375 20.484375 Z M 96.09375 86.558594 "/>
+        <path fill="currentColor" stroke="currentColor"  d="M 54.101562 53.09375 L 60.070312 57.410156 L 57.789062 64.378906 C 56.90625 67.074219 59.996094 69.320312 62.285156 67.648438 L 68.210938 63.324219 L 74.132812 67.648438 C 76.421875 69.320312 79.511719 67.074219 78.628906 64.378906 L 76.347656 57.410156 L 82.320312 53.09375 C 84.613281 51.433594 83.441406 47.804688 80.605469 47.804688 L 73.242188 47.804688 L 70.988281 40.839844 C 70.117188 38.144531 66.300781 38.144531 65.429688 40.839844 L 63.179688 47.804688 L 55.8125 47.804688 C 52.980469 47.804688 51.804688 51.433594 54.101562 53.09375 Z M 54.101562 53.09375 "/>
+        `
+  );
+}
+
+// src/ui/obsidian-ui-components/item-views/sr-tab-view.tsx
+var import_obsidian18 = require("obsidian");
+
+// src/ui/obsidian-ui-components/content-container/card-container/card-container.tsx
+var import_moment4 = __toESM(require_moment());
+var import_obsidian17 = require("obsidian");
+
+// src/escape-html.ts
+function escapeHtml(s2) {
+  return s2.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+}
+
+// src/ui/obsidian-ui-components/content-container/card-container/controls/card-info-notice.tsx
+var import_obsidian7 = require("obsidian");
+var CardInfoNotice = class extends import_obsidian7.Notice {
+  constructor(schedule, notePath) {
+    var _a2;
+    const currentEaseStr = t("CURRENT_EASE_HELP_TEXT") + ((_a2 = schedule == null ? void 0 : schedule.latestEase) != null ? _a2 : t("NEW"));
+    const currentIntervalStr = t("CURRENT_INTERVAL_HELP_TEXT") + textInterval(schedule == null ? void 0 : schedule.interval, false);
+    const generatedFromStr = t("CARD_GENERATED_FROM", {
+      notePath
+    });
+    super(currentEaseStr + "\n" + currentIntervalStr + "\n" + generatedFromStr);
+  }
+};
+
+// src/ui/obsidian-ui-components/content-container/card-container/controls/controls.tsx
+var import_obsidian10 = require("obsidian");
+
+// src/ui/sr-button.tsx
+var import_obsidian8 = require("obsidian");
+var SRButtonComponent = class extends import_obsidian8.ButtonComponent {
+  constructor(container, props) {
+    super(container);
+    this.setClass("sr-button");
+    if (props) {
+      if (props.classNames) this.buttonEl.addClasses(props.classNames);
+      if (props.icon) this.setIcon(props.icon);
+      if (props.tooltip) this.setTooltip(props.tooltip);
+      if (props.tooltip) this.buttonEl.setAttribute("aria-label", props.tooltip);
+      if (props.text) this.setButtonText(props.text);
+      if (props.onClick) this.onClick(props.onClick);
+    }
+  }
+};
+
+// src/ui/obsidian-ui-components/content-container/card-container/controls/back-button.tsx
+var BackButtonComponent = class extends SRButtonComponent {
+  constructor(container, backToDeck, classNames) {
+    super(container, {
+      classNames: ["sr-back-button", ...classNames != null ? classNames : []],
+      icon: "arrow-left",
+      tooltip: t("BACK"),
+      onClick: () => {
+        backToDeck();
+      }
+    });
+  }
+};
+
+// src/ui/obsidian-ui-components/content-container/card-container/controls/menu-dots-button.tsx
+var MenuDotsButtonComponent = class extends SRButtonComponent {
+  constructor(container, openMenu, classNames) {
+    super(container, {
+      classNames: ["sr-menu-dots-button", ...classNames != null ? classNames : []],
+      icon: "ellipsis-vertical",
+      tooltip: "Open menu",
+      // TODO: Translate
+      onClick: (evt) => {
+        openMenu(evt);
+      }
+    });
+  }
+};
+
+// src/ui/obsidian-ui-components/modals/confirmation-modal.tsx
+var import_obsidian9 = require("obsidian");
+var ConfirmationModal = class extends import_obsidian9.Modal {
+  /**
+   * Creates a confirmation modal.
+   * @param app - The Obsidian app instance.
+   * @param title - Title of the modal.
+   * @param description - Description text in the modal body.
+   * @param confirmationMessage - Notice message to display upon confirmation.
+   * @param onConfirm - Callback function to execute upon confirmation.
+   */
+  constructor(app, title, description, confirmationMessage, onConfirm) {
+    super(app);
+    this.setTitle(title);
+    this.titleEl.addClass("sr-confirmation-modal-header");
+    this.setContent(description);
+    this.contentEl.addClass("sr-confirmation-modal-content");
+    new import_obsidian9.Setting(this.contentEl).setClass("sr-confirmation-modal-button-container").addButton(
+      (button) => button.setButtonText(t("CONFIRM")).setClass("mod-warning").onClick(async () => {
+        if (confirmationMessage) {
+          new import_obsidian9.Notice(confirmationMessage);
+        }
+        if (onConfirm) {
+          await onConfirm();
+        }
+        this.close();
+      })
+    ).addButton(
+      (button) => button.setButtonText(t("CANCEL")).onClick(() => {
+        this.close();
+      })
+    );
+  }
+};
+
+// src/ui/obsidian-ui-components/content-container/card-container/controls/reset-button.tsx
+var ResetButtonComponent = class extends SRButtonComponent {
+  constructor(container, app, resetClickHandler, classNames) {
+    super(container, {
+      classNames: ["sr-reset-button", "mod-warning", ...classNames != null ? classNames : []],
+      icon: "rotate-ccw",
+      tooltip: t("RESET_CARD_PROGRESS"),
+      onClick: () => {
+        new ConfirmationModal(
+          app,
+          t("DELETE_SCHEDULING_DATA_OF_CURRENT_CARD"),
+          t("CONFIRM_SCHEDULING_DATA_DELETION_OF_CURRENT_CARD"),
+          t("SCHEDULING_DATA_DELETION_IN_PROGRESS_OF_CURRENT_CARD"),
+          async () => {
+            await resetClickHandler();
+          }
+        ).open();
+      }
+    });
+  }
+};
+
+// src/ui/obsidian-ui-components/content-container/card-container/controls/skip-button.tsx
+var SkipButtonComponent = class extends SRButtonComponent {
+  constructor(container, skipClickHandler, classNames) {
+    super(container, {
+      classNames: ["sr-skip-button", ...classNames != null ? classNames : []],
+      icon: "chevrons-right",
+      tooltip: t("SKIP"),
+      onClick: () => {
+        skipClickHandler();
+      }
+    });
+  }
+};
+
+// src/ui/obsidian-ui-components/content-container/modal-close-button.tsx
+var ModalCloseButtonComponent = class extends SRButtonComponent {
+  constructor(container, closeModal, classNames) {
+    super(container, {
+      classNames: ["sr-modal-close-button", ...classNames != null ? classNames : []],
+      icon: "x",
+      tooltip: t("CLOSE"),
+      onClick: () => {
+        closeModal();
+      }
+    });
+  }
+};
+
+// src/utils/platform-detector.ts
+function EmulatedPlatform() {
+  return {
+    isDesktop: DEBUG_MODE_ENABLED && !document.body.hasClass("emulate-mobile"),
+    isMobile: DEBUG_MODE_ENABLED && document.body.hasClass("emulate-mobile"),
+    isPhone: DEBUG_MODE_ENABLED && document.body.hasClass("emulate-mobile") && document.body.hasClass("is-phone"),
+    isTablet: DEBUG_MODE_ENABLED && document.body.hasClass("emulate-mobile") && document.body.hasClass("is-tablet"),
+    isEmulated: DEBUG_MODE_ENABLED && document.body.hasClass("emulate-mobile")
+  };
+}
+
+// src/ui/obsidian-ui-components/content-container/card-container/controls/controls.tsx
+var ControlsComponent = class {
+  constructor(container, isModal, app, backToDeck, editClickHandler, processReview, displayCurrentCardInfoNotice, skipCurrentCard, jumpToCurrentCard, closeModal) {
+    this.controls = container.createDiv();
+    this.controls.addClass("sr-controls");
+    this.backButton = new BackButtonComponent(this.controls, () => backToDeck(), [
+      (EmulatedPlatform().isPhone || import_obsidian10.Platform.isPhone) && isModal ? "mod-raised" : "clickable-icon"
+    ]);
+    this.controls.createDiv().addClass("sr-flex-spacer");
+    this.menuDotsButton = new MenuDotsButtonComponent(
+      this.controls,
+      (evt) => {
+        const cardMenu = new import_obsidian10.Menu();
+        cardMenu.addItem((item) => {
+          item.setTitle("Jump to card").setIcon("arrow-up-right").onClick(() => {
+            jumpToCurrentCard();
+          });
+        });
+        cardMenu.addItem((item) => {
+          item.setTitle(t("EDIT_CARD")).setIcon("pencil").onClick(() => {
+            editClickHandler();
+          });
+        });
+        cardMenu.addItem((item) => {
+          item.setTitle(t("VIEW_CARD_INFO")).setIcon("info").onClick(() => {
+            displayCurrentCardInfoNotice();
+          });
+        });
+        cardMenu.showAtMouseEvent(evt);
+      },
+      EmulatedPlatform().isPhone || import_obsidian10.Platform.isPhone ? ["mod-raised"] : void 0
+    );
+    this.resetButton = new ResetButtonComponent(
+      this.controls,
+      app,
+      async () => await processReview(3 /* Reset */),
+      [EmulatedPlatform().isPhone || import_obsidian10.Platform.isPhone ? "mod-raised" : "undefined"]
+    );
+    this.resetButton.setDisabled(true);
+    this.skipButton = new SkipButtonComponent(
+      this.controls,
+      () => skipCurrentCard(),
+      EmulatedPlatform().isPhone || import_obsidian10.Platform.isPhone ? ["mod-raised"] : void 0
+    );
+    this.controls.createDiv().addClass("sr-flex-spacer");
+    this.modalCloseButton = new ModalCloseButtonComponent(
+      this.controls,
+      () => closeModal && closeModal(),
+      [
+        !closeModal && "sr-hide-by-scaling",
+        !closeModal && "hide-height",
+        EmulatedPlatform().isPhone || import_obsidian10.Platform.isPhone ? "mod-raised" : "clickable-icon"
+      ]
+    );
+  }
+  setResetButtonDisabled(disabled) {
+    this.resetButton.buttonEl.toggleClass("mod-disabled", disabled);
+  }
+};
+
+// src/ui/obsidian-ui-components/content-container/card-container/deck-info/info-section.tsx
+var import_obsidian11 = require("obsidian");
+var InfoSectionComponent = class {
+  constructor(container, showContextInCards, backToDeck, closeModal) {
+    this.infoSection = container.createDiv();
+    this.infoSection.addClass("sr-info-section");
+    this.deckProgressInfo = this.infoSection.createDiv();
+    this.deckProgressInfo.addClass("sr-deck-progress-info");
+    this.horizontalBackButton = new BackButtonComponent(
+      this.deckProgressInfo,
+      () => backToDeck(),
+      ["clickable-icon", "sr-horizontal-back-button"]
+    );
+    this.chosenDeckInfo = this.deckProgressInfo.createDiv();
+    this.chosenDeckInfo.addClass("sr-chosen-deck-info");
+    this.chosenDeckName = this.chosenDeckInfo.createDiv();
+    this.chosenDeckName.addClass("sr-chosen-deck-name");
+    this.chosenDeckCounterWrapper = this.chosenDeckInfo.createDiv();
+    this.chosenDeckCounterWrapper.addClass("sr-chosen-deck-counter-wrapper");
+    this.chosenDeckCounterDivider = this.chosenDeckCounterWrapper.createDiv();
+    this.chosenDeckCounterDivider.addClass("sr-chosen-deck-counter-divider");
+    this.chosenDeckCardCounterWrapper = this.chosenDeckCounterWrapper.createDiv();
+    this.chosenDeckCardCounterWrapper.addClass("sr-chosen-deck-card-counter-wrapper");
+    this.chosenDeckCardCounter = this.chosenDeckCardCounterWrapper.createDiv();
+    this.chosenDeckCardCounter.addClass("sr-chosen-deck-card-counter");
+    this.chosenDeckCardCounterIcon = this.chosenDeckCardCounterWrapper.createDiv();
+    this.chosenDeckCardCounterIcon.addClass("sr-chosen-deck-card-counter-icon");
+    (0, import_obsidian11.setIcon)(this.chosenDeckCardCounterIcon, "credit-card");
+    this.chosenDeckSubDeckCounterWrapper = this.chosenDeckCounterWrapper.createDiv();
+    this.chosenDeckSubDeckCounterWrapper.addClass("sr-is-hidden");
+    this.chosenDeckSubDeckCounterWrapper.addClass("sr-chosen-deck-subdeck-counter-wrapper");
+    this.chosenDeckSubDeckCounter = this.chosenDeckSubDeckCounterWrapper.createDiv();
+    this.chosenDeckSubDeckCounter.addClass("sr-chosen-deck-subdeck-counter");
+    this.chosenDeckSubDeckCounterIcon = this.chosenDeckSubDeckCounterWrapper.createDiv();
+    this.chosenDeckSubDeckCounterIcon.addClass("sr-chosen-deck-subdeck-counter-icon");
+    (0, import_obsidian11.setIcon)(this.chosenDeckSubDeckCounterIcon, "layers");
+    this.currentDeckInfo = this.deckProgressInfo.createDiv();
+    this.currentDeckInfo.addClass("sr-is-hidden");
+    this.currentDeckInfo.addClass("sr-current-deck-info");
+    this.currentDeckName = this.currentDeckInfo.createDiv();
+    this.currentDeckName.addClass("sr-current-deck-name");
+    this.currentDeckCounterWrapper = this.currentDeckInfo.createDiv();
+    this.currentDeckCounterWrapper.addClass("sr-current-deck-counter-wrapper");
+    this.currentDeckCounterDivider = this.currentDeckCounterWrapper.createDiv();
+    this.currentDeckCounterDivider.addClass("sr-current-deck-counter-divider");
+    this.currentDeckCardCounterWrapper = this.currentDeckCounterWrapper.createDiv();
+    this.currentDeckCardCounterWrapper.addClass("sr-current-deck-card-counter-wrapper");
+    this.currentDeckCardCounter = this.currentDeckCardCounterWrapper.createDiv();
+    this.currentDeckCardCounter.addClass("sr-current-deck-card-counter");
+    this.currentDeckCardCounterIcon = this.currentDeckCardCounterWrapper.createDiv();
+    this.currentDeckCardCounterIcon.addClass("sr-current-deck-card-counter-icon");
+    (0, import_obsidian11.setIcon)(this.currentDeckCardCounterIcon, "credit-card");
+    this.deckProgressInfo.createDiv().addClasses(["sr-flex-spacer", "sr-horizontal-flex-spacer"]);
+    this.horizontalCloseButton = new ModalCloseButtonComponent(
+      this.deckProgressInfo,
+      () => closeModal && closeModal(),
+      [
+        !closeModal && "sr-hide-by-scaling",
+        !closeModal && "hide-height",
+        "mod-raised",
+        "sr-horizontal-close-button"
+      ]
+    );
+    if (showContextInCards) {
+      this.cardContext = this.infoSection.createDiv();
+      this.cardContext.addClass("sr-context");
+    }
+  }
+  updateChosenDeckInfo(chosenDeck, deckStats, totalCardsInSession, totalDecksInSession) {
+    const chosenDeckStats = deckStats;
+    this.chosenDeckName.setText(`${chosenDeck.deckName}`);
+    this.chosenDeckCardCounter.setText(
+      `${totalCardsInSession - chosenDeckStats.cardsInQueueCount}/${totalCardsInSession}`
+    );
+    if (chosenDeck.subdecks.length === 0) {
+      if (!this.chosenDeckSubDeckCounterWrapper.hasClass("sr-is-hidden")) {
+        this.chosenDeckSubDeckCounterWrapper.addClass("sr-is-hidden");
+      }
+      return;
+    }
+    if (this.chosenDeckSubDeckCounterWrapper.hasClass("sr-is-hidden")) {
+      this.chosenDeckSubDeckCounterWrapper.removeClass("sr-is-hidden");
+    }
+    this.chosenDeckSubDeckCounter.setText(
+      `${totalDecksInSession - chosenDeckStats.decksInQueueOfThisDeckCount}/${totalDecksInSession}`
+    );
+  }
+  updateCurrentDeckInfo(chosenDeck, currentDeck, currentDeckStats, flashcardCardOrder, currentDeckTotalCardsInQueue) {
+    if (chosenDeck.subdecks.length === 0) {
+      if (!this.currentDeckInfo.hasClass("sr-is-hidden")) {
+        this.currentDeckInfo.addClass("sr-is-hidden");
+      }
+      return;
+    }
+    if (this.currentDeckInfo.hasClass("sr-is-hidden")) {
+      this.currentDeckInfo.removeClass("sr-is-hidden");
+    }
+    this.currentDeckName.setText(`${currentDeck.deckName}`);
+    const isRandomMode = flashcardCardOrder === "EveryCardRandomDeckAndCard";
+    if (!isRandomMode) {
+      this.currentDeckCardCounter.setText(
+        `${currentDeckTotalCardsInQueue - currentDeckStats.cardsInQueueOfThisDeckCount}/${currentDeckTotalCardsInQueue}`
+      );
+    }
+  }
+  updateCardContext(showContextInCards, currentQuestion, currentNote) {
+    if (!this.cardContext) return;
+    if (!showContextInCards) {
+      this.cardContext.setText("");
+      return;
+    }
+    this.cardContext.setText(
+      ` ${this._formatQuestionContextText(currentQuestion.questionContext, currentNote)}`
+    );
+  }
+  _formatQuestionContextText(questionContext, currentNote) {
+    const separator = " > ";
+    let result = currentNote.file.basename;
+    questionContext.forEach((context) => {
+      if (context.startsWith("[[") && context.endsWith("]]")) {
+        context = context.replace("[[", "").replace("]]", "");
+        if (context.contains("|")) {
+          context = context.split("|")[1];
+        }
+      }
+      result += separator + context;
+    });
+    return result;
+  }
+};
+
+// src/ui/obsidian-ui-components/content-container/card-container/response-section/response-section.tsx
+var import_obsidian12 = require("obsidian");
+
+// src/ui/obsidian-ui-components/content-container/card-container/response-section/sr-response-button.tsx
+var SRResponseButtonComponent = class extends SRButtonComponent {
+  constructor(container, props) {
+    var _a2;
+    super(container, {
+      classNames: ["sr-response-button", ...(_a2 = props.classNames) != null ? _a2 : []],
+      icon: props.icon,
+      tooltip: props.tooltip,
+      text: props.text,
+      onClick: () => {
+        props.onClick();
+      }
+    });
+  }
+};
+
+// src/ui/obsidian-ui-components/content-container/card-container/response-section/response-section.tsx
+var ResponseSectionComponent = class {
+  constructor(container, settings, showAnswer, processReview) {
+    this.responseEl = container.createDiv();
+    this.responseEl.addClass("sr-response");
+    this.answerButton = new SRResponseButtonComponent(this.responseEl, {
+      classNames: ["sr-bg-blue", "sr-show-answer-button"],
+      text: t("SHOW_ANSWER"),
+      onClick: () => {
+        showAnswer();
+      }
+    });
+    this.hardButton = new SRResponseButtonComponent(this.responseEl, {
+      classNames: ["sr-bg-red", "sr-hard-button", "sr-is-hidden"],
+      text: settings.flashcardHardText,
+      onClick: () => {
+        processReview(2 /* Hard */);
+      }
+    });
+    this.goodButton = new SRResponseButtonComponent(this.responseEl, {
+      classNames: ["sr-bg-blue", "sr-good-button", "sr-is-hidden"],
+      text: settings.flashcardGoodText,
+      onClick: () => {
+        processReview(1 /* Good */);
+      }
+    });
+    this.easyButton = new SRResponseButtonComponent(this.responseEl, {
+      classNames: ["sr-bg-green", "sr-easy-button", "sr-is-hidden"],
+      text: settings.flashcardEasyText,
+      onClick: () => {
+        processReview(0 /* Easy */);
+      }
+    });
+  }
+  resetResponseButtons() {
+    this.answerButton.buttonEl.removeClass("sr-is-hidden");
+    this.hardButton.buttonEl.addClass("sr-is-hidden");
+    this.goodButton.buttonEl.addClass("sr-is-hidden");
+    this.easyButton.buttonEl.addClass("sr-is-hidden");
+  }
+  showRatingButtons(reviewMode, settings, reviewSequencer, currentCard) {
+    this.answerButton.buttonEl.addClass("sr-is-hidden");
+    if (reviewMode === 0 /* Cram */) {
+      this.responseEl.addClass("is-cram");
+      this.hardButton.setButtonText(`${settings.flashcardHardText}`);
+      this.easyButton.setButtonText(`${settings.flashcardEasyText}`);
+      if (!this.goodButton.buttonEl.hasClass("sr-is-hidden")) {
+        this.goodButton.buttonEl.addClass("sr-is-hidden");
+      }
+    } else {
+      if (this.responseEl.hasClass("is-cram")) this.responseEl.removeClass("is-cram");
+      this.goodButton.buttonEl.removeClass("sr-is-hidden");
+      this._setupEaseButton(
+        this.hardButton,
+        settings.flashcardHardText,
+        reviewSequencer,
+        currentCard,
+        settings,
+        2 /* Hard */
+      );
+      this._setupEaseButton(
+        this.goodButton,
+        settings.flashcardGoodText,
+        reviewSequencer,
+        currentCard,
+        settings,
+        1 /* Good */
+      );
+      this._setupEaseButton(
+        this.easyButton,
+        settings.flashcardEasyText,
+        reviewSequencer,
+        currentCard,
+        settings,
+        0 /* Easy */
+      );
+    }
+    this.hardButton.buttonEl.removeClass("sr-is-hidden");
+    this.easyButton.buttonEl.removeClass("sr-is-hidden");
+  }
+  _setupEaseButton(button, buttonName, reviewSequencer, currentCard, settings, reviewResponse) {
+    const schedule = reviewSequencer.determineCardSchedule(
+      reviewResponse,
+      currentCard
+    );
+    const interval = schedule.interval;
+    if (settings.showIntervalInReviewButtons) {
+      if (EmulatedPlatform().isMobile || import_obsidian12.Platform.isMobile) {
+        button.setButtonText(textInterval(interval, true));
+      } else {
+        button.setButtonText(`${buttonName} - ${textInterval(interval, false)}`);
+      }
+    } else {
+      button.setButtonText(buttonName);
+    }
+  }
+};
+
+// src/ui/obsidian-ui-components/modals/sr-modal-view.tsx
+var import_obsidian15 = require("obsidian");
+
+// src/ui/obsidian-ui-components/content-container/deck-container.tsx
+var import_obsidian13 = require("obsidian");
 var import_vhtml = __toESM(require_vhtml());
-var DeckListView = class {
-  constructor(plugin, settings, reviewSequencer, contentEl, startReviewOfDeck) {
+var DeckContainer = class {
+  constructor(plugin, settings, reviewSequencer, containerEl, startReviewOfDeck, closeModal) {
+    this.isActive = false;
     this.plugin = plugin;
     this.settings = settings;
     this.reviewSequencer = reviewSequencer;
-    this.modalContentEl = contentEl;
+    this.containerEl = containerEl;
     this.startReviewOfDeck = startReviewOfDeck;
+    this.closeModal = closeModal;
     this.init();
   }
   /**
    * Initializes all static elements in the DeckListView
    */
   init() {
-    this.view = this.modalContentEl.createDiv();
-    this.view.addClasses(["sr-deck-list", "sr-is-hidden"]);
-    this.header = this.view.createDiv();
+    this.containerEl.addClasses(["sr-container", "sr-deck-container", "sr-is-hidden"]);
+    this.header = this.containerEl.createDiv();
     this.header.addClass("sr-header");
-    this.title = this.header.createDiv();
+    this.titleWrapper = this.header.createDiv();
+    this.titleWrapper.addClass("sr-title-wrapper");
+    this.dummyButtonEl = new import_obsidian13.ButtonComponent(this.titleWrapper).setIcon("circle-question-mark").setClass("sr-dummy-button").setClass("sr-hide-by-scaling").setClass("hide-height");
+    this.titleWrapper.createDiv().addClass("sr-flex-spacer");
+    this.title = this.titleWrapper.createDiv();
     this.title.addClass("sr-title");
     this.title.setText(t("DECKS"));
+    this.titleWrapper.createDiv().addClass("sr-flex-spacer");
+    this.closeButton = new ModalCloseButtonComponent(
+      this.titleWrapper,
+      () => this.closeModal && this.closeModal(),
+      [
+        !this.closeModal && "sr-hide-by-scaling",
+        !this.closeModal && "hide-height",
+        EmulatedPlatform().isPhone || import_obsidian13.Platform.isPhone ? "mod-raised" : "clickable-icon",
+        "sr-modal-close-button"
+      ]
+    );
     this.stats = this.header.createDiv();
     this.stats.addClass("sr-header-stats-container");
     this._createHeaderStats();
-    this.content = this.view.createDiv();
+    this.headerDivider = this.containerEl.createEl("hr");
+    this.scrollWrapper = this.containerEl.createDiv();
+    this.scrollWrapper.addClass("sr-scroll-wrapper");
+    this.content = this.scrollWrapper.createDiv();
     this.content.addClass("sr-content");
   }
   /**
    * Shows the DeckListView & rerenders dynamic elements
    */
   show() {
-    this.mode = 0 /* DecksList */;
+    this.mode = 0 /* Deck */;
     this._createHeaderStats();
     this.content.empty();
     for (const deck of this.reviewSequencer.originalDeckTree.subdecks) {
       this._createTree(deck, this.content);
     }
-    if (this.view.hasClass("sr-is-hidden")) {
-      this.view.removeClass("sr-is-hidden");
+    if (this.containerEl.hasClass("sr-is-hidden")) {
+      this.containerEl.removeClass("sr-is-hidden");
+      this.isActive = true;
     }
   }
   /**
    * Hides the DeckListView
    */
   hide() {
-    if (!this.view.hasClass("sr-is-hidden")) {
-      this.view.addClass("sr-is-hidden");
+    if (!this.containerEl.hasClass("sr-is-hidden")) {
+      this.containerEl.addClass("sr-is-hidden");
+      this.isActive = false;
     }
   }
   /**
@@ -12455,9 +14806,9 @@ var DeckListView = class {
   }
 };
 
-// src/gui/edit-modal.tsx
-var import_obsidian4 = require("obsidian");
-var FlashcardEditModal = class _FlashcardEditModal extends import_obsidian4.Modal {
+// src/ui/obsidian-ui-components/modals/edit-modal.tsx
+var import_obsidian14 = require("obsidian");
+var FlashcardEditModal = class _FlashcardEditModal extends import_obsidian14.Modal {
   constructor(app, existingText, textDirection) {
     super(app);
     this.didSaveChanges = false;
@@ -12489,7 +14840,7 @@ var FlashcardEditModal = class _FlashcardEditModal extends import_obsidian4.Moda
    * Initializes all components of the EditModal
    */
   init() {
-    var _a;
+    var _a2;
     this.contentEl.empty();
     this.contentEl.addClass("sr-edit-view");
     this.title = this.contentEl.createDiv();
@@ -12497,9 +14848,9 @@ var FlashcardEditModal = class _FlashcardEditModal extends import_obsidian4.Moda
     this.title.addClass("sr-title");
     this.textArea = this.contentEl.createEl("textarea");
     this.textArea.addClass("sr-input");
-    this.textArea.setText((_a = this.modalText) != null ? _a : "");
+    this.textArea.setText((_a2 = this.modalText) != null ? _a2 : "");
     this.textArea.addEventListener("keydown", this.saveOnEnterCallback);
-    if (this.textDirection == 2 /* Rtl */) {
+    if (this.textDirection === 2 /* Rtl */) {
       this.textArea.setAttribute("dir", "rtl");
     }
     this._createResponse(this.contentEl);
@@ -12535,28 +14886,139 @@ var FlashcardEditModal = class _FlashcardEditModal extends import_obsidian4.Moda
     this.textArea.removeEventListener("keydown", this.saveOnEnterCallback);
   }
   // -> Response section
-  _createResponseButton(container, text, colorClass, callback2) {
+  _createSaveButton(container) {
+    this.saveButton = new import_obsidian14.ButtonComponent(container);
+    this.saveButton.setClass("sr-response-button");
+    this.saveButton.setClass("sr-save-button");
+    this.saveButton.setClass("sr-bg-green");
+    this.saveButton.setButtonText(t("SAVE"));
+    this.saveButton.onClick((evt) => {
+      this.saveClickCallback(evt);
+    });
+  }
+  _createCancelButton(container) {
+    this.cancelButton = new import_obsidian14.ButtonComponent(container);
+    this.cancelButton.setClass("sr-response-button");
+    this.cancelButton.setClass("sr-cancel-button");
+    this.cancelButton.setClass("sr-bg-red");
+    this.cancelButton.setButtonText(t("CANCEL"));
+    this.cancelButton.onClick((evt) => {
+      this.cancelClickCallback(evt);
+    });
+  }
+  _createSpacerButton(container) {
     const button = container.createEl("button");
-    button.addClasses(["sr-response-button", colorClass]);
-    button.setText(text);
-    button.addEventListener("click", callback2);
+    button.addClasses(["sr-response-button", "sr-dummy-button"]);
+    button.setText("");
   }
   _createResponse(mainContentContainer) {
     const response = mainContentContainer.createDiv();
     response.addClass("sr-response");
-    this._createResponseButton(response, t("CANCEL"), "sr-bg-red", this.cancelClickCallback);
-    this._createResponseButton(response, "", "sr-spacer", () => {
-    });
-    this._createResponseButton(response, t("SAVE"), "sr-bg-green", this.saveClickCallback);
+    this._createCancelButton(response);
+    this._createSpacerButton(response);
+    this._createSaveButton(response);
   }
 };
 
-// src/gui/flashcard-review-view.tsx
-var import_moment4 = __toESM(require_moment());
-var import_obsidian6 = require("obsidian");
+// src/ui/obsidian-ui-components/modals/sr-modal-view.tsx
+var SRModalView = class extends import_obsidian15.Modal {
+  constructor(app, plugin, settings, reviewSequencer, reviewMode) {
+    super(app);
+    this.plugin = plugin;
+    this.settings = settings;
+    this.reviewSequencer = reviewSequencer;
+    this.reviewMode = reviewMode;
+    if (import_obsidian15.Platform.isMobile || EmulatedPlatform().isMobile) {
+      this.modalEl.style.height = this.settings.flashcardHeightPercentageMobile + "%";
+      this.modalEl.style.maxHeight = this.settings.flashcardHeightPercentageMobile + "%";
+      this.modalEl.style.width = this.settings.flashcardWidthPercentageMobile + "%";
+      this.modalEl.style.maxWidth = this.settings.flashcardWidthPercentageMobile + "%";
+    } else {
+      this.modalEl.style.height = this.settings.flashcardHeightPercentage + "%";
+      this.modalEl.style.maxHeight = this.settings.flashcardHeightPercentage + "%";
+      this.modalEl.style.width = this.settings.flashcardWidthPercentage + "%";
+      this.modalEl.style.maxWidth = this.settings.flashcardWidthPercentage + "%";
+    }
+    this.modalEl.setAttribute("id", "sr-modal-view");
+    this.modalEl.addClass("sr-view");
+    if (parseInt(this.modalEl.style.height.split("%")[0]) >= 100 || parseInt(this.modalEl.style.width.split("%")[0]) >= 100) {
+      this.modalEl.style.borderRadius = "0";
+    }
+    this.contentEl.addClass("sr-modal-content");
+    this.deckContainer = new DeckContainer(
+      this.plugin,
+      this.settings,
+      this.reviewSequencer,
+      this.contentEl.createDiv(),
+      this._startReviewOfDeck.bind(this),
+      this.close.bind(this)
+    );
+    this.cardContainer = new CardContainer(
+      this.app,
+      this.plugin,
+      this.settings,
+      this.reviewSequencer,
+      this.reviewMode,
+      this.contentEl.createDiv(),
+      this._showDecksList.bind(this),
+      this._doEditQuestionText.bind(this),
+      this.close.bind(this)
+    );
+  }
+  onOpen() {
+    const subdecksWithCardsInQueue = this.reviewSequencer.getSubDecksWithCardsInQueue(
+      this.reviewSequencer.originalDeckTree
+    );
+    if (subdecksWithCardsInQueue.length === 1) {
+      this._showFlashcard(this.reviewSequencer.originalDeckTree.subdecks[0]);
+    } else {
+      this._showDecksList();
+    }
+  }
+  onClose() {
+    this.plugin.uiManager.setSRViewInFocus(false);
+    this.mode = 3 /* Closed */;
+    this.deckContainer.close();
+    this.cardContainer.close();
+  }
+  _showDecksList() {
+    this._hideFlashcard();
+    this.deckContainer.show();
+  }
+  _hideDecksList() {
+    this.deckContainer.hide();
+  }
+  _showFlashcard(deck) {
+    this._hideDecksList();
+    this.cardContainer.show(deck);
+  }
+  _hideFlashcard() {
+    this.cardContainer.hide();
+  }
+  _startReviewOfDeck(deck) {
+    this.reviewSequencer.setCurrentDeck(deck.getTopicPath());
+    if (this.reviewSequencer.hasCurrentCard) {
+      this._showFlashcard(deck);
+    } else {
+      this._showDecksList();
+    }
+  }
+  async _doEditQuestionText() {
+    const currentQ = this.reviewSequencer.currentQuestion;
+    const textPrompt = currentQ.questionText.actualQuestion;
+    const editModal = FlashcardEditModal.Prompt(
+      this.app,
+      textPrompt,
+      currentQ.questionText.textDirection
+    );
+    editModal.then(async (modifiedCardText) => {
+      this.reviewSequencer.updateCurrentQuestionText(modifiedCardText);
+    }).catch((reason) => console.log(reason));
+  }
+};
 
 // src/utils/renderers.ts
-var import_obsidian5 = require("obsidian");
+var import_obsidian16 = require("obsidian");
 var RenderMarkdownWrapper = class {
   constructor(app, plugin, notePath) {
     this.app = app;
@@ -12568,16 +15030,16 @@ var RenderMarkdownWrapper = class {
   async renderMarkdownWrapper(markdownString, containerEl, textDirection, recursiveDepth = 0) {
     if (recursiveDepth > 4) return;
     let el;
-    if (textDirection == 2 /* Rtl */) {
+    if (textDirection === 2 /* Rtl */) {
       el = containerEl.createDiv();
       el.setAttribute("dir", "rtl");
     } else el = containerEl;
-    import_obsidian5.MarkdownRenderer.render(this.app, markdownString, el, this.notePath, this.plugin);
+    import_obsidian16.MarkdownRenderer.render(this.app, markdownString, el, this.notePath, this.plugin);
     el.findAll(".internal-embed").forEach((el2) => {
       const link2 = this.parseLink(el2.getAttribute("src"));
       if (!link2.target) {
         el2.innerText = link2.text;
-      } else if (link2.target instanceof import_obsidian5.TFile) {
+      } else if (link2.target instanceof import_obsidian16.TFile) {
         if (link2.target.extension !== "md") {
           this.embedMediaFile(el2, link2.target);
         } else {
@@ -12640,11 +15102,16 @@ var RenderMarkdownWrapper = class {
   }
 };
 
-// src/gui/flashcard-review-view.tsx
-var FlashcardReviewView = class {
-  constructor(app, plugin, settings, reviewSequencer, reviewMode, contentEl, modalEl, backClickHandler, editClickHandler) {
+// src/ui/obsidian-ui-components/content-container/card-container/card-container.tsx
+var CardContainer = class {
+  constructor(app, plugin, settings, reviewSequencer, reviewMode, view, backToDeck, editClickHandler, closeModal) {
+    this.isActive = false;
+    this.totalCardsInSession = 0;
+    this.totalDecksInSession = 0;
+    this.currentDeckTotalCardsInQueue = 0;
     this._keydownHandler = (e2) => {
-      if (document.activeElement.nodeName === "TEXTAREA" || this.mode === 3 /* Closed */) {
+      if (document.activeElement.nodeName === "TEXTAREA" || document.activeElement.nodeName === "INPUT" || this.mode === 3 /* Closed */ || !this.plugin.uiManager.getSRInFocusState() || import_obsidian17.Platform.isMobile || // No keyboard events on mobile
+      EmulatedPlatform().isMobile) {
         return;
       }
       const consumeKeyEvent = () => {
@@ -12656,6 +15123,8 @@ var FlashcardReviewView = class {
           this._skipCurrentCard();
           consumeKeyEvent();
           break;
+        case "Enter":
+        case "NumpadEnter":
         case "Space":
           if (this.mode === 1 /* Front */) {
             this._showAnswer();
@@ -12664,14 +15133,6 @@ var FlashcardReviewView = class {
             this._processReview(1 /* Good */);
             consumeKeyEvent();
           }
-          break;
-        case "Enter":
-        case "NumpadEnter":
-          if (this.mode !== 1 /* Front */) {
-            break;
-          }
-          this._showAnswer();
-          consumeKeyEvent();
           break;
         case "Numpad1":
         case "Digit1":
@@ -12714,40 +15175,49 @@ var FlashcardReviewView = class {
     this.settings = settings;
     this.reviewSequencer = reviewSequencer;
     this.reviewMode = reviewMode;
-    this.backClickHandler = backClickHandler;
+    this.backToDeck = backToDeck;
     this.editClickHandler = editClickHandler;
-    this.modalContentEl = contentEl;
-    this.modalEl = modalEl;
+    this.view = view;
     this.chosenDeck = null;
+    this.closeModal = closeModal;
     this.init();
   }
+  // #region -> public methods
   /**
    * Initializes all static elements in the FlashcardView
    */
   init() {
-    this._createBackButton();
-    this.view = this.modalContentEl.createDiv();
-    this.view.addClasses(["sr-flashcard", "sr-is-hidden"]);
-    this.header = this.view.createDiv();
-    this.header.addClass("sr-header");
-    this.titleWrapper = this.header.createDiv();
-    this.titleWrapper.addClass("sr-title-wrapper");
-    this.title = this.titleWrapper.createDiv();
-    this.title.addClass("sr-title");
-    this.subTitle = this.titleWrapper.createDiv();
-    this.subTitle.addClasses(["sr-sub-title", "sr-is-hidden"]);
-    this.controls = this.header.createDiv();
-    this.controls.addClass("sr-controls");
-    this._createCardControls();
-    if (this.settings.showContextInCards) {
-      this.context = this.view.createDiv();
-      this.context.addClass("sr-context");
-    }
-    this.content = this.view.createDiv();
+    this.view.addClasses(["sr-container", "sr-card-container", "sr-is-hidden"]);
+    this.controls = new ControlsComponent(
+      this.view,
+      !this.settings.openViewInNewTab,
+      this.app,
+      () => this.backToDeck(),
+      () => this.editClickHandler(),
+      async (response) => await this._processReview(response),
+      () => this._displayCurrentCardInfoNotice(),
+      () => this._skipCurrentCard(),
+      this._jumpToCurrentCard.bind(this),
+      this.closeModal ? this.closeModal.bind(this) : void 0
+    );
+    this.mainWrapper = this.view.createDiv();
+    this.mainWrapper.addClass("sr-main-wrapper");
+    this.infoSection = new InfoSectionComponent(
+      this.mainWrapper,
+      this.settings.showContextInCards,
+      () => this.backToDeck(),
+      this.closeModal ? this.closeModal.bind(this) : void 0
+    );
+    this.scrollWrapper = this.mainWrapper.createDiv();
+    this.scrollWrapper.addClass("sr-scroll-wrapper");
+    this.content = this.scrollWrapper.createDiv();
     this.content.addClass("sr-content");
-    this.response = this.view.createDiv();
-    this.response.addClass("sr-response");
-    this._createResponseButtons();
+    this.response = new ResponseSectionComponent(
+      this.mainWrapper,
+      this.settings,
+      () => this._showAnswer(),
+      (response) => this._processReview(response)
+    );
   }
   /**
    * Shows the FlashcardView if it is hidden
@@ -12757,9 +15227,12 @@ var FlashcardReviewView = class {
       return;
     }
     this.chosenDeck = chosenDeck;
+    const deckStats = this.reviewSequencer.getDeckStats(chosenDeck.getTopicPath());
+    this.totalCardsInSession = deckStats.cardsInQueueCount;
+    this.totalDecksInSession = deckStats.decksInQueueOfThisDeckCount;
     await this._drawContent();
     this.view.removeClass("sr-is-hidden");
-    this.backButton.removeClass("sr-is-hidden");
+    this.isActive = true;
     document.addEventListener("keydown", this._keydownHandler);
   }
   /**
@@ -12777,7 +15250,7 @@ var FlashcardReviewView = class {
     }
     document.removeEventListener("keydown", this._keydownHandler);
     this.view.addClass("sr-is-hidden");
-    this.backButton.addClass("sr-is-hidden");
+    this.isActive = false;
   }
   /**
    * Closes the FlashcardView
@@ -12786,18 +15259,31 @@ var FlashcardReviewView = class {
     this.hide();
     document.removeEventListener("keydown", this._keydownHandler);
   }
+  /**
+   * Blocks the key input to the FlashcardView
+   *
+   * @param block
+   */
+  blockKeyInput(block) {
+    if (block) {
+      document.addEventListener("keydown", this._keydownHandler);
+    } else {
+      document.removeEventListener("keydown", this._keydownHandler);
+    }
+  }
   // #region -> Functions & helpers
   async _drawContent() {
+    this.controls.resetButton.disabled = true;
     this.mode = 1 /* Front */;
-    const currentDeck = this.reviewSequencer.currentDeck;
-    this._setTitle(this.chosenDeck);
-    this._setSubTitle(this.chosenDeck, currentDeck);
-    this.resetButton.disabled = true;
-    if (this.settings.showContextInCards) {
-      this.context.setText(
-        this._formatQuestionContextText(this._currentQuestion.questionContext)
+    this.previousDeck = this.currentDeck;
+    this.currentDeck = this.reviewSequencer.currentDeck;
+    if (this.previousDeck !== this.currentDeck) {
+      const currentDeckStats = this.reviewSequencer.getDeckStats(
+        this.currentDeck.getTopicPath()
       );
+      this.currentDeckTotalCardsInQueue = currentDeckStats.cardsInQueueOfThisDeckCount;
     }
+    this._updateInfoBar(this.chosenDeck, this.currentDeck);
     this.content.empty();
     const wrapper = new RenderMarkdownWrapper(
       this.app,
@@ -12810,17 +15296,8 @@ var FlashcardReviewView = class {
       this._currentQuestion.questionText.textDirection
     );
     this.content.scrollTop = 0;
-    this._resetResponseButtons();
-  }
-  _displayCurrentCardInfoNotice() {
-    var _a;
-    const schedule = this._currentCard.scheduleInfo;
-    const currentEaseStr = t("CURRENT_EASE_HELP_TEXT") + ((_a = schedule == null ? void 0 : schedule.latestEase) != null ? _a : t("NEW"));
-    const currentIntervalStr = t("CURRENT_INTERVAL_HELP_TEXT") + textInterval(schedule == null ? void 0 : schedule.interval, false);
-    const generatedFromStr = t("CARD_GENERATED_FROM", {
-      notePath: this._currentQuestion.note.filePath
-    });
-    new import_obsidian6.Notice(currentEaseStr + "\n" + currentIntervalStr + "\n" + generatedFromStr);
+    this.response.resetResponseButtons();
+    this._setupClozeInputListeners();
   }
   get _currentCard() {
     return this.reviewSequencer.currentCard;
@@ -12831,6 +15308,93 @@ var FlashcardReviewView = class {
   get _currentNote() {
     return this.reviewSequencer.currentNote;
   }
+  async _processReview(response) {
+    const timeNow = (0, import_moment4.now)();
+    if (this.lastPressed && timeNow - this.lastPressed < this.plugin.data.settings.reviewButtonDelay) {
+      return;
+    }
+    this.lastPressed = timeNow;
+    await this.reviewSequencer.processReview(response);
+    await this._showNextCard();
+  }
+  async _showNextCard() {
+    if (this._currentCard !== null && this._currentCard !== void 0) await this.refresh();
+    else this.backToDeck();
+  }
+  // #region -> Controls
+  async _skipCurrentCard() {
+    this.reviewSequencer.skipCurrentCard();
+    await this._showNextCard();
+  }
+  _displayCurrentCardInfoNotice() {
+    new CardInfoNotice(this._currentCard.scheduleInfo, this._currentQuestion.note.filePath);
+  }
+  async _jumpToCurrentCard() {
+    var _a2;
+    const currentQuestion = this.reviewSequencer.currentQuestion;
+    if (!currentQuestion) return;
+    if (!this.settings.openViewInNewTab && !(import_obsidian17.Platform.isMobile || EmulatedPlatform().isMobile) || !this.settings.openViewInNewTabMobile && (import_obsidian17.Platform.isMobile || EmulatedPlatform().isMobile)) {
+      new import_obsidian17.Notice("Note was opened in new tab in the background");
+    }
+    const file = currentQuestion.note.file.tfile;
+    const blockId = currentQuestion.questionText.obsidianBlockId;
+    const line = Math.max(0, (_a2 = currentQuestion.lineNo) != null ? _a2 : 0);
+    if (blockId) {
+      await this.app.workspace.openLinkText(`${file.path}#${blockId}`, file.path, false);
+      return;
+    }
+    const leaf = this.app.workspace.getLeaf("tab");
+    await leaf.openFile(file, { eState: { line } });
+    const markdownView = leaf.view;
+    if (markdownView == null ? void 0 : markdownView.editor) {
+      markdownView.editor.setCursor({ line, ch: 0 });
+      markdownView.editor.scrollIntoView({ from: { line, ch: 0 }, to: { line, ch: 0 } });
+    }
+  }
+  // #region -> Deck Info
+  _updateInfoBar(chosenDeck, currentDeck) {
+    const currentDeckStats = this.reviewSequencer.getDeckStats(currentDeck.getTopicPath());
+    const chosenDeckStats = this.reviewSequencer.getDeckStats(chosenDeck.getTopicPath());
+    this.infoSection.updateChosenDeckInfo(
+      chosenDeck,
+      chosenDeckStats,
+      this.totalCardsInSession,
+      this.totalDecksInSession
+    );
+    this.infoSection.updateCurrentDeckInfo(
+      chosenDeck,
+      currentDeck,
+      currentDeckStats,
+      this.settings.flashcardCardOrder,
+      this.currentDeckTotalCardsInQueue
+    );
+    this.infoSection.updateCardContext(
+      this.settings.showContextInCards,
+      this._currentQuestion,
+      this._currentNote
+    );
+  }
+  _setupClozeInputListeners() {
+    this.clozeInputs = document.querySelectorAll(".cloze-input");
+    this.clozeInputs.forEach((input) => {
+      input.addEventListener("change", (e2) => {
+      });
+    });
+  }
+  _evaluateClozeAnswers() {
+    this.clozeAnswers = document.querySelectorAll(".cloze-answer");
+    if (this.clozeAnswers.length === this.clozeInputs.length) {
+      for (let i2 = 0; i2 < this.clozeAnswers.length; i2++) {
+        const clozeInput = this.clozeInputs[i2];
+        const clozeAnswer = this.clozeAnswers[i2];
+        const inputText = clozeInput.value.trim();
+        const answerText = clozeAnswer.innerText.trim();
+        const answerElement = inputText === answerText ? `<span style="color: green">${escapeHtml(inputText)}</span>` : `[<span style="color: red; text-decoration: line-through;">${escapeHtml(inputText)}</span><span style="color: green">${answerText}</span>]`;
+        clozeAnswer.innerHTML = answerElement;
+      }
+    }
+  }
+  // #region -> Response
   _showAnswer() {
     const timeNow = (0, import_moment4.now)();
     if (this.lastPressed && timeNow - this.lastPressed < this.plugin.data.settings.reviewButtonDelay) {
@@ -12838,10 +15402,9 @@ var FlashcardReviewView = class {
     }
     this.lastPressed = timeNow;
     this.mode = 2 /* Back */;
-    this.resetButton.disabled = false;
+    this.controls.resetButton.setDisabled(false);
     if (this._currentQuestion.questionType !== 4 /* Cloze */) {
       const hr = document.createElement("hr");
-      hr.addClass("sr-card-divide");
       this.content.appendChild(hr);
     } else {
       this.content.empty();
@@ -12856,277 +15419,162 @@ var FlashcardReviewView = class {
       this.content,
       this._currentQuestion.questionText.textDirection
     );
-    this.answerButton.addClass("sr-is-hidden");
-    this.hardButton.removeClass("sr-is-hidden");
-    this.easyButton.removeClass("sr-is-hidden");
-    if (this.reviewMode === 0 /* Cram */) {
-      this.response.addClass("is-cram");
-      this.hardButton.setText(`${this.settings.flashcardHardText}`);
-      this.easyButton.setText(`${this.settings.flashcardEasyText}`);
-    } else {
-      this.goodButton.removeClass("sr-is-hidden");
-      this._setupEaseButton(
-        this.hardButton,
-        this.settings.flashcardHardText,
-        2 /* Hard */
-      );
-      this._setupEaseButton(
-        this.goodButton,
-        this.settings.flashcardGoodText,
-        1 /* Good */
-      );
-      this._setupEaseButton(
-        this.easyButton,
-        this.settings.flashcardEasyText,
-        0 /* Easy */
-      );
-    }
-  }
-  async _processReview(response) {
-    const timeNow = (0, import_moment4.now)();
-    if (this.lastPressed && timeNow - this.lastPressed < this.plugin.data.settings.reviewButtonDelay) {
-      return;
-    }
-    this.lastPressed = timeNow;
-    await this.reviewSequencer.processReview(response);
-    await this._handleSkipCard();
-  }
-  async _skipCurrentCard() {
-    this.reviewSequencer.skipCurrentCard();
-    await this._handleSkipCard();
-  }
-  async _handleSkipCard() {
-    if (this._currentCard != null) await this.refresh();
-    else this.backClickHandler();
-  }
-  _formatQuestionContextText(questionContext) {
-    const separator = " > ";
-    let result = this._currentNote.file.basename;
-    questionContext.forEach((context) => {
-      if (context.startsWith("[[") && context.endsWith("]]")) {
-        context = context.replace("[[", "").replace("]]", "");
-        if (context.contains("|")) {
-          context = context.split("|")[1];
-        }
-      }
-      result += separator + context;
-    });
-    return result;
-  }
-  // -> Header
-  _createBackButton() {
-    this.backButton = this.modalEl.createDiv();
-    this.backButton.addClasses(["sr-back-button", "sr-is-hidden"]);
-    (0, import_obsidian6.setIcon)(this.backButton, "arrow-left");
-    this.backButton.setAttribute("aria-label", t("BACK"));
-    this.backButton.addEventListener("click", () => {
-      this.backClickHandler();
-    });
-  }
-  _setTitle(deck) {
-    let text = deck.deckName;
-    const deckStats = this.reviewSequencer.getDeckStats(deck.getTopicPath());
-    const cardsInQueue = deckStats.dueCount + deckStats.newCount;
-    text += `: ${cardsInQueue}`;
-    this.title.setText(text);
-  }
-  _setSubTitle(chosenDeck, currentDeck) {
-    if (chosenDeck.subdecks.length === 0) {
-      if (!this.subTitle.hasClass("sr-is-hidden")) {
-        this.subTitle.addClass("sr-is-hidden");
-      }
-      return;
-    }
-    if (this.subTitle.hasClass("sr-is-hidden")) {
-      this.subTitle.removeClass("sr-is-hidden");
-    }
-    let text = `${currentDeck.deckName}`;
-    const isRandomMode = this.settings.flashcardCardOrder === "EveryCardRandomDeckAndCard";
-    if (!isRandomMode) {
-      const subDecksWithCardsInQueue = chosenDeck.subdecks.filter((subDeck) => {
-        const deckStats = this.reviewSequencer.getDeckStats(subDeck.getTopicPath());
-        return deckStats.dueCount + deckStats.newCount > 0;
-      });
-      text = `${t("DECKS")}: ${subDecksWithCardsInQueue.length} | ${text}`;
-      text += `: ${currentDeck.getCardCount(2 /* All */, false)}`;
-    }
-    this.subTitle.setText(text);
-  }
-  // -> Controls
-  _createCardControls() {
-    this._createEditButton();
-    this._createResetButton();
-    this._createCardInfoButton();
-    this._createSkipButton();
-  }
-  _createEditButton() {
-    this.editButton = this.controls.createEl("button");
-    this.editButton.addClasses(["sr-button", "sr-edit-button"]);
-    (0, import_obsidian6.setIcon)(this.editButton, "edit");
-    this.editButton.setAttribute("aria-label", t("EDIT_CARD"));
-    this.editButton.addEventListener("click", async () => {
-      this.editClickHandler();
-    });
-  }
-  _createResetButton() {
-    this.resetButton = this.controls.createEl("button");
-    this.resetButton.addClasses(["sr-button", "sr-reset-button"]);
-    (0, import_obsidian6.setIcon)(this.resetButton, "refresh-cw");
-    this.resetButton.setAttribute("aria-label", t("RESET_CARD_PROGRESS"));
-    this.resetButton.addEventListener("click", () => {
-      this._processReview(3 /* Reset */);
-    });
-  }
-  _createCardInfoButton() {
-    this.infoButton = this.controls.createEl("button");
-    this.infoButton.addClasses(["sr-button", "sr-info-button"]);
-    (0, import_obsidian6.setIcon)(this.infoButton, "info");
-    this.infoButton.setAttribute("aria-label", "View Card Info");
-    this.infoButton.addEventListener("click", async () => {
-      this._displayCurrentCardInfoNotice();
-    });
-  }
-  _createSkipButton() {
-    this.skipButton = this.controls.createEl("button");
-    this.skipButton.addClasses(["sr-button", "sr-skip-button"]);
-    (0, import_obsidian6.setIcon)(this.skipButton, "chevrons-right");
-    this.skipButton.setAttribute("aria-label", t("SKIP"));
-    this.skipButton.addEventListener("click", () => {
-      this._skipCurrentCard();
-    });
-  }
-  // -> Response
-  _createResponseButtons() {
-    this._createShowAnswerButton();
-    this._createHardButton();
-    this._createGoodButton();
-    this._createEasyButton();
-  }
-  _resetResponseButtons() {
-    this.answerButton.removeClass("sr-is-hidden");
-    this.hardButton.addClass("sr-is-hidden");
-    this.goodButton.addClass("sr-is-hidden");
-    this.easyButton.addClass("sr-is-hidden");
-  }
-  _createShowAnswerButton() {
-    this.answerButton = this.response.createEl("button");
-    this.answerButton.addClasses(["sr-response-button", "sr-show-answer-button", "sr-bg-blue"]);
-    this.answerButton.setText(t("SHOW_ANSWER"));
-    this.answerButton.addEventListener("click", () => {
-      this._showAnswer();
-    });
-  }
-  _createHardButton() {
-    this.hardButton = this.response.createEl("button");
-    this.hardButton.addClasses([
-      "sr-response-button",
-      "sr-hard-button",
-      "sr-bg-red",
-      "sr-is-hidden"
-    ]);
-    this.hardButton.setText(this.settings.flashcardHardText);
-    this.hardButton.addEventListener("click", () => {
-      this._processReview(2 /* Hard */);
-    });
-  }
-  _createGoodButton() {
-    this.goodButton = this.response.createEl("button");
-    this.goodButton.addClasses([
-      "sr-response-button",
-      "sr-good-button",
-      "sr-bg-blue",
-      "sr-is-hidden"
-    ]);
-    this.goodButton.setText(this.settings.flashcardGoodText);
-    this.goodButton.addEventListener("click", () => {
-      this._processReview(1 /* Good */);
-    });
-  }
-  _createEasyButton() {
-    this.easyButton = this.response.createEl("button");
-    this.easyButton.addClasses([
-      "sr-response-button",
-      "sr-hard-button",
-      "sr-bg-green",
-      "sr-is-hidden"
-    ]);
-    this.easyButton.setText(this.settings.flashcardEasyText);
-    this.easyButton.addEventListener("click", () => {
-      this._processReview(0 /* Easy */);
-    });
-  }
-  _setupEaseButton(button, buttonName, reviewResponse) {
-    const schedule = this.reviewSequencer.determineCardSchedule(
-      reviewResponse,
+    this._evaluateClozeAnswers();
+    this.response.showRatingButtons(
+      this.reviewMode,
+      this.settings,
+      this.reviewSequencer,
       this._currentCard
     );
-    const interval = schedule.interval;
-    if (this.settings.showIntervalInReviewButtons) {
-      if (import_obsidian6.Platform.isMobile) {
-        button.setText(textInterval(interval, true));
-      } else {
-        button.setText(`${buttonName} - ${textInterval(interval, false)}`);
-      }
-    } else {
-      button.setText(buttonName);
-    }
   }
 };
 
-// src/gui/flashcard-modal.tsx
-var FlashcardModal = class extends import_obsidian7.Modal {
-  constructor(app, plugin, settings, reviewSequencer, reviewMode) {
-    super(app);
+// src/ui/obsidian-ui-components/item-views/sr-tab-view.tsx
+var SRTabView = class extends import_obsidian18.ItemView {
+  constructor(leaf, plugin, loadReviewSequencerData) {
+    super(leaf);
+    this.openErrorCount = 0;
     this.plugin = plugin;
-    this.settings = settings;
-    this.reviewSequencer = reviewSequencer;
-    this.reviewMode = reviewMode;
-    this.modalEl.style.height = this.settings.flashcardHeightPercentage + "%";
-    this.modalEl.style.maxHeight = this.settings.flashcardHeightPercentage + "%";
-    this.modalEl.style.width = this.settings.flashcardWidthPercentage + "%";
-    this.modalEl.style.maxWidth = this.settings.flashcardWidthPercentage + "%";
-    this.modalEl.setAttribute("id", "sr-modal");
-    this.contentEl.addClass("sr-modal-content");
-    this.deckView = new DeckListView(
-      this.plugin,
-      this.settings,
-      this.reviewSequencer,
-      this.contentEl,
-      this._startReviewOfDeck.bind(this)
-    );
-    this.flashcardView = new FlashcardReviewView(
-      this.app,
-      this.plugin,
-      this.settings,
-      this.reviewSequencer,
-      this.reviewMode,
-      this.contentEl,
-      this.modalEl,
-      this._showDecksList.bind(this),
-      this._doEditQuestionText.bind(this)
-    );
+    this.navigation = false;
+    this.settings = plugin.data.settings;
+    this.loadReviewSequencerData = loadReviewSequencerData;
+    const viewContent = this.containerEl.getElementsByClassName("view-content");
+    if (viewContent.length > 0) {
+      this.viewContainerEl = viewContent[0];
+      this.viewContainerEl.addClass("sr-tab-view");
+      this.viewContainerEl.addClass("sr-view");
+      this.viewContentEl = this.viewContainerEl.createDiv("sr-tab-view-content");
+      if (import_obsidian18.Platform.isMobile || EmulatedPlatform().isMobile) {
+        this.viewContentEl.style.height = this.settings.flashcardHeightPercentageMobile + "%";
+        this.viewContentEl.style.maxHeight = this.settings.flashcardHeightPercentageMobile + "%";
+        this.viewContentEl.style.width = this.settings.flashcardWidthPercentageMobile + "%";
+        this.viewContentEl.style.maxWidth = this.settings.flashcardWidthPercentageMobile + "%";
+      } else {
+        this.viewContentEl.style.height = this.settings.flashcardHeightPercentage + "%";
+        this.viewContentEl.style.maxHeight = this.settings.flashcardHeightPercentage + "%";
+        this.viewContentEl.style.width = this.settings.flashcardWidthPercentage + "%";
+        this.viewContentEl.style.maxWidth = this.settings.flashcardWidthPercentage + "%";
+      }
+      if (this.settings.flashcardHeightPercentage < 100 || this.settings.flashcardWidthPercentage < 100) {
+        this.viewContentEl.addClass("sr-center-view");
+      }
+    }
   }
-  onOpen() {
-    this._showDecksList();
+  /**
+   * Returns the view type identifier for the SRTabView.
+   *
+   * @returns {string} The view type identifier.
+   */
+  getViewType() {
+    return SR_TAB_VIEW;
   }
-  onClose() {
-    this.mode = 3 /* Closed */;
-    this.deckView.close();
-    this.flashcardView.close();
+  /**
+   * Retrieves the icon identifier for the SRTabView.
+   *
+   * @returns {string} The tab icon identifier.
+   */
+  getIcon() {
+    return "SpacedRepIcon";
+  }
+  /**
+   * Returns the display text for the SRTabView.
+   *
+   * @returns {string} The display text for the SRTabView.
+   */
+  getDisplayText() {
+    return "Spaced Repetition";
+  }
+  /**
+   * Initializes the SRTabView when opened by loading the review sequencer data
+   * and setting up the deck and flashcard views if they are not already initialized.
+   * Catches and logs errors that occur during the initial loading process.
+   */
+  async onOpen() {
+    try {
+      if (document.body.classList.contains("is-mobile")) {
+        const mobileNavbar = document.getElementsByClassName("mobile-navbar")[0];
+        if (mobileNavbar) {
+          mobileNavbar.style.position = "relative";
+        }
+      }
+      if (document.body.classList.contains("is-phone") && document.body.classList.contains("is-floating-nav")) {
+        document.body.style.setProperty(
+          "--view-bottom-fade-mask",
+          "linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, #000000 calc(16px - 0px))"
+        );
+      }
+      const loadedData = await this.loadReviewSequencerData();
+      this.reviewSequencer = loadedData.reviewSequencer;
+      this.reviewMode = loadedData.mode;
+      if (this.deckContainer === void 0) {
+        this.deckContainer = new DeckContainer(
+          this.plugin,
+          this.settings,
+          this.reviewSequencer,
+          this.viewContentEl.createDiv(),
+          this._startReviewOfDeck.bind(this)
+        );
+      }
+      if (this.cardContainer === void 0) {
+        this.cardContainer = new CardContainer(
+          this.app,
+          this.plugin,
+          this.settings,
+          this.reviewSequencer,
+          this.reviewMode,
+          this.viewContentEl.createDiv(),
+          this._showDecksList.bind(this),
+          this._doEditQuestionText.bind(this)
+        );
+      }
+      const subdecksWithCardsInQueue = this.reviewSequencer.getSubDecksWithCardsInQueue(
+        this.reviewSequencer.originalDeckTree
+      );
+      if (subdecksWithCardsInQueue.length === 1) {
+        this._showFlashcard(this.reviewSequencer.originalDeckTree.subdecks[0]);
+      } else {
+        this._showDecksList();
+      }
+    } catch (e2) {
+      if (this.openErrorCount > 0 || DEBUG_MODE_ENABLED) {
+        console.error(e2);
+      }
+      this.openErrorCount++;
+    }
+  }
+  /**
+   * Closes the SRTabView by shutting down any active deck or flashcard views.
+   * Ensures that resources associated with these views are properly released.
+   */
+  async onClose() {
+    if (document.body.classList.contains("is-mobile")) {
+      const mobileNavbar = document.getElementsByClassName("mobile-navbar")[0];
+      if (mobileNavbar) {
+        mobileNavbar.style.position = "unset";
+      }
+    }
+    if (document.body.classList.contains("is-phone") && document.body.classList.contains("is-floating-nav")) {
+      document.body.style.setProperty(
+        "--view-bottom-fade-mask",
+        "linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, #000000 calc(34px - 0px + 12px))"
+      );
+    }
+    if (this.deckContainer) this.deckContainer.close();
+    if (this.cardContainer) this.cardContainer.close();
   }
   _showDecksList() {
     this._hideFlashcard();
-    this.deckView.show();
+    this.deckContainer.show();
   }
   _hideDecksList() {
-    this.deckView.hide();
+    this.deckContainer.hide();
   }
   _showFlashcard(deck) {
     this._hideDecksList();
-    this.flashcardView.show(deck);
+    this.cardContainer.show(deck);
   }
   _hideFlashcard() {
-    this.flashcardView.hide();
+    this.cardContainer.hide();
   }
   _startReviewOfDeck(deck) {
     this.reviewSequencer.setCurrentDeck(deck.getTopicPath());
@@ -13150,211 +15598,819 @@ var FlashcardModal = class extends import_obsidian7.Modal {
   }
 };
 
-// src/gui/review-queue-list-view.tsx
-var import_obsidian8 = require("obsidian");
-var REVIEW_QUEUE_VIEW_TYPE = "review-queue-list-view";
-var ReviewQueueListView = class extends import_obsidian8.ItemView {
-  get noteReviewQueue() {
-    return this.nextNoteReviewHandler.noteReviewQueue;
-  }
-  constructor(leaf, nextNoteReviewHandler, settings) {
-    super(leaf);
-    this.nextNoteReviewHandler = nextNoteReviewHandler;
-    this.settings = settings;
-    if (this.settings.enableNoteReviewPaneOnStartup) {
-      this.registerEvent(this.app.workspace.on("file-open", () => this.redraw()));
-      this.registerEvent(this.app.vault.on("rename", () => this.redraw()));
-    }
-  }
-  getViewType() {
-    return REVIEW_QUEUE_VIEW_TYPE;
-  }
-  getDisplayText() {
-    return t("NOTES_REVIEW_QUEUE");
-  }
-  getIcon() {
-    return "SpacedRepIcon";
-  }
-  onHeaderMenu(menu) {
-    menu.addItem((item) => {
-      item.setTitle(t("CLOSE")).setIcon("cross").onClick(() => {
-        this.app.workspace.detachLeavesOfType(REVIEW_QUEUE_VIEW_TYPE);
-      });
+// src/ui/obsidian-ui-components/settings-tab.tsx
+var import_obsidian28 = require("obsidian");
+
+// src/ui/obsidian-ui-components/content-container/settings-page/flashcards-page.tsx
+var import_obsidian20 = require("obsidian");
+
+// src/ui/obsidian-ui-components/content-container/settings-page/settings-page.tsx
+var import_obsidian19 = require("obsidian");
+var SettingsPage = class {
+  constructor(pageContainerEl, plugin, pageType, applySettingsUpdate, display, openPage, scrollListener) {
+    this.plugin = plugin;
+    this.pageType = pageType;
+    this.display = display;
+    this.applySettingsUpdate = applySettingsUpdate;
+    this.openPage = openPage;
+    this.scrollListener = scrollListener;
+    this.pageContainerEl = pageContainerEl;
+    this.pageContainerEl.addClass("sr-settings-page");
+    this.pageContainerEl.addClass("sr-is-hidden");
+    this.pageHeaderEl = this.pageContainerEl.createDiv();
+    this.pageHeaderEl.addClass("sr-settings-page-header");
+    this.pageHeaderEl.addEventListener("click", () => {
+      this.backToMainPage();
+    });
+    if (pageType === "main-page") this.pageHeaderEl.addClass("sr-is-hidden");
+    this.backButton = new import_obsidian19.ButtonComponent(this.pageHeaderEl);
+    this.backButton.setClass("sr-settings-page-back-button");
+    this.backButton.setClass("clickable-icon");
+    this.backButton.setIcon("chevron-left");
+    this.backButton.onClick(() => {
+      this.backToMainPage();
+    });
+    this.titleWrapperEl = this.pageHeaderEl.createDiv();
+    this.titleWrapperEl.addClass("sr-settings-page-title-wrapper");
+    this.titleIconEl = this.titleWrapperEl.createDiv();
+    this.titleIconEl.addClass("sr-settings-page-title-icon");
+    (0, import_obsidian19.setIcon)(this.titleIconEl, getPageIcon(pageType));
+    this.titleEl = this.titleWrapperEl.createDiv();
+    this.titleEl.addClass("sr-settings-page-title");
+    this.titleEl.insertAdjacentHTML("beforeend", getPageName(pageType));
+    this.containerEl = this.pageContainerEl.createDiv();
+    this.containerEl.addClass("sr-settings-page-content");
+    this.containerEl.addEventListener("scroll", (_2) => {
+      this.scrollListener(this.containerEl.scrollTop);
     });
   }
-  redraw() {
-    if (!this.noteReviewQueue.reviewDecks) return;
-    const activeFile = this.app.workspace.getActiveFile();
-    const rootEl = createDiv("tree-item nav-folder mod-root");
-    const childrenEl = rootEl.createDiv("tree-item-children nav-folder-children");
-    for (const [deckKey, deck] of this.noteReviewQueue.reviewDecks) {
-      const deckCollapsed = !deck.activeFolders.has(deck.deckName);
-      const deckFolderEl = this.createRightPaneFolder(
-        childrenEl,
-        deckKey,
-        deckCollapsed,
-        false,
-        deck
-      ).getElementsByClassName("tree-item-children nav-folder-children")[0];
-      if (deck.newNotes.length > 0) {
-        const newNotesFolderEl = this.createRightPaneFolder(
-          deckFolderEl,
-          t("NEW"),
-          !deck.activeFolders.has(t("NEW")),
-          deckCollapsed,
-          deck
-        );
-        for (const newFile of deck.newNotes) {
-          const fileIsOpen = activeFile && newFile.path === activeFile.path;
-          if (fileIsOpen) {
-            deck.activeFolders.add(deck.deckName);
-            deck.activeFolders.add(t("NEW"));
-            this.changeFolderFolding(newNotesFolderEl);
-            this.changeFolderFolding(deckFolderEl);
-          }
-          this.createRightPaneFile(
-            newNotesFolderEl,
-            newFile.tfile,
-            fileIsOpen,
-            !deck.activeFolders.has(t("NEW")),
-            deck
-          );
-        }
-      }
-      if (deck.scheduledNotes.length > 0) {
-        const now2 = Date.now();
-        let currUnix = -1;
-        let schedFolderEl = null, folderTitle = "";
-        const maxDaysToRender = this.settings.maxNDaysNotesReviewQueue;
-        for (const sNote of deck.scheduledNotes) {
-          if (sNote.dueUnix != currUnix) {
-            const nDays = Math.ceil((sNote.dueUnix - now2) / TICKS_PER_DAY);
-            if (nDays > maxDaysToRender) {
-              break;
-            }
-            if (nDays === -1) {
-              folderTitle = t("YESTERDAY");
-            } else if (nDays === 0) {
-              folderTitle = t("TODAY");
-            } else if (nDays === 1) {
-              folderTitle = t("TOMORROW");
-            } else {
-              folderTitle = new Date(sNote.dueUnix).toDateString();
-            }
-            schedFolderEl = this.createRightPaneFolder(
-              deckFolderEl,
-              folderTitle,
-              !deck.activeFolders.has(folderTitle),
-              deckCollapsed,
-              deck
-            );
-            currUnix = sNote.dueUnix;
-          }
-          const fileIsOpen = activeFile && sNote.note.path === activeFile.path;
-          if (fileIsOpen) {
-            deck.activeFolders.add(deck.deckName);
-            deck.activeFolders.add(folderTitle);
-            this.changeFolderFolding(schedFolderEl);
-            this.changeFolderFolding(deckFolderEl);
-          }
-          this.createRightPaneFile(
-            schedFolderEl,
-            sNote.note.tfile,
-            fileIsOpen,
-            !deck.activeFolders.has(folderTitle),
-            deck
-          );
-        }
-      }
-    }
-    const contentEl = this.containerEl.children[1];
-    contentEl.empty();
-    contentEl.appendChild(rootEl);
-  }
-  createRightPaneFolder(parentEl, folderTitle, collapsed, hidden, deck) {
-    const folderEl = parentEl.createDiv("tree-item nav-folder");
-    const folderTitleEl = folderEl.createDiv("tree-item-self nav-folder-title");
-    const childrenEl = folderEl.createDiv(
-      "tree-item-children nav-folder-children"
-    );
-    const collapseIconEl = folderTitleEl.createDiv(
-      "tree-item-icon collapse-icon nav-folder-collapse-indicator"
-    );
-    collapseIconEl.innerHTML = COLLAPSE_ICON;
-    this.changeFolderFolding(folderEl, collapsed);
-    folderTitleEl.createDiv("tree-item-inner nav-folder-title-content").setText(folderTitle);
-    if (hidden) {
-      folderEl.style.display = "none";
-    }
-    folderTitleEl.onClickEvent(() => {
-      this.changeFolderFolding(folderEl, !folderEl.hasClass("is-collapsed"));
-      childrenEl.style.display = !folderEl.hasClass("is-collapsed") ? "block" : "none";
-      if (!folderEl.hasClass("is-collapsed")) {
-        deck.activeFolders.delete(folderTitle);
-      } else {
-        deck.activeFolders.add(folderTitle);
-      }
+  /**
+   * Scrolls to the specified position.
+   */
+  scrollTo(scrollPosition) {
+    this.containerEl.scrollTo({
+      top: scrollPosition,
+      behavior: "auto"
     });
-    return folderEl;
   }
-  createRightPaneFile(folderEl, file, fileElActive, hidden, deck) {
-    const childrenEl = folderEl.getElementsByClassName(
-      "tree-item-children nav-folder-children"
-    )[0];
-    const navFileEl = childrenEl.createDiv("nav-file");
-    if (hidden) {
-      childrenEl.style.display = "none";
-    }
-    const navFileTitle = navFileEl.createDiv("tree-item-self nav-file-title");
-    if (fileElActive) {
-      navFileTitle.addClass("is-active");
-    }
-    navFileTitle.createDiv("tree-item-inner nav-file-title-content").setText(file.basename);
-    navFileTitle.addEventListener(
-      "click",
-      async (event) => {
-        event.preventDefault();
-        await this.nextNoteReviewHandler.openNote(deck.deckName, file);
-        return false;
-      },
-      false
-    );
-    navFileTitle.addEventListener(
-      "contextmenu",
-      (event) => {
-        event.preventDefault();
-        const fileMenu = new import_obsidian8.Menu();
-        this.app.workspace.trigger("file-menu", fileMenu, file, "my-context-menu", null);
-        fileMenu.showAtPosition({
-          x: event.pageX,
-          y: event.pageY
-        });
-        return false;
-      },
-      false
-    );
+  /**
+   * Gets the SettingsPage type.
+   */
+  getPageType() {
+    return this.pageType;
   }
-  changeFolderFolding(folderEl, collapsed = false) {
-    if (collapsed) {
-      folderEl.addClass("is-collapsed");
-      const collapseIconEl = folderEl.find("div.nav-folder-collapse-indicator");
-      collapseIconEl.addClass("is-collapsed");
-    } else {
-      folderEl.removeClass("is-collapsed");
-      const collapseIconEl = folderEl.find("div.nav-folder-collapse-indicator");
-      collapseIconEl.removeClass("is-collapsed");
+  /**
+   * Destroys the SettingsPage. Run any cleanup code here.
+   */
+  destroy() {
+    this.removeScrollListener();
+  }
+  /**
+   * Removes the scroll listener from the SettingsPage.
+   */
+  removeScrollListener() {
+    this.containerEl.removeEventListener("scroll", (_2) => {
+      this.scrollListener(this.containerEl.scrollTop);
+    });
+  }
+  /**
+   * Adds the scroll listener to the SettingsPage.
+   */
+  addScrollListener() {
+    this.containerEl.addEventListener("scroll", (_2) => {
+      this.scrollListener(this.containerEl.scrollTop);
+    });
+  }
+  /**
+   * Shows the SettingsPage.
+   */
+  show() {
+    if (this.pageContainerEl.hasClass("sr-is-hidden")) {
+      this.pageContainerEl.removeClass("sr-is-hidden");
+      this.addScrollListener();
     }
+  }
+  /**
+   * Hides the SettingsPage.
+   */
+  hide() {
+    if (!this.pageContainerEl.hasClass("sr-is-hidden")) {
+      this.pageContainerEl.addClass("sr-is-hidden");
+      this.removeScrollListener();
+    }
+  }
+  /**
+   * Backs to the main page.
+   */
+  backToMainPage() {
+    this.openPage("main-page");
   }
 };
 
-// src/gui/settings.tsx
-var import_obsidian10 = require("obsidian");
+// src/ui/obsidian-ui-components/content-container/settings-page/flashcards-page.tsx
+var FlashcardsPage = class extends SettingsPage {
+  constructor(pageContainerEl, plugin, pageType, applySettingsUpdate, display, openPage, scrollListener) {
+    super(
+      pageContainerEl,
+      plugin,
+      pageType,
+      applySettingsUpdate,
+      display,
+      openPage,
+      scrollListener
+    );
+    new import_obsidian20.SettingGroup(this.containerEl).setHeading(t("GROUP_TAGS_FOLDERS")).addSetting((setting) => {
+      setting.setName(t("FLASHCARD_TAGS")).setDesc(t("FLASHCARD_TAGS_DESC")).addTextArea(
+        (text) => text.setValue(this.plugin.data.settings.flashcardTags.join(" ")).onChange((value) => {
+          applySettingsUpdate(async () => {
+            this.plugin.data.settings.flashcardTags = value.split(/\s+/);
+            await this.plugin.savePluginData();
+          });
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("CONVERT_FOLDERS_TO_DECKS")).setDesc(t("CONVERT_FOLDERS_TO_DECKS_DESC")).addToggle(
+        (toggle) => toggle.setValue(this.plugin.data.settings.convertFoldersToDecks).onChange(async (value) => {
+          this.plugin.data.settings.convertFoldersToDecks = value;
+          await this.plugin.savePluginData();
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("BURY_SIBLINGS_TILL_NEXT_DAY")).setDesc(t("BURY_SIBLINGS_TILL_NEXT_DAY_DESC")).addToggle(
+        (toggle) => toggle.setValue(this.plugin.data.settings.burySiblingCards).onChange(async (value) => {
+          this.plugin.data.settings.burySiblingCards = value;
+          await this.plugin.savePluginData();
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("FOLDERS_TO_IGNORE")).setDesc(t("FOLDERS_TO_IGNORE_DESC")).addTextArea(
+        (text) => text.setValue(this.plugin.data.settings.noteFoldersToIgnore.join("\n")).onChange((value) => {
+          this.applySettingsUpdate(async () => {
+            this.plugin.data.settings.noteFoldersToIgnore = value.split(/\n+/).map((v2) => v2.trim()).filter((v2) => v2);
+            await this.plugin.savePluginData();
+          });
+        })
+      );
+    });
+    new import_obsidian20.SettingGroup(this.containerEl).setHeading(t("GROUP_FLASHCARD_REVIEW")).addSetting((setting) => {
+      setting.setName(t("BURY_SIBLINGS_TILL_NEXT_DAY")).setDesc(t("BURY_SIBLINGS_TILL_NEXT_DAY_DESC")).addToggle(
+        (toggle) => toggle.setValue(this.plugin.data.settings.burySiblingCards).onChange(async (value) => {
+          this.plugin.data.settings.burySiblingCards = value;
+          await this.plugin.savePluginData();
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("REVIEW_CARD_ORDER_WITHIN_DECK")).addDropdown(
+        (dropdown) => dropdown.addOptions({
+          NewFirstSequential: t("REVIEW_CARD_ORDER_NEW_FIRST_SEQUENTIAL"),
+          DueFirstSequential: t("REVIEW_CARD_ORDER_DUE_FIRST_SEQUENTIAL"),
+          NewFirstRandom: t("REVIEW_CARD_ORDER_NEW_FIRST_RANDOM"),
+          DueFirstRandom: t("REVIEW_CARD_ORDER_DUE_FIRST_RANDOM"),
+          EveryCardRandomDeckAndCard: t("REVIEW_CARD_ORDER_RANDOM_DECK_AND_CARD")
+        }).setValue(this.plugin.data.settings.flashcardCardOrder).onChange(async (value) => {
+          this.plugin.data.settings.flashcardCardOrder = value;
+          await this.plugin.savePluginData();
+          this.display();
+        })
+      );
+    }).addSetting((setting) => {
+      const deckOrderEnabled = this.plugin.data.settings.flashcardCardOrder !== "EveryCardRandomDeckAndCard";
+      setting.setName(t("REVIEW_DECK_ORDER")).addDropdown(
+        (dropdown) => dropdown.addOptions(
+          deckOrderEnabled ? {
+            // eslint-disable-next-line camelcase
+            PrevDeckComplete_Sequential: t(
+              "REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_SEQUENTIAL"
+            ),
+            // eslint-disable-next-line camelcase
+            PrevDeckComplete_Random: t(
+              "REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_RANDOM"
+            )
+          } : {
+            EveryCardRandomDeckAndCard: t(
+              "REVIEW_DECK_ORDER_RANDOM_DECK_AND_CARD"
+            )
+          }
+        ).setValue(
+          deckOrderEnabled ? this.plugin.data.settings.flashcardDeckOrder : "EveryCardRandomDeckAndCard"
+        ).setDisabled(!deckOrderEnabled).onChange(async (value) => {
+          this.plugin.data.settings.flashcardDeckOrder = value;
+          await this.plugin.savePluginData();
+        })
+      );
+    });
+    new import_obsidian20.SettingGroup(this.containerEl).setHeading(t("GROUP_FLASHCARD_SEPARATORS")).addSetting((setting) => {
+      setting.setName(t("CONVERT_CLOZE_PATTERNS_TO_INPUTS")).setDesc(t("CONVERT_CLOZE_PATTERNS_TO_INPUTS_DESC")).addToggle(
+        (toggle) => toggle.setValue(this.plugin.data.settings.convertClozePatternsToInputs).onChange(async (value) => {
+          this.plugin.data.settings.convertClozePatternsToInputs = value;
+          await this.plugin.savePluginData();
+          this.display();
+        })
+      );
+    }).addSetting((setting) => {
+      const convertHighlightsToClozesEl = setting.setName(
+        t("CONVERT_HIGHLIGHTS_TO_CLOZES")
+      );
+      convertHighlightsToClozesEl.descEl.insertAdjacentHTML(
+        "beforeend",
+        t("CONVERT_HIGHLIGHTS_TO_CLOZES_DESC", {
+          defaultPattern: "==[123;;]answer[;;hint]=="
+        })
+      );
+      convertHighlightsToClozesEl.addToggle(
+        (toggle) => toggle.setValue(this.plugin.data.settings.convertHighlightsToClozes).onChange(async (value) => {
+          const defaultHightlightPattern = "==[123;;]answer[;;hint]==";
+          const clozePatternSet = new Set(
+            this.plugin.data.settings.clozePatterns
+          );
+          if (value) {
+            clozePatternSet.add(defaultHightlightPattern);
+          } else {
+            clozePatternSet.delete(defaultHightlightPattern);
+          }
+          this.plugin.data.settings.clozePatterns = [...clozePatternSet];
+          this.plugin.data.settings.convertHighlightsToClozes = value;
+          await this.plugin.savePluginData();
+          this.display();
+        })
+      );
+    }).addSetting((setting) => {
+      const convertBoldTextToClozesEl = setting.setName(t("CONVERT_BOLD_TEXT_TO_CLOZES"));
+      convertBoldTextToClozesEl.descEl.insertAdjacentHTML(
+        "beforeend",
+        t("CONVERT_BOLD_TEXT_TO_CLOZES_DESC", {
+          defaultPattern: "**[123;;]answer[;;hint]**"
+        })
+      );
+      convertBoldTextToClozesEl.addToggle(
+        (toggle) => toggle.setValue(this.plugin.data.settings.convertBoldTextToClozes).onChange(async (value) => {
+          const defaultBoldPattern = "**[123;;]answer[;;hint]**";
+          const clozePatternSet = new Set(
+            this.plugin.data.settings.clozePatterns
+          );
+          if (value) {
+            clozePatternSet.add(defaultBoldPattern);
+          } else {
+            clozePatternSet.delete(defaultBoldPattern);
+          }
+          this.plugin.data.settings.clozePatterns = [...clozePatternSet];
+          this.plugin.data.settings.convertBoldTextToClozes = value;
+          await this.plugin.savePluginData();
+          this.display();
+        })
+      );
+    }).addSetting((setting) => {
+      const convertCurlyBracketsToClozesEl = setting.setName(
+        t("CONVERT_CURLY_BRACKETS_TO_CLOZES")
+      );
+      convertCurlyBracketsToClozesEl.descEl.insertAdjacentHTML(
+        "beforeend",
+        t("CONVERT_CURLY_BRACKETS_TO_CLOZES_DESC", {
+          defaultPattern: "{{[123;;]answer[;;hint]}}"
+        })
+      );
+      convertCurlyBracketsToClozesEl.addToggle(
+        (toggle) => toggle.setValue(this.plugin.data.settings.convertCurlyBracketsToClozes).onChange(async (value) => {
+          const defaultCurlyBracketsPattern = "{{[123;;]answer[;;hint]}}";
+          const clozePatternSet = new Set(
+            this.plugin.data.settings.clozePatterns
+          );
+          if (value) {
+            clozePatternSet.add(defaultCurlyBracketsPattern);
+          } else {
+            clozePatternSet.delete(defaultCurlyBracketsPattern);
+          }
+          this.plugin.data.settings.clozePatterns = [...clozePatternSet];
+          this.plugin.data.settings.convertCurlyBracketsToClozes = value;
+          await this.plugin.savePluginData();
+          this.display();
+        })
+      );
+    }).addSetting((setting) => {
+      const clozePatterns = setting.setName(t("CLOZE_PATTERNS"));
+      clozePatterns.descEl.insertAdjacentHTML(
+        "beforeend",
+        t("CLOZE_PATTERNS_DESC", {
+          docsUrl: "https://stephenmwangi.com/obsidian-spaced-repetition/flashcards/cloze-cards/#cloze-types"
+        })
+      );
+      clozePatterns.addTextArea(
+        (text) => text.setPlaceholder(
+          "Example:\n==[123;;]answer[;;hint]==\n**[123;;]answer[;;hint]**\n{{[123;;]answer[;;hint]}}"
+        ).setValue(this.plugin.data.settings.clozePatterns.join("\n")).onChange((value) => {
+          applySettingsUpdate(async () => {
+            const defaultHightlightPattern = "==[123;;]answer[;;hint]==";
+            const defaultBoldPattern = "**[123;;]answer[;;hint]**";
+            const defaultCurlyBracketsPattern = "{{[123;;]answer[;;hint]}}";
+            const clozePatternSet = new Set(
+              value.split(/\n+/).map((v2) => v2.trim()).filter((v2) => v2)
+            );
+            if (clozePatternSet.has(defaultHightlightPattern)) {
+              this.plugin.data.settings.convertHighlightsToClozes = true;
+            } else {
+              this.plugin.data.settings.convertHighlightsToClozes = false;
+            }
+            if (clozePatternSet.has(defaultBoldPattern)) {
+              this.plugin.data.settings.convertBoldTextToClozes = true;
+            } else {
+              this.plugin.data.settings.convertBoldTextToClozes = false;
+            }
+            if (clozePatternSet.has(defaultCurlyBracketsPattern)) {
+              this.plugin.data.settings.convertCurlyBracketsToClozes = true;
+            } else {
+              this.plugin.data.settings.convertCurlyBracketsToClozes = false;
+            }
+            this.plugin.data.settings.clozePatterns = [...clozePatternSet];
+            await this.plugin.savePluginData();
+          });
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("INLINE_CARDS_SEPARATOR")).setDesc(t("FIX_SEPARATORS_MANUALLY_WARNING")).addExtraButton((button) => {
+        button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
+          this.plugin.data.settings.singleLineCardSeparator = DEFAULT_SETTINGS.singleLineCardSeparator;
+          await this.plugin.savePluginData();
+          this.display();
+        });
+      }).addText(
+        (text) => text.setValue(this.plugin.data.settings.singleLineCardSeparator).onChange((value) => {
+          applySettingsUpdate(async () => {
+            this.plugin.data.settings.singleLineCardSeparator = value;
+            await this.plugin.savePluginData();
+          });
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("INLINE_REVERSED_CARDS_SEPARATOR")).setDesc(t("FIX_SEPARATORS_MANUALLY_WARNING")).addExtraButton((button) => {
+        button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
+          this.plugin.data.settings.singleLineReversedCardSeparator = DEFAULT_SETTINGS.singleLineReversedCardSeparator;
+          await this.plugin.savePluginData();
+          this.display();
+        });
+      }).addText(
+        (text) => text.setValue(this.plugin.data.settings.singleLineReversedCardSeparator).onChange((value) => {
+          applySettingsUpdate(async () => {
+            this.plugin.data.settings.singleLineReversedCardSeparator = value;
+            await this.plugin.savePluginData();
+          });
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("MULTILINE_CARDS_SEPARATOR")).setDesc(t("FIX_SEPARATORS_MANUALLY_WARNING")).addExtraButton((button) => {
+        button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
+          this.plugin.data.settings.multilineCardSeparator = DEFAULT_SETTINGS.multilineCardSeparator;
+          await this.plugin.savePluginData();
+          this.display();
+        });
+      }).addText(
+        (text) => text.setValue(this.plugin.data.settings.multilineCardSeparator).onChange((value) => {
+          applySettingsUpdate(async () => {
+            this.plugin.data.settings.multilineCardSeparator = value;
+            await this.plugin.savePluginData();
+          });
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("MULTILINE_REVERSED_CARDS_SEPARATOR")).setDesc(t("FIX_SEPARATORS_MANUALLY_WARNING")).addExtraButton((button) => {
+        button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
+          this.plugin.data.settings.multilineReversedCardSeparator = DEFAULT_SETTINGS.multilineReversedCardSeparator;
+          await this.plugin.savePluginData();
+          this.display();
+        });
+      }).addText(
+        (text) => text.setValue(this.plugin.data.settings.multilineReversedCardSeparator).onChange((value) => {
+          applySettingsUpdate(async () => {
+            this.plugin.data.settings.multilineReversedCardSeparator = value;
+            await this.plugin.savePluginData();
+          });
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("MULTILINE_CARDS_END_MARKER")).setDesc(t("FIX_SEPARATORS_MANUALLY_WARNING")).addExtraButton((button) => {
+        button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
+          this.plugin.data.settings.multilineCardEndMarker = DEFAULT_SETTINGS.multilineCardEndMarker;
+          await this.plugin.savePluginData();
+          this.display();
+        });
+      }).addText(
+        (text) => text.setValue(this.plugin.data.settings.multilineCardEndMarker).onChange((value) => {
+          applySettingsUpdate(async () => {
+            this.plugin.data.settings.multilineCardEndMarker = value;
+            await this.plugin.savePluginData();
+          });
+        })
+      );
+    });
+  }
+};
 
-// node_modules/.pnpm/@kurkle+color@0.3.2/node_modules/@kurkle/color/dist/color.esm.js
+// src/ui/obsidian-ui-components/content-container/settings-page/main-page.tsx
+var import_obsidian21 = require("obsidian");
+var MainPage = class extends SettingsPage {
+  constructor(pageContainerEl, plugin, pageType, display, openPage, scrollListener) {
+    super(pageContainerEl, plugin, pageType, () => {
+    }, display, openPage, scrollListener);
+    this.containerEl.addClass("sr-main-page");
+    const mainSettingsGroup = new import_obsidian21.SettingGroup(this.containerEl).setHeading(
+      t("SETTINGS_TAB_HEADING")
+    );
+    SettingsPageTypesArray.forEach((pageType2) => {
+      if (pageType2 === "main-page") return;
+      mainSettingsGroup.addSetting((setting) => {
+        setting.setName(getPageName(pageType2)).addButton((button) => {
+          button.setIcon("chevron-right").onClick(() => {
+            this.openPage(pageType2);
+          });
+          button.buttonEl.addClass("clickable-icon");
+        });
+        const iconEl = document.createElement("div");
+        iconEl.addClass("sr-settings-page-title-icon");
+        (0, import_obsidian21.setIcon)(iconEl, getPageIcon(pageType2));
+        setting.nameEl.insertBefore(iconEl, setting.nameEl.firstChild);
+        setting.nameEl.addClass("sr-settings-page-title");
+        setting.settingEl.addEventListener("click", () => {
+          this.openPage(pageType2);
+        });
+      });
+    });
+    new import_obsidian21.SettingGroup(this.containerEl).setHeading(t("HELP")).addSetting((setting) => {
+      setting.infoEl.insertAdjacentHTML(
+        "beforeend",
+        t("CHECK_WIKI", {
+          wikiUrl: "https://stephenmwangi.com/obsidian-spaced-repetition/"
+        })
+      );
+    }).addSetting((setting) => {
+      setting.infoEl.insertAdjacentHTML(
+        "beforeend",
+        t("GITHUB_DISCUSSIONS", {
+          discussionsUrl: "https://github.com/st3v3nmw/obsidian-spaced-repetition/discussions/"
+        })
+      );
+    }).addSetting((setting) => {
+      setting.infoEl.insertAdjacentHTML(
+        "beforeend",
+        t("GITHUB_ISSUES", {
+          issuesUrl: "https://github.com/st3v3nmw/obsidian-spaced-repetition/issues/"
+        })
+      );
+    });
+    new import_obsidian21.SettingGroup(this.containerEl).setHeading(t("GROUP_CONTRIBUTING")).addSetting((setting) => {
+      setting.infoEl.insertAdjacentHTML(
+        "beforeend",
+        t("GITHUB_SOURCE_CODE", {
+          githubProjectUrl: "https://github.com/st3v3nmw/obsidian-spaced-repetition"
+        })
+      );
+    }).addSetting((setting) => {
+      setting.infoEl.insertAdjacentHTML(
+        "beforeend",
+        t("CODE_CONTRIBUTION_INFO", {
+          codeContributionUrl: "https://stephenmwangi.com/obsidian-spaced-repetition/contributing/#code"
+        })
+      );
+    }).addSetting((setting) => {
+      setting.infoEl.insertAdjacentHTML(
+        "beforeend",
+        t("TRANSLATION_CONTRIBUTION_INFO", {
+          translationContributionUrl: "https://stephenmwangi.com/obsidian-spaced-repetition/contributing/#translating"
+        })
+      );
+    });
+    new import_obsidian21.SettingGroup(this.containerEl).setHeading(t("LOGGING")).addSetting((setting) => {
+      setting.setName(t("DISPLAY_SCHEDULING_DEBUG_INFO")).addToggle(
+        (toggle) => toggle.setValue(this.plugin.data.settings.showSchedulingDebugMessages).onChange(async (value) => {
+          this.plugin.data.settings.showSchedulingDebugMessages = value;
+          await this.plugin.savePluginData();
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("DISPLAY_PARSER_DEBUG_INFO")).addToggle(
+        (toggle) => toggle.setValue(this.plugin.data.settings.showParserDebugMessages).onChange(async (value) => {
+          this.plugin.data.settings.showParserDebugMessages = value;
+          setDebugParser(this.plugin.data.settings.showParserDebugMessages);
+          await this.plugin.savePluginData();
+        })
+      );
+    });
+  }
+};
+
+// src/ui/obsidian-ui-components/content-container/settings-page/notes-page.tsx
+var import_obsidian22 = require("obsidian");
+var NotesPage = class extends SettingsPage {
+  constructor(pageContainerEl, plugin, pageType, applySettingsUpdate, display, openPage, scrollListener) {
+    super(
+      pageContainerEl,
+      plugin,
+      pageType,
+      applySettingsUpdate,
+      display,
+      openPage,
+      scrollListener
+    );
+    new import_obsidian22.SettingGroup(this.containerEl).setHeading(t("GROUP_TAGS_FOLDERS")).addSetting((setting) => {
+      setting.setName(t("TAGS_TO_REVIEW")).setDesc(t("TAGS_TO_REVIEW_DESC")).addTextArea(
+        (text) => text.setValue(this.plugin.data.settings.tagsToReview.join(" ")).onChange((value) => {
+          applySettingsUpdate(async () => {
+            this.plugin.data.settings.tagsToReview = value.split(/\s+/);
+            await this.plugin.savePluginData();
+          });
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("FOLDERS_TO_IGNORE")).setDesc(t("FOLDERS_TO_IGNORE_DESC")).addTextArea(
+        (text) => text.setValue(this.plugin.data.settings.noteFoldersToIgnore.join("\n")).onChange((value) => {
+          this.applySettingsUpdate(async () => {
+            this.plugin.data.settings.noteFoldersToIgnore = value.split(/\n+/).map((v2) => v2.trim()).filter((v2) => v2);
+            await this.plugin.savePluginData();
+            this.display();
+          });
+        })
+      );
+    });
+    new import_obsidian22.SettingGroup(this.containerEl).setHeading(t("NOTES_REVIEW_QUEUE")).addSetting((setting) => {
+      setting.setName(t("AUTO_NEXT_NOTE")).addToggle(
+        (toggle) => toggle.setValue(this.plugin.data.settings.autoNextNote).onChange(async (value) => {
+          this.plugin.data.settings.autoNextNote = value;
+          await this.plugin.savePluginData();
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("OPEN_RANDOM_NOTE")).setDesc(t("OPEN_RANDOM_NOTE_DESC")).addToggle(
+        (toggle) => toggle.setValue(this.plugin.data.settings.openRandomNote).onChange(async (value) => {
+          this.plugin.data.settings.openRandomNote = value;
+          await this.plugin.savePluginData();
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("REVIEW_PANE_ON_STARTUP")).addToggle(
+        (toggle) => toggle.setValue(this.plugin.data.settings.enableNoteReviewPaneOnStartup).onChange(async (value) => {
+          this.plugin.data.settings.enableNoteReviewPaneOnStartup = value;
+          await this.plugin.savePluginData();
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("MAX_N_DAYS_REVIEW_QUEUE")).addExtraButton((button) => {
+        button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
+          this.plugin.data.settings.maxNDaysNotesReviewQueue = DEFAULT_SETTINGS.maxNDaysNotesReviewQueue;
+          await this.plugin.savePluginData();
+          this.display();
+        });
+      }).addText(
+        (text) => text.setValue(this.plugin.data.settings.maxNDaysNotesReviewQueue.toString()).onChange((value) => {
+          applySettingsUpdate(async () => {
+            const numValue = Number.parseInt(value);
+            if (!isNaN(numValue)) {
+              if (numValue < 1) {
+                new import_obsidian22.Notice(t("MIN_ONE_DAY"));
+                text.setValue(
+                  this.plugin.data.settings.maxNDaysNotesReviewQueue.toString()
+                );
+                return;
+              }
+              this.plugin.data.settings.maxNDaysNotesReviewQueue = numValue;
+              await this.plugin.savePluginData();
+            } else {
+              new import_obsidian22.Notice(t("VALID_NUMBER_WARNING"));
+            }
+          });
+        })
+      );
+    });
+  }
+};
+
+// src/ui/obsidian-ui-components/content-container/settings-page/scheduling-page.tsx
+var import_obsidian24 = require("obsidian");
+
+// src/delete-scheduling-data.ts
+var import_obsidian23 = require("obsidian");
+async function removeSchedulingInfo(vault, file) {
+  try {
+    await this.app.fileManager.processFrontMatter(file, (frontmatter) => {
+      delete frontmatter["sr-due"];
+      delete frontmatter["sr-interval"];
+      delete frontmatter["sr-ease"];
+    });
+    await vault.process(file, (data) => {
+      return data.replace(FLASHCARD_SCHEDULE_INFO, "");
+    });
+  } catch (e2) {
+    console.log({ filePath: file.path, error: e2 });
+  }
+}
+async function deleteAllSchedulingData() {
+  const files = this.app.vault.getMarkdownFiles();
+  for (let i2 = 0; i2 < files.length; i2++) {
+    await removeSchedulingInfo(this.app.vault, files[i2]);
+  }
+  new import_obsidian23.Notice(t("SCHEDULING_DATA_HAS_BEEN_DELETED"));
+}
+
+// src/ui/obsidian-ui-components/content-container/settings-page/scheduling-page.tsx
+var SchedulingPage = class extends SettingsPage {
+  constructor(pageContainerEl, plugin, pageType, applySettingsUpdate, display, openPage, scrollListener) {
+    super(
+      pageContainerEl,
+      plugin,
+      pageType,
+      applySettingsUpdate,
+      display,
+      openPage,
+      scrollListener
+    );
+    new import_obsidian24.SettingGroup(this.containerEl).setHeading(t("ALGORITHM")).addSetting((setting) => {
+      const algoSettingEl = setting.setName(t("ALGORITHM")).setDesc("").addDropdown(
+        (dropdown) => dropdown.addOptions({
+          "SM-2-OSR": t("SM2_OSR_VARIANT")
+        }).setValue(this.plugin.data.settings.algorithm).onChange(async (value) => {
+          this.plugin.data.settings.algorithm = value;
+          await this.plugin.savePluginData();
+        })
+      );
+      algoSettingEl.descEl.insertAdjacentHTML(
+        "beforeend",
+        t("CHECK_ALGORITHM_WIKI", {
+          algoUrl: "https://stephenmwangi.com/obsidian-spaced-repetition/algorithms/"
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("BASE_EASE")).setDesc(t("BASE_EASE_DESC")).addExtraButton((button) => {
+        button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
+          this.plugin.data.settings.baseEase = DEFAULT_SETTINGS.baseEase;
+          await this.plugin.savePluginData();
+          this.display();
+        });
+      }).addText(
+        (text) => text.setValue(this.plugin.data.settings.baseEase.toString()).onChange((value) => {
+          applySettingsUpdate(async () => {
+            const numValue = Number.parseInt(value);
+            if (!isNaN(numValue)) {
+              if (numValue < 130) {
+                new import_obsidian24.Notice(t("BASE_EASE_MIN_WARNING"));
+                text.setValue(
+                  this.plugin.data.settings.baseEase.toString()
+                );
+                return;
+              }
+              this.plugin.data.settings.baseEase = numValue;
+              await this.plugin.savePluginData();
+            } else {
+              new import_obsidian24.Notice(t("VALID_NUMBER_WARNING"));
+            }
+          });
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("LAPSE_INTERVAL_CHANGE")).setDesc(t("LAPSE_INTERVAL_CHANGE_DESC")).addExtraButton((button) => {
+        button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
+          this.plugin.data.settings.lapsesIntervalChange = DEFAULT_SETTINGS.lapsesIntervalChange;
+          await this.plugin.savePluginData();
+          this.display();
+        });
+      }).addSlider(
+        (slider) => slider.setLimits(1, 99, 1).setValue(this.plugin.data.settings.lapsesIntervalChange * 100).setDynamicTooltip().onChange(async (value) => {
+          this.plugin.data.settings.lapsesIntervalChange = value / 100;
+          await this.plugin.savePluginData();
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("EASY_BONUS")).setDesc(t("EASY_BONUS_DESC")).addExtraButton((button) => {
+        button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
+          this.plugin.data.settings.easyBonus = DEFAULT_SETTINGS.easyBonus;
+          await this.plugin.savePluginData();
+          this.display();
+        });
+      }).addText(
+        (text) => text.setValue((this.plugin.data.settings.easyBonus * 100).toString()).onChange((value) => {
+          applySettingsUpdate(async () => {
+            const numValue = Number.parseInt(value) / 100;
+            if (!isNaN(numValue)) {
+              if (numValue < 1) {
+                new import_obsidian24.Notice(t("EASY_BONUS_MIN_WARNING"));
+                text.setValue(
+                  (this.plugin.data.settings.easyBonus * 100).toString()
+                );
+                return;
+              }
+              this.plugin.data.settings.easyBonus = numValue;
+              await this.plugin.savePluginData();
+            } else {
+              new import_obsidian24.Notice(t("VALID_NUMBER_WARNING"));
+            }
+          });
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("LOAD_BALANCE")).setDesc(t("LOAD_BALANCE_DESC")).addToggle(
+        (toggle) => toggle.setValue(this.plugin.data.settings.loadBalance).onChange(async (value) => {
+          this.plugin.data.settings.loadBalance = value;
+          await this.plugin.savePluginData();
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("MAX_INTERVAL")).setDesc(t("MAX_INTERVAL_DESC")).addExtraButton((button) => {
+        button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
+          this.plugin.data.settings.maximumInterval = DEFAULT_SETTINGS.maximumInterval;
+          await this.plugin.savePluginData();
+          this.display();
+        });
+      }).addText(
+        (text) => text.setValue(this.plugin.data.settings.maximumInterval.toString()).onChange((value) => {
+          applySettingsUpdate(async () => {
+            const numValue = Number.parseInt(value);
+            if (!isNaN(numValue)) {
+              if (numValue < 1) {
+                new import_obsidian24.Notice(t("MAX_INTERVAL_MIN_WARNING"));
+                text.setValue(
+                  this.plugin.data.settings.maximumInterval.toString()
+                );
+                return;
+              }
+              this.plugin.data.settings.maximumInterval = numValue;
+              await this.plugin.savePluginData();
+            } else {
+              new import_obsidian24.Notice(t("VALID_NUMBER_WARNING"));
+            }
+          });
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("START_OF_DAY")).setDesc(t("START_OF_DAY_DESC")).addExtraButton((button) => {
+        button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
+          this.plugin.data.settings.startOfDay = DEFAULT_SETTINGS.startOfDay;
+          await this.plugin.savePluginData();
+          this.display();
+        });
+      }).addText(
+        (text) => text.setValue(this.plugin.data.settings.startOfDay).onChange((value) => {
+          applySettingsUpdate(async () => {
+            const dayBoundary = DateUtil.strToDayBoundary(value);
+            if (dayBoundary === null) {
+              new import_obsidian24.Notice(t("INVALID_START_OF_DAY_WARNING"));
+              return;
+            } else {
+              this.plugin.data.settings.startOfDay = value;
+              await this.plugin.savePluginData();
+              globalDateProvider.setDayBoundary(dayBoundary);
+              console.log("Day boundary set to", dayBoundary);
+            }
+          });
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("MAX_LINK_CONTRIB")).setDesc(t("MAX_LINK_CONTRIB_DESC")).addExtraButton((button) => {
+        button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
+          this.plugin.data.settings.maxLinkFactor = DEFAULT_SETTINGS.maxLinkFactor;
+          await this.plugin.savePluginData();
+          this.display();
+        });
+      }).addSlider(
+        (slider) => slider.setLimits(0, 100, 1).setValue(this.plugin.data.settings.maxLinkFactor * 100).setDynamicTooltip().onChange(async (value) => {
+          this.plugin.data.settings.maxLinkFactor = value / 100;
+          await this.plugin.savePluginData();
+        })
+      );
+    });
+    new import_obsidian24.SettingGroup(this.containerEl).setHeading(t("GROUP_DATA_STORAGE")).addSetting((setting) => {
+      setting.setName(t("GROUP_DATA_STORAGE")).setDesc(t("GROUP_DATA_STORAGE_DESC")).addDropdown(
+        (dropdown) => dropdown.addOptions({
+          NOTES: t("STORE_IN_NOTES")
+        }).setValue(this.plugin.data.settings.dataStore).onChange(async (value) => {
+          this.plugin.data.settings.dataStore = value;
+          await this.plugin.savePluginData();
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("INLINE_SCHEDULING_COMMENTS")).setDesc(t("INLINE_SCHEDULING_COMMENTS_DESC")).addToggle(
+        (toggle) => toggle.setValue(this.plugin.data.settings.cardCommentOnSameLine).onChange(async (value) => {
+          this.plugin.data.settings.cardCommentOnSameLine = value;
+          await this.plugin.savePluginData();
+        })
+      );
+    });
+    new import_obsidian24.SettingGroup(this.containerEl).setHeading(t("DELETE_SCHEDULING_DATA")).addSetting((setting) => {
+      setting.setName(t("DELETE_SCHEDULING_DATA")).setDesc(t("DELETE_SCHEDULING_DATA_IN_NOTES_AND_FLASHCARDS")).addButton((button) => {
+        button.setButtonText(t("DELETE")).setClass("mod-warning").onClick(async () => {
+          new ConfirmationModal(
+            this.plugin.app,
+            t("DELETE_SCHEDULING_DATA"),
+            t("CONFIRM_SCHEDULING_DATA_DELETION"),
+            t("SCHEDULING_DATA_DELETION_IN_PROGRESS"),
+            deleteAllSchedulingData
+          ).open();
+        });
+      });
+    });
+  }
+};
+
+// node_modules/.pnpm/@kurkle+color@0.3.4/node_modules/@kurkle/color/dist/color.esm.js
 function round(v2) {
   return v2 + 0.5 | 0;
 }
-var lim = (v2, l2, h6) => Math.max(Math.min(v2, h6), l2);
+var lim = (v2, l2, h4) => Math.max(Math.min(v2, h4), l2);
 function p2b(v2) {
   return lim(round(v2 * 2.55), 0, 255);
 }
@@ -13401,17 +16457,17 @@ function hexString(v2) {
   return v2 ? "#" + f2(v2.r) + f2(v2.g) + f2(v2.b) + alpha(v2.a, f2) : void 0;
 }
 var HUE_RE = /^(hsla?|hwb|hsv)\(\s*([-+.e\d]+)(?:deg)?[\s,]+([-+.e\d]+)%[\s,]+([-+.e\d]+)%(?:[\s,]+([-+.e\d]+)(%)?)?\s*\)$/;
-function hsl2rgbn(h6, s2, l2) {
+function hsl2rgbn(h4, s2, l2) {
   const a2 = s2 * Math.min(l2, 1 - l2);
-  const f2 = (n2, k = (n2 + h6 / 30) % 12) => l2 - a2 * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+  const f2 = (n2, k = (n2 + h4 / 30) % 12) => l2 - a2 * Math.max(Math.min(k - 3, 9 - k, 1), -1);
   return [f2(0), f2(8), f2(4)];
 }
-function hsv2rgbn(h6, s2, v2) {
-  const f2 = (n2, k = (n2 + h6 / 60) % 6) => v2 - v2 * s2 * Math.max(Math.min(k, 4 - k, 1), 0);
+function hsv2rgbn(h4, s2, v2) {
+  const f2 = (n2, k = (n2 + h4 / 60) % 6) => v2 - v2 * s2 * Math.max(Math.min(k, 4 - k, 1), 0);
   return [f2(5), f2(3), f2(1)];
 }
-function hwb2rgbn(h6, w2, b2) {
-  const rgb = hsl2rgbn(h6, 1, 0.5);
+function hwb2rgbn(h4, w2, b2) {
+  const rgb = hsl2rgbn(h4, 1, 0.5);
   let i2;
   if (w2 + b2 > 1) {
     i2 = 1 / (w2 + b2);
@@ -13434,36 +16490,36 @@ function hueValue(r2, g2, b2, d2, max) {
   return (r2 - g2) / d2 + 4;
 }
 function rgb2hsl(v2) {
-  const range = 255;
-  const r2 = v2.r / range;
-  const g2 = v2.g / range;
-  const b2 = v2.b / range;
+  const range2 = 255;
+  const r2 = v2.r / range2;
+  const g2 = v2.g / range2;
+  const b2 = v2.b / range2;
   const max = Math.max(r2, g2, b2);
   const min = Math.min(r2, g2, b2);
   const l2 = (max + min) / 2;
-  let h6, s2, d2;
+  let h4, s2, d2;
   if (max !== min) {
     d2 = max - min;
     s2 = l2 > 0.5 ? d2 / (2 - max - min) : d2 / (max + min);
-    h6 = hueValue(r2, g2, b2, d2, max);
-    h6 = h6 * 60 + 0.5;
+    h4 = hueValue(r2, g2, b2, d2, max);
+    h4 = h4 * 60 + 0.5;
   }
-  return [h6 | 0, s2 || 0, l2];
+  return [h4 | 0, s2 || 0, l2];
 }
 function calln(f2, a2, b2, c2) {
   return (Array.isArray(a2) ? f2(a2[0], a2[1], a2[2]) : f2(a2, b2, c2)).map(n2b);
 }
-function hsl2rgb(h6, s2, l2) {
-  return calln(hsl2rgbn, h6, s2, l2);
+function hsl2rgb(h4, s2, l2) {
+  return calln(hsl2rgbn, h4, s2, l2);
 }
-function hwb2rgb(h6, w2, b2) {
-  return calln(hwb2rgbn, h6, w2, b2);
+function hwb2rgb(h4, w2, b2) {
+  return calln(hwb2rgbn, h4, w2, b2);
 }
-function hsv2rgb(h6, s2, v2) {
-  return calln(hsv2rgbn, h6, s2, v2);
+function hsv2rgb(h4, s2, v2) {
+  return calln(hsv2rgbn, h4, s2, v2);
 }
-function hue(h6) {
-  return (h6 % 360 + 360) % 360;
+function hue(h4) {
+  return (h4 % 360 + 360) % 360;
 }
 function hueParse(str) {
   const m2 = HUE_RE.exec(str);
@@ -13475,15 +16531,15 @@ function hueParse(str) {
   if (m2[5] !== v2) {
     a2 = m2[6] ? p2b(+m2[5]) : n2b(+m2[5]);
   }
-  const h6 = hue(+m2[2]);
+  const h4 = hue(+m2[2]);
   const p1 = +m2[3] / 100;
   const p2 = +m2[4] / 100;
   if (m2[1] === "hwb") {
-    v2 = hwb2rgb(h6, p1, p2);
+    v2 = hwb2rgb(h4, p1, p2);
   } else if (m2[1] === "hsv") {
-    v2 = hsv2rgb(h6, p1, p2);
+    v2 = hsv2rgb(h4, p1, p2);
   } else {
-    v2 = hsl2rgb(h6, p1, p2);
+    v2 = hsl2rgb(h4, p1, p2);
   }
   return {
     r: v2[0],
@@ -13493,22 +16549,22 @@ function hueParse(str) {
   };
 }
 function rotate(v2, deg) {
-  var h6 = rgb2hsl(v2);
-  h6[0] = hue(h6[0] + deg);
-  h6 = hsl2rgb(h6);
-  v2.r = h6[0];
-  v2.g = h6[1];
-  v2.b = h6[2];
+  var h4 = rgb2hsl(v2);
+  h4[0] = hue(h4[0] + deg);
+  h4 = hsl2rgb(h4);
+  v2.r = h4[0];
+  v2.g = h4[1];
+  v2.b = h4[2];
 }
 function hslString(v2) {
   if (!v2) {
     return;
   }
   const a2 = rgb2hsl(v2);
-  const h6 = a2[0];
+  const h4 = a2[0];
   const s2 = n2p(a2[1]);
   const l2 = n2p(a2[2]);
-  return v2.a < 255 ? `hsla(${h6}, ${s2}%, ${l2}%, ${b2n(v2.a)})` : `hsl(${h6}, ${s2}%, ${l2}%)`;
+  return v2.a < 255 ? `hsla(${h4}, ${s2}%, ${l2}%, ${b2n(v2.a)})` : `hsl(${h4}, ${s2}%, ${l2}%)`;
 }
 var map = {
   x: "dark",
@@ -13907,7 +16963,7 @@ var Color = class _Color {
   }
 };
 
-// node_modules/.pnpm/chart.js@4.4.4/node_modules/chart.js/dist/chunks/helpers.segment.js
+// node_modules/.pnpm/chart.js@4.5.1/node_modules/chart.js/dist/chunks/helpers.dataset.js
 function noop() {
 }
 var uid = /* @__PURE__ */ (() => {
@@ -13915,7 +16971,7 @@ var uid = /* @__PURE__ */ (() => {
   return () => id++;
 })();
 function isNullOrUndef(value) {
-  return value === null || typeof value === "undefined";
+  return value === null || value === void 0;
 }
 function isArray(value) {
   if (Array.isArray && Array.isArray(value)) {
@@ -14126,11 +17182,11 @@ var sign = Math.sign;
 function almostEquals(x2, y2, epsilon) {
   return Math.abs(x2 - y2) < epsilon;
 }
-function niceNum(range) {
-  const roundedRange = Math.round(range);
-  range = almostEquals(range, roundedRange, range / 1e3) ? roundedRange : range;
-  const niceRange = Math.pow(10, Math.floor(log10(range)));
-  const fraction = range / niceRange;
+function niceNum(range2) {
+  const roundedRange = Math.round(range2);
+  range2 = almostEquals(range2, roundedRange, range2 / 1e3) ? roundedRange : range2;
+  const niceRange = Math.pow(10, Math.floor(log10(range2)));
+  const fraction = range2 / niceRange;
   const niceFraction = fraction <= 1 ? 1 : fraction <= 2 ? 2 : fraction <= 5 ? 5 : 10;
   return niceFraction * niceRange;
 }
@@ -14150,8 +17206,11 @@ function _factorize(value) {
   result.sort((a2, b2) => a2 - b2).pop();
   return result;
 }
+function isNonPrimitive(n2) {
+  return typeof n2 === "symbol" || typeof n2 === "object" && n2 !== null && !(Symbol.toPrimitive in n2 || "toString" in n2 || "valueOf" in n2);
+}
 function isNumber(n2) {
-  return !isNaN(parseFloat(n2)) && isFinite(n2);
+  return !isNonPrimitive(n2) && !isNaN(parseFloat(n2)) && isFinite(n2);
 }
 function almostWhole(x2, epsilon) {
   const rounded = Math.round(x2);
@@ -14321,14 +17380,14 @@ function _arrayUnique(items) {
   }
   return Array.from(set2);
 }
-var requestAnimFrame = function() {
+var requestAnimFrame = (function() {
   if (typeof window === "undefined") {
     return function(callback2) {
       return callback2();
     };
   }
   return window.requestAnimationFrame;
-}();
+})();
 function throttled(fn2, thisArg) {
   let argsToUse = [];
   let ticking = false;
@@ -15067,12 +18126,12 @@ function renderText(ctx, text, x2, y2, font, opts = {}) {
   ctx.restore();
 }
 function addRoundedRectPath(ctx, rect) {
-  const { x: x2, y: y2, w: w2, h: h6, radius } = rect;
+  const { x: x2, y: y2, w: w2, h: h4, radius } = rect;
   ctx.arc(x2 + radius.topLeft, y2 + radius.topLeft, radius.topLeft, 1.5 * PI, PI, true);
-  ctx.lineTo(x2, y2 + h6 - radius.bottomLeft);
-  ctx.arc(x2 + radius.bottomLeft, y2 + h6 - radius.bottomLeft, radius.bottomLeft, PI, HALF_PI, true);
-  ctx.lineTo(x2 + w2 - radius.bottomRight, y2 + h6);
-  ctx.arc(x2 + w2 - radius.bottomRight, y2 + h6 - radius.bottomRight, radius.bottomRight, HALF_PI, 0, true);
+  ctx.lineTo(x2, y2 + h4 - radius.bottomLeft);
+  ctx.arc(x2 + radius.bottomLeft, y2 + h4 - radius.bottomLeft, radius.bottomLeft, PI, HALF_PI, true);
+  ctx.lineTo(x2 + w2 - radius.bottomRight, y2 + h4);
+  ctx.arc(x2 + w2 - radius.bottomRight, y2 + h4 - radius.bottomRight, radius.bottomRight, HALF_PI, 0, true);
   ctx.lineTo(x2 + w2, y2 + radius.topRight);
   ctx.arc(x2 + w2 - radius.topRight, y2 + radius.topRight, radius.topRight, 0, -HALF_PI, true);
   ctx.lineTo(x2 + radius.topLeft, y2);
@@ -15627,10 +18686,10 @@ function getMaximumSize(canvas, bbWidth, bbHeight, aspectRatio) {
 }
 function retinaScale(chart, forceRatio, forceStyle) {
   const pixelRatio = forceRatio || 1;
-  const deviceHeight = Math.floor(chart.height * pixelRatio);
-  const deviceWidth = Math.floor(chart.width * pixelRatio);
-  chart.height = Math.floor(chart.height);
-  chart.width = Math.floor(chart.width);
+  const deviceHeight = round1(chart.height * pixelRatio);
+  const deviceWidth = round1(chart.width * pixelRatio);
+  chart.height = round1(chart.height);
+  chart.width = round1(chart.width);
   const canvas = chart.canvas;
   if (canvas.style && (forceStyle || !canvas.style.height && !canvas.style.width)) {
     canvas.style.height = `${chart.height}px`;
@@ -15645,7 +18704,7 @@ function retinaScale(chart, forceRatio, forceStyle) {
   }
   return false;
 }
-var supportsEventListenerOptions = function() {
+var supportsEventListenerOptions = (function() {
   let passiveSupported = false;
   try {
     const options = {
@@ -15661,7 +18720,7 @@ var supportsEventListenerOptions = function() {
   } catch (e2) {
   }
   return passiveSupported;
-}();
+})();
 function readUsedSize(element, property) {
   const value = getStyle(element, property);
   const matches = value && value.match(/^(\d+)(\.\d+)?px$/);
@@ -15728,8 +18787,36 @@ function restoreTextDirection(ctx, original) {
     ctx.canvas.style.setProperty("direction", original[0], original[1]);
   }
 }
+function getSizeForArea(scale, chartArea, field) {
+  return scale.options.clip ? scale[field] : chartArea[field];
+}
+function getDatasetArea(meta, chartArea) {
+  const { xScale, yScale } = meta;
+  if (xScale && yScale) {
+    return {
+      left: getSizeForArea(xScale, chartArea, "left"),
+      right: getSizeForArea(xScale, chartArea, "right"),
+      top: getSizeForArea(yScale, chartArea, "top"),
+      bottom: getSizeForArea(yScale, chartArea, "bottom")
+    };
+  }
+  return chartArea;
+}
+function getDatasetClipArea(chart, meta) {
+  const clip = meta._clip;
+  if (clip.disabled) {
+    return false;
+  }
+  const area = getDatasetArea(meta, chart.chartArea);
+  return {
+    left: clip.left === false ? 0 : area.left - (clip.left === true ? 0 : clip.left),
+    right: clip.right === false ? chart.width : area.right + (clip.right === true ? 0 : clip.right),
+    top: clip.top === false ? 0 : area.top - (clip.top === true ? 0 : clip.top),
+    bottom: clip.bottom === false ? chart.height : area.bottom + (clip.bottom === true ? 0 : clip.bottom)
+  };
+}
 
-// node_modules/.pnpm/chart.js@4.4.4/node_modules/chart.js/dist/chart.js
+// node_modules/.pnpm/chart.js@4.5.1/node_modules/chart.js/dist/chart.js
 var Animator = class {
   constructor() {
     this._request = null;
@@ -16157,9 +19244,11 @@ function applyStack(stack, value, dsIndex, options = {}) {
   if (value === null) {
     return;
   }
+  let found = false;
   for (i2 = 0, ilen = keys.length; i2 < ilen; ++i2) {
     datasetIndex = +keys[i2];
     if (datasetIndex === dsIndex) {
+      found = true;
       if (options.all) {
         continue;
       }
@@ -16169,6 +19258,9 @@ function applyStack(stack, value, dsIndex, options = {}) {
     if (isNumberFinite(otherValue) && (singleMode || value === 0 || sign(value) === sign(otherValue))) {
       value += otherValue;
     }
+  }
+  if (!found && !options.all) {
+    return 0;
   }
   return value;
 }
@@ -16410,6 +19502,7 @@ var DatasetController = class {
     this._resyncElements(resetNewElements);
     if (stackChanged || oldStacked !== meta._stacked) {
       updateStacks(this, meta._parsed);
+      meta._stacked = isStacked(meta.vScale, meta);
     }
   }
   configure() {
@@ -16519,7 +19612,7 @@ var DatasetController = class {
       mode
     });
   }
-  updateRangeFromParsed(range, scale, parsed, stack) {
+  updateRangeFromParsed(range2, scale, parsed, stack) {
     const parsedValue = parsed[scale.axis];
     let value = parsedValue === null ? NaN : parsedValue;
     const values = stack && parsed._stacks[scale.axis];
@@ -16527,8 +19620,8 @@ var DatasetController = class {
       stack.values = values;
       value = applyStack(stack, parsedValue, this._cachedMeta.index);
     }
-    range.min = Math.min(range.min, value);
-    range.max = Math.max(range.max, value);
+    range2.min = Math.min(range2.min, value);
+    range2.max = Math.max(range2.max, value);
   }
   getMinMax(scale, canStack) {
     const meta = this._cachedMeta;
@@ -16537,7 +19630,7 @@ var DatasetController = class {
     const ilen = _parsed.length;
     const otherScale = this._getOtherScale(scale);
     const stack = createStack(canStack, meta, this.chart);
-    const range = {
+    const range2 = {
       min: Number.POSITIVE_INFINITY,
       max: Number.NEGATIVE_INFINITY
     };
@@ -16552,7 +19645,7 @@ var DatasetController = class {
       if (_skip()) {
         continue;
       }
-      this.updateRangeFromParsed(range, scale, parsed, stack);
+      this.updateRangeFromParsed(range2, scale, parsed, stack);
       if (sorted) {
         break;
       }
@@ -16562,11 +19655,11 @@ var DatasetController = class {
         if (_skip()) {
           continue;
         }
-        this.updateRangeFromParsed(range, scale, parsed, stack);
+        this.updateRangeFromParsed(range2, scale, parsed, stack);
         break;
       }
     }
-    return range;
+    return range2;
   }
   getAllParsedValues(scale) {
     const parsed = this._cachedMeta._parsed;
@@ -17103,12 +20196,12 @@ var BarController = class extends DatasetController {
     }
     return parsed;
   }
-  updateRangeFromParsed(range, scale, parsed, stack) {
-    super.updateRangeFromParsed(range, scale, parsed, stack);
+  updateRangeFromParsed(range2, scale, parsed, stack) {
+    super.updateRangeFromParsed(range2, scale, parsed, stack);
     const custom = parsed._custom;
     if (custom && scale === this._cachedMeta.vScale) {
-      range.min = Math.min(range.min, custom.min);
-      range.max = Math.max(range.max, custom.max);
+      range2.min = Math.min(range2.min, custom.min);
+      range2.max = Math.max(range2.max, custom.max);
     }
   }
   getMaxOverflow() {
@@ -17201,6 +20294,22 @@ var BarController = class extends DatasetController {
   _getStackCount(index) {
     return this._getStacks(void 0, index).length;
   }
+  _getAxisCount() {
+    return this._getAxis().length;
+  }
+  getFirstScaleIdForIndexAxis() {
+    const scales = this.chart.scales;
+    const indexScaleId = this.chart.options.indexAxis;
+    return Object.keys(scales).filter((key) => scales[key].axis === indexScaleId).shift();
+  }
+  _getAxis() {
+    const axis = {};
+    const firstScaleAxisId = this.getFirstScaleIdForIndexAxis();
+    for (const dataset of this.chart.data.datasets) {
+      axis[valueOrDefault(this.chart.options.indexAxis === "x" ? dataset.xAxisID : dataset.yAxisID, firstScaleAxisId)] = true;
+    }
+    return Object.keys(axis);
+  }
   _getStackIndex(datasetIndex, name, dataIndex) {
     const stacks = this._getStacks(datasetIndex, dataIndex);
     const index = name !== void 0 ? stacks.indexOf(name) : -1;
@@ -17291,12 +20400,15 @@ var BarController = class extends DatasetController {
     const skipNull = options.skipNull;
     const maxBarThickness = valueOrDefault(options.maxBarThickness, Infinity);
     let center, size;
+    const axisCount = this._getAxisCount();
     if (ruler.grouped) {
       const stackCount = skipNull ? this._getStackCount(index) : ruler.stackCount;
-      const range = options.barThickness === "flex" ? computeFlexCategoryTraits(index, ruler, options, stackCount) : computeFitCategoryTraits(index, ruler, options, stackCount);
-      const stackIndex = this._getStackIndex(this.index, this._cachedMeta.stack, skipNull ? index : void 0);
-      center = range.start + range.chunk * stackIndex + range.chunk / 2;
-      size = Math.min(maxBarThickness, range.chunk * range.ratio);
+      const range2 = options.barThickness === "flex" ? computeFlexCategoryTraits(index, ruler, options, stackCount * axisCount) : computeFitCategoryTraits(index, ruler, options, stackCount * axisCount);
+      const axisID = this.chart.options.indexAxis === "x" ? this.getDataset().xAxisID : this.getDataset().yAxisID;
+      const axisNumber = this._getAxis().indexOf(valueOrDefault(axisID, this.getFirstScaleIdForIndexAxis()));
+      const stackIndex = this._getStackIndex(this.index, this._cachedMeta.stack, skipNull ? index : void 0) + axisNumber;
+      center = range2.start + range2.chunk * stackIndex + range2.chunk / 2;
+      size = Math.min(maxBarThickness, range2.chunk * range2.ratio);
     } else {
       center = scale.getPixelForValue(this.getParsed(index)[scale.axis], index);
       size = Math.min(maxBarThickness, ruler.min * ruler.ratio);
@@ -17628,19 +20740,24 @@ __publicField(DoughnutController, "overrides", {
       labels: {
         generateLabels(chart) {
           const data = chart.data;
+          const { labels: { pointStyle, textAlign, color: color2, useBorderRadius, borderRadius } } = chart.legend.options;
           if (data.labels.length && data.datasets.length) {
-            const { labels: { pointStyle, color: color2 } } = chart.legend.options;
             return data.labels.map((label, i2) => {
               const meta = chart.getDatasetMeta(0);
               const style = meta.controller.getStyle(i2);
               return {
                 text: label,
                 fillStyle: style.backgroundColor,
-                strokeStyle: style.borderColor,
                 fontColor: color2,
-                lineWidth: style.borderWidth,
-                pointStyle,
                 hidden: !chart.getDataVisibility(i2),
+                lineDash: style.borderDash,
+                lineDashOffset: style.borderDashOffset,
+                lineJoin: style.borderJoinStyle,
+                lineWidth: style.borderWidth,
+                strokeStyle: style.borderColor,
+                textAlign,
+                pointStyle,
+                borderRadius: useBorderRadius && (borderRadius || style.borderRadius),
                 index: i2
               };
             });
@@ -17716,16 +20833,26 @@ var adapters = {
 function binarySearch(metaset, axis, value, intersect) {
   const { controller, data, _sorted } = metaset;
   const iScale = controller._cachedMeta.iScale;
+  const spanGaps = metaset.dataset ? metaset.dataset.options ? metaset.dataset.options.spanGaps : null : null;
   if (iScale && axis === iScale.axis && axis !== "r" && _sorted && data.length) {
     const lookupMethod = iScale._reversePixels ? _rlookupByKey : _lookupByKey;
     if (!intersect) {
-      return lookupMethod(data, axis, value);
+      const result = lookupMethod(data, axis, value);
+      if (spanGaps) {
+        const { vScale } = controller._cachedMeta;
+        const { _parsed } = metaset;
+        const distanceToDefinedLo = _parsed.slice(0, result.lo + 1).reverse().findIndex((point) => !isNullOrUndef(point[vScale.axis]));
+        result.lo -= Math.max(0, distanceToDefinedLo);
+        const distanceToDefinedHi = _parsed.slice(result.hi).findIndex((point) => !isNullOrUndef(point[vScale.axis]));
+        result.hi += Math.max(0, distanceToDefinedHi);
+      }
+      return result;
     } else if (controller._sharedOptions) {
       const el = data[0];
-      const range = typeof el.getRange === "function" && el.getRange(axis);
-      if (range) {
-        const start = lookupMethod(data, axis, value - range);
-        const end = lookupMethod(data, axis, value + range);
+      const range2 = typeof el.getRange === "function" && el.getRange(axis);
+      if (range2) {
+        const start = lookupMethod(data, axis, value - range2);
+        const end = lookupMethod(data, axis, value + range2);
         return {
           lo: start.lo,
           hi: end.hi
@@ -18897,7 +22024,7 @@ var Scale = class _Scale extends Element {
   }
   getMinMax(canStack) {
     let { min, max, minDefined, maxDefined } = this.getUserBounds();
-    let range;
+    let range2;
     if (minDefined && maxDefined) {
       return {
         min,
@@ -18906,12 +22033,12 @@ var Scale = class _Scale extends Element {
     }
     const metas = this.getMatchingVisibleMetas();
     for (let i2 = 0, ilen = metas.length; i2 < ilen; ++i2) {
-      range = metas[i2].controller.getMinMax(this, canStack);
+      range2 = metas[i2].controller.getMinMax(this, canStack);
       if (!minDefined) {
-        min = Math.min(min, range.min);
+        min = Math.min(min, range2.min);
       }
       if (!maxDefined) {
-        max = Math.max(max, range.max);
+        max = Math.max(max, range2.max);
       }
     }
     min = maxDefined && min > max ? max : min;
@@ -19361,8 +22488,8 @@ var Scale = class _Scale extends Element {
     const labelSizes = this._getLabelSizes();
     const padding = optionTicks.autoSkipPadding || 0;
     const w2 = labelSizes ? labelSizes.widest.width + padding : 0;
-    const h6 = labelSizes ? labelSizes.highest.height + padding : 0;
-    return this.isHorizontal() ? h6 * cos > w2 * sin ? w2 / cos : h6 / sin : h6 * sin < w2 * cos ? h6 / cos : w2 / sin;
+    const h4 = labelSizes ? labelSizes.highest.height + padding : 0;
+    return this.isHorizontal() ? h4 * cos > w2 * sin ? w2 / cos : h4 / sin : h4 * sin < w2 * cos ? h4 / cos : w2 / sin;
   }
   _isVisible() {
     const display = this.options.display;
@@ -20149,18 +23276,22 @@ var Registry = class {
 var registry = /* @__PURE__ */ new Registry();
 var PluginService = class {
   constructor() {
-    this._init = [];
+    this._init = void 0;
   }
   notify(chart, hook, args, filter2) {
     if (hook === "beforeInit") {
       this._init = this._createDescriptors(chart, true);
       this._notify(this._init, chart, "install");
     }
+    if (this._init === void 0) {
+      return;
+    }
     const descriptors2 = filter2 ? this._descriptors(chart).filter(filter2) : this._descriptors(chart);
     const result = this._notify(descriptors2, chart, hook, args);
     if (hook === "afterDestroy") {
       this._notify(descriptors2, chart, "stop");
       this._notify(this._init, chart, "uninstall");
+      this._init = void 0;
     }
     return result;
   }
@@ -20601,7 +23732,7 @@ function needContext(proxy, names2) {
   }
   return false;
 }
-var version = "4.4.4";
+var version = "4.5.1";
 var KNOWN_POSITIONS = [
   "top",
   "bottom",
@@ -20669,21 +23800,6 @@ function determineLastEvent(e2, lastEvent, inChartArea, isClick) {
     return lastEvent;
   }
   return e2;
-}
-function getSizeForArea(scale, chartArea, field) {
-  return scale.options.clip ? scale[field] : chartArea[field];
-}
-function getDatasetArea(meta, chartArea) {
-  const { xScale, yScale } = meta;
-  if (xScale && yScale) {
-    return {
-      left: getSizeForArea(xScale, chartArea, "left"),
-      right: getSizeForArea(xScale, chartArea, "right"),
-      top: getSizeForArea(yScale, chartArea, "top"),
-      bottom: getSizeForArea(yScale, chartArea, "bottom")
-    };
-  }
-  return chartArea;
 }
 var Chart = class {
   static register(...items) {
@@ -21177,27 +24293,20 @@ var Chart = class {
   }
   _drawDataset(meta) {
     const ctx = this.ctx;
-    const clip = meta._clip;
-    const useClip = !clip.disabled;
-    const area = getDatasetArea(meta, this.chartArea);
     const args = {
       meta,
       index: meta.index,
       cancelable: true
     };
+    const clip = getDatasetClipArea(this, meta);
     if (this.notifyPlugins("beforeDatasetDraw", args) === false) {
       return;
     }
-    if (useClip) {
-      clipArea(ctx, {
-        left: clip.left === false ? 0 : area.left - clip.left,
-        right: clip.right === false ? this.width : area.right + clip.right,
-        top: clip.top === false ? 0 : area.top - clip.top,
-        bottom: clip.bottom === false ? this.height : area.bottom + clip.bottom
-      });
+    if (clip) {
+      clipArea(ctx, clip);
     }
     meta.controller.draw();
-    if (useClip) {
+    if (clip) {
       unclipArea(ctx);
     }
     args.cancelable = false;
@@ -21515,6 +24624,34 @@ __publicField(Chart, "getChart", getChart);
 function invalidatePlugins() {
   return each(Chart.instances, (chart) => chart._plugins.invalidate());
 }
+function clipSelf(ctx, element, endAngle) {
+  const { startAngle, x: x2, y: y2, outerRadius, innerRadius, options } = element;
+  const { borderWidth, borderJoinStyle } = options;
+  const outerAngleClip = Math.min(borderWidth / outerRadius, _normalizeAngle(startAngle - endAngle));
+  ctx.beginPath();
+  ctx.arc(x2, y2, outerRadius - borderWidth / 2, startAngle + outerAngleClip / 2, endAngle - outerAngleClip / 2);
+  if (innerRadius > 0) {
+    const innerAngleClip = Math.min(borderWidth / innerRadius, _normalizeAngle(startAngle - endAngle));
+    ctx.arc(x2, y2, innerRadius + borderWidth / 2, endAngle - innerAngleClip / 2, startAngle + innerAngleClip / 2, true);
+  } else {
+    const clipWidth = Math.min(borderWidth / 2, outerRadius * _normalizeAngle(startAngle - endAngle));
+    if (borderJoinStyle === "round") {
+      ctx.arc(x2, y2, clipWidth, endAngle - PI / 2, startAngle + PI / 2, true);
+    } else if (borderJoinStyle === "bevel") {
+      const r2 = 2 * clipWidth * clipWidth;
+      const endX = -r2 * Math.cos(endAngle + PI / 2) + x2;
+      const endY = -r2 * Math.sin(endAngle + PI / 2) + y2;
+      const startX = r2 * Math.cos(startAngle + PI / 2) + x2;
+      const startY = r2 * Math.sin(startAngle + PI / 2) + y2;
+      ctx.lineTo(endX, endY);
+      ctx.lineTo(startX, startY);
+    }
+  }
+  ctx.closePath();
+  ctx.moveTo(0, 0);
+  ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  ctx.clip("evenodd");
+}
 function clipArc(ctx, element, endAngle) {
   const { startAngle, pixelMargin, x: x2, y: y2, outerRadius, innerRadius } = element;
   let angleMargin = pixelMargin / outerRadius;
@@ -21641,7 +24778,7 @@ function drawArc(ctx, element, offset, spacing, circular) {
 }
 function drawBorder(ctx, element, offset, spacing, circular) {
   const { fullCircles, startAngle, circumference, options } = element;
-  const { borderWidth, borderJoinStyle, borderDash, borderDashOffset } = options;
+  const { borderWidth, borderJoinStyle, borderDash, borderDashOffset, borderRadius } = options;
   const inner = options.borderAlign === "inner";
   if (!borderWidth) {
     return;
@@ -21667,6 +24804,9 @@ function drawBorder(ctx, element, offset, spacing, circular) {
   }
   if (inner) {
     clipArc(ctx, element, endAngle);
+  }
+  if (options.selfJoin && endAngle - startAngle >= PI && borderRadius === 0 && borderJoinStyle !== "miter") {
+    clipSelf(ctx, element, endAngle);
   }
   if (!fullCircles) {
     pathArc(ctx, element, offset, spacing, endAngle, circular);
@@ -21772,7 +24912,8 @@ __publicField(ArcElement, "defaults", {
   offset: 0,
   spacing: 0,
   angle: void 0,
-  circular: true
+  circular: true,
+  selfJoin: false
 });
 __publicField(ArcElement, "defaultRoutes", {
   backgroundColor: "backgroundColor"
@@ -21885,12 +25026,12 @@ function inflateRect(rect, amount, refRect = {}) {
   const x2 = rect.x !== refRect.x ? -amount : 0;
   const y2 = rect.y !== refRect.y ? -amount : 0;
   const w2 = (rect.x + rect.w !== refRect.x + refRect.w ? amount : 0) - x2;
-  const h6 = (rect.y + rect.h !== refRect.y + refRect.h ? amount : 0) - y2;
+  const h4 = (rect.y + rect.h !== refRect.y + refRect.h ? amount : 0) - y2;
   return {
     x: rect.x + x2,
     y: rect.y + y2,
     w: rect.w + w2,
-    h: rect.h + h6,
+    h: rect.h + h4,
     radius: rect.radius
   };
 }
@@ -24057,8 +27198,8 @@ function steps(min, max, rangeExp) {
   return end - start;
 }
 function startExp(min, max) {
-  const range = max - min;
-  let rangeExp = log10Floor(range);
+  const range2 = max - min;
+  let rangeExp = log10Floor(range2);
   while (steps(min, max, rangeExp) > 10) {
     rangeExp++;
   }
@@ -24374,11 +27515,11 @@ function leftForTextAlign(x2, w2, align) {
   }
   return x2;
 }
-function yForAngle(y2, h6, angle) {
+function yForAngle(y2, h4, angle) {
   if (angle === 90 || angle === 270) {
-    y2 -= h6 / 2;
+    y2 -= h4 / 2;
   } else if (angle > 270 || angle < 90) {
-    y2 -= h6;
+    y2 -= h4;
   }
   return y2;
 }
@@ -24449,7 +27590,7 @@ function drawRadiusLine(scale, gridLineOpts, radius, labelCount, borderOpts) {
   ctx.save();
   ctx.strokeStyle = color2;
   ctx.lineWidth = lineWidth;
-  ctx.setLineDash(borderOpts.dash);
+  ctx.setLineDash(borderOpts.dash || []);
   ctx.lineDashOffset = borderOpts.dashOffset;
   ctx.beginPath();
   pathRadiusLine(scale, radius, circular, labelCount);
@@ -24476,10 +27617,10 @@ var RadialLinearScale = class extends LinearScaleBase {
   setDimensions() {
     const padding = this._padding = toPadding(getTickBackdropHeight(this.options) / 2);
     const w2 = this.width = this.maxWidth - padding.width;
-    const h6 = this.height = this.maxHeight - padding.height;
+    const h4 = this.height = this.maxHeight - padding.height;
     this.xCenter = Math.floor(this.left + w2 / 2 + padding.left);
-    this.yCenter = Math.floor(this.top + h6 / 2 + padding.top);
-    this.drawingArea = Math.floor(Math.min(w2, h6) / 2);
+    this.yCenter = Math.floor(this.top + h4 / 2 + padding.top);
+    this.drawingArea = Math.floor(Math.min(w2, h4) / 2);
   }
   determineDataLimits() {
     const { min, max } = this.getMinMax(false);
@@ -25235,11 +28376,149 @@ var TimeSeriesScale = class extends TimeScale {
 __publicField(TimeSeriesScale, "id", "timeseries");
 __publicField(TimeSeriesScale, "defaults", TimeScale.defaults);
 
+// src/ui/obsidian-ui-components/content-container/settings-page/statistics-page/statistics-page.tsx
+var import_obsidian26 = require("obsidian");
+
+// src/ui/obsidian-ui-components/content-container/settings-page/statistics-page/settings-item-override-component.tsx
+var import_obsidian25 = require("obsidian");
+var SettingsItemOverrideComponent = class extends import_obsidian25.BaseComponent {
+  constructor(parentContainerEl) {
+    super();
+    parentContainerEl.addClass("sr-setting-override");
+    this.containerEl = parentContainerEl.createDiv();
+  }
+  /**
+   * Destroys the component.
+   */
+  destroy() {
+    this.containerEl.empty();
+  }
+};
+
+// src/ui/obsidian-ui-components/content-container/settings-page/statistics-page/chart-component.tsx
+var ChartComponent = class extends SettingsItemOverrideComponent {
+  constructor(parentContainerEl, canvasId, summaryId, type, title, subtitle, labels, data, summary, seriesTitle = "", xAxisTitle = "", yAxisTitle = "") {
+    super(parentContainerEl);
+    this.containerEl.addClass("sr-chart-container");
+    this.canvasContainerEl = this.containerEl.createDiv();
+    this.canvasContainerEl.addClass("sr-chart-canvas-container");
+    this.canvasEl = this.canvasContainerEl.createEl("canvas");
+    this.canvasEl.id = canvasId;
+    this.summaryEl = this.containerEl.createDiv();
+    this.summaryEl.id = summaryId;
+    const style = getComputedStyle(document.body);
+    const textColor = style.getPropertyValue("--text-normal");
+    let scales = {};
+    let backgroundColor = ["#2196f3"];
+    if (type !== "pie") {
+      scales = {
+        x: {
+          title: {
+            display: xAxisTitle !== "",
+            text: xAxisTitle,
+            color: textColor
+          }
+        },
+        y: {
+          title: {
+            display: yAxisTitle !== "",
+            text: yAxisTitle,
+            color: textColor
+          }
+        }
+      };
+    } else {
+      backgroundColor = ["#2196f3", "#4caf50", "green"];
+    }
+    const shouldFilter = canvasId === "forecastChart" || canvasId === "intervalsChart";
+    const statsChart = new Chart(document.getElementById(canvasId), {
+      type,
+      data: {
+        labels: shouldFilter ? labels.slice(0, 31) : labels,
+        datasets: [
+          {
+            label: seriesTitle,
+            backgroundColor,
+            data: shouldFilter ? data.slice(0, 31) : data,
+            borderRadius: 4
+          }
+        ]
+      },
+      options: {
+        scales,
+        plugins: {
+          title: {
+            display: title !== "",
+            text: title,
+            font: {
+              size: 22
+            },
+            color: textColor
+          },
+          subtitle: {
+            display: subtitle !== "",
+            text: subtitle,
+            font: {
+              size: 16,
+              style: "italic"
+            },
+            color: textColor,
+            padding: { top: 0, bottom: 24 }
+          },
+          legend: {
+            display: false
+          }
+        },
+        aspectRatio: 2,
+        responsive: true,
+        animation: {
+          duration: 0
+        }
+      }
+    });
+    if (shouldFilter) {
+      const chartPeriodEl = document.getElementById("sr-chart-period");
+      chartPeriodEl.addEventListener("change", () => {
+        let filteredLabels, filteredData;
+        const chartPeriod = chartPeriodEl.value;
+        if (chartPeriod === "month") {
+          filteredLabels = labels.slice(0, 31);
+          filteredData = data.slice(0, 31);
+        } else if (chartPeriod === "quarter") {
+          filteredLabels = labels.slice(0, 91);
+          filteredData = data.slice(0, 91);
+        } else if (chartPeriod === "year") {
+          filteredLabels = labels.slice(0, 366);
+          filteredData = data.slice(0, 366);
+        } else {
+          filteredLabels = labels;
+          filteredData = data;
+        }
+        statsChart.data.labels = filteredLabels;
+        statsChart.data.datasets[0] = {
+          ...statsChart.data.datasets[0],
+          label: seriesTitle,
+          backgroundColor,
+          data: filteredData
+        };
+        statsChart.update();
+      });
+    }
+    document.getElementById(`${canvasId}Summary`).innerText = summary;
+    document.getElementById(`${canvasId}Summary`).style.textAlign = canvasId === "cardTypesChart" ? "right" : "center";
+    this.chart = statsChart;
+  }
+  destroy() {
+    if (this.chart) this.chart.destroy();
+    this.containerEl.empty();
+  }
+};
+
 // node_modules/.pnpm/gridjs@6.2.0/node_modules/gridjs/dist/gridjs.module.js
 function t2(t3, n2) {
   for (var e2 = 0; e2 < n2.length; e2++) {
     var r2 = n2[e2];
-    r2.enumerable = r2.enumerable || false, r2.configurable = true, "value" in r2 && (r2.writable = true), Object.defineProperty(t3, "symbol" == typeof (o2 = function(t4, n3) {
+    r2.enumerable = r2.enumerable || false, r2.configurable = true, "value" in r2 && (r2.writable = true), Object.defineProperty(t3, "symbol" == typeof (o2 = (function(t4, n3) {
       if ("object" != typeof t4 || null === t4) return t4;
       var e3 = t4[Symbol.toPrimitive];
       if (void 0 !== e3) {
@@ -25248,7 +28527,7 @@ function t2(t3, n2) {
         throw new TypeError("@@toPrimitive must return a primitive value.");
       }
       return String(t4);
-    }(r2.key)) ? o2 : String(o2), r2);
+    })(r2.key)) ? o2 : String(o2), r2);
   }
   var o2;
 }
@@ -25284,13 +28563,13 @@ function u(t3, n2) {
 function s(t3, n2) {
   var e2 = "undefined" != typeof Symbol && t3[Symbol.iterator] || t3["@@iterator"];
   if (e2) return (e2 = e2.call(t3)).next.bind(e2);
-  if (Array.isArray(t3) || (e2 = function(t4, n3) {
+  if (Array.isArray(t3) || (e2 = (function(t4, n3) {
     if (t4) {
       if ("string" == typeof t4) return u(t4, n3);
       var e3 = Object.prototype.toString.call(t4).slice(8, -1);
       return "Object" === e3 && t4.constructor && (e3 = t4.constructor.name), "Map" === e3 || "Set" === e3 ? Array.from(t4) : "Arguments" === e3 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(e3) ? u(t4, n3) : void 0;
     }
-  }(t3)) || n2 && t3 && "number" == typeof t3.length) {
+  })(t3)) || n2 && t3 && "number" == typeof t3.length) {
     e2 && (t3 = e2);
     var r2 = 0;
     return function() {
@@ -25300,9 +28579,9 @@ function s(t3, n2) {
   throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 var a;
-!function(t3) {
+!(function(t3) {
   t3[t3.Init = 0] = "Init", t3[t3.Loading = 1] = "Loading", t3[t3.Loaded = 2] = "Loaded", t3[t3.Rendered = 3] = "Rendered", t3[t3.Error = 4] = "Error";
-}(a || (a = {}));
+})(a || (a = {}));
 var l;
 var c;
 var f;
@@ -25364,7 +28643,7 @@ function I() {
   });
 }
 function T(t3, n2, e2, r2, o2, i2, u2, s2, a2, l2) {
-  var c2, f2, p2, d2, h6, _2, y2, g2 = r2 && r2.__k || v, b2 = g2.length;
+  var c2, f2, p2, d2, h4, _2, y2, g2 = r2 && r2.__k || v, b2 = g2.length;
   for (e2.__k = [], c2 = 0; c2 < n2.length; c2++) if (null != (d2 = e2.__k[c2] = null == (d2 = n2[c2]) || "boolean" == typeof d2 ? null : "string" == typeof d2 || "number" == typeof d2 || "bigint" == typeof d2 ? x(null, d2, null, null, d2) : Array.isArray(d2) ? x(S, { children: d2 }, null, null, null) : d2.__b > 0 ? x(d2.type, d2.props, d2.key, d2.ref ? d2.ref : null, d2.__v) : d2)) {
     if (d2.__ = e2, d2.__b = e2.__b + 1, null === (p2 = g2[c2]) || p2 && d2.key == p2.key && d2.type === p2.type) g2[c2] = void 0;
     else for (f2 = 0; f2 < b2; f2++) {
@@ -25374,7 +28653,7 @@ function T(t3, n2, e2, r2, o2, i2, u2, s2, a2, l2) {
       }
       p2 = null;
     }
-    M(t3, d2, p2 = p2 || m, o2, i2, u2, s2, a2, l2), h6 = d2.__e, (f2 = d2.ref) && p2.ref != f2 && (y2 || (y2 = []), p2.ref && y2.push(p2.ref, null, d2), y2.push(f2, d2.__c || h6, d2)), null != h6 ? (null == _2 && (_2 = h6), "function" == typeof d2.type && d2.__k === p2.__k ? d2.__d = a2 = L(d2, a2, t3) : a2 = A(t3, d2, p2, g2, h6, a2), "function" == typeof e2.type && (e2.__d = a2)) : a2 && p2.__e == a2 && a2.parentNode != t3 && (a2 = P(p2));
+    M(t3, d2, p2 = p2 || m, o2, i2, u2, s2, a2, l2), h4 = d2.__e, (f2 = d2.ref) && p2.ref != f2 && (y2 || (y2 = []), p2.ref && y2.push(p2.ref, null, d2), y2.push(f2, d2.__c || h4, d2)), null != h4 ? (null == _2 && (_2 = h4), "function" == typeof d2.type && d2.__k === p2.__k ? d2.__d = a2 = L(d2, a2, t3) : a2 = A(t3, d2, p2, g2, h4, a2), "function" == typeof e2.type && (e2.__d = a2)) : a2 && p2.__e == a2 && a2.parentNode != t3 && (a2 = P(p2));
   }
   for (e2.__e = _2, c2 = b2; c2--; ) null != g2[c2] && W(g2[c2], g2[c2]);
   if (y2) for (c2 = 0; c2 < y2.length; c2++) U(y2[c2], y2[++c2], y2[++c2]);
@@ -25421,12 +28700,12 @@ function D(t3) {
   this.l[t3.type + true](c.event ? c.event(t3) : t3);
 }
 function M(t3, n2, e2, r2, o2, i2, u2, s2, a2) {
-  var l2, f2, p2, d2, h6, _2, m2, v2, y2, b2, w2, x2, k, P2, C2, E2 = n2.type;
+  var l2, f2, p2, d2, h4, _2, m2, v2, y2, b2, w2, x2, k, P2, C2, E2 = n2.type;
   if (void 0 !== n2.constructor) return null;
   null != e2.__h && (a2 = e2.__h, s2 = n2.__e = e2.__e, n2.__h = null, i2 = [s2]), (l2 = c.__b) && l2(n2);
   try {
     t: if ("function" == typeof E2) {
-      if (v2 = n2.props, y2 = (l2 = E2.contextType) && r2[l2.__c], b2 = l2 ? y2 ? y2.props.value : l2.__ : r2, e2.__c ? m2 = (f2 = n2.__c = e2.__c).__ = f2.__E : ("prototype" in E2 && E2.prototype.render ? n2.__c = f2 = new E2(v2, b2) : (n2.__c = f2 = new N(v2, b2), f2.constructor = E2, f2.render = B), y2 && y2.sub(f2), f2.props = v2, f2.state || (f2.state = {}), f2.context = b2, f2.__n = r2, p2 = f2.__d = true, f2.__h = [], f2._sb = []), null == f2.__s && (f2.__s = f2.state), null != E2.getDerivedStateFromProps && (f2.__s == f2.state && (f2.__s = g({}, f2.__s)), g(f2.__s, E2.getDerivedStateFromProps(v2, f2.__s))), d2 = f2.props, h6 = f2.state, p2) null == E2.getDerivedStateFromProps && null != f2.componentWillMount && f2.componentWillMount(), null != f2.componentDidMount && f2.__h.push(f2.componentDidMount);
+      if (v2 = n2.props, y2 = (l2 = E2.contextType) && r2[l2.__c], b2 = l2 ? y2 ? y2.props.value : l2.__ : r2, e2.__c ? m2 = (f2 = n2.__c = e2.__c).__ = f2.__E : ("prototype" in E2 && E2.prototype.render ? n2.__c = f2 = new E2(v2, b2) : (n2.__c = f2 = new N(v2, b2), f2.constructor = E2, f2.render = B), y2 && y2.sub(f2), f2.props = v2, f2.state || (f2.state = {}), f2.context = b2, f2.__n = r2, p2 = f2.__d = true, f2.__h = [], f2._sb = []), null == f2.__s && (f2.__s = f2.state), null != E2.getDerivedStateFromProps && (f2.__s == f2.state && (f2.__s = g({}, f2.__s)), g(f2.__s, E2.getDerivedStateFromProps(v2, f2.__s))), d2 = f2.props, h4 = f2.state, p2) null == E2.getDerivedStateFromProps && null != f2.componentWillMount && f2.componentWillMount(), null != f2.componentDidMount && f2.__h.push(f2.componentDidMount);
       else {
         if (null == E2.getDerivedStateFromProps && v2 !== d2 && null != f2.componentWillReceiveProps && f2.componentWillReceiveProps(v2, b2), !f2.__e && null != f2.shouldComponentUpdate && false === f2.shouldComponentUpdate(v2, f2.__s, b2) || n2.__v === e2.__v) {
           for (f2.props = v2, f2.state = f2.__s, n2.__v !== e2.__v && (f2.__d = false), f2.__v = n2, n2.__e = e2.__e, n2.__k = e2.__k, n2.__k.forEach(function(t4) {
@@ -25436,7 +28715,7 @@ function M(t3, n2, e2, r2, o2, i2, u2, s2, a2) {
           break t;
         }
         null != f2.componentWillUpdate && f2.componentWillUpdate(v2, f2.__s, b2), null != f2.componentDidUpdate && f2.__h.push(function() {
-          f2.componentDidUpdate(d2, h6, _2);
+          f2.componentDidUpdate(d2, h4, _2);
         });
       }
       if (f2.context = b2, f2.props = v2, f2.__v = n2, f2.__P = t3, x2 = c.__r, k = 0, "prototype" in E2 && E2.prototype.render) {
@@ -25445,7 +28724,7 @@ function M(t3, n2, e2, r2, o2, i2, u2, s2, a2) {
       } else do {
         f2.__d = false, x2 && x2(n2), l2 = f2.render(f2.props, f2.state, f2.context), f2.state = f2.__s;
       } while (f2.__d && ++k < 25);
-      f2.state = f2.__s, null != f2.getChildContext && (r2 = g(g({}, r2), f2.getChildContext())), p2 || null == f2.getSnapshotBeforeUpdate || (_2 = f2.getSnapshotBeforeUpdate(d2, h6)), C2 = null != l2 && l2.type === S && null == l2.key ? l2.props.children : l2, T(t3, Array.isArray(C2) ? C2 : [C2], n2, e2, r2, o2, i2, u2, s2, a2), f2.base = n2.__e, n2.__h = null, f2.__h.length && u2.push(f2), m2 && (f2.__E = f2.__ = null), f2.__e = false;
+      f2.state = f2.__s, null != f2.getChildContext && (r2 = g(g({}, r2), f2.getChildContext())), p2 || null == f2.getSnapshotBeforeUpdate || (_2 = f2.getSnapshotBeforeUpdate(d2, h4)), C2 = null != l2 && l2.type === S && null == l2.key ? l2.props.children : l2, T(t3, Array.isArray(C2) ? C2 : [C2], n2, e2, r2, o2, i2, u2, s2, a2), f2.base = n2.__e, n2.__h = null, f2.__h.length && u2.push(f2), m2 && (f2.__E = f2.__ = null), f2.__e = false;
     } else null == i2 && n2.__v === e2.__v ? (n2.__k = e2.__k, n2.__e = e2.__e) : n2.__e = R(e2.__e, n2, e2, r2, o2, i2, u2, a2);
     (l2 = c.diffed) && l2(n2);
   } catch (t4) {
@@ -25464,30 +28743,30 @@ function F(t3, n2) {
   });
 }
 function R(t3, n2, e2, r2, o2, i2, u2, s2) {
-  var a2, c2, f2, p2 = e2.props, d2 = n2.props, h6 = n2.type, _2 = 0;
-  if ("svg" === h6 && (o2 = true), null != i2) {
-    for (; _2 < i2.length; _2++) if ((a2 = i2[_2]) && "setAttribute" in a2 == !!h6 && (h6 ? a2.localName === h6 : 3 === a2.nodeType)) {
+  var a2, c2, f2, p2 = e2.props, d2 = n2.props, h4 = n2.type, _2 = 0;
+  if ("svg" === h4 && (o2 = true), null != i2) {
+    for (; _2 < i2.length; _2++) if ((a2 = i2[_2]) && "setAttribute" in a2 == !!h4 && (h4 ? a2.localName === h4 : 3 === a2.nodeType)) {
       t3 = a2, i2[_2] = null;
       break;
     }
   }
   if (null == t3) {
-    if (null === h6) return document.createTextNode(d2);
-    t3 = o2 ? document.createElementNS("http://www.w3.org/2000/svg", h6) : document.createElement(h6, d2.is && d2), i2 = null, s2 = false;
+    if (null === h4) return document.createTextNode(d2);
+    t3 = o2 ? document.createElementNS("http://www.w3.org/2000/svg", h4) : document.createElement(h4, d2.is && d2), i2 = null, s2 = false;
   }
-  if (null === h6) p2 === d2 || s2 && t3.data === d2 || (t3.data = d2);
+  if (null === h4) p2 === d2 || s2 && t3.data === d2 || (t3.data = d2);
   else {
     if (i2 = i2 && l.call(t3.childNodes), c2 = (p2 = e2.props || m).dangerouslySetInnerHTML, f2 = d2.dangerouslySetInnerHTML, !s2) {
       if (null != i2) for (p2 = {}, _2 = 0; _2 < t3.attributes.length; _2++) p2[t3.attributes[_2].name] = t3.attributes[_2].value;
       (f2 || c2) && (f2 && (c2 && f2.__html == c2.__html || f2.__html === t3.innerHTML) || (t3.innerHTML = f2 && f2.__html || ""));
     }
-    if (function(t4, n3, e3, r3, o3) {
+    if ((function(t4, n3, e3, r3, o3) {
       var i3;
       for (i3 in e3) "children" === i3 || "key" === i3 || i3 in n3 || H(t4, i3, null, e3[i3], r3);
       for (i3 in n3) o3 && "function" != typeof n3[i3] || "children" === i3 || "key" === i3 || "value" === i3 || "checked" === i3 || e3[i3] === n3[i3] || H(t4, i3, n3[i3], e3[i3], r3);
-    }(t3, d2, p2, o2, s2), f2) n2.__k = [];
-    else if (_2 = n2.props.children, T(t3, Array.isArray(_2) ? _2 : [_2], n2, e2, r2, o2 && "foreignObject" !== h6, i2, u2, i2 ? i2[0] : e2.__k && P(e2, 0), s2), null != i2) for (_2 = i2.length; _2--; ) null != i2[_2] && b(i2[_2]);
-    s2 || ("value" in d2 && void 0 !== (_2 = d2.value) && (_2 !== t3.value || "progress" === h6 && !_2 || "option" === h6 && _2 !== p2.value) && H(t3, "value", _2, p2.value, false), "checked" in d2 && void 0 !== (_2 = d2.checked) && _2 !== t3.checked && H(t3, "checked", _2, p2.checked, false));
+    })(t3, d2, p2, o2, s2), f2) n2.__k = [];
+    else if (_2 = n2.props.children, T(t3, Array.isArray(_2) ? _2 : [_2], n2, e2, r2, o2 && "foreignObject" !== h4, i2, u2, i2 ? i2[0] : e2.__k && P(e2, 0), s2), null != i2) for (_2 = i2.length; _2--; ) null != i2[_2] && b(i2[_2]);
+    s2 || ("value" in d2 && void 0 !== (_2 = d2.value) && (_2 !== t3.value || "progress" === h4 && !_2 || "option" === h4 && _2 !== p2.value) && H(t3, "value", _2, p2.value, false), "checked" in d2 && void 0 !== (_2 = d2.checked) && _2 !== t3.checked && H(t3, "checked", _2, p2.checked, false));
   }
   return t3;
 }
@@ -25539,14 +28818,14 @@ l = v.slice, c = { __e: function(t3, n2, e2, r2) {
 }, N.prototype.forceUpdate = function(t3) {
   this.__v && (this.__e = true, t3 && this.__h.push(t3), E(this));
 }, N.prototype.render = S, d = [], I.__r = 0, _ = 0;
-var V = /* @__PURE__ */ function() {
+var V = /* @__PURE__ */ (function() {
   function t3(t4) {
     this._id = void 0, this._id = t4 || z();
   }
   return n(t3, [{ key: "id", get: function() {
     return this._id;
   } }]), t3;
-}();
+})();
 function $(t3) {
   return w(t3.parentElement || "span", { dangerouslySetInnerHTML: { __html: t3.content } });
 }
@@ -25554,7 +28833,7 @@ function G(t3, n2) {
   return w($, { content: t3, parentElement: n2 });
 }
 var K;
-var X = /* @__PURE__ */ function(t3) {
+var X = /* @__PURE__ */ (function(t3) {
   function n2(n3) {
     var e3;
     return (e3 = t3.call(this) || this).data = void 0, e3.update(n3), e3;
@@ -25566,8 +28845,8 @@ var X = /* @__PURE__ */ function(t3) {
   }, e2.update = function(t4) {
     return this.data = this.cast(t4), this;
   }, n2;
-}(V);
-var Z = /* @__PURE__ */ function(t3) {
+})(V);
+var Z = /* @__PURE__ */ (function(t3) {
   function e2(n2) {
     var e3;
     return (e3 = t3.call(this) || this)._cells = void 0, e3.cells = n2 || [], e3;
@@ -25591,8 +28870,8 @@ var Z = /* @__PURE__ */ function(t3) {
   } }, { key: "length", get: function() {
     return this.cells.length;
   } }]), e2;
-}(V);
-var J = /* @__PURE__ */ function(t3) {
+})(V);
+var J = /* @__PURE__ */ (function(t3) {
   function e2(n2) {
     var e3;
     return (e3 = t3.call(this) || this)._rows = void 0, e3._length = void 0, e3.rows = n2 instanceof Array ? n2 : n2 instanceof Z ? [n2] : [], e3;
@@ -25606,9 +28885,9 @@ var J = /* @__PURE__ */ function(t3) {
       return Z.fromCells(t5.cells);
     }));
   }, e2.fromArray = function(t4) {
-    return new e2((t4 = function(t5) {
+    return new e2((t4 = (function(t5) {
       return !t5[0] || t5[0] instanceof Array ? t5 : [t5];
-    }(t4)).map(function(t5) {
+    })(t4)).map(function(t5) {
       return new Z(t5.map(function(t6) {
         return new X(t6);
       }));
@@ -25622,8 +28901,8 @@ var J = /* @__PURE__ */ function(t3) {
   }, set: function(t4) {
     this._length = t4;
   } }]), e2;
-}(V);
-var Q = /* @__PURE__ */ function() {
+})(V);
+var Q = /* @__PURE__ */ (function() {
   function t3() {
     this.callbacks = void 0;
   }
@@ -25645,7 +28924,7 @@ var Q = /* @__PURE__ */ function() {
       return t5.apply(void 0, [].slice.call(n3, 1));
     }), true);
   }, t3;
-}();
+})();
 function Y(t3, n2) {
   if (typeof t3 != typeof n2) return false;
   if (null === t3 && null === n2) return true;
@@ -25664,10 +28943,10 @@ function Y(t3, n2) {
   }
   return true;
 }
-!function(t3) {
+!(function(t3) {
   t3[t3.Initiator = 0] = "Initiator", t3[t3.ServerFilter = 1] = "ServerFilter", t3[t3.ServerSort = 2] = "ServerSort", t3[t3.ServerLimit = 3] = "ServerLimit", t3[t3.Extractor = 4] = "Extractor", t3[t3.Transformer = 5] = "Transformer", t3[t3.Filter = 6] = "Filter", t3[t3.Sort = 7] = "Sort", t3[t3.Limit = 8] = "Limit";
-}(K || (K = {}));
-var tt = /* @__PURE__ */ function(t3) {
+})(K || (K = {}));
+var tt = /* @__PURE__ */ (function(t3) {
   function o2(n2) {
     var e2;
     return (e2 = t3.call(this) || this).id = void 0, e2._props = void 0, e2._props = {}, e2.id = z(), n2 && e2.setProps(n2), e2;
@@ -25685,8 +28964,8 @@ var tt = /* @__PURE__ */ function(t3) {
   }, n(o2, [{ key: "props", get: function() {
     return this._props;
   } }]), o2;
-}(Q);
-var nt = /* @__PURE__ */ function(t3) {
+})(Q);
+var nt = /* @__PURE__ */ (function(t3) {
   function e2() {
     return t3.apply(this, arguments) || this;
   }
@@ -25708,7 +28987,7 @@ var nt = /* @__PURE__ */ function(t3) {
   }, n(e2, [{ key: "type", get: function() {
     return K.Filter;
   } }]), e2;
-}(tt);
+})(tt);
 function et() {
   var t3 = "gridjs";
   return "" + t3 + [].slice.call(arguments).reduce(function(t4, n2) {
@@ -25728,7 +29007,7 @@ var ot;
 var it;
 var ut;
 var st;
-var at = /* @__PURE__ */ function(t3) {
+var at = /* @__PURE__ */ (function(t3) {
   function o2() {
     return t3.apply(this, arguments) || this;
   }
@@ -25739,7 +29018,7 @@ var at = /* @__PURE__ */ function(t3) {
   }, n(o2, [{ key: "type", get: function() {
     return K.ServerFilter;
   } }]), o2;
-}(tt);
+})(tt);
 var lt = 0;
 var ct = [];
 var ft = [];
@@ -25754,7 +29033,7 @@ function vt(t3, n2) {
   return t3 >= e2.__.length && e2.__.push({ __V: ft }), e2.__[t3];
 }
 function yt(t3) {
-  return lt = 1, function(t4, n2, e2) {
+  return lt = 1, (function(t4, n2, e2) {
     var r2 = vt(ot++, 2);
     if (r2.t = t4, !r2.__c && (r2.__ = [Et(void 0, n2), function(t5) {
       var n3 = r2.__N ? r2.__N[0] : r2.__[0], e3 = r2.t(n3, t5);
@@ -25780,7 +29059,7 @@ function yt(t3) {
       };
     }
     return r2.__N || r2.__;
-  }(Et, t3);
+  })(Et, t3);
 }
 function gt(t3, n2) {
   var e2 = vt(ot++, 3);
@@ -25863,17 +29142,17 @@ function Et(t3, n2) {
   return "function" == typeof n2 ? n2(t3) : n2;
 }
 function It() {
-  return function(t3) {
+  return (function(t3) {
     var n2 = it.context[t3.__c], e2 = vt(ot++, 9);
     return e2.c = t3, n2 ? (null == e2.__ && (e2.__ = true, n2.sub(it)), n2.props.value) : t3.__;
-  }(fn);
+  })(fn);
 }
 var Tt = { search: { placeholder: "Type a keyword..." }, sort: { sortAsc: "Sort column ascending", sortDesc: "Sort column descending" }, pagination: { previous: "Previous", next: "Next", navigate: function(t3, n2) {
   return "Page " + t3 + " of " + n2;
 }, page: function(t3) {
   return "Page " + t3;
 }, showing: "Showing", of: "of", to: "to", results: "results" }, loading: "Loading...", noRecordsFound: "No matching records found", error: "An error happened while fetching the data" };
-var Lt = /* @__PURE__ */ function() {
+var Lt = /* @__PURE__ */ (function() {
   function t3(t4) {
     this._language = void 0, this._defaultLanguage = void 0, this._language = t4, this._defaultLanguage = Tt;
   }
@@ -25892,7 +29171,7 @@ var Lt = /* @__PURE__ */ function() {
     var n3, e2 = this.getString(t4, this._language);
     return (n3 = e2 || this.getString(t4, this._defaultLanguage)) ? n3.apply(void 0, [].slice.call(arguments, 1)) : t4;
   }, t3;
-}();
+})();
 function At() {
   var t3 = It();
   return function(n2) {
@@ -25930,11 +29209,11 @@ function Dt() {
       return o2.pipeline.unregister(e2);
     };
   }, [o2, e2]);
-  var l2, c2, f2, p2 = function(t4, n3) {
+  var l2, c2, f2, p2 = (function(t4, n3) {
     return lt = 8, wt(function() {
       return t4;
     }, n3);
-  }((l2 = function(t4) {
+  })((l2 = function(t4) {
     t4.target instanceof HTMLInputElement && s2(Ot(t4.target.value));
   }, c2 = e2 instanceof at ? i2.debounceTimeout || 250 : 0, function() {
     var t4 = arguments;
@@ -25946,7 +29225,7 @@ function Dt() {
   }), [i2, e2]);
   return w("div", { className: et(rt("search", null == (t3 = o2.className) ? void 0 : t3.search)) }, w("input", { type: "search", placeholder: u2("search.placeholder"), "aria-label": u2("search.placeholder"), onInput: p2, className: rt(et("input"), et("search", "input")), defaultValue: (null == a2 ? void 0 : a2.keyword) || "" }));
 }
-var Mt = /* @__PURE__ */ function(t3) {
+var Mt = /* @__PURE__ */ (function(t3) {
   function e2() {
     return t3.apply(this, arguments) || this;
   }
@@ -25960,8 +29239,8 @@ var Mt = /* @__PURE__ */ function(t3) {
   }, n(e2, [{ key: "type", get: function() {
     return K.Limit;
   } }]), e2;
-}(tt);
-var Ft = /* @__PURE__ */ function(t3) {
+})(tt);
+var Ft = /* @__PURE__ */ (function(t3) {
   function o2() {
     return t3.apply(this, arguments) || this;
   }
@@ -25971,9 +29250,9 @@ var Ft = /* @__PURE__ */ function(t3) {
   }, n(o2, [{ key: "type", get: function() {
     return K.ServerLimit;
   } }]), o2;
-}(tt);
+})(tt);
 function Rt() {
-  var t3 = It(), n2 = t3.pagination, e2 = n2.server, r2 = n2.summary, o2 = void 0 === r2 || r2, i2 = n2.nextButton, u2 = void 0 === i2 || i2, s2 = n2.prevButton, a2 = void 0 === s2 || s2, l2 = n2.buttonsCount, c2 = void 0 === l2 ? 3 : l2, f2 = n2.limit, p2 = void 0 === f2 ? 10 : f2, d2 = n2.page, h6 = void 0 === d2 ? 0 : d2, _2 = n2.resetPageOnUpdate, m2 = void 0 === _2 || _2, v2 = bt(null), y2 = yt(h6), g2 = y2[0], b2 = y2[1], x2 = yt(0), k = x2[0], N2 = x2[1], P2 = At();
+  var t3 = It(), n2 = t3.pagination, e2 = n2.server, r2 = n2.summary, o2 = void 0 === r2 || r2, i2 = n2.nextButton, u2 = void 0 === i2 || i2, s2 = n2.prevButton, a2 = void 0 === s2 || s2, l2 = n2.buttonsCount, c2 = void 0 === l2 ? 3 : l2, f2 = n2.limit, p2 = void 0 === f2 ? 10 : f2, d2 = n2.page, h4 = void 0 === d2 ? 0 : d2, _2 = n2.resetPageOnUpdate, m2 = void 0 === _2 || _2, v2 = bt(null), y2 = yt(h4), g2 = y2[0], b2 = y2[1], x2 = yt(0), k = x2[0], N2 = x2[1], P2 = At();
   gt(function() {
     return e2 ? (v2.current = new Ft({ limit: p2, page: g2, url: e2.url, body: e2.body }), t3.pipeline.register(v2.current)) : (v2.current = new Mt({ limit: p2, page: g2 }), t3.pipeline.register(v2.current)), v2.current instanceof Ft ? t3.pipeline.on("afterProcess", function(t4) {
       return N2(t4.length);
@@ -25995,7 +29274,7 @@ function Rt() {
   };
   return w("div", { className: rt(et("pagination"), t3.className.pagination) }, w(S, null, o2 && k > 0 && w("div", { role: "status", "aria-live": "polite", className: rt(et("summary"), t3.className.paginationSummary), title: P2("pagination.navigate", g2 + 1, E2()) }, P2("pagination.showing"), " ", w("b", null, P2("" + (g2 * p2 + 1))), " ", P2("pagination.to"), " ", w("b", null, P2("" + Math.min((g2 + 1) * p2, k))), " ", P2("pagination.of"), " ", w("b", null, P2("" + k)), " ", P2("pagination.results"))), w("div", { className: et("pages") }, a2 && w("button", { tabIndex: 0, role: "button", disabled: 0 === g2, onClick: function() {
     return I2(g2 - 1);
-  }, title: P2("pagination.previous"), "aria-label": P2("pagination.previous"), className: rt(t3.className.paginationButton, t3.className.paginationButtonPrev) }, P2("pagination.previous")), function() {
+  }, title: P2("pagination.previous"), "aria-label": P2("pagination.previous"), className: rt(t3.className.paginationButton, t3.className.paginationButtonPrev) }, P2("pagination.previous")), (function() {
     if (c2 <= 0) return null;
     var n3 = Math.min(E2(), c2), e3 = Math.min(g2, Math.floor(n3 / 2));
     return g2 + Math.floor(n3 / 2) >= E2() && (e3 = n3 - (E2() - g2)), w(S, null, E2() > n3 && g2 - e3 > 0 && w(S, null, w("button", { tabIndex: 0, role: "button", onClick: function() {
@@ -26009,7 +29288,7 @@ function Rt() {
     }), E2() > n3 && E2() > g2 + e3 + 1 && w(S, null, w("button", { tabIndex: -1, className: rt(et("spread"), t3.className.paginationButton) }, "..."), w("button", { tabIndex: 0, role: "button", onClick: function() {
       return I2(E2() - 1);
     }, title: P2("pagination.page", E2()), "aria-label": P2("pagination.page", E2()), className: t3.className.paginationButton }, P2("" + E2()))));
-  }(), u2 && w("button", { tabIndex: 0, role: "button", disabled: E2() === g2 + 1 || 0 === E2(), onClick: function() {
+  })(), u2 && w("button", { tabIndex: 0, role: "button", disabled: E2() === g2 + 1 || 0 === E2(), onClick: function() {
     return I2(g2 + 1);
   }, title: P2("pagination.next"), "aria-label": P2("pagination.next"), className: rt(t3.className.paginationButton, t3.className.paginationButtonNext) }, P2("pagination.next"))));
 }
@@ -26033,7 +29312,7 @@ function qt(t3) {
   }).join("");
 }
 var zt;
-var Vt = new (/* @__PURE__ */ function() {
+var Vt = new (/* @__PURE__ */ (function() {
   function t3() {
   }
   var n2 = t3.prototype;
@@ -26049,11 +29328,11 @@ var Vt = new (/* @__PURE__ */ function() {
   }, n2.info = function(t4) {
     console.info(this.format(t4, "info"));
   }, t3;
-}())();
-!function(t3) {
+})())();
+!(function(t3) {
   t3[t3.Header = 0] = "Header", t3[t3.Footer = 1] = "Footer", t3[t3.Cell = 2] = "Cell";
-}(zt || (zt = {}));
-var $t = /* @__PURE__ */ function() {
+})(zt || (zt = {}));
+var $t = /* @__PURE__ */ (function() {
   function t3() {
     this.plugins = void 0, this.plugins = [];
   }
@@ -26075,7 +29354,7 @@ var $t = /* @__PURE__ */ function() {
       return t5.order && n4.order ? t5.order - n4.order : 1;
     });
   }, t3;
-}();
+})();
 function Gt(t3) {
   var n2 = this, r2 = It();
   if (t3.pluginId) {
@@ -26086,7 +29365,7 @@ function Gt(t3) {
     return w(t4.component, e({ plugin: t4 }, n2.props.props));
   })) : null;
 }
-var Kt = /* @__PURE__ */ function(t3) {
+var Kt = /* @__PURE__ */ (function(t3) {
   function o2() {
     var n2;
     return (n2 = t3.call(this) || this)._columns = void 0, n2._columns = [], n2;
@@ -26097,7 +29376,7 @@ var Kt = /* @__PURE__ */ function(t3) {
     var i3 = t4.container, u2 = t4.autoWidth;
     if (!i3) return this;
     var a2 = i3.clientWidth, l2 = {};
-    n2.current && u2 && (q(w(Bt, { tableRef: n2.current }), r2.current), l2 = function(t5) {
+    n2.current && u2 && (q(w(Bt, { tableRef: n2.current }), r2.current), l2 = (function(t5) {
       var n3 = t5.querySelector("table");
       if (!n3) return {};
       var r3 = n3.className, o3 = n3.style.cssText;
@@ -26109,7 +29388,7 @@ var Kt = /* @__PURE__ */ function(t3) {
       return n3.className = r3, n3.style.cssText = o3, n3.style.tableLayout = "auto", Array.from(n3.parentNode.querySelectorAll("thead th")).reduce(function(t6, n4) {
         return t6[n4.getAttribute("data-column-id")].width = n4.clientWidth, t6;
       }, i4);
-    }(r2.current));
+    })(r2.current));
     for (var c2, f2 = s(o2.tabularFormat(this.columns).reduce(function(t5, n3) {
       return t5.concat(n3);
     }, [])); !(c2 = f2()).done; ) {
@@ -26187,10 +29466,10 @@ var Kt = /* @__PURE__ */ function(t3) {
       return !t4.hidden;
     });
   } }]), o2;
-}(V);
+})(V);
 var Xt = function() {
 };
-var Zt = /* @__PURE__ */ function(t3) {
+var Zt = /* @__PURE__ */ (function(t3) {
   function n2(n3) {
     var e3;
     return (e3 = t3.call(this) || this).data = void 0, e3.set(n3), e3;
@@ -26210,8 +29489,8 @@ var Zt = /* @__PURE__ */ function(t3) {
       return t4;
     } : t4 instanceof Function && (this.data = t4), this;
   }, n2;
-}(Xt);
-var Jt = /* @__PURE__ */ function(t3) {
+})(Xt);
+var Jt = /* @__PURE__ */ (function(t3) {
   function n2(n3) {
     var e2;
     return (e2 = t3.call(this) || this).options = void 0, e2.options = n3, e2;
@@ -26226,8 +29505,8 @@ var Jt = /* @__PURE__ */ function(t3) {
       return { data: n3.then(t5), total: "function" == typeof n3.total ? n3.total(t5) : void 0 };
     });
   }, n2;
-}(Xt);
-var Qt = /* @__PURE__ */ function() {
+})(Xt);
+var Qt = /* @__PURE__ */ (function() {
   function t3() {
   }
   return t3.createFromConfig = function(t4) {
@@ -26243,8 +29522,8 @@ var Qt = /* @__PURE__ */ function() {
     }
     return r2;
   }, t3;
-}();
-var Yt = "undefined" != typeof Symbol ? Symbol.iterator || (Symbol.iterator = Symbol("Symbol.iterator")) : "@@iterator";
+})();
+var Yt = "undefined" != typeof Symbol ? Symbol.iterator || (Symbol.iterator = /* @__PURE__ */ Symbol("Symbol.iterator")) : "@@iterator";
 function tn(t3, n2, e2) {
   if (!t3.s) {
     if (e2 instanceof nn) {
@@ -26257,7 +29536,7 @@ function tn(t3, n2, e2) {
     r2 && r2(t3);
   }
 }
-var nn = /* @__PURE__ */ function() {
+var nn = /* @__PURE__ */ (function() {
   function t3() {
   }
   return t3.prototype.then = function(n2, e2) {
@@ -26283,11 +29562,11 @@ var nn = /* @__PURE__ */ function() {
       }
     }, r2;
   }, t3;
-}();
+})();
 function en(t3) {
   return t3 instanceof nn && 1 & t3.s;
 }
-var rn = /* @__PURE__ */ function(t3) {
+var rn = /* @__PURE__ */ (function(t3) {
   function e2(n2) {
     var e3;
     return (e3 = t3.call(this) || this)._steps = /* @__PURE__ */ new Map(), e3.cache = /* @__PURE__ */ new Map(), e3.lastProcessorIndexUpdated = -1, n2 && n2.forEach(function(t4) {
@@ -26341,12 +29620,12 @@ var rn = /* @__PURE__ */ function(t3) {
     try {
       var n2 = function(t5) {
         return e3.lastProcessorIndexUpdated = o3.length, e3.emit("afterProcess", i2), i2;
-      }, e3 = this, r2 = e3.lastProcessorIndexUpdated, o3 = e3.steps, i2 = t4, u2 = function(t5, n3) {
+      }, e3 = this, r2 = e3.lastProcessorIndexUpdated, o3 = e3.steps, i2 = t4, u2 = (function(t5, n3) {
         try {
-          var u3 = function(t6, n4, e4) {
+          var u3 = (function(t6, n4, e4) {
             if ("function" == typeof t6[Yt]) {
               var r3, o4, i3, u4 = t6[Yt]();
-              if (function t7(e5) {
+              if ((function t7(e5) {
                 try {
                   for (; !(r3 = u4.next()).done; ) if ((e5 = n4(r3.value)) && e5.then) {
                     if (!en(e5)) return void e5.then(t7, i3 || (i3 = tn.bind(null, o4 = new nn(), 2)));
@@ -26356,7 +29635,7 @@ var rn = /* @__PURE__ */ function(t3) {
                 } catch (t8) {
                   tn(o4 || (o4 = new nn()), 2, t8);
                 }
-              }(), u4.return) {
+              })(), u4.return) {
                 var s2 = function(t7) {
                   try {
                     r3.done || u4.return();
@@ -26373,9 +29652,9 @@ var rn = /* @__PURE__ */ function(t3) {
             }
             if (!("length" in t6)) throw new TypeError("Object is not iterable");
             for (var a2 = [], l2 = 0; l2 < t6.length; l2++) a2.push(t6[l2]);
-            return function(t7, n5, e5) {
+            return (function(t7, n5, e5) {
               var r4, o5, i4 = -1;
-              return function e6(u5) {
+              return (function e6(u5) {
                 try {
                   for (; ++i4 < t7.length; ) if ((u5 = n5(i4)) && u5.then) {
                     if (!en(u5)) return void u5.then(e6, o5 || (o5 = tn.bind(null, r4 = new nn(), 2)));
@@ -26385,17 +29664,17 @@ var rn = /* @__PURE__ */ function(t3) {
                 } catch (t8) {
                   tn(r4 || (r4 = new nn()), 2, t8);
                 }
-              }(), r4;
-            }(a2, function(t7) {
+              })(), r4;
+            })(a2, function(t7) {
               return n4(a2[t7]);
             });
-          }(o3, function(t6) {
-            var n4 = e3.findProcessorIndexByID(t6.id), o4 = function() {
+          })(o3, function(t6) {
+            var n4 = e3.findProcessorIndexByID(t6.id), o4 = (function() {
               if (n4 >= r2) return Promise.resolve(t6.process(i2)).then(function(n5) {
                 e3.cache.set(t6.id, i2 = n5);
               });
               i2 = e3.cache.get(t6.id);
-            }();
+            })();
             if (o4 && o4.then) return o4.then(function() {
             });
           });
@@ -26403,7 +29682,7 @@ var rn = /* @__PURE__ */ function(t3) {
           return n3(t6);
         }
         return u3 && u3.then ? u3.then(void 0, n3) : u3;
-      }(0, function(t5) {
+      })(0, function(t5) {
         throw Vt.error(t5), e3.emit("error", i2), t5;
       });
       return Promise.resolve(u2 && u2.then ? u2.then(n2) : n2());
@@ -26430,8 +29709,8 @@ var rn = /* @__PURE__ */ function(t3) {
       return t5;
     });
   } }]), e2;
-}(Q);
-var on = /* @__PURE__ */ function(t3) {
+})(Q);
+var on = /* @__PURE__ */ (function(t3) {
   function e2() {
     return t3.apply(this, arguments) || this;
   }
@@ -26444,8 +29723,8 @@ var on = /* @__PURE__ */ function(t3) {
   }, n(e2, [{ key: "type", get: function() {
     return K.Extractor;
   } }]), e2;
-}(tt);
-var un = /* @__PURE__ */ function(t3) {
+})(tt);
+var un = /* @__PURE__ */ (function(t3) {
   function e2() {
     return t3.apply(this, arguments) || this;
   }
@@ -26455,8 +29734,8 @@ var un = /* @__PURE__ */ function(t3) {
   }, n(e2, [{ key: "type", get: function() {
     return K.Transformer;
   } }]), e2;
-}(tt);
-var sn = /* @__PURE__ */ function(t3) {
+})(tt);
+var sn = /* @__PURE__ */ (function(t3) {
   function o2() {
     return t3.apply(this, arguments) || this;
   }
@@ -26470,8 +29749,8 @@ var sn = /* @__PURE__ */ function(t3) {
   }, n(o2, [{ key: "type", get: function() {
     return K.Initiator;
   } }]), o2;
-}(tt);
-var an = /* @__PURE__ */ function(t3) {
+})(tt);
+var an = /* @__PURE__ */ (function(t3) {
   function e2() {
     return t3.apply(this, arguments) || this;
   }
@@ -26496,15 +29775,15 @@ var an = /* @__PURE__ */ function(t3) {
   }, n(e2, [{ key: "type", get: function() {
     return K.Transformer;
   } }]), e2;
-}(tt);
-var ln = /* @__PURE__ */ function() {
+})(tt);
+var ln = /* @__PURE__ */ (function() {
   function t3() {
   }
   return t3.createFromConfig = function(t4) {
     var n2 = new rn();
     return t4.storage instanceof Jt && n2.register(new sn({ serverStorageOptions: t4.server })), n2.register(new on({ storage: t4.storage })), n2.register(new an({ header: t4.header })), n2.register(new un()), n2;
   }, t3;
-}();
+})();
 var cn = function(t3) {
   var n2 = this;
   this.state = void 0, this.listeners = [], this.isDispatching = false, this.getState = function() {
@@ -26532,7 +29811,7 @@ var cn = function(t3) {
     };
   }, this.state = t3;
 };
-var fn = function(t3, n2) {
+var fn = (function(t3, n2) {
   var e2 = { __c: n2 = "__cC" + _++, __: null, Consumer: function(t4, n3) {
     return t4.children(n3);
   }, Provider: function(t4) {
@@ -26550,8 +29829,8 @@ var fn = function(t3, n2) {
     }), t4.children;
   } };
   return e2.Provider.__ = e2.Consumer.contextType = e2;
-}();
-var pn = /* @__PURE__ */ function() {
+})();
+var pn = /* @__PURE__ */ (function() {
   function t3() {
     Object.assign(this, t3.defaultConfig());
   }
@@ -26568,7 +29847,7 @@ var pn = /* @__PURE__ */ function() {
       return e2.plugin.add(t4);
     }), e2;
   }, t3;
-}();
+})();
 function dn(t3) {
   var n2, r2 = It();
   return w("td", e({ role: t3.role, colSpan: t3.colSpan, "data-column-id": t3.column && t3.column.id, className: rt(et("td"), t3.className, r2.className.td), style: e({}, t3.style, r2.style.td), onClick: function(n3) {
@@ -26582,13 +29861,13 @@ function hn(t3) {
   return w("tr", { className: rt(et("tr"), n2.className.tr), onClick: function(e3) {
     t3.messageRow || n2.eventEmitter.emit("rowClick", e3, t3.row);
   } }, t3.children ? t3.children : t3.row.cells.map(function(n3, r2) {
-    var o2 = function(t4) {
+    var o2 = (function(t4) {
       if (e2) {
         var n4 = Kt.leafColumns(e2.columns);
         if (n4) return n4[t4];
       }
       return null;
-    }(r2);
+    })(r2);
     return o2 && o2.hidden ? null : w(dn, { key: n3.id, cell: n3, row: t3.row, column: o2 });
   }));
 }
@@ -26609,7 +29888,7 @@ function mn() {
     return w(hn, { key: t4.id, row: t4 });
   }), e2 === a.Loading && (!n2 || 0 === n2.length) && w(_n, { message: o2("loading"), colSpan: i2(), className: rt(et("loading"), t3.className.loading) }), e2 === a.Rendered && n2 && 0 === n2.length && w(_n, { message: o2("noRecordsFound"), colSpan: i2(), className: rt(et("notfound"), t3.className.notfound) }), e2 === a.Error && w(_n, { message: o2("error"), colSpan: i2(), className: rt(et("error"), t3.className.error) }));
 }
-var vn = /* @__PURE__ */ function(t3) {
+var vn = /* @__PURE__ */ (function(t3) {
   function e2() {
     return t3.apply(this, arguments) || this;
   }
@@ -26638,7 +29917,7 @@ var vn = /* @__PURE__ */ function(t3) {
   }, n(e2, [{ key: "type", get: function() {
     return K.Sort;
   } }]), e2;
-}(tt);
+})(tt);
 var yn = function(t3, n2, r2, o2) {
   return function(i2) {
     var u2, s2 = null != (u2 = i2.sort) && u2.columns ? i2.sort.columns.map(function(t4) {
@@ -26648,8 +29927,8 @@ var yn = function(t3, n2, r2, o2) {
     }), c2 = false, f2 = false, p2 = false, d2 = false;
     if (void 0 !== l2 ? r2 ? -1 === l2.direction ? p2 = true : d2 = true : 1 === a2 ? d2 = true : a2 > 1 && (f2 = true, c2 = true) : 0 === a2 ? c2 = true : a2 > 0 && !r2 ? (c2 = true, f2 = true) : a2 > 0 && r2 && (c2 = true), f2 && (s2 = []), c2) s2.push({ index: t3, direction: n2, compare: o2 });
     else if (d2) {
-      var h6 = s2.indexOf(l2);
-      s2[h6].direction = n2;
+      var h4 = s2.indexOf(l2);
+      s2[h4].direction = n2;
     } else if (p2) {
       var _2 = s2.indexOf(l2);
       s2.splice(_2, 1);
@@ -26665,7 +29944,7 @@ var gn = function(t3, n2, r2) {
     return e({}, o2, i2 ? yn(t3, 1 === i2.direction ? -1 : 1, n2, r2)(o2) : yn(t3, 1, n2, r2)(o2));
   };
 };
-var bn = /* @__PURE__ */ function(t3) {
+var bn = /* @__PURE__ */ (function(t3) {
   function o2() {
     return t3.apply(this, arguments) || this;
   }
@@ -26675,7 +29954,7 @@ var bn = /* @__PURE__ */ function(t3) {
   }, n(o2, [{ key: "type", get: function() {
     return K.ServerSort;
   } }]), o2;
-}(tt);
+})(tt);
 function wn(t3) {
   var n2 = It(), r2 = Ht().dispatch, o2 = At(), i2 = yt(0), u2 = i2[0], s2 = i2[1], a2 = n2.sort, l2 = jt(function(t4) {
     return t4.sort;
@@ -26698,9 +29977,9 @@ function wn(t3) {
   }, [l2]), gt(function() {
     var t4 = f2();
     t4 && l2 && t4.setProps({ columns: l2.columns });
-  }, [l2]), w("button", { tabIndex: -1, "aria-label": o2("sort.sort" + (1 === u2 ? "Desc" : "Asc")), title: o2("sort.sort" + (1 === u2 ? "Desc" : "Asc")), className: rt(et("sort"), et("sort", /* @__PURE__ */ function(t4) {
+  }, [l2]), w("button", { tabIndex: -1, "aria-label": o2("sort.sort" + (1 === u2 ? "Desc" : "Asc")), title: o2("sort.sort" + (1 === u2 ? "Desc" : "Asc")), className: rt(et("sort"), et("sort", /* @__PURE__ */ (function(t4) {
     return 1 === t4 ? "asc" : -1 === t4 ? "desc" : "neutral";
-  }(u2)), n2.className.sort), onClick: function(n3) {
+  })(u2)), n2.className.sort), onClick: function(n3) {
     n3.preventDefault(), n3.stopPropagation(), r2(gn(t3.index, true === n3.shiftKey && a2.multiColumn, t3.compare));
   } });
 }
@@ -26759,18 +30038,18 @@ function Nn() {
     return t4.header;
   });
   return e2 ? w("thead", { key: e2.id, className: rt(et("thead"), n2.className.thead) }, (t3 = Kt.tabularFormat(e2.columns)).map(function(n3, r2) {
-    return function(t4, n4, r3) {
+    return (function(t4, n4, r3) {
       var o2 = Kt.leafColumns(e2.columns);
       return w(hn, null, t4.map(function(t5) {
-        return t5.hidden ? null : function(t6, n5, e3, r4) {
-          var o3 = function(t7, n6, e4) {
+        return t5.hidden ? null : (function(t6, n5, e3, r4) {
+          var o3 = (function(t7, n6, e4) {
             var r5 = Kt.maximumDepth(t7), o4 = e4 - n6;
             return { rowSpan: Math.floor(o4 - r5 - r5 / o4), colSpan: t7.columns && t7.columns.length || 1 };
-          }(t6, n5, r4);
+          })(t6, n5, r4);
           return w(Sn, { column: t6, index: e3, colSpan: o3.colSpan, rowSpan: o3.rowSpan });
-        }(t5, n4, o2.indexOf(t5), r3);
+        })(t5, n4, o2.indexOf(t5), r3);
       }));
-    }(n3, r2, t3.length);
+    })(n3, r2, t3.length);
   })) : null;
 }
 var Pn = function(t3) {
@@ -26781,11 +30060,11 @@ var Pn = function(t3) {
 function Cn() {
   var t3 = It(), n2 = bt(null), r2 = Ht().dispatch;
   return gt(function() {
-    n2 && r2(/* @__PURE__ */ function(t4) {
+    n2 && r2(/* @__PURE__ */ (function(t4) {
       return function(n3) {
         return e({}, n3, { tableRef: t4 });
       };
-    }(n2));
+    })(n2));
   }, [n2]), w("table", { ref: n2, role: "grid", className: rt(et("table"), t3.className.table), style: e({}, t3.style.table, { height: t3.height }) }, w(Nn, null), w(mn, null));
 }
 function En() {
@@ -26812,14 +30091,14 @@ function Tn() {
       n2(function(t4) {
         return e({}, t4, { status: a.Loading });
       });
-      var r3 = function(r4, o3) {
+      var r3 = (function(r4, o3) {
         try {
           var i3 = Promise.resolve(t3.pipeline.process()).then(function(t4) {
-            n2(/* @__PURE__ */ function(t5) {
+            n2(/* @__PURE__ */ (function(t5) {
               return function(n3) {
                 return t5 ? e({}, n3, { data: t5, status: a.Loaded }) : n3;
               };
-            }(t4)), setTimeout(function() {
+            })(t4)), setTimeout(function() {
               n2(function(t5) {
                 return t5.status === a.Loaded ? e({}, t5, { status: a.Rendered }) : t5;
               });
@@ -26829,7 +30108,7 @@ function Tn() {
           return o3(t4);
         }
         return i3 && i3.then ? i3.then(void 0, o3) : i3;
-      }(0, function(t4) {
+      })(0, function(t4) {
         Vt.error(t4), n2(function(t5) {
           return e({}, t5, { data: null, status: a.Error });
         });
@@ -26848,7 +30127,7 @@ function Tn() {
     t3.header && r2 === a.Loaded && null != o2 && o2.length && n2(Pn(t3.header.adjustWidth(t3, i2, u2)));
   }, [o2, t3, u2]), w("div", { role: "complementary", className: rt("gridjs", et("container"), r2 === a.Loading ? et("loading") : null, t3.className.container), style: e({}, t3.style.container, { width: t3.width }) }, r2 === a.Loading && w("div", { className: et("loading-bar") }), w(En, null), w("div", { className: et("wrapper"), style: { height: t3.height } }, w(Cn, null)), w(In, null), w("div", { ref: u2, id: "gridjs-temp", className: et("temp") }));
 }
-var Ln = /* @__PURE__ */ function(t3) {
+var Ln = /* @__PURE__ */ (function(t3) {
   function n2(n3) {
     var e3;
     return (e3 = t3.call(this) || this).config = void 0, e3.plugin = void 0, e3.config = new pn().assign({ instance: i(e3), eventEmitter: i(e3) }).update(n3), e3.plugin = e3.config.plugin, e3;
@@ -26866,11 +30145,54 @@ var Ln = /* @__PURE__ */ function(t3) {
   }, e2.render = function(t4) {
     return t4 || Vt.error("Container element cannot be null", true), t4.childNodes.length > 0 ? (Vt.error("The container element " + t4 + " is not empty. Make sure the container is empty and call render() again"), this) : (this.config.container = t4, q(this.createElement(), t4), this);
   }, n2;
-}(Q);
+})(Q);
 
-// src/gui/statistics.tsx
-var import_path = __toESM(require("path"));
-var import_vhtml2 = __toESM(require_vhtml());
+// src/ui/obsidian-ui-components/content-container/settings-page/statistics-page/note-stats-component.tsx
+var NoteStatsComponent = class extends SettingsItemOverrideComponent {
+  constructor(parentContainerEl, noteEases) {
+    super(parentContainerEl);
+    this.containerEl.id = "noteStats";
+    const rowsPerPage = 10;
+    this.noteStatsGrid = new Ln({
+      columns: [
+        {
+          name: t("NOTE")
+        },
+        {
+          name: t("EASE"),
+          sort: true,
+          width: "110px"
+        }
+      ],
+      search: true,
+      autoWidth: false,
+      data: Object.entries(noteEases).sort((a2, b2) => b2[1] - a2[1]),
+      pagination: Object.entries(noteEases).length > rowsPerPage ? {
+        limit: rowsPerPage,
+        summary: false
+      } : void 0,
+      language: {
+        search: {
+          placeholder: t("SEARCH")
+        },
+        pagination: {
+          previous: "<",
+          next: ">"
+        }
+      }
+    });
+    this.noteStatsGrid.render(this.containerEl);
+  }
+  /**
+   * Destroys the NoteStatsComponent and its Grid.
+   */
+  destroy() {
+    if (this.noteStatsGrid) this.noteStatsGrid.destroy();
+    this.containerEl.empty();
+  }
+};
+
+// src/ui/obsidian-ui-components/content-container/settings-page/statistics-page/statistics-page.tsx
 Chart.register(
   BarElement,
   BarController,
@@ -26883,15 +30205,46 @@ Chart.register(
   PieController,
   ArcElement
 );
-var StatisticsView = class {
-  constructor(containerEl, osrCore) {
-    this.containerEl = containerEl;
-    this.osrCore = osrCore;
+var StatisticsPage = class extends SettingsPage {
+  constructor(pageContainerEl, plugin, pageType, openPage, scrollListener) {
+    super(
+      pageContainerEl,
+      plugin,
+      pageType,
+      () => {
+      },
+      () => {
+      },
+      openPage,
+      scrollListener
+    );
+    this.containerEl.addClass("sr-statistics-page");
+    this.plugin = plugin;
+    new import_obsidian26.Setting(this.containerEl).setName(t("PERIOD_TITLE")).setDesc(t("PERIOD_DESC")).addDropdown((el) => {
+      el.addOption("month", t("MONTH")).addOption("quarter", t("QUARTER")).addOption("year", t("YEAR")).addOption("lifetime", t("LIFETIME")).setValue("month");
+      el.selectEl.setAttr("id", "sr-chart-period");
+    });
+    this.renderCharts(this.plugin.osrAppCore);
   }
-  render() {
-    this.containerEl.style.textAlign = "center";
-    this.containerEl.innerHTML += /* @__PURE__ */ (0, import_vhtml2.default)("select", { id: "sr-chart-period" }, /* @__PURE__ */ (0, import_vhtml2.default)("option", { value: "month", selected: true }, t("MONTH")), /* @__PURE__ */ (0, import_vhtml2.default)("option", { value: "quarter" }, t("QUARTER")), /* @__PURE__ */ (0, import_vhtml2.default)("option", { value: "year" }, t("YEAR")), /* @__PURE__ */ (0, import_vhtml2.default)("option", { value: "lifetime" }, t("LIFETIME")));
-    const cardStats = this.osrCore.cardStats;
+  /**
+   * Destroys the StatisticsPagea and all its components.
+   */
+  destroy() {
+    if (this.forecastChart) this.forecastChart.destroy();
+    if (this.intervalsChart) this.intervalsChart.destroy();
+    if (this.easesChart) this.easesChart.destroy();
+    if (this.cardTypesChart) this.cardTypesChart.destroy();
+    if (this.noteStatsGrid) this.noteStatsGrid.destroy();
+    this.containerEl.removeEventListener("scroll", (_2) => {
+      this.scrollListener(this.containerEl.scrollTop);
+    });
+  }
+  renderCharts(osrCore) {
+    if (!osrCore.cardStats) {
+      this.plugin.sync().then((_2) => this.renderCharts(this.plugin.osrAppCore));
+      return;
+    }
+    const cardStats = osrCore.cardStats;
     let maxN = cardStats.delayedDays.getMaxValue();
     for (let dueOffset = 0; dueOffset <= maxN; dueOffset++) {
       cardStats.delayedDays.clearCountIfMissing(dueOffset);
@@ -26906,1014 +30259,505 @@ var StatisticsView = class {
     }
     const scheduledCount = cardStats.youngCount + cardStats.matureCount;
     maxN = Math.max(maxN, 1);
-    this.containerEl.innerHTML += /* @__PURE__ */ (0, import_vhtml2.default)("div", null, /* @__PURE__ */ (0, import_vhtml2.default)("canvas", { id: "forecastChart" }), /* @__PURE__ */ (0, import_vhtml2.default)("span", { id: "forecastChartSummary" }), /* @__PURE__ */ (0, import_vhtml2.default)("br", null), /* @__PURE__ */ (0, import_vhtml2.default)("br", null), /* @__PURE__ */ (0, import_vhtml2.default)("canvas", { id: "intervalsChart" }), /* @__PURE__ */ (0, import_vhtml2.default)("span", { id: "intervalsChartSummary" }), /* @__PURE__ */ (0, import_vhtml2.default)("br", null), /* @__PURE__ */ (0, import_vhtml2.default)("br", null), /* @__PURE__ */ (0, import_vhtml2.default)("canvas", { id: "easesChart" }), /* @__PURE__ */ (0, import_vhtml2.default)("span", { id: "easesChartSummary" }), /* @__PURE__ */ (0, import_vhtml2.default)("br", null), /* @__PURE__ */ (0, import_vhtml2.default)("br", null), /* @__PURE__ */ (0, import_vhtml2.default)("canvas", { id: "cardTypesChart" }), /* @__PURE__ */ (0, import_vhtml2.default)("br", null), /* @__PURE__ */ (0, import_vhtml2.default)("span", { id: "cardTypesChartSummary" }), /* @__PURE__ */ (0, import_vhtml2.default)("br", null), /* @__PURE__ */ (0, import_vhtml2.default)("br", null), /* @__PURE__ */ (0, import_vhtml2.default)("h1", null, "Notes"), /* @__PURE__ */ (0, import_vhtml2.default)("div", { id: "noteStats" }));
-    this.forecastChart = createStatsChart(
-      "bar",
-      "forecastChart",
-      t("FORECAST"),
-      t("FORECAST_DESC"),
-      Object.keys(dueDatesFlashcardsCopy),
-      Object.values(dueDatesFlashcardsCopy),
-      t("REVIEWS_PER_DAY", { avg: (scheduledCount / maxN).toFixed(1) }),
-      t("SCHEDULED"),
-      t("DAYS"),
-      t("NUMBER_OF_CARDS")
-    );
+    new import_obsidian26.SettingGroup(this.containerEl).setHeading(t("FORECAST")).addSetting((setting) => {
+      this.forecastChart = new ChartComponent(
+        setting.settingEl,
+        "forecastChart",
+        "forecastChartSummary",
+        "bar",
+        "",
+        t("FORECAST_DESC"),
+        Object.keys(dueDatesFlashcardsCopy),
+        Object.values(dueDatesFlashcardsCopy),
+        t("REVIEWS_PER_DAY", { avg: (scheduledCount / maxN).toFixed(1) }),
+        t("SCHEDULED"),
+        t("DAYS"),
+        t("NUMBER_OF_CARDS")
+      );
+    });
     maxN = cardStats.intervals.getMaxValue();
     for (let interval = 0; interval <= maxN; interval++) {
       cardStats.intervals.clearCountIfMissing(interval);
     }
     const averageInterval = textInterval(
-      Math.round(
-        cardStats.intervals.getTotalOfValueMultiplyCount() / scheduledCount * 10
-      ) / 10 || 0,
+      Math.round(cardStats.intervals.getTotalOfValueMultiplyCount() / scheduledCount * 10) / 10 || 0,
       false
-    ), longestInterval = textInterval(cardStats.intervals.getMaxValue(), false);
-    this.intervalsChart = createStatsChart(
-      "bar",
-      "intervalsChart",
-      t("INTERVALS"),
-      t("INTERVALS_DESC"),
-      Object.keys(cardStats.intervals.dict),
-      Object.values(cardStats.intervals.dict),
-      t("INTERVALS_SUMMARY", { avg: averageInterval, longest: longestInterval }),
-      t("COUNT"),
-      t("DAYS"),
-      t("NUMBER_OF_CARDS")
     );
+    const longestInterval = textInterval(cardStats.intervals.getMaxValue(), false);
+    new import_obsidian26.SettingGroup(this.containerEl).setHeading(t("INTERVALS")).addSetting((setting) => {
+      this.intervalsChart = new ChartComponent(
+        setting.settingEl,
+        "intervalsChart",
+        "intervalsChartSummary",
+        "bar",
+        "",
+        t("INTERVALS_DESC"),
+        Object.keys(cardStats.intervals.dict),
+        Object.values(cardStats.intervals.dict),
+        t("INTERVALS_SUMMARY", { avg: averageInterval, longest: longestInterval }),
+        t("COUNT"),
+        t("DAYS"),
+        t("NUMBER_OF_CARDS")
+      );
+      return this.intervalsChart;
+    });
     const eases = getKeysPreserveType(cardStats.eases.dict);
     for (let ease = Math.min(...eases); ease <= Math.max(...eases); ease++) {
       cardStats.eases.clearCountIfMissing(ease);
     }
     const averageEase = Math.round(cardStats.eases.getTotalOfValueMultiplyCount() / scheduledCount) || 0;
-    this.easesChart = createStatsChart(
-      "bar",
-      "easesChart",
-      t("EASES"),
-      "",
-      Object.keys(cardStats.eases.dict),
-      Object.values(cardStats.eases.dict),
-      t("EASES_SUMMARY", { avgEase: averageEase }),
-      t("COUNT"),
-      t("EASES"),
-      t("NUMBER_OF_CARDS")
-    );
-    const totalCardsCount = this.osrCore.reviewableDeckTree.getDistinctCardCount(
+    new import_obsidian26.SettingGroup(this.containerEl).setHeading(t("EASES")).addSetting((setting) => {
+      this.easesChart = new ChartComponent(
+        setting.settingEl,
+        "easesChart",
+        "easesChartSummary",
+        "bar",
+        "",
+        "",
+        Object.keys(cardStats.eases.dict),
+        Object.values(cardStats.eases.dict),
+        t("EASES_SUMMARY", { avgEase: averageEase }),
+        t("COUNT"),
+        t("EASES"),
+        t("NUMBER_OF_CARDS")
+      );
+      return this.easesChart;
+    });
+    const totalCardsCount = osrCore.reviewableDeckTree.getDistinctCardCount(
       2 /* All */,
       true
     );
-    this.cardTypesChart = createStatsChart(
-      "pie",
-      "cardTypesChart",
-      t("CARD_TYPES"),
-      t("CARD_TYPES_DESC"),
-      [
-        `${t("CARD_TYPE_NEW")} - ${Math.round(cardStats.newCount / totalCardsCount * 100)}%`,
-        `${t("CARD_TYPE_YOUNG")} - ${Math.round(
-          cardStats.youngCount / totalCardsCount * 100
-        )}%`,
-        `${t("CARD_TYPE_MATURE")} - ${Math.round(
-          cardStats.matureCount / totalCardsCount * 100
-        )}%`
-      ],
-      [cardStats.newCount, cardStats.youngCount, cardStats.matureCount],
-      t("CARD_TYPES_SUMMARY", { totalCardsCount })
-    );
+    new import_obsidian26.SettingGroup(this.containerEl).setHeading(t("CARD_TYPES")).addSetting((setting) => {
+      this.cardTypesChart = new ChartComponent(
+        setting.settingEl,
+        "cardTypesChart",
+        "cardTypesChartSummary",
+        "pie",
+        "",
+        t("CARD_TYPES_DESC"),
+        [
+          `${t("CARD_TYPE_NEW")} - ${Math.round(cardStats.newCount / totalCardsCount * 100)}%`,
+          `${t("CARD_TYPE_YOUNG")} - ${Math.round(
+            cardStats.youngCount / totalCardsCount * 100
+          )}%`,
+          `${t("CARD_TYPE_MATURE")} - ${Math.round(
+            cardStats.matureCount / totalCardsCount * 100
+          )}%`
+        ],
+        [cardStats.newCount, cardStats.youngCount, cardStats.matureCount],
+        t("CARD_TYPES_SUMMARY", { totalCardsCount })
+      );
+      return this.cardTypesChart;
+    });
     const noteEases = mapRecord(
       SrsAlgorithm.getInstance().noteStats().dict,
-      (key, value) => [
-        import_path.default.parse(key).name,
-        Math.round(value)
-      ]
-    );
-    this.noteStatsGrid = new Ln({
-      columns: [
-        {
-          name: t("NOTE")
-        },
-        {
-          name: t("EASE"),
-          sort: true,
-          width: "200px"
-        }
-      ],
-      search: true,
-      autoWidth: false,
-      data: Object.entries(noteEases).sort((a2, b2) => b2[1] - a2[1]),
-      pagination: {
-        limit: 10,
-        summary: false
-      },
-      language: {
-        search: {
-          placeholder: t("SEARCH")
-        },
-        pagination: {
-          previous: t("PREVIOUS"),
-          next: t("NEXT")
-        }
+      (key, value) => {
+        return [key.split(".")[0], Math.round(value)];
       }
+    );
+    new import_obsidian26.SettingGroup(this.containerEl).setHeading(t("NOTES")).addSetting((setting) => {
+      this.noteStatsGrid = new NoteStatsComponent(setting.settingEl, noteEases);
+      return this.noteStatsGrid;
     });
-    this.noteStatsGrid.render(document.getElementById("noteStats"));
-  }
-  destroy() {
-    this.forecastChart.destroy();
-    this.intervalsChart.destroy();
-    this.easesChart.destroy();
-    this.cardTypesChart.destroy();
-    this.noteStatsGrid.destroy();
   }
 };
-function createStatsChart(type, canvasId, title, subtitle, labels, data, summary, seriesTitle = "", xAxisTitle = "", yAxisTitle = "") {
-  const style = getComputedStyle(document.body);
-  const textColor = style.getPropertyValue("--text-normal");
-  let scales = {}, backgroundColor = ["#2196f3"];
-  if (type !== "pie") {
-    scales = {
-      x: {
-        title: {
-          display: true,
-          text: xAxisTitle,
-          color: textColor
-        }
-      },
-      y: {
-        title: {
-          display: true,
-          text: yAxisTitle,
-          color: textColor
-        }
-      }
-    };
-  } else {
-    backgroundColor = ["#2196f3", "#4caf50", "green"];
-  }
-  const shouldFilter = canvasId === "forecastChart" || canvasId === "intervalsChart";
-  const statsChart = new Chart(document.getElementById(canvasId), {
-    type,
-    data: {
-      labels: shouldFilter ? labels.slice(0, 31) : labels,
-      datasets: [
-        {
-          label: seriesTitle,
-          backgroundColor,
-          data: shouldFilter ? data.slice(0, 31) : data
-        }
-      ]
-    },
-    options: {
-      scales,
-      plugins: {
-        title: {
-          display: true,
-          text: title,
-          font: {
-            size: 22
-          },
-          color: textColor
-        },
-        subtitle: {
-          display: true,
-          text: subtitle,
-          font: {
-            size: 16,
-            style: "italic"
-          },
-          color: textColor
-        },
-        legend: {
-          display: false
-        }
-      },
-      aspectRatio: 2
-    }
-  });
-  if (shouldFilter) {
-    const chartPeriodEl = document.getElementById("sr-chart-period");
-    chartPeriodEl.addEventListener("click", () => {
-      let filteredLabels, filteredData;
-      const chartPeriod = chartPeriodEl.value;
-      if (chartPeriod === "month") {
-        filteredLabels = labels.slice(0, 31);
-        filteredData = data.slice(0, 31);
-      } else if (chartPeriod === "quarter") {
-        filteredLabels = labels.slice(0, 91);
-        filteredData = data.slice(0, 91);
-      } else if (chartPeriod === "year") {
-        filteredLabels = labels.slice(0, 366);
-        filteredData = data.slice(0, 366);
-      } else {
-        filteredLabels = labels;
-        filteredData = data;
-      }
-      statsChart.data.labels = filteredLabels;
-      statsChart.data.datasets[0] = {
-        label: seriesTitle,
-        backgroundColor,
-        data: filteredData
-      };
-      statsChart.update();
-    });
-  }
-  document.getElementById(`${canvasId}Summary`).innerText = summary;
-  return statsChart;
-}
 
-// src/gui/tabs.tsx
-var import_obsidian9 = require("obsidian");
-var import_vhtml3 = __toESM(require_vhtml());
-function createTabs(containerElement, tabs, activateTabId) {
-  const tabHeader = containerElement.createEl("div", {
-    attr: { class: "sr-tab-header" }
-  });
-  const tabContentContainers = {};
-  const tabButtons = {};
-  const tabStructure = {
-    header: tabHeader,
-    // Indicate that the first tab is active.
-    // This does not affect what tab is active in practice, it just reports the active tab.
-    activeTabId: Object.keys(tabs)[0],
-    buttons: tabButtons,
-    contentContainers: tabContentContainers,
-    contentGeneratorPromises: {}
-  };
-  let firstButton;
-  for (const tabId in tabs) {
-    const tab = tabs[tabId];
-    const button = tabHeader.createEl("button", {
-      attr: {
-        class: "sr-tab-header-button",
-        activateTab: "sr-tab-" + tabId
-      }
-    });
-    button.onclick = function(event) {
-      var _a;
-      const tabButton = this;
-      let maxWidth = 0;
-      let maxHeight = 0;
-      const tabHeader2 = tabButton.parentElement;
-      if (null === tabHeader2) {
-        throw new Error("Tab header is missing. Did not get a parent from tab button.");
-      }
-      const containerElement2 = tabHeader2.parentElement;
-      if (null === containerElement2) {
-        throw new Error(
-          "Container element is missing. Did not get a parent from tab header."
-        );
-      }
-      const tabContents = containerElement2.findAll("div.sr-tab-content");
-      const isMainSettingsModal = containerElement2.hasClass("vertical-tab-content");
-      for (const index in tabContents) {
-        const tabContent2 = tabContents[index];
-        if (!isMainSettingsModal) {
-          tabContent2.addClass("sr-tab-active");
-          if (tabContent2.offsetHeight > maxHeight) {
-            maxHeight = tabContent2.offsetHeight;
-          }
-          if (tabContent2.offsetWidth > maxWidth) {
-            maxWidth = tabContent2.offsetWidth;
-          }
-        }
-        tabContent2.removeClass("sr-tab-active");
-      }
-      const adjacentTabButtons = tabHeader2.findAll(".sr-tab-header-button");
-      for (const index in adjacentTabButtons) {
-        const tabButton2 = adjacentTabButtons[index];
-        tabButton2.removeClass("sr-tab-active");
-      }
-      tabButton.addClass("sr-tab-active");
-      const activateTabAttribute = tabButton.attributes.getNamedItem("activateTab");
-      if (null === activateTabAttribute) {
-        throw new Error("Tab button has no 'activateTab' HTML attribute! Murr!");
-      }
-      const activateTabId2 = activateTabAttribute.value;
-      const tabContent = document.getElementById(activateTabId2);
-      if (null === tabContent) {
-        throw new Error(
-          "No tab content was found with activate_tab_id '" + activateTabId2 + "'! Hmph!"
-        );
-      }
-      tabContent.addClass("sr-tab-active");
-      tabStructure.activeTabId = activateTabId2.replace(/^sr-tab-/, "");
-      (_a = tabContent.find(".sr-focus-element-on-tab-opening")) == null ? void 0 : _a.focus();
-      if (!isMainSettingsModal) {
-        tabContent.style.width = maxWidth + "px";
-        tabContent.style.height = maxHeight + "px";
-      }
-      event.preventDefault();
-    };
-    if (tab.icon) (0, import_obsidian9.setIcon)(button, tab.icon);
-    button.insertAdjacentHTML("beforeend", /* @__PURE__ */ (0, import_vhtml3.default)("span", { style: "padding-left: 5px;" }, tab.title));
-    tabButtons[tabId] = button;
-    tabContentContainers[tabId] = containerElement.createEl("div", {
-      attr: { class: "sr-tab-content", id: "sr-tab-" + tabId }
-    });
-    tabStructure.contentGeneratorPromises[tabId] = tab.contentGenerator(
-      tabContentContainers[tabId]
-    );
-    if (void 0 === firstButton) {
-      firstButton = button;
-    }
-  }
-  tabButtons[activateTabId].click();
-  return tabStructure;
-}
-
-// src/gui/settings.tsx
-var applyDebounceTimer = 0;
-function applySettingsUpdate(callback2) {
-  clearTimeout(applyDebounceTimer);
-  applyDebounceTimer = window.setTimeout(callback2, 512);
-}
-var SRSettingTab = class extends import_obsidian10.PluginSettingTab {
-  constructor(app, plugin) {
-    super(app, plugin);
-    this.lastPosition = {
-      scrollPosition: 0,
-      tabName: "main-flashcards"
-    };
-    this.plugin = plugin;
-  }
-  display() {
-    const { containerEl } = this;
-    containerEl.empty();
-    const header = containerEl.createEl("h4", {
-      text: `${t("SETTINGS_HEADER")}`
-    });
-    header.addClass("sr-centered");
-    this.tabStructure = createTabs(
+// src/ui/obsidian-ui-components/content-container/settings-page/ui-preferences-page.tsx
+var import_obsidian27 = require("obsidian");
+var UIPreferencesPage = class extends SettingsPage {
+  constructor(containerEl, plugin, pageType, applySettingsUpdate, display, openPage, scrollListener) {
+    super(
       containerEl,
-      {
-        "main-flashcards": {
-          title: t("FLASHCARDS"),
-          icon: "SpacedRepIcon",
-          contentGenerator: (containerElement) => this.tabFlashcards(containerElement)
-        },
-        "main-notes": {
-          title: t("NOTES"),
-          icon: "book-text",
-          contentGenerator: (containerElement) => this.tabNotes(containerElement)
-        },
-        "main-algorithm": {
-          title: t("SCHEDULING"),
-          icon: "calendar",
-          contentGenerator: (containerElement) => this.tabScheduling(containerElement)
-        },
-        "main-ui-preferences": {
-          title: t("UI"),
-          icon: "presentation",
-          contentGenerator: (containerElement) => this.tabUiPreferences(containerElement)
-        },
-        "main-statistics": {
-          title: t("STATS_TITLE"),
-          icon: "bar-chart-3",
-          contentGenerator: async (containerElement) => {
-            if (this.plugin.osrAppCore.cardStats == null) {
-              await this.plugin.sync();
-            }
-            this.statistics = new StatisticsView(
-              containerElement,
-              this.plugin.osrAppCore
-            );
-            this.statistics.render();
-          }
-        },
-        "main-help": {
-          title: t("HELP"),
-          icon: "badge-help",
-          contentGenerator: (containerElement) => this.tabHelp(containerElement)
-        }
-      },
-      this.lastPosition.tabName
+      plugin,
+      pageType,
+      applySettingsUpdate,
+      display,
+      openPage,
+      scrollListener
     );
-    this.tabStructure.contentGeneratorPromises[this.tabStructure.activeTabId].then(() => {
-      this.rememberLastPosition(containerEl);
-    });
-  }
-  hide() {
-    this.statistics.destroy();
-    this.containerEl.empty();
-  }
-  async tabFlashcards(containerEl) {
-    containerEl.createEl("h3", { text: t("GROUP_TAGS_FOLDERS") });
-    new import_obsidian10.Setting(containerEl).setName(t("FLASHCARD_TAGS")).setDesc(t("FLASHCARD_TAGS_DESC")).addTextArea(
-      (text) => text.setValue(this.plugin.data.settings.flashcardTags.join(" ")).onChange((value) => {
-        applySettingsUpdate(async () => {
-          this.plugin.data.settings.flashcardTags = value.split(/\s+/);
-          await this.plugin.savePluginData();
-        });
-      })
-    );
-    new import_obsidian10.Setting(containerEl).setName(t("CONVERT_FOLDERS_TO_DECKS")).setDesc(t("CONVERT_FOLDERS_TO_DECKS_DESC")).addToggle(
-      (toggle) => toggle.setValue(this.plugin.data.settings.convertFoldersToDecks).onChange(async (value) => {
-        this.plugin.data.settings.convertFoldersToDecks = value;
-        await this.plugin.savePluginData();
-      })
-    );
-    this.createSettingFoldersToIgnore(containerEl);
-    containerEl.createEl("h3", { text: t("GROUP_FLASHCARD_REVIEW") });
-    new import_obsidian10.Setting(containerEl).setName(t("BURY_SIBLINGS_TILL_NEXT_DAY")).setDesc(t("BURY_SIBLINGS_TILL_NEXT_DAY_DESC")).addToggle(
-      (toggle) => toggle.setValue(this.plugin.data.settings.burySiblingCards).onChange(async (value) => {
-        this.plugin.data.settings.burySiblingCards = value;
-        await this.plugin.savePluginData();
-      })
-    );
-    new import_obsidian10.Setting(containerEl).setName(t("REVIEW_CARD_ORDER_WITHIN_DECK")).addDropdown(
-      (dropdown) => dropdown.addOptions({
-        NewFirstSequential: t("REVIEW_CARD_ORDER_NEW_FIRST_SEQUENTIAL"),
-        DueFirstSequential: t("REVIEW_CARD_ORDER_DUE_FIRST_SEQUENTIAL"),
-        NewFirstRandom: t("REVIEW_CARD_ORDER_NEW_FIRST_RANDOM"),
-        DueFirstRandom: t("REVIEW_CARD_ORDER_DUE_FIRST_RANDOM"),
-        EveryCardRandomDeckAndCard: t("REVIEW_CARD_ORDER_RANDOM_DECK_AND_CARD")
-      }).setValue(this.plugin.data.settings.flashcardCardOrder).onChange(async (value) => {
-        this.plugin.data.settings.flashcardCardOrder = value;
-        await this.plugin.savePluginData();
-        this.display();
-      })
-    );
-    const deckOrderEnabled = this.plugin.data.settings.flashcardCardOrder != "EveryCardRandomDeckAndCard";
-    new import_obsidian10.Setting(containerEl).setName(t("REVIEW_DECK_ORDER")).addDropdown(
-      (dropdown) => dropdown.addOptions(
-        deckOrderEnabled ? {
-          // eslint-disable-next-line camelcase
-          PrevDeckComplete_Sequential: t(
-            "REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_SEQUENTIAL"
-          ),
-          // eslint-disable-next-line camelcase
-          PrevDeckComplete_Random: t(
-            "REVIEW_DECK_ORDER_PREV_DECK_COMPLETE_RANDOM"
-          )
-        } : {
-          EveryCardRandomDeckAndCard: t(
-            "REVIEW_DECK_ORDER_RANDOM_DECK_AND_CARD"
-          )
-        }
-      ).setValue(
-        deckOrderEnabled ? this.plugin.data.settings.flashcardDeckOrder : "EveryCardRandomDeckAndCard"
-      ).setDisabled(!deckOrderEnabled).onChange(async (value) => {
-        this.plugin.data.settings.flashcardDeckOrder = value;
-        await this.plugin.savePluginData();
-      })
-    );
-    containerEl.createEl("h3", { text: t("GROUP_FLASHCARD_SEPARATORS") });
-    new import_obsidian10.Setting(containerEl).setName(t("CONVERT_HIGHLIGHTS_TO_CLOZES")).addToggle(
-      (toggle) => toggle.setValue(this.plugin.data.settings.convertHighlightsToClozes).onChange(async (value) => {
-        const hightlightPattern = "==[123;;]answer[;;hint]==";
-        const clozePatternSet = new Set(this.plugin.data.settings.clozePatterns);
-        if (value) {
-          clozePatternSet.add(hightlightPattern);
-        } else {
-          clozePatternSet.delete(hightlightPattern);
-        }
-        this.plugin.data.settings.clozePatterns = [...clozePatternSet];
-        this.plugin.data.settings.convertHighlightsToClozes = value;
-        await this.plugin.savePluginData();
-        this.display();
-      })
-    );
-    new import_obsidian10.Setting(containerEl).setName(t("CONVERT_BOLD_TEXT_TO_CLOZES")).addToggle(
-      (toggle) => toggle.setValue(this.plugin.data.settings.convertBoldTextToClozes).onChange(async (value) => {
-        const boldPattern = "**[123;;]answer[;;hint]**";
-        const clozePatternSet = new Set(this.plugin.data.settings.clozePatterns);
-        if (value) {
-          clozePatternSet.add(boldPattern);
-        } else {
-          clozePatternSet.delete(boldPattern);
-        }
-        this.plugin.data.settings.clozePatterns = [...clozePatternSet];
-        this.plugin.data.settings.convertBoldTextToClozes = value;
-        await this.plugin.savePluginData();
-        this.display();
-      })
-    );
-    new import_obsidian10.Setting(containerEl).setName(t("CONVERT_CURLY_BRACKETS_TO_CLOZES")).addToggle(
-      (toggle) => toggle.setValue(this.plugin.data.settings.convertCurlyBracketsToClozes).onChange(async (value) => {
-        const curlyBracketsPattern = "{{[123;;]answer[;;hint]}}";
-        const clozePatternSet = new Set(this.plugin.data.settings.clozePatterns);
-        if (value) {
-          clozePatternSet.add(curlyBracketsPattern);
-        } else {
-          clozePatternSet.delete(curlyBracketsPattern);
-        }
-        this.plugin.data.settings.clozePatterns = [...clozePatternSet];
-        this.plugin.data.settings.convertCurlyBracketsToClozes = value;
-        await this.plugin.savePluginData();
-        this.display();
-      })
-    );
-    const clozePatternsEl = new import_obsidian10.Setting(containerEl).setName(t("CLOZE_PATTERNS"));
-    clozePatternsEl.descEl.insertAdjacentHTML(
-      "beforeend",
-      t("CLOZE_PATTERNS_DESC", {
-        docsUrl: "https://www.stephenmwangi.com/obsidian-spaced-repetition/flashcards/cloze-cards/#cloze-types"
-      })
-    );
-    clozePatternsEl.addTextArea(
-      (text) => text.setPlaceholder(
-        "Example:\n==[123;;]answer[;;hint]==\n**[123;;]answer[;;hint]**\n{{[123;;]answer[;;hint]}}"
-      ).setValue(this.plugin.data.settings.clozePatterns.join("\n")).onChange((value) => {
-        applySettingsUpdate(async () => {
-          const hightlightPattern = "==[123;;]answer[;;hint]==";
-          const boldPattern = "**[123;;]answer[;;hint]**";
-          const curlyBracketsPattern = "{{[123;;]answer[;;hint]}}";
-          const clozePatternSet = new Set(
-            value.split(/\n+/).map((v2) => v2.trim()).filter((v2) => v2)
-          );
-          if (clozePatternSet.has(hightlightPattern)) {
-            this.plugin.data.settings.convertHighlightsToClozes = true;
+    new import_obsidian27.SettingGroup(this.containerEl).setHeading(t("OBSIDIAN_INTEGRATION")).addSetting((setting) => {
+      setting.setName(t("OPEN_IN_TAB")).setDesc(t("OPEN_IN_TAB_DESC")).addToggle((toggle) => {
+        const isMobile = import_obsidian27.Platform.isMobile || EmulatedPlatform().isMobile;
+        toggle.setValue(
+          isMobile ? this.plugin.data.settings.openViewInNewTabMobile : this.plugin.data.settings.openViewInNewTab
+        ).onChange(async (value) => {
+          if (isMobile) {
+            this.plugin.data.settings.openViewInNewTabMobile = value;
+            this.plugin.data.settings.flashcardHeightPercentageMobile = 100;
+            this.plugin.data.settings.flashcardWidthPercentageMobile = 100;
           } else {
-            this.plugin.data.settings.convertHighlightsToClozes = false;
+            this.plugin.data.settings.openViewInNewTab = value;
+            this.plugin.data.settings.flashcardHeightPercentage = 100;
+            this.plugin.data.settings.flashcardWidthPercentage = 100;
           }
-          if (clozePatternSet.has(boldPattern)) {
-            this.plugin.data.settings.convertBoldTextToClozes = true;
+          if (value) {
+            this.plugin.uiManager.registerSRFocusListener();
           } else {
-            this.plugin.data.settings.convertBoldTextToClozes = false;
+            this.plugin.uiManager.tabViewManager.closeAllTabViews();
+            this.plugin.uiManager.removeSRFocusListener();
           }
-          if (clozePatternSet.has(curlyBracketsPattern)) {
-            this.plugin.data.settings.convertCurlyBracketsToClozes = true;
+          await this.plugin.savePluginData();
+        });
+      });
+    }).addSetting((setting) => {
+      setting.setName(t("SHOW_RIBBON_ICON")).setDesc(t("SHOW_RIBBON_ICON_DESC")).addToggle(
+        (toggle) => toggle.setValue(this.plugin.data.settings.showRibbonIcon).onChange(async (value) => {
+          this.plugin.data.settings.showRibbonIcon = value;
+          await this.plugin.savePluginData();
+          this.plugin.uiManager.showRibbonIcon(value);
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("SHOW_STATUS_BAR")).setDesc(t("SHOW_STATUS_BAR_DESC")).addToggle(
+        (toggle) => toggle.setValue(this.plugin.data.settings.showStatusBar).onChange(async (value) => {
+          this.plugin.data.settings.showStatusBar = value;
+          await this.plugin.savePluginData();
+          this.plugin.uiManager.updateStatusBar();
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("ENABLE_FILE_MENU_REVIEW_OPTIONS")).setDesc(t("ENABLE_FILE_MENU_REVIEW_OPTIONS_DESC")).addToggle(
+        (toggle) => toggle.setValue(!this.plugin.data.settings.disableFileMenuReviewOptions).onChange(async (value) => {
+          this.plugin.data.settings.disableFileMenuReviewOptions = !value;
+          await this.plugin.savePluginData();
+          this.plugin.uiManager.showFileMenuItems(value);
+        })
+      );
+    });
+    new import_obsidian27.SettingGroup(this.containerEl).setHeading(t("FLASHCARDS")).addSetting((setting) => {
+      setting.setName(t("INITIALLY_EXPAND_SUBDECKS_IN_TREE")).setDesc(t("INITIALLY_EXPAND_SUBDECKS_IN_TREE_DESC")).addToggle(
+        (toggle) => toggle.setValue(this.plugin.data.settings.initiallyExpandAllSubdecksInTree).onChange(async (value) => {
+          this.plugin.data.settings.initiallyExpandAllSubdecksInTree = value;
+          await this.plugin.savePluginData();
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("SHOW_CARD_CONTEXT")).setDesc(t("SHOW_CARD_CONTEXT_DESC")).addToggle(
+        (toggle) => toggle.setValue(this.plugin.data.settings.showContextInCards).onChange(async (value) => {
+          this.plugin.data.settings.showContextInCards = value;
+          await this.plugin.savePluginData();
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("SHOW_INTERVAL_IN_REVIEW_BUTTONS")).setDesc(t("SHOW_INTERVAL_IN_REVIEW_BUTTONS_DESC")).addToggle(
+        (toggle) => toggle.setValue(this.plugin.data.settings.showIntervalInReviewButtons).onChange(async (value) => {
+          this.plugin.data.settings.showIntervalInReviewButtons = value;
+          await this.plugin.savePluginData();
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("CARD_MODAL_HEIGHT_PERCENT")).setDesc(t("CARD_MODAL_SIZE_PERCENT_DESC")).addExtraButton((button) => {
+        button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
+          const isMobile = import_obsidian27.Platform.isMobile || EmulatedPlatform().isMobile;
+          if (isMobile) {
+            this.plugin.data.settings.flashcardHeightPercentageMobile = DEFAULT_SETTINGS.flashcardHeightPercentageMobile;
           } else {
-            this.plugin.data.settings.convertCurlyBracketsToClozes = false;
+            this.plugin.data.settings.flashcardHeightPercentage = DEFAULT_SETTINGS.flashcardHeightPercentage;
           }
-          this.plugin.data.settings.clozePatterns = [...clozePatternSet];
-          await this.plugin.savePluginData();
-        });
-      })
-    );
-    new import_obsidian10.Setting(containerEl).setName(t("INLINE_CARDS_SEPARATOR")).setDesc(t("FIX_SEPARATORS_MANUALLY_WARNING")).addText(
-      (text) => text.setValue(this.plugin.data.settings.singleLineCardSeparator).onChange((value) => {
-        applySettingsUpdate(async () => {
-          this.plugin.data.settings.singleLineCardSeparator = value;
-          await this.plugin.savePluginData();
-        });
-      })
-    ).addExtraButton((button) => {
-      button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
-        this.plugin.data.settings.singleLineCardSeparator = DEFAULT_SETTINGS.singleLineCardSeparator;
-        await this.plugin.savePluginData();
-        this.display();
-      });
-    });
-    new import_obsidian10.Setting(containerEl).setName(t("INLINE_REVERSED_CARDS_SEPARATOR")).setDesc(t("FIX_SEPARATORS_MANUALLY_WARNING")).addText(
-      (text) => text.setValue(this.plugin.data.settings.singleLineReversedCardSeparator).onChange((value) => {
-        applySettingsUpdate(async () => {
-          this.plugin.data.settings.singleLineReversedCardSeparator = value;
-          await this.plugin.savePluginData();
-        });
-      })
-    ).addExtraButton((button) => {
-      button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
-        this.plugin.data.settings.singleLineReversedCardSeparator = DEFAULT_SETTINGS.singleLineReversedCardSeparator;
-        await this.plugin.savePluginData();
-        this.display();
-      });
-    });
-    new import_obsidian10.Setting(containerEl).setName(t("MULTILINE_CARDS_SEPARATOR")).setDesc(t("FIX_SEPARATORS_MANUALLY_WARNING")).addText(
-      (text) => text.setValue(this.plugin.data.settings.multilineCardSeparator).onChange((value) => {
-        applySettingsUpdate(async () => {
-          this.plugin.data.settings.multilineCardSeparator = value;
-          await this.plugin.savePluginData();
-        });
-      })
-    ).addExtraButton((button) => {
-      button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
-        this.plugin.data.settings.multilineCardSeparator = DEFAULT_SETTINGS.multilineCardSeparator;
-        await this.plugin.savePluginData();
-        this.display();
-      });
-    });
-    new import_obsidian10.Setting(containerEl).setName(t("MULTILINE_REVERSED_CARDS_SEPARATOR")).setDesc(t("FIX_SEPARATORS_MANUALLY_WARNING")).addText(
-      (text) => text.setValue(this.plugin.data.settings.multilineReversedCardSeparator).onChange((value) => {
-        applySettingsUpdate(async () => {
-          this.plugin.data.settings.multilineReversedCardSeparator = value;
-          await this.plugin.savePluginData();
-        });
-      })
-    ).addExtraButton((button) => {
-      button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
-        this.plugin.data.settings.multilineReversedCardSeparator = DEFAULT_SETTINGS.multilineReversedCardSeparator;
-        await this.plugin.savePluginData();
-        this.display();
-      });
-    });
-    new import_obsidian10.Setting(containerEl).setName(t("MULTILINE_CARDS_END_MARKER")).setDesc(t("FIX_SEPARATORS_MANUALLY_WARNING")).addText(
-      (text) => text.setValue(this.plugin.data.settings.multilineCardEndMarker).onChange((value) => {
-        applySettingsUpdate(async () => {
-          this.plugin.data.settings.multilineCardEndMarker = value;
-          await this.plugin.savePluginData();
-        });
-      })
-    ).addExtraButton((button) => {
-      button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
-        this.plugin.data.settings.multilineCardEndMarker = DEFAULT_SETTINGS.multilineCardEndMarker;
-        await this.plugin.savePluginData();
-        this.display();
-      });
-    });
-  }
-  async tabNotes(containerEl) {
-    containerEl.createEl("h3", { text: t("GROUP_TAGS_FOLDERS") });
-    new import_obsidian10.Setting(containerEl).setName(t("TAGS_TO_REVIEW")).setDesc(t("TAGS_TO_REVIEW_DESC")).addTextArea(
-      (text) => text.setValue(this.plugin.data.settings.tagsToReview.join(" ")).onChange((value) => {
-        applySettingsUpdate(async () => {
-          this.plugin.data.settings.tagsToReview = value.split(/\s+/);
-          await this.plugin.savePluginData();
-        });
-      })
-    );
-    this.createSettingFoldersToIgnore(containerEl);
-    containerEl.createEl("h3", { text: t("NOTES_REVIEW_QUEUE") });
-    new import_obsidian10.Setting(containerEl).setName(t("AUTO_NEXT_NOTE")).addToggle(
-      (toggle) => toggle.setValue(this.plugin.data.settings.autoNextNote).onChange(async (value) => {
-        this.plugin.data.settings.autoNextNote = value;
-        await this.plugin.savePluginData();
-      })
-    );
-    new import_obsidian10.Setting(containerEl).setName(t("OPEN_RANDOM_NOTE")).setDesc(t("OPEN_RANDOM_NOTE_DESC")).addToggle(
-      (toggle) => toggle.setValue(this.plugin.data.settings.openRandomNote).onChange(async (value) => {
-        this.plugin.data.settings.openRandomNote = value;
-        await this.plugin.savePluginData();
-      })
-    );
-    new import_obsidian10.Setting(containerEl).setName(t("REVIEW_PANE_ON_STARTUP")).addToggle(
-      (toggle) => toggle.setValue(this.plugin.data.settings.enableNoteReviewPaneOnStartup).onChange(async (value) => {
-        this.plugin.data.settings.enableNoteReviewPaneOnStartup = value;
-        await this.plugin.savePluginData();
-      })
-    );
-    new import_obsidian10.Setting(containerEl).setName(t("MAX_N_DAYS_REVIEW_QUEUE")).addText(
-      (text) => text.setValue(this.plugin.data.settings.maxNDaysNotesReviewQueue.toString()).onChange((value) => {
-        applySettingsUpdate(async () => {
-          const numValue = Number.parseInt(value);
-          if (!isNaN(numValue)) {
-            if (numValue < 1) {
-              new import_obsidian10.Notice(t("MIN_ONE_DAY"));
-              text.setValue(
-                this.plugin.data.settings.maxNDaysNotesReviewQueue.toString()
-              );
-              return;
-            }
-            this.plugin.data.settings.maxNDaysNotesReviewQueue = numValue;
-            await this.plugin.savePluginData();
-          } else {
-            new import_obsidian10.Notice(t("VALID_NUMBER_WARNING"));
-          }
-        });
-      })
-    ).addExtraButton((button) => {
-      button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
-        this.plugin.data.settings.maxNDaysNotesReviewQueue = DEFAULT_SETTINGS.maxNDaysNotesReviewQueue;
-        await this.plugin.savePluginData();
-        this.display();
-      });
-    });
-  }
-  async createSettingFoldersToIgnore(containerEl) {
-    new import_obsidian10.Setting(containerEl).setName(t("FOLDERS_TO_IGNORE")).setDesc(t("FOLDERS_TO_IGNORE_DESC")).addTextArea(
-      (text) => text.setValue(this.plugin.data.settings.noteFoldersToIgnore.join("\n")).onChange((value) => {
-        applySettingsUpdate(async () => {
-          this.plugin.data.settings.noteFoldersToIgnore = value.split(/\n+/).map((v2) => v2.trim()).filter((v2) => v2);
           await this.plugin.savePluginData();
           this.display();
         });
-      })
-    );
-  }
-  async tabUiPreferences(containerEl) {
-    containerEl.createEl("h3", { text: t("OBSIDIAN_INTEGRATION") });
-    new import_obsidian10.Setting(containerEl).setName(t("SHOW_RIBBON_ICON")).setDesc(t("SHOW_RIBBON_ICON_DESC")).addToggle(
-      (toggle) => toggle.setValue(this.plugin.data.settings.showRibbonIcon).onChange(async (value) => {
-        this.plugin.data.settings.showRibbonIcon = value;
-        await this.plugin.savePluginData();
-        this.plugin.showRibbonIcon(value);
-      })
-    );
-    new import_obsidian10.Setting(containerEl).setName(t("SHOW_STATUS_BAR")).setDesc(t("SHOW_STATUS_BAR_DESC")).addToggle(
-      (toggle) => toggle.setValue(this.plugin.data.settings.showStatusBar).onChange(async (value) => {
-        this.plugin.data.settings.showStatusBar = value;
-        await this.plugin.savePluginData();
-        this.plugin.showStatusBar(value);
-      })
-    );
-    new import_obsidian10.Setting(containerEl).setName(t("ENABLE_FILE_MENU_REVIEW_OPTIONS")).setDesc(t("ENABLE_FILE_MENU_REVIEW_OPTIONS_DESC")).addToggle(
-      (toggle) => toggle.setValue(!this.plugin.data.settings.disableFileMenuReviewOptions).onChange(async (value) => {
-        this.plugin.data.settings.disableFileMenuReviewOptions = !value;
-        await this.plugin.savePluginData();
-        this.plugin.showFileMenuItems(value);
-      })
-    );
-    containerEl.createEl("h3", { text: t("FLASHCARDS") });
-    new import_obsidian10.Setting(containerEl).setName(t("INITIALLY_EXPAND_SUBDECKS_IN_TREE")).setDesc(t("INITIALLY_EXPAND_SUBDECKS_IN_TREE_DESC")).addToggle(
-      (toggle) => toggle.setValue(this.plugin.data.settings.initiallyExpandAllSubdecksInTree).onChange(async (value) => {
-        this.plugin.data.settings.initiallyExpandAllSubdecksInTree = value;
-        await this.plugin.savePluginData();
-      })
-    );
-    new import_obsidian10.Setting(containerEl).setName(t("SHOW_CARD_CONTEXT")).setDesc(t("SHOW_CARD_CONTEXT_DESC")).addToggle(
-      (toggle) => toggle.setValue(this.plugin.data.settings.showContextInCards).onChange(async (value) => {
-        this.plugin.data.settings.showContextInCards = value;
-        await this.plugin.savePluginData();
-      })
-    );
-    new import_obsidian10.Setting(containerEl).setName(t("SHOW_INTERVAL_IN_REVIEW_BUTTONS")).setDesc(t("SHOW_INTERVAL_IN_REVIEW_BUTTONS_DESC")).addToggle(
-      (toggle) => toggle.setValue(this.plugin.data.settings.showIntervalInReviewButtons).onChange(async (value) => {
-        this.plugin.data.settings.showIntervalInReviewButtons = value;
-        await this.plugin.savePluginData();
-      })
-    );
-    new import_obsidian10.Setting(containerEl).setName(t("CARD_MODAL_HEIGHT_PERCENT")).setDesc(t("CARD_MODAL_SIZE_PERCENT_DESC")).addSlider(
-      (slider) => slider.setLimits(10, 100, 5).setValue(this.plugin.data.settings.flashcardHeightPercentage).setDynamicTooltip().onChange(async (value) => {
-        this.plugin.data.settings.flashcardHeightPercentage = value;
-        await this.plugin.savePluginData();
-      })
-    ).addExtraButton((button) => {
-      button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
-        this.plugin.data.settings.flashcardHeightPercentage = DEFAULT_SETTINGS.flashcardHeightPercentage;
-        await this.plugin.savePluginData();
-        this.display();
-      });
-    });
-    new import_obsidian10.Setting(containerEl).setName(t("CARD_MODAL_WIDTH_PERCENT")).setDesc(t("CARD_MODAL_SIZE_PERCENT_DESC")).addSlider(
-      (slider) => slider.setLimits(10, 100, 5).setValue(this.plugin.data.settings.flashcardWidthPercentage).setDynamicTooltip().onChange(async (value) => {
-        this.plugin.data.settings.flashcardWidthPercentage = value;
-        await this.plugin.savePluginData();
-      })
-    ).addExtraButton((button) => {
-      button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
-        this.plugin.data.settings.flashcardWidthPercentage = DEFAULT_SETTINGS.flashcardWidthPercentage;
-        await this.plugin.savePluginData();
-        this.display();
-      });
-    });
-    containerEl.createEl("h3", { text: t("GROUP_FLASHCARDS_NOTES") });
-    new import_obsidian10.Setting(containerEl).setName(t("FLASHCARD_EASY_LABEL")).setDesc(t("FLASHCARD_EASY_DESC")).addText(
-      (text) => text.setValue(this.plugin.data.settings.flashcardEasyText).onChange((value) => {
-        applySettingsUpdate(async () => {
-          this.plugin.data.settings.flashcardEasyText = value;
+      }).addSlider((slider) => {
+        const isMobile = import_obsidian27.Platform.isMobile || EmulatedPlatform().isMobile;
+        slider.setLimits(10, 100, 5).setValue(
+          isMobile ? this.plugin.data.settings.flashcardHeightPercentageMobile : this.plugin.data.settings.flashcardHeightPercentage
+        ).setDynamicTooltip().onChange(async (value) => {
+          if (isMobile) {
+            this.plugin.data.settings.flashcardHeightPercentageMobile = value;
+          } else {
+            this.plugin.data.settings.flashcardHeightPercentage = value;
+          }
           await this.plugin.savePluginData();
         });
-      })
-    ).addExtraButton((button) => {
-      button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
-        this.plugin.data.settings.flashcardEasyText = DEFAULT_SETTINGS.flashcardEasyText;
-        await this.plugin.savePluginData();
-        this.display();
       });
-    });
-    new import_obsidian10.Setting(containerEl).setName(t("FLASHCARD_GOOD_LABEL")).setDesc(t("FLASHCARD_GOOD_DESC")).addText(
-      (text) => text.setValue(this.plugin.data.settings.flashcardGoodText).onChange((value) => {
-        applySettingsUpdate(async () => {
-          this.plugin.data.settings.flashcardGoodText = value;
+    }).addSetting((setting) => {
+      setting.setName(t("CARD_MODAL_WIDTH_PERCENT")).setDesc(t("CARD_MODAL_SIZE_PERCENT_DESC")).addExtraButton((button) => {
+        button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
+          const isMobile = import_obsidian27.Platform.isMobile || EmulatedPlatform().isMobile;
+          if (isMobile) {
+            this.plugin.data.settings.flashcardWidthPercentageMobile = DEFAULT_SETTINGS.flashcardWidthPercentageMobile;
+          } else {
+            this.plugin.data.settings.flashcardWidthPercentage = DEFAULT_SETTINGS.flashcardWidthPercentage;
+          }
+          await this.plugin.savePluginData();
+          this.display();
+        });
+      }).addSlider((slider) => {
+        const isMobile = import_obsidian27.Platform.isMobile || EmulatedPlatform().isMobile;
+        slider.setLimits(10, 100, 5).setValue(
+          isMobile ? this.plugin.data.settings.flashcardWidthPercentageMobile : this.plugin.data.settings.flashcardWidthPercentage
+        ).setDynamicTooltip().onChange(async (value) => {
+          if (isMobile) {
+            this.plugin.data.settings.flashcardWidthPercentageMobile = value;
+          } else {
+            this.plugin.data.settings.flashcardWidthPercentage = value;
+          }
           await this.plugin.savePluginData();
         });
-      })
-    ).addExtraButton((button) => {
-      button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
-        this.plugin.data.settings.flashcardGoodText = DEFAULT_SETTINGS.flashcardGoodText;
-        await this.plugin.savePluginData();
-        this.display();
       });
     });
-    new import_obsidian10.Setting(containerEl).setName(t("FLASHCARD_HARD_LABEL")).setDesc(t("FLASHCARD_HARD_DESC")).addText(
-      (text) => text.setValue(this.plugin.data.settings.flashcardHardText).onChange((value) => {
-        applySettingsUpdate(async () => {
-          this.plugin.data.settings.flashcardHardText = value;
+    new import_obsidian27.SettingGroup(this.containerEl).setHeading(t("GROUP_FLASHCARDS_NOTES")).addSetting((setting) => {
+      setting.setName(t("FLASHCARD_EASY_LABEL")).setDesc(t("FLASHCARD_EASY_DESC")).addExtraButton((button) => {
+        button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
+          this.plugin.data.settings.flashcardEasyText = DEFAULT_SETTINGS.flashcardEasyText;
           await this.plugin.savePluginData();
+          this.display();
         });
-      })
-    ).addExtraButton((button) => {
-      button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
-        this.plugin.data.settings.flashcardHardText = DEFAULT_SETTINGS.flashcardHardText;
-        await this.plugin.savePluginData();
-        this.display();
-      });
-    });
-    new import_obsidian10.Setting(containerEl).setName(t("REVIEW_BUTTON_DELAY")).setDesc(t("REVIEW_BUTTON_DELAY_DESC")).addSlider(
-      (slider) => slider.setLimits(0, 5e3, 100).setValue(this.plugin.data.settings.reviewButtonDelay).setDynamicTooltip().onChange(async (value) => {
-        this.plugin.data.settings.reviewButtonDelay = value;
-        await this.plugin.savePluginData();
-      })
-    ).addExtraButton((button) => {
-      button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
-        this.plugin.data.settings.reviewButtonDelay = DEFAULT_SETTINGS.reviewButtonDelay;
-        await this.plugin.savePluginData();
-        this.display();
-      });
-    });
-  }
-  async tabScheduling(containerEl) {
-    containerEl.createEl("h3", { text: t("ALGORITHM") });
-    const algoSettingEl = new import_obsidian10.Setting(containerEl).setName(t("ALGORITHM"));
-    algoSettingEl.descEl.insertAdjacentHTML(
-      "beforeend",
-      t("CHECK_ALGORITHM_WIKI", {
-        algoUrl: "https://www.stephenmwangi.com/obsidian-spaced-repetition/algorithms/"
-      })
-    );
-    algoSettingEl.addDropdown(
-      (dropdown) => dropdown.addOptions({
-        "SM-2-OSR": t("SM2_OSR_VARIANT")
-      }).setValue(this.plugin.data.settings.algorithm).onChange(async (value) => {
-        this.plugin.data.settings.algorithm = value;
-        await this.plugin.savePluginData();
-      })
-    );
-    new import_obsidian10.Setting(containerEl).setName(t("BASE_EASE")).setDesc(t("BASE_EASE_DESC")).addText(
-      (text) => text.setValue(this.plugin.data.settings.baseEase.toString()).onChange((value) => {
-        applySettingsUpdate(async () => {
-          const numValue = Number.parseInt(value);
-          if (!isNaN(numValue)) {
-            if (numValue < 130) {
-              new import_obsidian10.Notice(t("BASE_EASE_MIN_WARNING"));
-              text.setValue(this.plugin.data.settings.baseEase.toString());
-              return;
-            }
-            this.plugin.data.settings.baseEase = numValue;
+      }).addText(
+        (text) => text.setValue(this.plugin.data.settings.flashcardEasyText).onChange((value) => {
+          applySettingsUpdate(async () => {
+            this.plugin.data.settings.flashcardEasyText = value;
             await this.plugin.savePluginData();
-          } else {
-            new import_obsidian10.Notice(t("VALID_NUMBER_WARNING"));
-          }
+          });
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("FLASHCARD_GOOD_LABEL")).setDesc(t("FLASHCARD_GOOD_DESC")).addExtraButton((button) => {
+        button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
+          this.plugin.data.settings.flashcardGoodText = DEFAULT_SETTINGS.flashcardGoodText;
+          await this.plugin.savePluginData();
+          this.display();
         });
-      })
-    ).addExtraButton((button) => {
-      button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
-        this.plugin.data.settings.baseEase = DEFAULT_SETTINGS.baseEase;
-        await this.plugin.savePluginData();
-        this.display();
-      });
-    });
-    new import_obsidian10.Setting(containerEl).setName(t("LAPSE_INTERVAL_CHANGE")).setDesc(t("LAPSE_INTERVAL_CHANGE_DESC")).addSlider(
-      (slider) => slider.setLimits(1, 99, 1).setValue(this.plugin.data.settings.lapsesIntervalChange * 100).setDynamicTooltip().onChange(async (value) => {
-        this.plugin.data.settings.lapsesIntervalChange = value / 100;
-        await this.plugin.savePluginData();
-      })
-    ).addExtraButton((button) => {
-      button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
-        this.plugin.data.settings.lapsesIntervalChange = DEFAULT_SETTINGS.lapsesIntervalChange;
-        await this.plugin.savePluginData();
-        this.display();
-      });
-    });
-    new import_obsidian10.Setting(containerEl).setName(t("EASY_BONUS")).setDesc(t("EASY_BONUS_DESC")).addText(
-      (text) => text.setValue((this.plugin.data.settings.easyBonus * 100).toString()).onChange((value) => {
-        applySettingsUpdate(async () => {
-          const numValue = Number.parseInt(value) / 100;
-          if (!isNaN(numValue)) {
-            if (numValue < 1) {
-              new import_obsidian10.Notice(t("EASY_BONUS_MIN_WARNING"));
-              text.setValue(
-                (this.plugin.data.settings.easyBonus * 100).toString()
-              );
-              return;
-            }
-            this.plugin.data.settings.easyBonus = numValue;
+      }).addText(
+        (text) => text.setValue(this.plugin.data.settings.flashcardGoodText).onChange((value) => {
+          applySettingsUpdate(async () => {
+            this.plugin.data.settings.flashcardGoodText = value;
             await this.plugin.savePluginData();
-          } else {
-            new import_obsidian10.Notice(t("VALID_NUMBER_WARNING"));
-          }
+          });
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("FLASHCARD_HARD_LABEL")).setDesc(t("FLASHCARD_HARD_DESC")).addExtraButton((button) => {
+        button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
+          this.plugin.data.settings.flashcardHardText = DEFAULT_SETTINGS.flashcardHardText;
+          await this.plugin.savePluginData();
+          this.display();
         });
-      })
-    ).addExtraButton((button) => {
-      button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
-        this.plugin.data.settings.easyBonus = DEFAULT_SETTINGS.easyBonus;
-        await this.plugin.savePluginData();
-        this.display();
-      });
-    });
-    new import_obsidian10.Setting(containerEl).setName(t("LOAD_BALANCE")).setDesc(t("LOAD_BALANCE_DESC")).addToggle(
-      (toggle) => toggle.setValue(this.plugin.data.settings.loadBalance).onChange(async (value) => {
-        this.plugin.data.settings.loadBalance = value;
-        await this.plugin.savePluginData();
-      })
-    );
-    new import_obsidian10.Setting(containerEl).setName(t("MAX_INTERVAL")).setDesc(t("MAX_INTERVAL_DESC")).addText(
-      (text) => text.setValue(this.plugin.data.settings.maximumInterval.toString()).onChange((value) => {
-        applySettingsUpdate(async () => {
-          const numValue = Number.parseInt(value);
-          if (!isNaN(numValue)) {
-            if (numValue < 1) {
-              new import_obsidian10.Notice(t("MAX_INTERVAL_MIN_WARNING"));
-              text.setValue(
-                this.plugin.data.settings.maximumInterval.toString()
-              );
-              return;
-            }
-            this.plugin.data.settings.maximumInterval = numValue;
+      }).addText(
+        (text) => text.setValue(this.plugin.data.settings.flashcardHardText).onChange((value) => {
+          applySettingsUpdate(async () => {
+            this.plugin.data.settings.flashcardHardText = value;
             await this.plugin.savePluginData();
-          } else {
-            new import_obsidian10.Notice(t("VALID_NUMBER_WARNING"));
-          }
+          });
+        })
+      );
+    }).addSetting((setting) => {
+      setting.setName(t("REVIEW_BUTTON_DELAY")).setDesc(t("REVIEW_BUTTON_DELAY_DESC")).addExtraButton((button) => {
+        button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
+          this.plugin.data.settings.reviewButtonDelay = DEFAULT_SETTINGS.reviewButtonDelay;
+          await this.plugin.savePluginData();
+          this.display();
         });
-      })
-    ).addExtraButton((button) => {
-      button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
-        this.plugin.data.settings.maximumInterval = DEFAULT_SETTINGS.maximumInterval;
-        await this.plugin.savePluginData();
-        this.display();
-      });
+      }).addSlider(
+        (slider) => slider.setLimits(0, 5e3, 100).setValue(this.plugin.data.settings.reviewButtonDelay).setDynamicTooltip().onChange(async (value) => {
+          this.plugin.data.settings.reviewButtonDelay = value;
+          await this.plugin.savePluginData();
+        })
+      );
     });
-    new import_obsidian10.Setting(containerEl).setName(t("MAX_LINK_CONTRIB")).setDesc(t("MAX_LINK_CONTRIB_DESC")).addSlider(
-      (slider) => slider.setLimits(0, 100, 1).setValue(this.plugin.data.settings.maxLinkFactor * 100).setDynamicTooltip().onChange(async (value) => {
-        this.plugin.data.settings.maxLinkFactor = value / 100;
-        await this.plugin.savePluginData();
-      })
-    ).addExtraButton((button) => {
-      button.setIcon("reset").setTooltip(t("RESET_DEFAULT")).onClick(async () => {
-        this.plugin.data.settings.maxLinkFactor = DEFAULT_SETTINGS.maxLinkFactor;
-        await this.plugin.savePluginData();
-        this.display();
-      });
-    });
-    containerEl.createEl("h3", { text: t("GROUP_DATA_STORAGE") });
-    new import_obsidian10.Setting(containerEl).setName(t("GROUP_DATA_STORAGE")).setDesc(t("GROUP_DATA_STORAGE_DESC")).addDropdown(
-      (dropdown) => dropdown.addOptions({
-        NOTES: t("STORE_IN_NOTES")
-      }).setValue(this.plugin.data.settings.dataStore).onChange(async (value) => {
-        this.plugin.data.settings.dataStore = value;
-        await this.plugin.savePluginData();
-      })
-    );
-    new import_obsidian10.Setting(containerEl).setName(t("INLINE_SCHEDULING_COMMENTS")).setDesc(t("INLINE_SCHEDULING_COMMENTS_DESC")).addToggle(
-      (toggle) => toggle.setValue(this.plugin.data.settings.cardCommentOnSameLine).onChange(async (value) => {
-        this.plugin.data.settings.cardCommentOnSameLine = value;
-        await this.plugin.savePluginData();
-      })
-    );
-  }
-  async tabHelp(containerEl) {
-    containerEl.createEl("h3", { text: `${t("HELP")}` });
-    containerEl.createEl("p").insertAdjacentHTML(
-      "beforeend",
-      t("CHECK_WIKI", {
-        wikiUrl: "https://www.stephenmwangi.com/obsidian-spaced-repetition/"
-      })
-    );
-    containerEl.createEl("p").insertAdjacentHTML(
-      "beforeend",
-      t("GITHUB_DISCUSSIONS", {
-        discussionsUrl: "https://github.com/st3v3nmw/obsidian-spaced-repetition/discussions/"
-      })
-    );
-    containerEl.createEl("p").insertAdjacentHTML(
-      "beforeend",
-      t("GITHUB_ISSUES", {
-        issuesUrl: "https://github.com/st3v3nmw/obsidian-spaced-repetition/issues/"
-      })
-    );
-    containerEl.createEl("h3", { text: `${t("LOGGING")}` });
-    new import_obsidian10.Setting(containerEl).setName(t("DISPLAY_SCHEDULING_DEBUG_INFO")).addToggle(
-      (toggle) => toggle.setValue(this.plugin.data.settings.showSchedulingDebugMessages).onChange(async (value) => {
-        this.plugin.data.settings.showSchedulingDebugMessages = value;
-        await this.plugin.savePluginData();
-      })
-    );
-    new import_obsidian10.Setting(containerEl).setName(t("DISPLAY_PARSER_DEBUG_INFO")).addToggle(
-      (toggle) => toggle.setValue(this.plugin.data.settings.showParserDebugMessages).onChange(async (value) => {
-        this.plugin.data.settings.showParserDebugMessages = value;
-        setDebugParser(this.plugin.data.settings.showParserDebugMessages);
-        await this.plugin.savePluginData();
-      })
-    );
-    containerEl.createEl("h3", { text: t("GROUP_CONTRIBUTING") });
-    containerEl.createEl("p").insertAdjacentHTML(
-      "beforeend",
-      t("GITHUB_SOURCE_CODE", {
-        githubProjectUrl: "https://github.com/st3v3nmw/obsidian-spaced-repetition"
-      })
-    );
-    containerEl.createEl("p").insertAdjacentHTML(
-      "beforeend",
-      t("CODE_CONTRIBUTION_INFO", {
-        codeContributionUrl: "https://www.stephenmwangi.com/obsidian-spaced-repetition/contributing/#code"
-      })
-    );
-    containerEl.createEl("p").insertAdjacentHTML(
-      "beforeend",
-      t("TRANSLATION_CONTRIBUTION_INFO", {
-        translationContributionUrl: "https://www.stephenmwangi.com/obsidian-spaced-repetition/contributing/#translating"
-      })
-    );
-  }
-  rememberLastPosition(containerElement) {
-    const lastPosition = this.lastPosition;
-    this.tabStructure.buttons[lastPosition.tabName].click();
-    containerElement.scrollTo({
-      top: this.lastPosition.scrollPosition,
-      behavior: "auto"
-    });
-    containerElement.addEventListener("scroll", (_2) => {
-      this.lastPosition.scrollPosition = containerElement.scrollTop;
-    });
-    for (const tabName in this.tabStructure.buttons) {
-      const button = this.tabStructure.buttons[tabName];
-      button.onClickEvent((_2) => {
-        lastPosition.tabName = tabName;
-      });
-    }
   }
 };
 
-// src/gui/sidebar.tsx
-var OsrSidebar = class {
+// src/ui/obsidian-ui-components/content-container/settings-page/settings-page-manager.tsx
+var SettingsPageTypesArray = [
+  "main-page",
+  "flashcards-page",
+  "notes-page",
+  "scheduling-page",
+  "ui-preferences-page",
+  "statistics-page"
+];
+function getPageName(pageType) {
+  switch (pageType) {
+    case "main-page":
+      return t("MAIN_SETTINGS_PAGE");
+    case "flashcards-page":
+      return t("FLASHCARDS");
+    case "notes-page":
+      return t("NOTES");
+    case "scheduling-page":
+      return t("SCHEDULING");
+    case "ui-preferences-page":
+      return t("UI");
+    case "statistics-page":
+      return t("STATS_TITLE");
+  }
+}
+function getPageIcon(pageType) {
+  switch (pageType) {
+    case "main-page":
+      return "Settings";
+    case "flashcards-page":
+      return "SpacedRepIcon";
+    case "notes-page":
+      return "book-text";
+    case "scheduling-page":
+      return "calendar";
+    case "ui-preferences-page":
+      return "presentation";
+    case "statistics-page":
+      return "bar-chart-3";
+  }
+}
+var SettingsPageManager = class {
+  constructor(containerEl, plugin, lastPage, lastScrollPosition, updateLastPageState, display) {
+    this.pages = [];
+    this.applyDebounceTimer = 0;
+    this.containerEl = containerEl;
+    this.plugin = plugin;
+    this.updateLastPageState = updateLastPageState;
+    this.display = display;
+    this.createPages();
+    this.currentPage = lastPage;
+    this.pages[this.getPageIndex(this.currentPage)].show();
+    this.pages[this.getPageIndex(this.currentPage)].scrollTo(lastScrollPosition);
+  }
+  /**
+   * Destroys the SettingsPageManager and all its pages.
+   */
+  destroy() {
+    this.pages.forEach((page) => page.destroy && page.destroy());
+  }
+  /**
+   * Renders the SettingsPageManager.
+   */
+  render() {
+    this.pages.forEach((page) => page.render && page.render());
+  }
+  // https://github.com/mgmeyers/obsidian-kanban/blob/main/src/Settings.ts
+  applySettingsUpdate(callback2) {
+    clearTimeout(this.applyDebounceTimer);
+    this.applyDebounceTimer = window.setTimeout(callback2, 512);
+  }
+  createPages() {
+    this.containerEl.empty();
+    for (const pageType of SettingsPageTypesArray) {
+      const newPageContainerEl = this.containerEl.createDiv();
+      switch (pageType) {
+        case "main-page":
+          this.pages.push(
+            new MainPage(
+              newPageContainerEl,
+              this.plugin,
+              pageType,
+              this.display,
+              this.openPage.bind(this),
+              this.scrollListener.bind(this)
+            )
+          );
+          break;
+        case "flashcards-page":
+          this.pages.push(
+            new FlashcardsPage(
+              newPageContainerEl,
+              this.plugin,
+              pageType,
+              this.applySettingsUpdate.bind(this),
+              this.display,
+              this.openPage.bind(this),
+              this.scrollListener.bind(this)
+            )
+          );
+          break;
+        case "notes-page":
+          this.pages.push(
+            new NotesPage(
+              newPageContainerEl,
+              this.plugin,
+              pageType,
+              this.applySettingsUpdate.bind(this),
+              this.display,
+              this.openPage.bind(this),
+              this.scrollListener.bind(this)
+            )
+          );
+          break;
+        case "scheduling-page":
+          this.pages.push(
+            new SchedulingPage(
+              newPageContainerEl,
+              this.plugin,
+              pageType,
+              this.applySettingsUpdate.bind(this),
+              this.display,
+              this.openPage.bind(this),
+              this.scrollListener.bind(this)
+            )
+          );
+          break;
+        case "ui-preferences-page":
+          this.pages.push(
+            new UIPreferencesPage(
+              newPageContainerEl,
+              this.plugin,
+              pageType,
+              this.applySettingsUpdate.bind(this),
+              this.display,
+              this.openPage.bind(this),
+              this.scrollListener.bind(this)
+            )
+          );
+          break;
+        case "statistics-page":
+          this.pages.push(
+            new StatisticsPage(
+              newPageContainerEl,
+              this.plugin,
+              pageType,
+              this.openPage.bind(this),
+              this.scrollListener.bind(this)
+            )
+          );
+          break;
+      }
+    }
+  }
+  scrollListener(scrollPosition) {
+    this.updateLastPageState(this.currentPage, scrollPosition);
+  }
+  getPageIndex(pageType) {
+    return this.pages.findIndex((page) => page.getPageType() === pageType);
+  }
+  openPage(pageType) {
+    if (this.currentPage === pageType) return;
+    this.pages[this.getPageIndex(this.currentPage)].hide();
+    this.currentPage = pageType;
+    this.updateLastPageState(this.currentPage, 0);
+    this.pages[this.getPageIndex(this.currentPage)].show();
+  }
+};
+
+// src/ui/obsidian-ui-components/settings-tab.tsx
+var SRSettingTab = class extends import_obsidian28.PluginSettingTab {
+  constructor(app, plugin) {
+    super(app, plugin);
+    this.lastPage = "main-page";
+    this.lastScrollPosition = 0;
+    this.plugin = plugin;
+    this.icon = "SpacedRepIcon";
+    this.containerEl.addClass("sr-settings-tab");
+  }
+  display() {
+    this.settingsPageManager = new SettingsPageManager(
+      this.containerEl,
+      this.plugin,
+      this.lastPage,
+      this.lastScrollPosition,
+      (lastPage, lastScrollPosition) => {
+        this.lastPage = lastPage;
+        this.lastScrollPosition = lastScrollPosition;
+      },
+      this.display.bind(this)
+    );
+  }
+  hide() {
+    if (this.settingsPageManager) this.settingsPageManager.destroy();
+    this.containerEl.empty();
+  }
+};
+
+// src/ui/sidebar-manager.tsx
+var SidebarManager = class {
   get app() {
     return this.plugin.app;
   }
@@ -27927,7 +30771,7 @@ var OsrSidebar = class {
   }
   getActiveLeaf(type) {
     const leaves = this.app.workspace.getLeavesOfType(type);
-    if (leaves.length == 0) {
+    if (leaves.length === 0) {
       return this.app.workspace.getRightLeaf(false);
     }
     return leaves[0];
@@ -27937,7 +30781,8 @@ var OsrSidebar = class {
       return this.reviewQueueListView = new ReviewQueueListView(
         leaf,
         this.nextNoteReviewHandler,
-        this.settings
+        this.settings,
+        this.plugin
       );
     });
   }
@@ -27955,270 +30800,547 @@ var OsrSidebar = class {
   }
 };
 
-// src/icons/app-icon.ts
-var import_obsidian11 = require("obsidian");
-function appIcon() {
-  (0, import_obsidian11.addIcon)(
-    "SpacedRepIcon",
-    `<path fill="currentColor" stroke="currentColor" d="M 88.960938 17.257812 L 47.457031 17.257812 C 45.679688 17.257812 44.230469 18.703125 44.230469 20.484375 L 44.230469 86.558594 C 44.230469 88.335938 45.679688 89.785156 47.457031 89.785156 L 88.960938 89.785156 C 90.738281 89.785156 92.1875 88.335938 92.1875 86.558594 L 92.1875 20.484375 C 92.1875 18.703125 90.738281 17.257812 88.960938 17.257812 Z M 88.28125 85.878906 L 48.136719 85.878906 L 48.136719 21.164062 L 88.28125 21.164062 Z M 88.28125 85.878906 "/>
-        <path fill="currentColor" stroke="currentColor"  d="M 88.960938 9.445312 L 61.667969 9.445312 C 59.925781 3.816406 54.011719 0.515625 48.269531 2.054688 L 8.183594 12.796875 C 2.304688 14.371094 -1.199219 20.4375 0.378906 26.316406 L 17.476562 90.140625 C 18.796875 95.066406 23.269531 98.324219 28.144531 98.324219 C 29.085938 98.324219 30.046875 98.199219 31 97.945312 L 40.765625 95.328125 C 42.625 96.75 44.941406 97.597656 47.457031 97.597656 L 88.960938 97.597656 C 95.046875 97.597656 100 92.644531 100 86.558594 L 100 20.484375 C 100 14.398438 95.046875 9.445312 88.960938 9.445312 Z M 29.988281 94.171875 C 26.1875 95.191406 22.269531 92.925781 21.25 89.128906 L 4.152344 25.304688 C 3.132812 21.507812 5.394531 17.585938 9.195312 16.570312 L 49.28125 5.828125 C 52.578125 4.945312 55.960938 6.53125 57.464844 9.445312 L 47.457031 9.445312 C 41.371094 9.445312 36.417969 14.398438 36.417969 20.484375 L 36.417969 86.558594 C 36.417969 88.558594 36.957031 90.433594 37.890625 92.054688 Z M 96.09375 86.558594 C 96.09375 90.492188 92.894531 93.691406 88.960938 93.691406 L 47.457031 93.691406 C 43.523438 93.691406 40.324219 90.492188 40.324219 86.558594 L 40.324219 20.484375 C 40.324219 16.550781 43.523438 13.351562 47.457031 13.351562 L 88.960938 13.351562 C 92.894531 13.351562 96.09375 16.550781 96.09375 20.484375 Z M 96.09375 86.558594 "/>
-        <path fill="currentColor" stroke="currentColor"  d="M 54.101562 53.09375 L 60.070312 57.410156 L 57.789062 64.378906 C 56.90625 67.074219 59.996094 69.320312 62.285156 67.648438 L 68.210938 63.324219 L 74.132812 67.648438 C 76.421875 69.320312 79.511719 67.074219 78.628906 64.378906 L 76.347656 57.410156 L 82.320312 53.09375 C 84.613281 51.433594 83.441406 47.804688 80.605469 47.804688 L 73.242188 47.804688 L 70.988281 40.839844 C 70.117188 38.144531 66.300781 38.144531 65.429688 40.839844 L 63.179688 47.804688 L 55.8125 47.804688 C 52.980469 47.804688 51.804688 51.433594 54.101562 53.09375 Z M 54.101562 53.09375 "/>
-        `
-  );
-}
+// src/ui/status-bar-manager.tsx
+var import_obsidian30 = require("obsidian");
 
-// src/next-note-review-handler.ts
-var import_obsidian13 = require("obsidian");
+// src/ui/obsidian-ui-components/statusbar-items/icon-text-statusbar-item.tsx
+var import_obsidian29 = require("obsidian");
 
-// src/gui/review-deck-selection-modal.tsx
-var import_obsidian12 = require("obsidian");
-var ReviewDeckSelectionModal = class extends import_obsidian12.FuzzySuggestModal {
-  constructor(app, deckKeys) {
-    super(app);
-    this.deckKeys = [];
-    this.deckKeys = deckKeys;
+// src/ui/obsidian-ui-components/statusbar-items/statusbar-item.tsx
+var StatusBarItem = class {
+  constructor(plugin, type, props) {
+    var _a2;
+    this.plugin = plugin;
+    this.type = type;
+    this.statusBarItem = this.plugin.addStatusBarItem();
+    this.statusBarItem.addClass("status-bar-item");
+    this.statusBarItem.addClass("sr-status-bar-item");
+    if (props.show === void 0 || props.show === false) {
+      this.statusBarItem.addClass("sr-is-hidden");
+    }
+    if (props.onClick !== void 0) {
+      this.statusBarItem.addClass("mod-clickable");
+      this.statusBarItem.addEventListener("click", async () => {
+        await props.onClick();
+      });
+    }
+    if (props.tooltip !== void 0) {
+      this.statusBarItem.setAttribute("aria-label", props.tooltip);
+      this.statusBarItem.setAttribute("aria-label-position", (_a2 = props.tooltipPosition) != null ? _a2 : "top");
+    }
+    if (props.segments !== void 0) {
+      for (const segment of props.segments) {
+        this.addSegment(segment);
+      }
+    }
   }
-  getItems() {
-    return this.deckKeys;
+  show() {
+    if (this.statusBarItem.hasClass("sr-is-hidden")) {
+      this.statusBarItem.removeClass("sr-is-hidden");
+    }
   }
-  getItemText(item) {
-    return item;
+  hide() {
+    if (!this.statusBarItem.hasClass("sr-is-hidden")) {
+      this.statusBarItem.addClass("sr-is-hidden");
+    }
   }
-  onChooseItem(deckKey, _2) {
-    this.close();
-    this.submitCallback(deckKey);
+  getStatusBarItemType() {
+    return this.type;
+  }
+  addSegment(content) {
+    content.addClass("sr-status-bar-item-segment");
+    this.segments.push(content);
+    this.statusBarItem.appendChild(content);
+    return content;
   }
 };
 
-// src/next-note-review-handler.ts
-var NextNoteReviewHandler = class {
-  get lastSelectedReviewDeck() {
-    return this._lastSelectedReviewDeck;
+// src/ui/obsidian-ui-components/statusbar-items/text-statusbar-item.tsx
+var TextStatusBarItem = class extends StatusBarItem {
+  constructor(plugin, type, props) {
+    super(plugin, type, props);
+    this.setText(props.text);
   }
-  get noteReviewQueue() {
-    return this._noteReviewQueue;
-  }
-  constructor(app, settings, noteReviewQueue) {
-    this.app = app;
-    this.settings = settings;
-    this._noteReviewQueue = noteReviewQueue;
-  }
-  async autoReviewNextNote() {
-    if (this.settings.autoNextNote) {
-      if (!this._lastSelectedReviewDeck) {
-        const reviewDeckKeys = this._noteReviewQueue.reviewDeckNameList;
-        if (reviewDeckKeys.length > 0) this._lastSelectedReviewDeck = reviewDeckKeys[0];
-        else {
-          new import_obsidian13.Notice(t("ALL_CAUGHT_UP"));
-          return;
-        }
+  setText(text) {
+    this.segments = [];
+    this.statusBarItem.empty();
+    if (text !== void 0 && typeof text === "string") {
+      this.text = text;
+      this.createTextSegment(text);
+    } else if (text !== void 0 && Array.isArray(text)) {
+      this.text = text;
+      for (const textSegment of text) {
+        this.createTextSegment(textSegment);
       }
-      this.reviewNextNote(this._lastSelectedReviewDeck);
     }
   }
-  async reviewNextNoteModal() {
-    const reviewDeckNames = this._noteReviewQueue.reviewDeckNameList;
-    if (reviewDeckNames.length === 1) {
-      this.reviewNextNote(reviewDeckNames[0]);
+  getText() {
+    return this.text;
+  }
+  createTextSegment(text) {
+    const segment = document.createElement("span");
+    segment.setText(text);
+    this.addSegment(segment);
+  }
+};
+
+// src/ui/obsidian-ui-components/statusbar-items/icon-text-statusbar-item.tsx
+var IconTextStatusBarItem = class extends TextStatusBarItem {
+  constructor(plugin, type, props) {
+    super(plugin, type, props);
+    this.setText(props.text ? props.text : "", props.icon);
+  }
+  setText(text, icon) {
+    this.segments = [];
+    this.statusBarItem.empty();
+    if (this.icon !== void 0 || icon !== void 0)
+      this.setStatusBarItemIcon(icon ? icon : this.icon);
+    if (text !== void 0 && typeof text === "string") {
+      this.text = text;
+      this.createTextSegment(text);
+    } else if (text !== void 0 && Array.isArray(text)) {
+      this.text = text;
+      for (const textSegment of text) {
+        this.createTextSegment(textSegment);
+      }
+    }
+  }
+  setStatusBarItemIcon(icon) {
+    this.icon = icon;
+    if (this.iconEl === void 0 || !this.statusBarItem.hasChildNodes()) {
+      this.iconEl = document.createElement("span");
+      this.iconEl.addClass("status-bar-item-icon");
+      this.addSegment(this.iconEl);
     } else {
-      const deckSelectionModal = new ReviewDeckSelectionModal(this.app, reviewDeckNames);
-      deckSelectionModal.submitCallback = (deckKey) => this.reviewNextNote(deckKey);
-      deckSelectionModal.open();
+      this.iconEl.empty();
+    }
+    (0, import_obsidian29.setIcon)(this.iconEl, this.icon);
+    if (!this.iconEl.hasClass("status-bar-item-icon")) {
+      this.iconEl.addClass("status-bar-item-icon");
     }
   }
-  async reviewNextNote(deckKey) {
-    if (!this._noteReviewQueue.reviewDeckNameList.contains(deckKey)) {
-      new import_obsidian13.Notice(t("NO_DECK_EXISTS", { deckName: deckKey }));
+};
+
+// src/ui/status-bar-manager.tsx
+var StatusBarItemTypesArray = [
+  "card-review",
+  "note-review",
+  "update-available"
+];
+var StatusBarManager = class {
+  constructor(plugin) {
+    this.plugin = plugin;
+    this.statusBarItems = [];
+    this.createStatusBarItems();
+  }
+  setText(text, showItems, statusBarItemType) {
+    const statusBarItem = this.statusBarItems.find(
+      (statusBarItem2) => statusBarItem2.getStatusBarItemType() === statusBarItemType
+    );
+    if (statusBarItem !== void 0) {
+      statusBarItem.setText(text);
+      if (showItems) {
+        statusBarItem.show();
+      } else {
+        statusBarItem.hide();
+      }
+    }
+  }
+  showStatusBarItems(state) {
+    if (state === true && this.statusBarItems.length === 0) {
+      this.createStatusBarItems();
+      this.statusBarItems.forEach((statusBarItem) => {
+        statusBarItem.show();
+      });
+    } else if (state === true && this.statusBarItems.length > 0) {
+      this.statusBarItems.forEach((statusBarItem) => {
+        if (statusBarItem.getStatusBarItemType() !== "update-available")
+          statusBarItem.show();
+      });
+    } else {
+      this.statusBarItems.forEach((statusBarItem) => {
+        statusBarItem.hide();
+      });
+    }
+  }
+  showStatusBarItem(state, statusBarItemType) {
+    const statusBarItem = this.statusBarItems.find(
+      (statusBarItem2) => statusBarItem2.getStatusBarItemType() === statusBarItemType
+    );
+    if (statusBarItem !== void 0) {
+      if (state) {
+        statusBarItem.show();
+      } else {
+        statusBarItem.hide();
+      }
+    }
+  }
+  showUpdateAvailableItemIfAvailable() {
+    const updateItem = this.statusBarItems.find(
+      (statusBarItem) => statusBarItem.getStatusBarItemType() === "update-available"
+    );
+    if (updateItem !== void 0 && updateItem.getText() !== void 0 && updateItem.getText() !== "") {
+      updateItem.show();
+    }
+  }
+  async createStatusBarItems() {
+    StatusBarItemTypesArray.forEach((statusBarItemType) => {
+      let statusBarItem = void 0;
+      switch (statusBarItemType) {
+        case "card-review":
+          statusBarItem = new IconTextStatusBarItem(this.plugin, statusBarItemType, {
+            icon: "SpacedRepIcon",
+            show: false,
+            tooltip: t("OPEN_DECK_FOR_REVIEW"),
+            tooltipPosition: "top",
+            onClick: async () => {
+              await this.plugin.uiManager.openDeckContainer(
+                1 /* Review */
+              );
+            }
+          });
+          break;
+        case "note-review":
+          statusBarItem = new IconTextStatusBarItem(this.plugin, statusBarItemType, {
+            icon: "lucide-file-clock",
+            show: false,
+            tooltip: t("OPEN_NOTE_FOR_REVIEW"),
+            tooltipPosition: "top",
+            onClick: async () => {
+              if (!this.plugin.osrAppCore.syncLock) {
+                await this.plugin.sync();
+                this.plugin.nextNoteReviewHandler.reviewNextNoteModal();
+              }
+            }
+          });
+          break;
+        case "update-available":
+          statusBarItem = new IconTextStatusBarItem(this.plugin, statusBarItemType, {
+            icon: "lucide-circle-arrow-up",
+            show: false,
+            tooltip: t("UPDATE_AVAILABLE"),
+            tooltipPosition: "top"
+          });
+          break;
+      }
+      this.statusBarItems.push(statusBarItem);
+    });
+    if (this.plugin.manifest.version !== await this.getNewestVersion()) {
+      const updateItem = this.statusBarItems.find(
+        (statusBarItem) => statusBarItem.getStatusBarItemType() === "update-available"
+      );
+      updateItem.setText("Spaced Repetition: new Update!");
+    }
+  }
+  async getNewestVersion() {
+    try {
+      const gitAPIrequest = async () => {
+        return JSON.parse(
+          await (0, import_obsidian30.request)({
+            url: "https://api.github.com/repos/st3v3nmw/obsidian-spaced-repetition/releases?per_page=15&page=1"
+          })
+        );
+      };
+      const latestVersion = (await gitAPIrequest()).filter((el) => !el.draft && !el.prerelease).map((el) => {
+        return {
+          version: el.tag_name,
+          published: new Date(el.published_at)
+        };
+      }).filter((el) => el.version.match(/^\d+\.\d+\.\d+$/)).sort((el1, el2) => el2.published - el1.published)[0].version;
+      return latestVersion;
+    } catch (e2) {
+      console.log({ error: e2 });
+      return this.plugin.manifest.version;
+    }
+  }
+};
+
+// src/ui/tab-view-manager.tsx
+var TabViewManager = class {
+  // Add any needed resourced
+  constructor(plugin) {
+    // Add any new other tab view types to this, then they'll be automatically registered
+    this.tabViewTypes = [
+      {
+        type: SR_TAB_VIEW,
+        viewCreator: (leaf) => new SRTabView(leaf, this.plugin, async () => {
+          if (this.shouldOpenSingeNoteTabView) {
+            const singleNoteDeckData = await this.plugin.getPreparedDecksForSingleNoteReview(
+              this.chosenSingleNoteForTabbedView,
+              this.chosenReviewModeForTabbedView
+            );
+            return this.plugin.getPreparedReviewSequencer(
+              singleNoteDeckData.deckTree,
+              singleNoteDeckData.remainingDeckTree,
+              singleNoteDeckData.mode
+            );
+          }
+          const fullDeckTree = this.osrAppCore.reviewableDeckTree;
+          const remainingDeckTree = this.chosenReviewModeForTabbedView === 0 /* Cram */ ? this.osrAppCore.reviewableDeckTree : this.osrAppCore.remainingDeckTree;
+          return this.plugin.getPreparedReviewSequencer(
+            fullDeckTree,
+            remainingDeckTree,
+            this.chosenReviewModeForTabbedView
+          );
+        })
+      }
+    ];
+    this.plugin = plugin;
+    this.shouldOpenSingeNoteTabView = false;
+    this.registerAllTabViews();
+  }
+  /**
+   * Opens the Spaced Repetition tab view in the application.
+   *
+   * This method sets up the necessary state for the tab view and invokes the
+   * internal method to open the tab view with the specified parameters.
+   *
+   * @param osrAppCore - The core application instance used for managing reviewable decks.
+   * @param reviewMode - The mode of flashcard review.
+   * @param singleNote - Optional parameter specifying a single note to review.
+   *                     If provided, the tab view will focus on this note.
+   *
+   * @returns {Promise<void>} - A promise that resolves when the tab view is opened.
+   */
+  async openSRTabView(osrAppCore, reviewMode, singleNote) {
+    this.osrAppCore = osrAppCore;
+    this.chosenReviewModeForTabbedView = reviewMode;
+    this.shouldOpenSingeNoteTabView = singleNote !== void 0;
+    if (singleNote) this.chosenSingleNoteForTabbedView = singleNote;
+    await this.openTabView(SR_TAB_VIEW, true);
+  }
+  /**
+   * Closes all open tab views in the application.
+   *
+   * This method iterates over all registered tab view types and detaches
+   * their corresponding leaves from the workspace, effectively closing them.
+   */
+  closeAllTabViews() {
+    this.forEachTabViewType((viewType) => {
+      this.plugin.app.workspace.getLeavesOfType(viewType.type).forEach((leaf) => leaf.detach());
+    });
+  }
+  forEachTabViewType(callback2) {
+    this.tabViewTypes.forEach((type) => callback2(type));
+  }
+  registerAllTabViews() {
+    this.forEachTabViewType(
+      (viewType) => this.plugin.registerView(viewType.type, viewType.viewCreator)
+    );
+  }
+  async openTabView(type, newLeaf) {
+    const { workspace } = this.plugin.app;
+    let leaf;
+    const leaves = workspace.getLeavesOfType(type);
+    if (leaves.length > 0) {
+      leaf = leaves[0];
+    } else {
+      leaf = workspace.getLeaf(newLeaf);
+      if (leaf !== null && leaf !== void 0) {
+        await leaf.setViewState({ type, active: true });
+      }
+    }
+    if (leaf !== null && leaf !== void 0) {
+      workspace.revealLeaf(leaf);
+    }
+  }
+};
+
+// src/ui/ui-manager.tsx
+var UIManager = class {
+  constructor(plugin) {
+    this.statusBarManager = null;
+    this.ribbonIcon = null;
+    this.isSRInFocus = false;
+    this.plugin = plugin;
+    appIcon();
+    this.tabViewManager = new TabViewManager(this.plugin);
+    this.plugin.app.workspace.onLayoutReady(async () => {
+      this.tabViewManager.closeAllTabViews();
+    });
+    this.sidebarManager = new SidebarManager(
+      this.plugin,
+      this.plugin.data.settings,
+      this.plugin.nextNoteReviewHandler
+    );
+    this.sidebarManager.init();
+    this.plugin.app.workspace.onLayoutReady(async () => {
+      await this.sidebarManager.activateReviewQueueViewPanel();
+      setTimeout(async () => {
+        if (!this.plugin.osrAppCore.syncLock) {
+          await this.plugin.sync();
+        }
+      }, 2e3);
+    });
+    this.statusBarManager = new StatusBarManager(this.plugin);
+    this.showRibbonIcon(this.plugin.data.settings.showRibbonIcon);
+    this.showFileMenuItems(this.plugin.data.settings.disableFileMenuReviewOptions);
+    this.plugin.addSettingTab(new SRSettingTab(this.plugin.app, this.plugin));
+    this.registerSRFocusListener();
+  }
+  destroy() {
+    this.removeSRFocusListener();
+    this.plugin.app.workspace.off("file-menu", this.fileMenuHandler);
+    this.tabViewManager.closeAllTabViews();
+  }
+  updateStatusBar() {
+    if (this.plugin.data.settings.showStatusBar) {
+      this.statusBarManager.setText(
+        `${this.plugin.osrAppCore.remainingDeckTree.getCardCount(
+          2 /* All */,
+          true
+        )} card(s) due`,
+        this.plugin.data.settings.showStatusBar,
+        "card-review"
+      );
+      this.statusBarManager.setText(
+        `${this.plugin.osrAppCore.noteReviewQueue.dueNotesCount} note(s) due`,
+        this.plugin.data.settings.showStatusBar,
+        "note-review"
+      );
+      this.statusBarManager.showUpdateAvailableItemIfAvailable();
+    }
+    this.statusBarManager.showStatusBarItems(this.plugin.data.settings.showStatusBar);
+  }
+  registerSRFocusListener() {
+    this.plugin.registerEvent(
+      this.plugin.app.workspace.on("active-leaf-change", this.handleFocusChange.bind(this))
+    );
+    this.externalModalObserver = new MutationObserver(this.handleExternalModalOpen.bind(this));
+    this.externalModalObserver.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  }
+  removeSRFocusListener() {
+    this.setSRViewInFocus(false);
+    this.plugin.app.workspace.off("active-leaf-change", this.handleFocusChange.bind(this));
+  }
+  handleFocusChange(leaf) {
+    this.setSRViewInFocus(
+      leaf !== null && leaf !== void 0 && leaf.view instanceof SRTabView
+    );
+  }
+  handleExternalModalOpen(mutationList) {
+    if (this.plugin.data.settings.openViewInNewTab && // Is a modal opening relevant for focus?
+    mutationList.length > 0 && mutationList.filter(
+      (mutation) => mutation.type === "childList" && (mutation.addedNodes.length > 0 || mutation.removedNodes.length > 0)
+    ).length > 0) {
+      const modal = document.querySelector(".modal-container");
+      this.setSRViewInFocus(
+        (modal === null || modal === void 0) && this.plugin.app.workspace.getActiveViewOfType(SRTabView) !== null && this.plugin.app.workspace.getActiveViewOfType(SRTabView) !== void 0
+      );
+    }
+  }
+  async openDeckContainer(mode, singleNote) {
+    if (this.plugin.osrAppCore.syncLock) {
       return;
     }
-    this._lastSelectedReviewDeck = deckKey;
-    const deck = this._noteReviewQueue.reviewDecks.get(deckKey);
-    const notefile = deck.determineNextNote(this.settings.openRandomNote);
-    if (notefile) {
-      await this.openNote(deckKey, notefile.tfile);
+    await this.plugin.sync();
+    const isMobile = import_obsidian31.Platform.isMobile || EmulatedPlatform().isMobile;
+    const openInNewTab = !isMobile && this.plugin.data.settings.openViewInNewTab || isMobile && this.plugin.data.settings.openViewInNewTabMobile;
+    if (openInNewTab) {
+      this.tabViewManager.openSRTabView(this.plugin.osrAppCore, mode, singleNote);
     } else {
-      new import_obsidian13.Notice(t("ALL_CAUGHT_UP"));
+      this.openFlashcardModal(this.plugin.osrAppCore, mode, singleNote);
     }
   }
-  async openNote(deckName, file) {
-    this._lastSelectedReviewDeck = deckName;
-    await this.app.workspace.getLeaf().openFile(file);
-  }
-};
-
-// src/note-review-deck.ts
-var SchedNote = class {
-  constructor(note, dueUnix) {
-    this.note = note;
-    this.dueUnix = dueUnix;
-  }
-  isDue(todayUnix) {
-    return this.dueUnix <= todayUnix;
-  }
-};
-var NoteReviewDeck = class {
-  constructor(name) {
-    this._newNotes = [];
-    this._scheduledNotes = [];
-    this._dueNotesCount = 0;
-    this._deckName = name;
-    this._activeFolders = /* @__PURE__ */ new Set([this._deckName, t("TODAY")]);
-  }
-  get deckName() {
-    return this._deckName;
-  }
-  get newNotes() {
-    return this._newNotes;
-  }
-  get scheduledNotes() {
-    return this._scheduledNotes;
-  }
-  get dueNotesCount() {
-    return this._dueNotesCount;
-  }
-  get activeFolders() {
-    return this._activeFolders;
-  }
-  calcDueNotesCount(todayUnix) {
-    this._dueNotesCount = 0;
-    this.scheduledNotes.forEach((scheduledNote) => {
-      if (scheduledNote.isDue(todayUnix)) {
-        this._dueNotesCount++;
-      }
-    });
-  }
-  sortNotesByDateAndImportance(pageranks) {
-    this._newNotes = this.newNotes.sort(
-      (a2, b2) => (pageranks[b2.path] || 0) - (pageranks[a2.path] || 0)
+  async openFlashcardModal(osrAppCore, reviewMode, singleNote) {
+    let deckTree;
+    let remainingDeckTree;
+    if (singleNote) {
+      const singleNoteDeckData = await this.plugin.getPreparedDecksForSingleNoteReview(
+        singleNote,
+        reviewMode
+      );
+      deckTree = singleNoteDeckData.deckTree;
+      remainingDeckTree = singleNoteDeckData.remainingDeckTree;
+    } else {
+      deckTree = osrAppCore.reviewableDeckTree;
+      remainingDeckTree = reviewMode === 0 /* Cram */ ? osrAppCore.reviewableDeckTree : osrAppCore.remainingDeckTree;
+    }
+    const reviewSequencerData = this.plugin.getPreparedReviewSequencer(
+      deckTree,
+      remainingDeckTree,
+      reviewMode
     );
-    this._scheduledNotes = this.scheduledNotes.sort((a2, b2) => {
-      const result = a2.dueUnix - b2.dueUnix;
-      if (result != 0) {
-        return result;
-      }
-      return (pageranks[b2.note.path] || 0) - (pageranks[a2.note.path] || 0);
-    });
+    this.setSRViewInFocus(true);
+    new SRModalView(
+      this.plugin.app,
+      this.plugin,
+      this.plugin.data.settings,
+      reviewSequencerData.reviewSequencer,
+      reviewSequencerData.mode
+    ).open();
   }
-  determineNextNote(openRandomNote) {
-    const todayUnix = globalDateProvider.today.valueOf();
-    const dueNotes = this.scheduledNotes.filter((note) => note.isDue(todayUnix));
-    if (dueNotes.length > 0) {
-      const index = openRandomNote ? globalRandomNumberProvider.getInteger(0, dueNotes.length - 1) : 0;
-      return dueNotes[index].note;
-    }
-    if (this.newNotes.length > 0) {
-      const index = openRandomNote ? globalRandomNumberProvider.getInteger(0, this.newNotes.length - 1) : 0;
-      return this.newNotes[index];
-    }
-    return null;
+  setSRViewInFocus(value) {
+    this.isSRInFocus = value;
   }
-};
-
-// src/note-review-queue.ts
-var NoteReviewQueue = class {
-  get reviewDecks() {
-    return this._reviewDecks;
+  getSRInFocusState() {
+    return this.isSRInFocus;
   }
-  get dueNotesCount() {
-    return this._dueNotesCount;
-  }
-  get reviewDeckNameList() {
-    return [...this._reviewDecks.keys()];
-  }
-  init() {
-    this._reviewDecks = /* @__PURE__ */ new Map();
-  }
-  calcDueNotesCount(todayUnix) {
-    this._dueNotesCount = 0;
-    this._reviewDecks.forEach((reviewDeck) => {
-      reviewDeck.calcDueNotesCount(todayUnix);
-      this._dueNotesCount += reviewDeck.dueNotesCount;
-    });
-  }
-  addNoteToQueue(noteFile, noteSchedule, matchedNoteTags) {
-    for (const matchedNoteTag of matchedNoteTags) {
-      if (!this.reviewDecks.has(matchedNoteTag)) {
-        this.reviewDecks.set(matchedNoteTag, new NoteReviewDeck(matchedNoteTag));
-      }
-    }
-    if (noteSchedule == null) {
-      for (const matchedNoteTag of matchedNoteTags) {
-        this.reviewDecks.get(matchedNoteTag).newNotes.push(noteFile);
-      }
-    } else {
-      for (const matchedNoteTag of matchedNoteTags) {
-        this.reviewDecks.get(matchedNoteTag).scheduledNotes.push(new SchedNote(noteFile, noteSchedule.dueDateAsUnix));
-      }
-    }
-  }
-  updateScheduleInfo(note, scheduleInfo) {
-    this.reviewDecks.forEach((reviewDeck) => {
-      let wasDueInDeck = false;
-      for (const scheduledNote of reviewDeck.scheduledNotes) {
-        if (scheduledNote.note.path === note.path) {
-          scheduledNote.dueUnix = scheduleInfo.dueDate.valueOf();
-          wasDueInDeck = true;
-          break;
+  showRibbonIcon(status) {
+    if (!this.ribbonIcon) {
+      this.ribbonIcon = this.plugin.addRibbonIcon(
+        "SpacedRepIcon",
+        t("REVIEW_CARDS"),
+        async () => {
+          await this.openDeckContainer(1 /* Review */);
         }
-      }
-      if (!wasDueInDeck) {
-        reviewDeck.newNotes.splice(
-          reviewDeck.newNotes.findIndex((newNote) => newNote.path === note.path),
-          1
-        );
-        reviewDeck.scheduledNotes.push(new SchedNote(note, scheduleInfo.dueDate.valueOf()));
-      }
-    });
-  }
-};
-
-// src/plugin-data.ts
-var DEFAULT_DATA = {
-  settings: DEFAULT_SETTINGS,
-  buryDate: "",
-  buryList: [],
-  historyDeck: null
-};
-
-// src/question-postponement-list.ts
-var QuestionPostponementList = class {
-  constructor(plugin, settings, list) {
-    this.plugin = plugin;
-    this.settings = settings;
-    this.list = list;
-  }
-  async clearIfNewDay(data) {
-    const now2 = window.moment(Date.now());
-    const todayDate = now2.format("YYYY-MM-DD");
-    const isNewDay = todayDate !== data.buryDate;
-    if (isNewDay) {
-      data.buryDate = todayDate;
-      this.clear();
-      await this.write();
+      );
+    }
+    if (status) {
+      this.ribbonIcon.style.display = "";
+    } else {
+      this.ribbonIcon.style.display = "none";
     }
   }
-  clear() {
-    this.list.splice(0);
-  }
-  add(question) {
-    if (!this.includes(question)) this.list.push(question.questionText.textHash);
-  }
-  includes(question) {
-    return this.list.includes(question.questionText.textHash);
-  }
-  async write() {
-    if (this.plugin == null) return;
-    await this.plugin.savePluginData();
+  showFileMenuItems(status) {
+    if (this.fileMenuHandler === void 0) {
+      this.fileMenuHandler = (menu, fileish) => {
+        if (fileish instanceof import_obsidian31.TFile && fileish.extension === "md") {
+          menu.addItem((item) => {
+            item.setTitle(
+              t("REVIEW_DIFFICULTY_FILE_MENU", {
+                difficulty: this.plugin.data.settings.flashcardEasyText
+              })
+            ).setIcon("SpacedRepIcon").onClick(() => {
+              this.plugin.saveNoteReviewResponse(fileish, 0 /* Easy */);
+            });
+          });
+          menu.addItem((item) => {
+            item.setTitle(
+              t("REVIEW_DIFFICULTY_FILE_MENU", {
+                difficulty: this.plugin.data.settings.flashcardGoodText
+              })
+            ).setIcon("SpacedRepIcon").onClick(() => {
+              this.plugin.saveNoteReviewResponse(fileish, 1 /* Good */);
+            });
+          });
+          menu.addItem((item) => {
+            item.setTitle(
+              t("REVIEW_DIFFICULTY_FILE_MENU", {
+                difficulty: this.plugin.data.settings.flashcardHardText
+              })
+            ).setIcon("SpacedRepIcon").onClick(() => {
+              this.plugin.saveNoteReviewResponse(fileish, 2 /* Hard */);
+            });
+          });
+        }
+      };
+    }
+    if (status) {
+      this.plugin.registerEvent(
+        this.plugin.app.workspace.on("file-menu", this.fileMenuHandler)
+      );
+    } else {
+      this.plugin.app.workspace.off("file-menu", this.fileMenuHandler);
+    }
   }
 };
 
 // src/main.ts
-var SRPlugin = class _SRPlugin extends import_obsidian14.Plugin {
-  constructor() {
-    super(...arguments);
-    this.ribbonIcon = null;
-    this.statusBar = null;
-  }
+var SRPlugin = class _SRPlugin extends import_obsidian32.Plugin {
   async onload() {
     await this.loadPluginData();
     const noteReviewQueue = new NoteReviewQueue();
@@ -28227,16 +31349,6 @@ var SRPlugin = class _SRPlugin extends import_obsidian14.Plugin {
       this.data.settings,
       noteReviewQueue
     );
-    this.osrSidebar = new OsrSidebar(this, this.data.settings, this.nextNoteReviewHandler);
-    this.osrSidebar.init();
-    this.app.workspace.onLayoutReady(async () => {
-      await this.osrSidebar.activateReviewQueueViewPanel();
-      setTimeout(async () => {
-        if (!this.osrAppCore.syncLock) {
-          await this.sync();
-        }
-      }, 2e3);
-    });
     const questionPostponementList = new QuestionPostponementList(
       this,
       this.data.settings,
@@ -28251,52 +31363,8 @@ var SRPlugin = class _SRPlugin extends import_obsidian14.Plugin {
       this.onOsrVaultDataChanged.bind(this),
       noteReviewQueue
     );
-    appIcon();
-    this.showStatusBar(this.data.settings.showStatusBar);
-    this.showRibbonIcon(this.data.settings.showRibbonIcon);
-    this.showFileMenuItems(!this.data.settings.disableFileMenuReviewOptions);
+    this.uiManager = new UIManager(this);
     this.addPluginCommands();
-    this.addSettingTab(new SRSettingTab(this.app, this));
-  }
-  showFileMenuItems(status) {
-    if (this.fileMenuHandler === void 0) {
-      this.fileMenuHandler = (menu, fileish) => {
-        if (fileish instanceof import_obsidian14.TFile && fileish.extension === "md") {
-          menu.addItem((item) => {
-            item.setTitle(
-              t("REVIEW_DIFFICULTY_FILE_MENU", {
-                difficulty: this.data.settings.flashcardEasyText
-              })
-            ).setIcon("SpacedRepIcon").onClick(() => {
-              this.saveNoteReviewResponse(fileish, 0 /* Easy */);
-            });
-          });
-          menu.addItem((item) => {
-            item.setTitle(
-              t("REVIEW_DIFFICULTY_FILE_MENU", {
-                difficulty: this.data.settings.flashcardGoodText
-              })
-            ).setIcon("SpacedRepIcon").onClick(() => {
-              this.saveNoteReviewResponse(fileish, 1 /* Good */);
-            });
-          });
-          menu.addItem((item) => {
-            item.setTitle(
-              t("REVIEW_DIFFICULTY_FILE_MENU", {
-                difficulty: this.data.settings.flashcardHardText
-              })
-            ).setIcon("SpacedRepIcon").onClick(() => {
-              this.saveNoteReviewResponse(fileish, 2 /* Hard */);
-            });
-          });
-        }
-      };
-    }
-    if (status) {
-      this.registerEvent(this.app.workspace.on("file-menu", this.fileMenuHandler));
-    } else {
-      this.app.workspace.off("file-menu", this.fileMenuHandler);
-    }
   }
   addPluginCommands() {
     this.addCommand({
@@ -28349,26 +31417,14 @@ var SRPlugin = class _SRPlugin extends import_obsidian14.Plugin {
       id: "srs-review-flashcards",
       name: t("REVIEW_ALL_CARDS"),
       callback: async () => {
-        if (!this.osrAppCore.syncLock) {
-          await this.sync();
-          this.openFlashcardModal(
-            this.osrAppCore.reviewableDeckTree,
-            this.osrAppCore.remainingDeckTree,
-            1 /* Review */
-          );
-        }
+        await this.uiManager.openDeckContainer(1 /* Review */);
       }
     });
     this.addCommand({
       id: "srs-cram-flashcards",
       name: t("CRAM_ALL_CARDS"),
       callback: async () => {
-        await this.sync();
-        this.openFlashcardModal(
-          this.osrAppCore.reviewableDeckTree,
-          this.osrAppCore.reviewableDeckTree,
-          0 /* Cram */
-        );
+        await this.uiManager.openDeckContainer(0 /* Cram */);
       }
     });
     this.addCommand({
@@ -28376,9 +31432,10 @@ var SRPlugin = class _SRPlugin extends import_obsidian14.Plugin {
       name: t("REVIEW_CARDS_IN_NOTE"),
       callback: async () => {
         const openFile = this.app.workspace.getActiveFile();
-        if (openFile && openFile.extension === "md") {
-          this.openFlashcardModalForSingleNote(openFile, 1 /* Review */);
+        if (!openFile || openFile.extension !== "md") {
+          return;
         }
+        await this.uiManager.openDeckContainer(1 /* Review */, openFile);
       }
     });
     this.addCommand({
@@ -28386,34 +31443,25 @@ var SRPlugin = class _SRPlugin extends import_obsidian14.Plugin {
       name: t("CRAM_CARDS_IN_NOTE"),
       callback: async () => {
         const openFile = this.app.workspace.getActiveFile();
-        if (openFile && openFile.extension === "md") {
-          this.openFlashcardModalForSingleNote(openFile, 0 /* Cram */);
+        if (!openFile || openFile.extension !== "md") {
+          return;
         }
+        await this.uiManager.openDeckContainer(0 /* Cram */, openFile);
       }
     });
     this.addCommand({
       id: "srs-open-review-queue-view",
       name: t("OPEN_REVIEW_QUEUE_VIEW"),
       callback: async () => {
-        await this.osrSidebar.openReviewQueueView();
+        await this.uiManager.sidebarManager.openReviewQueueView();
       }
     });
   }
   onunload() {
     this.app.workspace.getLeavesOfType(REVIEW_QUEUE_VIEW_TYPE).forEach((leaf) => leaf.detach());
+    this.uiManager.destroy();
   }
-  async openFlashcardModalForSingleNote(noteFile, reviewMode) {
-    const note = await this.loadNote(noteFile);
-    const deckTree = new Deck2("root", null);
-    note.appendCardsToDeck(deckTree);
-    const remainingDeckTree = DeckTreeFilter.filterForRemainingCards(
-      this.osrAppCore.questionPostponementList,
-      deckTree,
-      reviewMode
-    );
-    this.openFlashcardModal(deckTree, remainingDeckTree, reviewMode);
-  }
-  openFlashcardModal(fullDeckTree, remainingDeckTree, reviewMode) {
+  getPreparedReviewSequencer(fullDeckTree, remainingDeckTree, reviewMode) {
     const deckIterator = _SRPlugin.createDeckTreeIterator(this.data.settings);
     const reviewSequencer = new FlashcardReviewSequencer(
       reviewMode,
@@ -28424,7 +31472,18 @@ var SRPlugin = class _SRPlugin extends import_obsidian14.Plugin {
       this.osrAppCore.dueDateFlashcardHistogram
     );
     reviewSequencer.setDeckTree(fullDeckTree, remainingDeckTree);
-    new FlashcardModal(this.app, this, this.data.settings, reviewSequencer, reviewMode).open();
+    return { reviewSequencer, mode: reviewMode };
+  }
+  async getPreparedDecksForSingleNoteReview(file, mode) {
+    const note = await this.loadNote(file);
+    const deckTree = new Deck("root", null);
+    note.appendCardsToDeck(deckTree);
+    const remainingDeckTree = DeckTreeFilter.filterForRemainingCards(
+      this.osrAppCore.questionPostponementList,
+      deckTree,
+      mode
+    );
+    return { deckTree, remainingDeckTree, mode };
   }
   static createDeckTreeIterator(settings) {
     let cardOrder = CardOrder[settings.flashcardCardOrder];
@@ -28454,16 +31513,9 @@ var SRPlugin = class _SRPlugin extends import_obsidian14.Plugin {
     }
   }
   onOsrVaultDataChanged() {
-    this.statusBar.setText(
-      t("STATUS_BAR", {
-        dueNotesCount: this.osrAppCore.noteReviewQueue.dueNotesCount,
-        dueFlashcardsCount: this.osrAppCore.remainingDeckTree.getCardCount(
-          2 /* All */,
-          true
-        )
-      })
-    );
-    if (this.data.settings.enableNoteReviewPaneOnStartup) this.osrSidebar.redraw();
+    this.uiManager.updateStatusBar();
+    if (this.data.settings.enableNoteReviewPaneOnStartup)
+      this.uiManager.sidebarManager.redraw();
   }
   async loadNote(noteFile) {
     const loader = new NoteFileLoader(this.data.settings);
@@ -28484,27 +31536,27 @@ var SRPlugin = class _SRPlugin extends import_obsidian14.Plugin {
   }
   getObsidianRtlSetting() {
     const v2 = this.app.vault.getConfig("rightToLeft");
-    return convertToStringOrEmpty(v2) == "true" ? 2 /* Rtl */ : 1 /* Ltr */;
+    return convertToStringOrEmpty(v2) === "true" ? 2 /* Rtl */ : 1 /* Ltr */;
   }
   async saveNoteReviewResponse(note, response) {
     const noteSrTFile = this.createSrTFile(note);
     if (SettingsUtil.isPathInNoteIgnoreFolder(this.data.settings, note.path)) {
-      new import_obsidian14.Notice(t("NOTE_IN_IGNORED_FOLDER"));
+      new import_obsidian32.Notice(t("NOTE_IN_IGNORED_FOLDER"));
       return;
     }
     const tags = noteSrTFile.getAllTagsFromCache();
     if (!SettingsUtil.isAnyTagANoteReviewTag(this.data.settings, tags)) {
-      new import_obsidian14.Notice(t("PLEASE_TAG_NOTE"));
+      new import_obsidian32.Notice(t("PLEASE_TAG_NOTE"));
       return;
     }
     await this.osrAppCore.saveNoteReviewResponse(noteSrTFile, response, this.data.settings);
-    new import_obsidian14.Notice(t("RESPONSE_RECEIVED"));
+    new import_obsidian32.Notice(t("RESPONSE_RECEIVED"));
     if (this.data.settings.autoNextNote) {
       this.nextNoteReviewHandler.autoReviewNextNote();
     }
   }
   createSrTFile(note) {
-    return new SrTFile(this.app.vault, this.app.metadataCache, note);
+    return new SrTFile(this.app.vault, this.app.metadataCache, this.app.fileManager, note);
   }
   async loadPluginData() {
     const loadedData = await this.loadData();
@@ -28522,44 +31574,6 @@ var SRPlugin = class _SRPlugin extends import_obsidian14.Plugin {
   async savePluginData() {
     await this.saveData(this.data);
   }
-  showRibbonIcon(status) {
-    if (!this.ribbonIcon) {
-      this.ribbonIcon = this.addRibbonIcon("SpacedRepIcon", t("REVIEW_CARDS"), async () => {
-        if (!this.osrAppCore.syncLock) {
-          await this.sync();
-          this.openFlashcardModal(
-            this.osrAppCore.reviewableDeckTree,
-            this.osrAppCore.remainingDeckTree,
-            1 /* Review */
-          );
-        }
-      });
-    }
-    if (status) {
-      this.ribbonIcon.style.display = "";
-    } else {
-      this.ribbonIcon.style.display = "none";
-    }
-  }
-  showStatusBar(status) {
-    if (!this.statusBar) {
-      this.statusBar = this.addStatusBarItem();
-      this.statusBar.classList.add("mod-clickable");
-      this.statusBar.setAttribute("aria-label", t("OPEN_NOTE_FOR_REVIEW"));
-      this.statusBar.setAttribute("aria-label-position", "top");
-      this.statusBar.addEventListener("click", async () => {
-        if (!this.osrAppCore.syncLock) {
-          await this.sync();
-          this.nextNoteReviewHandler.reviewNextNoteModal();
-        }
-      });
-    }
-    if (status) {
-      this.statusBar.style.display = "";
-    } else {
-      this.statusBar.style.display = "none";
-    }
-  }
 };
 /*! Bundled license information:
 
@@ -28572,25 +31586,18 @@ moment/moment.js:
 
 @kurkle/color/dist/color.esm.js:
   (*!
-   * @kurkle/color v0.3.2
+   * @kurkle/color v0.3.4
    * https://github.com/kurkle/color#readme
-   * (c) 2023 Jukka Kurkela
+   * (c) 2024 Jukka Kurkela
    * Released under the MIT License
    *)
 
-chart.js/dist/chunks/helpers.segment.js:
-  (*!
-   * Chart.js v4.4.4
-   * https://www.chartjs.org
-   * (c) 2024 Chart.js Contributors
-   * Released under the MIT License
-   *)
-
+chart.js/dist/chunks/helpers.dataset.js:
 chart.js/dist/chart.js:
   (*!
-   * Chart.js v4.4.4
+   * Chart.js v4.5.1
    * https://www.chartjs.org
-   * (c) 2024 Chart.js Contributors
+   * (c) 2025 Chart.js Contributors
    * Released under the MIT License
    *)
 */

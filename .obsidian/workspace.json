@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "MOC/obsidian/链接使用指南.md",
+                "file": "MOC/使用指南.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "链接使用指南"
+              "title": "使用指南"
             }
           }
         ]
@@ -162,27 +162,27 @@
             }
           },
           {
-            "id": "fd6c9377a75ca2f1",
-            "type": "leaf",
-            "state": {
-              "type": "review-queue-list-view",
-              "state": {},
-              "icon": "lucide-ghost",
-              "title": "review-queue-list-view"
-            }
-          },
-          {
             "id": "f75a500200a3041d",
             "type": "leaf",
             "state": {
               "type": "git-view",
               "state": {},
-              "icon": "lucide-ghost",
-              "title": "git-view"
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
+          },
+          {
+            "id": "20fe233accd6984b",
+            "type": "leaf",
+            "state": {
+              "type": "review-queue-list-view",
+              "state": {},
+              "icon": "SpacedRepIcon",
+              "title": "笔记复习序列"
             }
           }
         ],
-        "currentTab": 5
+        "currentTab": 6
       }
     ],
     "direction": "horizontal",
@@ -196,25 +196,37 @@
       "canvas:新建白板": false,
       "daily-notes:打开/创建今天的日记": false,
       "templates:插入模板": false,
-      "command-palette:打开命令面板": false
+      "command-palette:打开命令面板": false,
+      "obsidian-git:Open Git source control": false,
+      "templater-obsidian:Templater": false,
+      "obsidian-kanban:创建新看板": false,
+      "obsidian-excalidraw-plugin:新建绘图文件": false,
+      "obsidian-spaced-repetition:复习卡片": false
     }
   },
-  "active": "fd6c9377a75ca2f1",
+  "active": "25f04b4aa5a8c70d",
   "lastOpenFiles": [
+    "_scripts/inbox-process.sh",
+    "_scripts/vault-health.sh",
+    "_模板/决策记录模板.md",
+    "_模板/研究课题模板.md",
+    "_模板/书籍笔记模板.md",
+    "_scripts",
+    "CLAUDE.md",
+    "0-收集箱/收集箱清理清单.md",
+    "README.md",
+    "MOC/Obsidian 第二大脑实施计划（old）.md",
+    "MOC/obsidian/链接使用指南.md",
     "MOC/obsidian/嵌入内容指南.md",
     "MOC/系统优化/思维导图集成指南.md",
     "MOC/系统优化/个人知识仪表盘.md",
     "_模板/基本笔记模板.md",
     "_模板/概念笔记模板.md",
     "_模板/会议记录模板.md",
-    "MOC/obsidian/链接使用指南.md",
     "MOC/obsidian/Obsidian设置建议.md",
-    "README.md",
     "github",
     "MOC/obsidian/渐进式总结.md",
-    "MOC/Obsidian 第二大脑实施计划（old）.md",
     "MOC/xxx.md",
-    "0-收集箱/收集箱清理清单.md",
     "MOC/obsidian/主流插件优化模板.md",
     "MOC/Dataview查询示例.md",
     "MOC/项目一览.md",
@@ -223,19 +235,12 @@
     "MOC/标签一览.md",
     "0-收集箱/README.md",
     "MOC/obsidian/工作流程图.md",
-    "MOC/obsidian/推荐插件.md",
-    "MOC/obsidian/知识图谱指南.md",
-    "_模板/周报模版.md",
     "MOC/obsidian",
-    "MOC/知识图谱指南.md",
-    "MOC/渐进式总结.md",
     "3-资源/思维模型",
     "3-资源/文章摘要",
     "3-资源/课程笔记",
     "3-资源/书籍笔记",
     "2-领域/家庭",
-    "2-领域/个人成长",
-    "2-领域/人际关系",
-    "2-领域/职业"
+    "2-领域/个人成长"
   ]
 }
