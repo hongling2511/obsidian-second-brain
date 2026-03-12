@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 
 VAULT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 NOW="$(date '+%Y-%m-%d %H:%M')"

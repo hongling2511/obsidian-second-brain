@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "_模板/基本笔记模板.md",
+                "file": "MOC/使用指南.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "基本笔记模板 的反向链接列表"
+              "title": "使用指南 的反向链接列表"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "_模板/基本笔记模板.md",
+                "file": "MOC/使用指南.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "基本笔记模板 的出链列表"
+              "title": "使用指南 的出链列表"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "_模板/基本笔记模板.md",
+                "file": "MOC/使用指南.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "基本笔记模板 的大纲"
+              "title": "使用指南 的大纲"
             }
           },
           {
@@ -157,8 +157,8 @@
             "state": {
               "type": "calendar",
               "state": {},
-              "icon": "lucide-ghost",
-              "title": "calendar"
+              "icon": "calendar-with-checkmark",
+              "title": "Calendar"
             }
           },
           {
@@ -182,11 +182,12 @@
             }
           }
         ],
-        "currentTab": 6
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 389.5
+    "width": 389.5,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -206,6 +207,20 @@
   },
   "active": "25f04b4aa5a8c70d",
   "lastOpenFiles": [
+    "MOC/领域概览.md",
+    "日记/日记模板.md",
+    "2-领域/个人成长/README.md",
+    "2-领域/财务/README.md",
+    "未命名.base",
+    "MOC/Claude交互日志.md",
+    "MOC/工作流程图.md",
+    "_scripts/review-reminder.sh",
+    "_scripts/progressive-summary.sh",
+    "_scripts/suggest-links.sh",
+    "MOC/Obsidian 第二大脑实施计划（old）.md",
+    "_scripts/weekly-review.sh",
+    "_scripts/vault-stats.sh",
+    "MOC/使用指南.md",
     "_scripts/inbox-process.sh",
     "_scripts/vault-health.sh",
     "_模板/决策记录模板.md",
@@ -215,7 +230,6 @@
     "CLAUDE.md",
     "0-收集箱/收集箱清理清单.md",
     "README.md",
-    "MOC/Obsidian 第二大脑实施计划（old）.md",
     "MOC/obsidian/链接使用指南.md",
     "MOC/obsidian/嵌入内容指南.md",
     "MOC/系统优化/思维导图集成指南.md",
@@ -228,19 +242,6 @@
     "MOC/obsidian/渐进式总结.md",
     "MOC/xxx.md",
     "MOC/obsidian/主流插件优化模板.md",
-    "MOC/Dataview查询示例.md",
-    "MOC/项目一览.md",
-    "MOC/项目计划与实施.md",
-    "MOC/工作流程图.md",
-    "MOC/标签一览.md",
-    "0-收集箱/README.md",
-    "MOC/obsidian/工作流程图.md",
-    "MOC/obsidian",
-    "3-资源/思维模型",
-    "3-资源/文章摘要",
-    "3-资源/课程笔记",
-    "3-资源/书籍笔记",
-    "2-领域/家庭",
-    "2-领域/个人成长"
+    "MOC/Dataview查询示例.md"
   ]
 }
