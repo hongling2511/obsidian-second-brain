@@ -1,0 +1,151 @@
+{
+  "name": "makemore Part 3: 激活、梯度与 Batch Norm",
+  "children": [
+    {
+      "name": "初始化问题与修复",
+      "children": [
+        {
+          "name": "Softmax 置信度过高",
+          "children": [
+            {
+              "name": "现象：初始 Loss 远高于期望值 (27 vs 3.3)"
+            },
+            {
+              "name": "原因：权重初始化过大导致 Logits 极端化"
+            },
+            {
+              "name": "修复：将 W2 缩减为极小值，B2 设为 0"
+            }
+          ]
+        },
+        {
+          "name": "Tanh 饱和问题",
+          "children": [
+            {
+              "name": "现象：激活值 H 集中在 -1 和 1"
+            },
+            {
+              "name": "原因：Pre-activations 范围过广"
+            },
+            {
+              "name": "后果：梯度消失 (Dead Neurons)"
+            },
+            {
+              "name": "修复：缩减 W1 和 B1 的初始化尺度"
+            }
+          ]
+        },
+        {
+          "name": "Kaiming 初始化 (He Init)",
+          "children": [
+            {
+              "name": "原理：保持层间激活值标准差为 1"
+            },
+            {
+              "name": "公式：std = gain / sqrt(fan_in)"
+            },
+            {
+              "name": "Gain 值：Tanh (5/3), ReLU (sqrt(2))"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Batch Normalization (批归一化)",
+      "children": [
+        {
+          "name": "核心原理",
+          "children": [
+            {
+              "name": "操作：对 batch 内神经元进行标准化 (0 均值，1 方差)"
+            },
+            {
+              "name": "参数：引入可学习的 Gamma (缩放) 和 Beta (平移)"
+            },
+            {
+              "name": "位置：通常在线性层之后、激活函数之前"
+            }
+          ]
+        },
+        {
+          "name": "优缺点",
+          "children": [
+            {
+              "name": "优点：使网络对初始化不敏感，稳定深度网络训练"
+            },
+            {
+              "name": "正则化：耦合 batch 样本引入噪声，减少过拟合"
+            },
+            {
+              "name": "缺点：引入耦合 Bug，推理时需额外处理"
+            }
+          ]
+        },
+        {
+          "name": "训练与推理区别",
+          "children": [
+            {
+              "name": "训练：使用 batch 统计量"
+            },
+            {
+              "name": "推理：使用运行均值 (Running Mean/Var) 的指数移动平均"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "诊断工具与监控",
+      "children": [
+        {
+          "name": "激活值直方图",
+          "children": [
+            {
+              "name": "监控饱和度"
+            },
+            {
+              "name": "检查分布是否均一"
+            }
+          ]
+        },
+        {
+          "name": "梯度分布",
+          "children": [
+            {
+              "name": "确保梯度在各层间稳定流动"
+            },
+            {
+              "name": "梯度与数据的比例 (Grad/Data Ratio)"
+            }
+          ]
+        },
+        {
+          "name": "更新与数据比例 (Update/Data Ratio)",
+          "children": [
+            {
+              "name": "关键指标：推荐在 log 尺度下约 -3"
+            },
+            {
+              "name": "用途：检查学习率是否合适"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "PyTorch 模块化重构",
+      "children": [
+        {
+          "name": "Linear 层实现"
+        },
+        {
+          "name": "BatchNorm1d 实现"
+        },
+        {
+          "name": "Sequential 容器逻辑"
+        }
+      ]
+    }
+  ]
+}

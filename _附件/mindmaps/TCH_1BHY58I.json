@@ -1,0 +1,141 @@
+{
+  "name": "makemore Part 2: MLP 语言模型",
+  "children": [
+    {
+      "name": "背景与动机",
+      "children": [
+        {
+          "name": "Bigram 模型局限性"
+        },
+        {
+          "name": "上下文长度限制"
+        },
+        {
+          "name": "维度爆炸问题"
+        },
+        {
+          "name": "参考论文: Bengio et al. 2003"
+        }
+      ]
+    },
+    {
+      "name": "模型架构 (MLP)",
+      "children": [
+        {
+          "name": "输入层",
+          "children": [
+            {
+              "name": "Block Size (上下文长度)"
+            },
+            {
+              "name": "字符索引化"
+            }
+          ]
+        },
+        {
+          "name": "嵌入层 (C)",
+          "children": [
+            {
+              "name": "查找表 Lookup Table"
+            },
+            {
+              "name": "低维特征向量"
+            },
+            {
+              "name": "权重共享"
+            }
+          ]
+        },
+        {
+          "name": "隐藏层",
+          "children": [
+            {
+              "name": "全连接层"
+            },
+            {
+              "name": "tanh 非线性激活"
+            },
+            {
+              "name": "超参数调整"
+            }
+          ]
+        },
+        {
+          "name": "输出层",
+          "children": [
+            {
+              "name": "Softmax 概率分布"
+            },
+            {
+              "name": "交叉熵损失函数"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "训练流程",
+      "children": [
+        {
+          "name": "数据准备",
+          "children": [
+            {
+              "name": "训练集 (80%)"
+            },
+            {
+              "name": "验证集 (10%)"
+            },
+            {
+              "name": "测试集 (10%)"
+            }
+          ]
+        },
+        {
+          "name": "优化技术",
+          "children": [
+            {
+              "name": "Mini-batch 梯度下降"
+            },
+            {
+              "name": "学习率寻找与衰减"
+            },
+            {
+              "name": "反向传播"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "PyTorch 实现细节",
+      "children": [
+        {
+          "name": "Tensor 索引与切片"
+        },
+        {
+          "name": "View 操作 (高效改变形状)"
+        },
+        {
+          "name": "Cross Entropy 数值稳定性"
+        },
+        {
+          "name": "Broadcasting 广播机制"
+        }
+      ]
+    },
+    {
+      "name": "评估与采样",
+      "children": [
+        {
+          "name": "欠拟合与过拟合分析"
+        },
+        {
+          "name": "嵌入空间可视化 (Vowels 聚类)"
+        },
+        {
+          "name": "Multinomial 采样生成新名字"
+        }
+      ]
+    }
+  ]
+}

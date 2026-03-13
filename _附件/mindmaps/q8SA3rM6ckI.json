@@ -1,0 +1,120 @@
+{
+  "name": "构建makemore（第四部分）：反向传播忍者",
+  "children": [
+    {
+      "name": "核心目标",
+      "children": [
+        {
+          "name": "手动实现反向传播"
+        },
+        {
+          "name": "移除pytorch的loss.backward()"
+        },
+        {
+          "name": "在张量层面理解梯度计算"
+        }
+      ]
+    },
+    {
+      "name": "反向传播的重要性",
+      "children": [
+        {
+          "name": "泄漏的抽象：不理解原理容易出错"
+        },
+        {
+          "name": "解决梯度消失/爆炸问题"
+        },
+        {
+          "name": "理解死神经元与饱和函数"
+        },
+        {
+          "name": "调试复杂架构的能力"
+        }
+      ]
+    },
+    {
+      "name": "手动实现步骤",
+      "children": [
+        {
+          "name": "第一阶段：原子级操作",
+          "children": [
+            {
+              "name": "展开Forward Pass为基础算子"
+            },
+            {
+              "name": "计算log_probs和probs的梯度"
+            },
+            {
+              "name": "处理Broadcasting广播机制的求和"
+            },
+            {
+              "name": "处理变量复用的梯度累加"
+            }
+          ]
+        },
+        {
+          "name": "第二阶段：数学简化（跨熵）",
+          "children": [
+            {
+              "name": "分析Softmax+CrossEntropy组合"
+            },
+            {
+              "name": "推导简化的Logits梯度公式"
+            },
+            {
+              "name": "直观解释：预测概率与正确标签的拉锯力"
+            }
+          ]
+        },
+        {
+          "name": "第三阶段：复杂算子（Batchnorm）",
+          "children": [
+            {
+              "name": "处理均值与方差的导数"
+            },
+            {
+              "name": "应用Bessel's Correction（n-1）"
+            },
+            {
+              "name": "推导高效的一行代码公式"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "工程实践",
+      "children": [
+        {
+          "name": "梯度检查（CMP函数）：对比PyTorch自动梯度"
+        },
+        {
+          "name": "数值稳定性：减去Logit Max"
+        },
+        {
+          "name": "参数更新：使用手动计算的grad更新weights/biases"
+        },
+        {
+          "name": "性能优化：使用with torch.no_grad()"
+        }
+      ]
+    },
+    {
+      "name": "核心法则",
+      "children": [
+        {
+          "name": "链式法则（Chain Rule）"
+        },
+        {
+          "name": "维度匹配（Shape Matching）"
+        },
+        {
+          "name": "Forward Sum -> Backward Replication"
+        },
+        {
+          "name": "Forward Replication -> Backward Sum"
+        }
+      ]
+    }
+  ]
+}

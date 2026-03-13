@@ -1,0 +1,133 @@
+{
+  "name": "makemore 语言模型构建",
+  "children": [
+    {
+      "name": "项目概述",
+      "children": [
+        {
+          "name": "核心功能: 生成与输入数据相似的新序列"
+        },
+        {
+          "name": "数据集: names.txt (32,000个名字)"
+        },
+        {
+          "name": "模型级别: 字符级语言模型"
+        },
+        {
+          "name": "目标: 预测序列中的下一个字符"
+        }
+      ]
+    },
+    {
+      "name": "数据处理",
+      "children": [
+        {
+          "name": "读取文件并按行切分"
+        },
+        {
+          "name": "特殊标记: 使用 '.' 作为起始和结束标志"
+        },
+        {
+          "name": "构建映射表: s2i (字符到整数) 和 i2s (整数到字符)"
+        },
+        {
+          "name": "生成 Bigrams: 相邻字符对 (如 'emma' -> '.e', 'em', 'mm', 'ma', 'a.')"
+        }
+      ]
+    },
+    {
+      "name": "Bigram 统计模型",
+      "children": [
+        {
+          "name": "核心机制",
+          "children": [
+            {
+              "name": "计数: 统计所有 bigram 出现的频率"
+            },
+            {
+              "name": "存储: 使用 PyTorch 2D 张量 (27x27)"
+            },
+            {
+              "name": "归一化: 将计数转换为概率分布"
+            }
+          ]
+        },
+        {
+          "name": "概率计算",
+          "children": [
+            {
+              "name": "广播机制 (Broadcasting): 高效进行矩阵除法"
+            },
+            {
+              "name": "模型平滑: 给计数加1，避免零概率导致的无穷大损失"
+            }
+          ]
+        },
+        {
+          "name": "采样生成",
+          "children": [
+            {
+              "name": "torch.multinomial: 根据概率分布随机采样"
+            },
+            {
+              "name": "迭代过程: 从起始符开始直至采样到结束符"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "神经网络框架",
+      "children": [
+        {
+          "name": "模型结构",
+          "children": [
+            {
+              "name": "输入: 当前字符的 One-hot 编码"
+            },
+            {
+              "name": "参数: 权重矩阵 W (27x27)"
+            },
+            {
+              "name": "前向传播: x @ W 得到 Logits (对数计数)"
+            },
+            {
+              "name": "Softmax 层: exp(logits) 并归一化得到概率"
+            }
+          ]
+        },
+        {
+          "name": "优化过程",
+          "children": [
+            {
+              "name": "损失函数: 负对数似然 (Negative Log Likelihood)"
+            },
+            {
+              "name": "反向传播: 使用 PyTorch 的 autograd (loss.backward)"
+            },
+            {
+              "name": "梯度下降: 根据梯度更新权重 W"
+            },
+            {
+              "name": "正则化: 惩罚权重平方和 (W^2)，使模型更平滑"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "评估与总结",
+      "children": [
+        {
+          "name": "训练指标: 损失值越低，预测准确性越高"
+        },
+        {
+          "name": "等效性: 统计计数与单层线性网络在 Bigram 任务上结果一致"
+        },
+        {
+          "name": "扩展性: 神经网络方法可扩展至 MLP、RNN 和 Transformer"
+        }
+      ]
+    }
+  ]
+}

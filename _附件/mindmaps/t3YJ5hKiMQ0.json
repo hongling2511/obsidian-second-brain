@@ -1,0 +1,120 @@
+{
+  "name": "makemore Part 5: Building a WaveNet",
+  "children": [
+    {
+      "name": "核心目标",
+      "children": [
+        {
+          "name": "复杂化模型架构"
+        },
+        {
+          "name": "增加上下文长度 (从3到8)"
+        },
+        {
+          "name": "实现分层融合信息 (WaveNet 结构)"
+        }
+      ]
+    },
+    {
+      "name": "WaveNet 架构实现",
+      "children": [
+        {
+          "name": "渐进式融合 (Progressive Fusion)"
+        },
+        {
+          "name": "树状层次结构"
+        },
+        {
+          "name": "稀释因果卷积 (实现细节/效率)"
+        },
+        {
+          "name": "展平层改进 (FlattenConsecutive)"
+        }
+      ]
+    },
+    {
+      "name": "模块化重构",
+      "children": [
+        {
+          "name": "新增层模块",
+          "children": [
+            {
+              "name": "Embedding 层"
+            },
+            {
+              "name": "FlattenConsecutive 层"
+            },
+            {
+              "name": "Sequential 容器"
+            }
+          ]
+        },
+        {
+          "name": "BatchNorm1D 优化",
+          "children": [
+            {
+              "name": "支持多维输入 (3D Tensor)"
+            },
+            {
+              "name": "跨批次与空间维度计算均值/方差"
+            },
+            {
+              "name": "修复维度广播 Bug"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "训练与性能",
+      "children": [
+        {
+          "name": "Baseline (3-char): 2.10"
+        },
+        {
+          "name": "增加上下文 (8-char): 2.02"
+        },
+        {
+          "name": "层次化架构 (微调后): 1.99"
+        },
+        {
+          "name": "参数量控制: 约 22k 至 76k"
+        }
+      ]
+    },
+    {
+      "name": "深度学习开发流程",
+      "children": [
+        {
+          "name": "阅读 PyTorch 文档"
+        },
+        {
+          "name": "形状调试 (Shape Gymnastics)"
+        },
+        {
+          "name": "Jupyter Notebook 原型设计"
+        },
+        {
+          "name": "VS Code 代码重构与实验"
+        }
+      ]
+    },
+    {
+      "name": "后续研究方向",
+      "children": [
+        {
+          "name": "残差连接 (Residual Connections)"
+        },
+        {
+          "name": "实验管理系统 (Harness)"
+        },
+        {
+          "name": "RNN/LSTM/GRU"
+        },
+        {
+          "name": "Transformers"
+        }
+      ]
+    }
+  ]
+}

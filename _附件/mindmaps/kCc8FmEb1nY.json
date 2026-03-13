@@ -1,0 +1,201 @@
+{
+  "name": "从零开始构建GPT (Transformer)",
+  "children": [
+    {
+      "name": "核心概念",
+      "children": [
+        {
+          "name": "语言模型 (Language Model)",
+          "children": [
+            {
+              "name": "本质：序列补全"
+            },
+            {
+              "name": "概率系统：非确定性输出"
+            }
+          ]
+        },
+        {
+          "name": "Transformer架构",
+          "children": [
+            {
+              "name": "GPT全称：Generative Pre-trained Transformer"
+            },
+            {
+              "name": "起源：2017年《Attention is All You Need》论文"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "数据处理与标注",
+      "children": [
+        {
+          "name": "数据集：Tiny Shakespeare (1MB 莎士比亚全集)"
+        },
+        {
+          "name": "分词器 (Tokenizer)",
+          "children": [
+            {
+              "name": "字符级编码：简单、词表小"
+            },
+            {
+              "name": "子词编码 (Subword)：如Byte Pair Encoding (BPE)"
+            },
+            {
+              "name": "编码/解码：字符与整数的映射"
+            }
+          ]
+        },
+        {
+          "name": "数据划分：训练集 (90%) 与 验证集 (10%)"
+        }
+      ]
+    },
+    {
+      "name": "模型架构组件",
+      "children": [
+        {
+          "name": "自注意力机制 (Self-Attention)",
+          "children": [
+            {
+              "name": "Query (查询)：我在找什么？"
+            },
+            {
+              "name": "Key (键)：我包含什么？"
+            },
+            {
+              "name": "Value (值)：我交流什么？"
+            },
+            {
+              "name": "缩放点积注意力 (Scaled Dot Product)"
+            }
+          ]
+        },
+        {
+          "name": "多头注意力 (Multi-Head Attention)",
+          "children": [
+            {
+              "name": "并行运行多个注意力头"
+            },
+            {
+              "name": "捕捉不同类型的依赖关系"
+            }
+          ]
+        },
+        {
+          "name": "前馈网络 (Feed Forward)",
+          "children": [
+            {
+              "name": "在通信后进行独立思考/计算"
+            }
+          ]
+        },
+        {
+          "name": "位置编码 (Positional Encoding)",
+          "children": [
+            {
+              "name": "为无空间概念的注意力机制提供位置信息"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "深度学习优化技术",
+      "children": [
+        {
+          "name": "残差连接 (Residual Connections)",
+          "children": [
+            {
+              "name": "梯度超高速公路：解决梯度消失"
+            }
+          ]
+        },
+        {
+          "name": "层归一化 (Layer Normalization)",
+          "children": [
+            {
+              "name": "Pre-norm形式：在变换前归一化"
+            }
+          ]
+        },
+        {
+          "name": "Dropout",
+          "children": [
+            {
+              "name": "正则化技术：防止过拟合"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "训练与生成过程",
+      "children": [
+        {
+          "name": "训练细节",
+          "children": [
+            {
+              "name": "Batch Size (批大小)"
+            },
+            {
+              "name": "Block Size (上下文长度/窗口大小)"
+            },
+            {
+              "name": "AdamW优化器"
+            }
+          ]
+        },
+        {
+          "name": "生成细节",
+          "children": [
+            {
+              "name": "自回归生成 (Auto-regressive)"
+            },
+            {
+              "name": "Softmax转化为概率分布"
+            },
+            {
+              "name": "Multinomial采样"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "通往 ChatGPT 之路",
+      "children": [
+        {
+          "name": "阶段一：预训练 (Pre-training)",
+          "children": [
+            {
+              "name": "海量互联网文本"
+            },
+            {
+              "name": "目标：文档补全器"
+            }
+          ]
+        },
+        {
+          "name": "阶段二：对齐/微调 (Fine-tuning/Alignment)",
+          "children": [
+            {
+              "name": "监督式微调 (SFT)"
+            },
+            {
+              "name": "奖励模型 (Reward Model)"
+            },
+            {
+              "name": "强化学习 (PPO)"
+            },
+            {
+              "name": "目标：变更为助手/问答模式"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
