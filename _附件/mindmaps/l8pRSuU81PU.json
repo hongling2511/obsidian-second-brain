@@ -1,0 +1,117 @@
+{
+  "name": "从零复现 GPT-2 (124M)",
+  "children": [
+    {
+      "name": "模型架构 (Architecture)",
+      "children": [
+        {
+          "name": "核心配置: 12层, 768隐向量维度, 12个注意力头"
+        },
+        {
+          "name": "Decoder-only 架构: 移除 Encoder 及 Cross-Attention"
+        },
+        {
+          "name": "LayerNorm 重构: 采用 Pre-norm 结构，增加最终层归一化"
+        },
+        {
+          "name": "权重绑定: WTE (输入嵌入) 与 LM Head (输出头) 共享权重"
+        },
+        {
+          "name": "非线性激活: 使用 GeLU 的 Tanh 近似版本"
+        }
+      ]
+    },
+    {
+      "name": "性能优化 (Optimization)",
+      "children": [
+        {
+          "name": "精度提升",
+          "children": [
+            {
+              "name": "TF32: 利用 Ampere 架构加速矩阵运算"
+            },
+            {
+              "name": "BF16 Mixed Precision: 减少内存带宽压力且不需 Loss Scaling"
+            }
+          ]
+        },
+        {
+          "name": "加速工具",
+          "children": [
+            {
+              "name": "torch.compile: 内核融合减少 Python 开销和 I/O"
+            },
+            {
+              "name": "Flash Attention 2: 优化内存层级访问，减少 HBM 读写"
+            },
+            {
+              "name": "Fused AdamW: 将参数更新逻辑融合为单个 Cuda Kernel"
+            }
+          ]
+        },
+        {
+          "name": "内存管理: 梯度累积 (Gradient Accumulation) 实现大 Batch Size (0.5M tokens)"
+        },
+        {
+          "name": "数值微调: 词表大小由 50257 填充至 50304 以符合 2 的幂次"
+        }
+      ]
+    },
+    {
+      "name": "训练流程 (Training Routine)",
+      "children": [
+        {
+          "name": "数据准备",
+          "children": [
+            {
+              "name": "Tiny Shakespeare: 初始调试数据集"
+            },
+            {
+              "name": "FineWeb-EDU: 10B 高质量教育文本子集用于正式训练"
+            },
+            {
+              "name": "分片处理: 100M tokens/shard，支持分布式读取"
+            }
+          ]
+        },
+        {
+          "name": "超参数设置: 遵循 GPT-3 论文，包括 Cosine 学习率衰减和 Warmup"
+        },
+        {
+          "name": "权重初始化: 正态分布 (std=0.02)，并按残差层数 1/sqrt(N) 缩放"
+        },
+        {
+          "name": "分布式训练: 使用 DDP (Distributed Data Parallel) 跨 8x A100 训练"
+        }
+      ]
+    },
+    {
+      "name": "评估与验证 (Evaluation)",
+      "children": [
+        {
+          "name": "Validation Loss: 监控未见数据上的预测损失"
+        },
+        {
+          "name": "HellaSwag: 常识性句子补全评测，随机基准 25%"
+        },
+        {
+          "name": "文本采样: 周期性生成样本观察语言连贯性"
+        }
+      ]
+    },
+    {
+      "name": "复现结果",
+      "children": [
+        {
+          "name": "算力成本: 云端训练约 1 小时，耗资 10 美元"
+        },
+        {
+          "name": "性能对标: 10B tokens 训练效果即可超越原始 100B 训练的 GPT-2"
+        },
+        {
+          "name": "LLM.C 扩展: 纯 C/CUDA 实现以获得更高极致性能"
+        }
+      ]
+    }
+  ]
+}

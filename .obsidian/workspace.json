@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "0-收集箱/Building makemore Part 2 MLP.md",
+                "file": "0-收集箱/Building makemore Part 5 Building a WaveNet.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Building makemore Part 2 MLP"
+              "title": "Building makemore Part 5 Building a WaveNet"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "0-收集箱/Building makemore Part 2 MLP.md",
+                "file": "0-收集箱/Building makemore Part 5 Building a WaveNet.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Building makemore Part 2 MLP 的反向链接列表"
+              "title": "Building makemore Part 5 Building a WaveNet 的反向链接列表"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "0-收集箱/Building makemore Part 2 MLP.md",
+                "file": "0-收集箱/Building makemore Part 5 Building a WaveNet.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Building makemore Part 2 MLP 的出链列表"
+              "title": "Building makemore Part 5 Building a WaveNet 的出链列表"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "0-收集箱/Building makemore Part 2 MLP.md",
+                "file": "0-收集箱/Building makemore Part 5 Building a WaveNet.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Building makemore Part 2 MLP 的大纲"
+              "title": "Building makemore Part 5 Building a WaveNet 的大纲"
             }
           },
           {
@@ -207,6 +207,17 @@
   },
   "active": "25f04b4aa5a8c70d",
   "lastOpenFiles": [
+    "0-收集箱/【零基础】2026最新保姆级纯小白节点搭建教程，人人都能学会，目前最简单、最安全、最稳定的专属节点搭建方法，手把手自建节点搭建教学，晚高峰高速稳定，4K秒开的科学上网线路体验.md",
+    "0-收集箱/The spelled-out intro to language modeling building makemore.md",
+    "0-收集箱/README.md",
+    "0-收集箱/Building makemore Part 3 Activations & Gradients, BatchNorm.md",
+    "0-收集箱/Building makemore Part 2 MLP.md",
+    "0-收集箱/Let's reproduce GPT-2 (124M).md",
+    "_附件/l8pRSuU81PU_study_guide.md",
+    "_附件/mindmaps/l8pRSuU81PU.json",
+    "0-收集箱/Let's build the GPT Tokenizer.md",
+    "_附件/zduSFxRajkE_study_guide.md",
+    "_附件/mindmaps/zduSFxRajkE.json",
     "0-收集箱/Let's build GPT from scratch, in code, spelled out..md",
     "_附件/kCc8FmEb1nY_study_guide.md",
     "_附件/mindmaps/kCc8FmEb1nY.json",
@@ -216,12 +227,9 @@
     "0-收集箱/Building makemore Part 4 Becoming a Backprop Ninja.md",
     "_附件/q8SA3rM6ckI_study_guide.md",
     "_附件/mindmaps/q8SA3rM6ckI.json",
-    "0-收集箱/Building makemore Part 3 Activations & Gradients, BatchNorm.md",
     "_附件/P6sfmUTpUmc_study_guide.md",
     "_附件/mindmaps/P6sfmUTpUmc.json",
     "_附件/PaCmpygFfXo_study_guide.md",
-    "0-收集箱/The spelled-out intro to language modeling building makemore.md",
-    "0-收集箱/Building makemore Part 2 MLP.md",
     "_附件/TCH_1BHY58I_study_guide.md",
     "_附件/mindmaps/TCH_1BHY58I.json",
     "0-收集箱/How to Speak.md",
@@ -229,19 +237,11 @@
     "0-收集箱/The spelled-out intro to neural networks and backpropagation building micrograd.md",
     "_附件/VMj-3S1tku0_study_guide.md",
     "_附件/mindmaps/VMj-3S1tku0.json",
-    "0-收集箱/【零基础】2026最新保姆级纯小白节点搭建教程，人人都能学会，目前最简单、最安全、最稳定的专属节点搭建方法，手把手自建节点搭建教学，晚高峰高速稳定，4K秒开的科学上网线路体验.md",
     "_附件/mindmaps/Unzc731iCUY.json",
     "MOC/使用指南.md",
-    "_附件/mindmaps/MgtOAVOXBWo.json",
-    "_附件/mindmaps",
     "MOC/领域概览.md",
     "日记/日记模板.md",
     "2-领域/个人成长/README.md",
-    "2-领域/财务/README.md",
-    "MOC/Claude交互日志.md",
-    "MOC/工作流程图.md",
-    "MOC/Obsidian 第二大脑实施计划（old）.md",
-    "_模板/决策记录模板.md",
-    "_模板/研究课题模板.md"
+    "2-领域/财务/README.md"
   ]
 }

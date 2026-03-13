@@ -1,0 +1,183 @@
+{
+  "name": "GPT 分词器 (Tokenizer) 详解",
+  "children": [
+    {
+      "name": "分词器的本质与作用",
+      "children": [
+        {
+          "name": "核心定义",
+          "children": [
+            {
+              "name": "LLM 的原子单元"
+            },
+            {
+              "name": "文本与 Token 序列的转换层"
+            }
+          ]
+        },
+        {
+          "name": "基本原理",
+          "children": [
+            {
+              "name": "字符集：Unicode 码点"
+            },
+            {
+              "name": "编码方式：UTF-8 字节流"
+            },
+            {
+              "name": "嵌入表查找：Token ID 转向量"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "BPE (字节对编码) 算法",
+      "children": [
+        {
+          "name": "核心思想",
+          "children": [
+            {
+              "name": "迭代合并出现频率最高的字符对"
+            },
+            {
+              "name": "构建分词词汇表 (Vocabulary)"
+            }
+          ]
+        },
+        {
+          "name": "算法流程",
+          "children": [
+            {
+              "name": "1. 获取 UTF-8 字节流"
+            },
+            {
+              "name": "2. 统计相邻对频率"
+            },
+            {
+              "name": "3. 合并最频繁对并铸造新 ID"
+            },
+            {
+              "name": "4. 循环直到达到词汇量上限"
+            }
+          ]
+        },
+        {
+          "name": "训练与推理",
+          "children": [
+            {
+              "name": "独立于 LLM 的预处理阶段"
+            },
+            {
+              "name": "存储 Merge 字典和词汇表"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "主流分词器实现",
+      "children": [
+        {
+          "name": "OpenAI Tiktoken",
+          "children": [
+            {
+              "name": "GPT-2：50k 词汇量"
+            },
+            {
+              "name": "GPT-4：100k 词汇量"
+            },
+            {
+              "name": "正则切分：防止过度合并 (如标点)"
+            }
+          ]
+        },
+        {
+          "name": "Google SentencePiece",
+          "children": [
+            {
+              "name": "Llama/Mistral 使用"
+            },
+            {
+              "name": "基于 Unicode 码点而非字节"
+            },
+            {
+              "name": "字节回退 (Byte Fallback) 处理罕见字符"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "分词器引发的“奇怪”行为",
+      "children": [
+        {
+          "name": "能力缺陷",
+          "children": [
+            {
+              "name": "拼写与反转字符串困难"
+            },
+            {
+              "name": "简单算术错误 (数字切分不一)"
+            },
+            {
+              "name": "Python 缩进效率低 (GPT-2)"
+            }
+          ]
+        },
+        {
+          "name": "语言差异",
+          "children": [
+            {
+              "name": "非英语文本 Token 膨胀"
+            },
+            {
+              "name": "导致上下文窗口变小"
+            }
+          ]
+        },
+        {
+          "name": "特殊 Token 风险",
+          "children": [
+            {
+              "name": "非法 UTF-8 解码错误"
+            },
+            {
+              "name": "尾随空格警告 (Distribution Shift)"
+            },
+            {
+              "name": "Glitch Tokens (如 SolidGoldMagikarp)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "进阶概念",
+      "children": [
+        {
+          "name": "特殊 Token",
+          "children": [
+            {
+              "name": "文档分隔符 (endoftext)"
+            },
+            {
+              "name": "对话控制符 (im_start/im_end)"
+            },
+            {
+              "name": "FIM (中间填充) 模式"
+            }
+          ]
+        },
+        {
+          "name": "多模态分词",
+          "children": [
+            {
+              "name": "图像/视频切分为 Visual Patches"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
