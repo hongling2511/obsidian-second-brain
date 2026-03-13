@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "0-收集箱/Claude Code.md",
+                "file": "日记/2026-03-13.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Claude Code"
+              "title": "2026-03-13"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "0-收集箱/Claude Code.md",
+                "file": "日记/2026-03-13.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Claude Code 的反向链接列表"
+              "title": "2026-03-13 的反向链接列表"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "0-收集箱/Claude Code.md",
+                "file": "日记/2026-03-13.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Claude Code 的出链列表"
+              "title": "2026-03-13 的出链列表"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "0-收集箱/Claude Code.md",
+                "file": "日记/2026-03-13.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Claude Code 的大纲"
+              "title": "2026-03-13 的大纲"
             }
           },
           {
@@ -205,8 +205,12 @@
       "obsidian-spaced-repetition:复习卡片": false
     }
   },
-  "active": "b534069ba8dfa3ca",
+  "active": "25f04b4aa5a8c70d",
   "lastOpenFiles": [
+    "MOC/使用指南.md",
+    "日记/2026-03-13.md",
+    "MOC/工作流程图.md",
+    "日记/日记模板.md",
     "0-收集箱/How to Speak.md",
     "0-收集箱/Claude Code.md",
     "0-收集箱/README.md",
@@ -237,11 +241,7 @@
     "_附件/mindmaps/TCH_1BHY58I.json",
     "_附件/mindmaps/PaCmpygFfXo.json",
     "0-收集箱/The spelled-out intro to neural networks and backpropagation building micrograd.md",
-    "_附件/VMj-3S1tku0_study_guide.md",
     "_附件/mindmaps/VMj-3S1tku0.json",
-    "_附件/mindmaps/Unzc731iCUY.json",
-    "MOC/使用指南.md",
-    "MOC/领域概览.md",
-    "日记/日记模板.md"
+    "_附件/mindmaps/Unzc731iCUY.json"
   ]
 }
