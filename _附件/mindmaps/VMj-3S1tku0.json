@@ -1,0 +1,153 @@
+{
+  "name": "Micrograd 与神经网络训练原理",
+  "children": [
+    {
+      "name": "Micrograd 核心概念",
+      "children": [
+        {
+          "name": "自动求导引擎 (Autograd)"
+        },
+        {
+          "name": "反向传播算法 (Backpropagation)"
+        },
+        {
+          "name": "标量级操作 (Scalar-valued)"
+        },
+        {
+          "name": "底层原理教学 (Pedagogical reasons)"
+        }
+      ]
+    },
+    {
+      "name": "数学基础：导数与链式法则",
+      "children": [
+        {
+          "name": "导数的定义",
+          "children": [
+            {
+              "name": "数值近似 (Numerical approximation)"
+            },
+            {
+              "name": "斜率与灵敏度 (Sensitivity)"
+            }
+          ]
+        },
+        {
+          "name": "链式法则 (Chain Rule)",
+          "children": [
+            {
+              "name": "复合函数求导"
+            },
+            {
+              "name": "局部梯度乘以全局梯度"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Value 对象实现",
+      "children": [
+        {
+          "name": "数据结构",
+          "children": [
+            {
+              "name": "data: 存储数值"
+            },
+            {
+              "name": "grad: 存储导数"
+            },
+            {
+              "name": "_prev: 子节点指针"
+            },
+            {
+              "name": "_op: 操作符符号"
+            }
+          ]
+        },
+        {
+          "name": "支持的操作",
+          "children": [
+            {
+              "name": "加法 (__add__)"
+            },
+            {
+              "name": "乘法 (__mul__)"
+            },
+            {
+              "name": "指数 (__pow__, exp)"
+            },
+            {
+              "name": "激活函数 (tanh, relu)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "反向传播流程",
+      "children": [
+        {
+          "name": "前向传递 (Forward Pass): 构建表达式图"
+        },
+        {
+          "name": "拓扑排序 (Topological Sort): 确定节点顺序"
+        },
+        {
+          "name": "反向传递 (Backward Pass): 自动计算梯度"
+        },
+        {
+          "name": "梯度累加 (Gradient Accumulation): 解决多路径变量问题"
+        }
+      ]
+    },
+    {
+      "name": "神经网络结构",
+      "children": [
+        {
+          "name": "神经元 (Neuron): w*x + b 及激活"
+        },
+        {
+          "name": "层 (Layer): 神经元的集合"
+        },
+        {
+          "name": "多层感知机 (MLP): 层级的堆叠"
+        },
+        {
+          "name": "参数 (Parameters): 所有 w 和 b 的集合"
+        }
+      ]
+    },
+    {
+      "name": "训练循环 (Optimization)",
+      "children": [
+        {
+          "name": "损失函数 (Loss Function): 衡量预测误差"
+        },
+        {
+          "name": "梯度置零 (Zero Grad): 防止梯度错误累加"
+        },
+        {
+          "name": "参数更新: 沿梯度负方向微调数值"
+        },
+        {
+          "name": "学习率 (Learning Rate): 步长控制"
+        }
+      ]
+    },
+    {
+      "name": "行业对比",
+      "children": [
+        {
+          "name": "PyTorch: 生产级张量运算库"
+        },
+        {
+          "name": "效率差异: 向量化/并行计算 (Tensors)"
+        },
+        {
+          "name": "原理一致性: 自动求导逻辑相同"
+        }
+      ]
+    }
+  ]
+}

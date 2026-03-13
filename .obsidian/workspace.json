@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "0-收集箱/【零基础】2026最新保姆级纯小白节点搭建教程，人人都能学会，目前最简单、最安全、最稳定的专属节点搭建方法，手把手自建节点搭建教学，晚高峰高速稳定，4K秒开的科学上网线路体验.md",
+                "file": "0-收集箱/How to Speak.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "【零基础】2026最新保姆级纯小白节点搭建教程，人人都能学会，目前最简单、最安全、最稳定的专属节点搭建方法，手把手自建节点搭建教学，晚高峰高速稳定，4K秒开的科学上网线路体验"
+              "title": "How to Speak"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "0-收集箱/【零基础】2026最新保姆级纯小白节点搭建教程，人人都能学会，目前最简单、最安全、最稳定的专属节点搭建方法，手把手自建节点搭建教学，晚高峰高速稳定，4K秒开的科学上网线路体验.md",
+                "file": "0-收集箱/How to Speak.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "【零基础】2026最新保姆级纯小白节点搭建教程，人人都能学会，目前最简单、最安全、最稳定的专属节点搭建方法，手把手自建节点搭建教学，晚高峰高速稳定，4K秒开的科学上网线路体验 的反向链接列表"
+              "title": "How to Speak 的反向链接列表"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "0-收集箱/【零基础】2026最新保姆级纯小白节点搭建教程，人人都能学会，目前最简单、最安全、最稳定的专属节点搭建方法，手把手自建节点搭建教学，晚高峰高速稳定，4K秒开的科学上网线路体验.md",
+                "file": "0-收集箱/How to Speak.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "【零基础】2026最新保姆级纯小白节点搭建教程，人人都能学会，目前最简单、最安全、最稳定的专属节点搭建方法，手把手自建节点搭建教学，晚高峰高速稳定，4K秒开的科学上网线路体验 的出链列表"
+              "title": "How to Speak 的出链列表"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "0-收集箱/【零基础】2026最新保姆级纯小白节点搭建教程，人人都能学会，目前最简单、最安全、最稳定的专属节点搭建方法，手把手自建节点搭建教学，晚高峰高速稳定，4K秒开的科学上网线路体验.md",
+                "file": "0-收集箱/How to Speak.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "【零基础】2026最新保姆级纯小白节点搭建教程，人人都能学会，目前最简单、最安全、最稳定的专属节点搭建方法，手把手自建节点搭建教学，晚高峰高速稳定，4K秒开的科学上网线路体验 的大纲"
+              "title": "How to Speak 的大纲"
             }
           },
           {
@@ -207,8 +207,13 @@
   },
   "active": "25f04b4aa5a8c70d",
   "lastOpenFiles": [
-    "MOC/使用指南.md",
+    "0-收集箱/The spelled-out intro to neural networks and backpropagation building micrograd.md",
+    "_附件/VMj-3S1tku0_study_guide.md",
+    "_附件/mindmaps/VMj-3S1tku0.json",
     "0-收集箱/【零基础】2026最新保姆级纯小白节点搭建教程，人人都能学会，目前最简单、最安全、最稳定的专属节点搭建方法，手把手自建节点搭建教学，晚高峰高速稳定，4K秒开的科学上网线路体验.md",
+    "0-收集箱/How to Speak.md",
+    "_附件/mindmaps/Unzc731iCUY.json",
+    "MOC/使用指南.md",
     "_附件/mindmaps/MgtOAVOXBWo.json",
     "_附件/mindmaps",
     "_附件",
@@ -224,8 +229,6 @@
     "_scripts/suggest-links.sh",
     "MOC/Obsidian 第二大脑实施计划（old）.md",
     "_scripts/weekly-review.sh",
-    "_scripts/vault-stats.sh",
-    "_scripts/inbox-process.sh",
     "_模板/决策记录模板.md",
     "_模板/研究课题模板.md",
     "_模板/书籍笔记模板.md",
@@ -239,9 +242,6 @@
     "_模板/基本笔记模板.md",
     "_模板/概念笔记模板.md",
     "_模板/会议记录模板.md",
-    "MOC/obsidian/Obsidian设置建议.md",
-    "MOC/obsidian/渐进式总结.md",
-    "MOC/xxx.md",
-    "MOC/obsidian/主流插件优化模板.md"
+    "MOC/obsidian/Obsidian设置建议.md"
   ]
 }
