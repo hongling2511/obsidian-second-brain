@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "日记/2026-03-14.md",
+                "file": "0-收集箱/VOID..md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026-03-14"
+              "title": "VOID."
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "日记/2026-03-14.md",
+                "file": "0-收集箱/VOID..md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "2026-03-14 的反向链接列表"
+              "title": "VOID. 的反向链接列表"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "日记/2026-03-14.md",
+                "file": "0-收集箱/VOID..md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "2026-03-14 的出链列表"
+              "title": "VOID. 的出链列表"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "日记/2026-03-14.md",
+                "file": "0-收集箱/VOID..md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "2026-03-14 的大纲"
+              "title": "VOID. 的大纲"
             }
           },
           {
@@ -207,8 +207,11 @@
   },
   "active": "25f04b4aa5a8c70d",
   "lastOpenFiles": [
-    "0-收集箱/How to Speak.md",
     "日记/2026-03-14.md",
+    "0-收集箱/VOID..md",
+    "_附件/Bp86buftbX8_study_guide.md",
+    "_附件/mindmaps/Bp86buftbX8.json",
+    "0-收集箱/How to Speak.md",
     "日记/2026-03-13.md",
     "MOC/使用指南.md",
     "MOC/工作流程图.md",
@@ -237,11 +240,8 @@
     "_附件/mindmaps/q8SA3rM6ckI.json",
     "_附件/P6sfmUTpUmc_study_guide.md",
     "_附件/mindmaps/P6sfmUTpUmc.json",
-    "_附件/PaCmpygFfXo_study_guide.md",
-    "_附件/TCH_1BHY58I_study_guide.md",
     "_附件/mindmaps/TCH_1BHY58I.json",
     "_附件/mindmaps/PaCmpygFfXo.json",
-    "_附件/mindmaps/VMj-3S1tku0.json",
-    "_附件/mindmaps/Unzc731iCUY.json"
+    "_附件/mindmaps/VMj-3S1tku0.json"
   ]
 }

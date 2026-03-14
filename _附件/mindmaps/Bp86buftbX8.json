@@ -1,0 +1,118 @@
+{
+  "name": "VOID (Vite Optimized Isomorphic Deploy)",
+  "children": [
+    {
+      "name": "定位与核心理念",
+      "children": [
+        {
+          "name": "Vite 原生部署平台"
+        },
+        {
+          "name": "填补本地开发与云端部署间隙"
+        },
+        {
+          "name": "全栈边缘计算 (Cloudflare Workers)"
+        },
+        {
+          "name": "无需 Cloudflare 账号或基础设施知识"
+        }
+      ]
+    },
+    {
+      "name": "核心功能与能力",
+      "children": [
+        {
+          "name": "后端基础设施 (SDK)",
+          "children": [
+            {
+              "name": "数据库 (D1 via void/db)"
+            },
+            {
+              "name": "键值存储 (KV)"
+            },
+            {
+              "name": "对象存储 (R2)"
+            },
+            {
+              "name": "人工智能 (Workers AI)"
+            },
+            {
+              "name": "身份认证 (Better Auth)"
+            },
+            {
+              "name": "后台任务 (Crons & Queues)"
+            }
+          ]
+        },
+        {
+          "name": "开发工作流",
+          "children": [
+            {
+              "name": "单一 Vite 插件配置"
+            },
+            {
+              "name": "本地模拟器 (Miniflare)"
+            },
+            {
+              "name": "自动生成与应用数据库迁移"
+            },
+            {
+              "name": "端到端类型安全 (Drizzle ORM)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "框架兼容性",
+      "children": [
+        {
+          "name": "独立元框架模式 (File-based Routing)"
+        },
+        {
+          "name": "组合式支持 (Nuxt, SvelteKit, TanStack Start)"
+        },
+        {
+          "name": "支持渲染模型 (ISR, SSG, Islands, Static)"
+        }
+      ]
+    },
+    {
+      "name": "CLI 与工具链",
+      "children": [
+        {
+          "name": "void deploy (一键发布)"
+        },
+        {
+          "name": "void dev (本地开发)"
+        },
+        {
+          "name": "内置 MCP (AI 代理本地文档与代码生成)"
+        },
+        {
+          "name": "数据库管理 (Reset, Seed, Studio)"
+        },
+        {
+          "name": "项目管理 (Secrets, Status, Logs)"
+        }
+      ]
+    },
+    {
+      "name": "技术特性",
+      "children": [
+        {
+          "name": "渲染框架无关 (View, JSX, Solid, Svelte)"
+        },
+        {
+          "name": "Inertia.js 启发式导航模型"
+        },
+        {
+          "name": "Server Loaders & Actions"
+        },
+        {
+          "name": "自动验证 (Zod, Valibot)"
+        }
+      ]
+    }
+  ]
+}
