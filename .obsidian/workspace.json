@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "0-收集箱/How to Speak.md",
+                "file": "0-收集箱/AI Agent 最新进展汇总 2026-03-16.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "How to Speak"
+              "title": "AI Agent 最新进展汇总 2026-03-16"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "0-收集箱/How to Speak.md",
+                "file": "0-收集箱/AI Agent 最新进展汇总 2026-03-16.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "How to Speak 的反向链接列表"
+              "title": "AI Agent 最新进展汇总 2026-03-16 的反向链接列表"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "0-收集箱/How to Speak.md",
+                "file": "0-收集箱/AI Agent 最新进展汇总 2026-03-16.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "How to Speak 的出链列表"
+              "title": "AI Agent 最新进展汇总 2026-03-16 的出链列表"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "0-收集箱/How to Speak.md",
+                "file": "0-收集箱/AI Agent 最新进展汇总 2026-03-16.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "How to Speak 的大纲"
+              "title": "AI Agent 最新进展汇总 2026-03-16 的大纲"
             }
           },
           {
@@ -207,12 +207,12 @@
   },
   "active": "25f04b4aa5a8c70d",
   "lastOpenFiles": [
+    "0-收集箱/How to Speak.md",
     "0-收集箱/AI Agent 最新进展汇总 2026-03-16.md",
     "0-收集箱/VOID..md",
     "日记/2026-03-14.md",
     "_附件/Bp86buftbX8_study_guide.md",
     "_附件/mindmaps/Bp86buftbX8.json",
-    "0-收集箱/How to Speak.md",
     "日记/2026-03-13.md",
     "MOC/使用指南.md",
     "MOC/工作流程图.md",
