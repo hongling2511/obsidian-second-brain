@@ -1,0 +1,12 @@
+[      70ms] [WARNING] Mixed Content: The page at 'https://www.xiaohongshu.com/explore/69b804e3000000001f007614?xsec_token=YBL_K0uxGlGs4NtsD-ZjWTvVTCKnyol0FATHL8B6r_psk%3D&xsec_source=pc_creatormng' was loaded over HTTPS, but requested an insecure element 'http://sns-webpic-qc.xhscdn.com/202603162131/4dc9e920671f4543860034f3871ece49/spectrum/1040g0k031tpcpgk1mq105q35mhj7algh034v6dg!nd_prv_wlteh_webp_3'. This request was automatically upgraded to HTTPS, For more information see https://blog.chromium.org/2019/10/no-more-mixed-messages-about-https.html @ https://www.xiaohongshu.com/explore/69b804e3000000001f007614?xsec_token=YBL_K0uxGlGs4NtsD-ZjWTvVTCKnyol0FATHL8B6r_psk%3D&xsec_source=pc_creatormng:984
+[     512ms] [WARNING] Tribute was already bound to P @ https://fe-static.xhscdn.com/formula-static/xhs-pc-web/public/resource/js/async/6399.1ac57d49.js:0
+[    2449ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    2449ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    2449ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    2449ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    2449ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    2449ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    2449ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    2449ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    2449ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:9222/json/version:0
+[    2449ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:54345/:0
