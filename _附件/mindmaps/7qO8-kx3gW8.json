@@ -1,0 +1,108 @@
+{
+  "name": "AI 概念底层逻辑",
+  "children": [
+    {
+      "name": "LLM (大语言模型)",
+      "children": [
+        {
+          "name": "核心架构: Transformer"
+        },
+        {
+          "name": "运行本质: 文字接龙游戏"
+        },
+        {
+          "name": "代表模型: GPT-4, Claude, Gemini"
+        }
+      ]
+    },
+    {
+      "name": "Token (基本单位)",
+      "children": [
+        {
+          "name": "Tokenizer: 负责编码与解码"
+        },
+        {
+          "name": "概念: 模型处理的最小单位"
+        },
+        {
+          "name": "转换比例: 1 token ≈ 0.75 英文单词 / 1.5-2 汉字"
+        }
+      ]
+    },
+    {
+      "name": "Context (上下文)",
+      "children": [
+        {
+          "name": "定义: 任务处理的信息总合 (临时记忆)"
+        },
+        {
+          "name": "Context Window: 最大容纳 token 数"
+        },
+        {
+          "name": "RAG 技术: 解决长文本成本与窗口限制"
+        }
+      ]
+    },
+    {
+      "name": "Prompt (提示词)",
+      "children": [
+        {
+          "name": "User Prompt: 用户输入的指令"
+        },
+        {
+          "name": "System Prompt: 开发者配置的人设与规则"
+        },
+        {
+          "name": "Prompt Engineering: 提示词工程"
+        }
+      ]
+    },
+    {
+      "name": "Tool / Function (工具)",
+      "children": [
+        {
+          "name": "作用: 让模型感知/影响外部环境"
+        },
+        {
+          "name": "调用机制: 模型生成指令，平台执行函数"
+        },
+        {
+          "name": "MCP (模型上下文协议)",
+          "children": [
+            {
+              "name": "定义: 统一的工具接入规范"
+            },
+            {
+              "name": "价值: 跨平台通用，无需重复开发"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Agent (智能体)",
+      "children": [
+        {
+          "name": "能力: 自主规划、自主调用工具、持续运作"
+        },
+        {
+          "name": "构建模式: ReAct, Plan & Execute"
+        },
+        {
+          "name": "Agent Skill (技能)",
+          "children": [
+            {
+              "name": "本质: 存放在本地的说明文档 (skill.md)"
+            },
+            {
+              "name": "元数据层: 名称 (name) 与描述 (description)"
+            },
+            {
+              "name": "指令层: 目标、步骤、规则、格式、示例"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
