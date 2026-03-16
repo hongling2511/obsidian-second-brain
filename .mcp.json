@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "bb-browser": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "bb-browser",
+        "--mcp"
+      ],
+      "env": {}
+    }
+  }
+}

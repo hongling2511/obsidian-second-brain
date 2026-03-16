@@ -1,0 +1,25 @@
+[    1838ms] [ERROR] The request has been aborted. @ https://x.com/i/flow/login?redirect_after_login=%2Fsearch%3Fq%3DAI%2520agent%26f%3Dtop:0
+[    1838ms] [ERROR] [GSI_LOGGER]: FedCM get() rejects with AbortError: signal is aborted without reason @ https://accounts.google.com/gsi/client:81
+[    3590ms] [WARNING] [GSI_LOGGER]: google.accounts.id.initialize() is called multiple times. This could cause unexpected behavior and only the last initialized instance will be used. @ https://accounts.google.com/gsi/client:80
+[    7562ms] [ERROR] User declined or dismissed prompt. API exponential cool down triggered. @ https://x.com/i/flow/login?redirect_after_login=%2Fsearch%3Fq%3DAI%2520agent%26f%3Dtop:0
+[    7562ms] [ERROR] [GSI_LOGGER]: FedCM get() rejects with NetworkError: Error retrieving a token. @ https://accounts.google.com/gsi/client:81
+[   48392ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://api.x.com/1.1/onboarding/task.json:0
+[   84754ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_CLOSED @ https://cm.g.doubleclick.net/pixel?google_nid=twitter_dbm&google_redir=https://analytics.twitter.com/tpm&google_hm=M2JhZDgzMzUxMDUzZTQxNzMwOGEzM2IxNTM1OTUxNDU3YzY3MmQyZjc2Mzg0ZDA4MGJjZDUwZjBhOWI3OGMyNg==:0
+[  122979ms] i: ApiError: https://x.com/i/api/2/badge_count/badge_count.json HTTP-0 codes:[1004]
+    at u (https://abs.twimg.com/responsive-web/client-web/main.8575d0ba.js:31:23292)
+    at https://abs.twimg.com/responsive-web/client-web/main.8575d0ba.js:31:24082
+    at https://abs.twimg.com/responsive-web/client-web/main.8575d0ba.js:31:24132
+[  128626ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_CLOSED @ https://x.com/i/api/1.1/graphql/error_log.json:0
+[  128930ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_CLOSED @ https://x.com/i/api/1.1/graphql/user_flow.json:0
+[  142986ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_CLOSED @ https://x.com/i/api/1.1/graphql/user_flow.json:0
+[  152973ms] i: ApiError: https://x.com/i/api/2/badge_count/badge_count.json HTTP-0 codes:[1004]
+    at u (https://abs.twimg.com/responsive-web/client-web/main.8575d0ba.js:31:23292)
+    at https://abs.twimg.com/responsive-web/client-web/main.8575d0ba.js:31:24082
+    at https://abs.twimg.com/responsive-web/client-web/main.8575d0ba.js:31:24132
+[  158504ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_CLOSED @ https://x.com/i/api/1.1/graphql/user_flow.json:0
+[  163977ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_CLOSED @ https://x.com/i/api/1.1/graphql/user_flow.json:0
+[  176094ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_CLOSED @ https://x.com/i/api/2/badge_count/badge_count.json?supports_ntab_urt=1&include_xchat_count=1:0
+[  176098ms] i: ApiError: https://x.com/i/api/2/badge_count/badge_count.json HTTP-0 codes:[1004]
+    at u (https://abs.twimg.com/responsive-web/client-web/main.8575d0ba.js:31:23292)
+    at https://abs.twimg.com/responsive-web/client-web/main.8575d0ba.js:31:24082
+    at https://abs.twimg.com/responsive-web/client-web/main.8575d0ba.js:31:24132
