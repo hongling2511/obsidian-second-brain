@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "3-资源/文章摘要/Claude订阅避坑指南.md",
-                "mode": "source",
+                "file": "3-资源/文章摘要/Claude Code完全指南.md",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Claude订阅避坑指南"
+              "title": "Claude Code完全指南"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "3-资源/文章摘要/Claude订阅避坑指南.md",
+                "file": "3-资源/文章摘要/Claude Code完全指南.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Claude订阅避坑指南 的反向链接列表"
+              "title": "Claude Code完全指南 的反向链接列表"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "3-资源/文章摘要/Claude订阅避坑指南.md",
+                "file": "3-资源/文章摘要/Claude Code完全指南.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Claude订阅避坑指南 的出链列表"
+              "title": "Claude Code完全指南 的出链列表"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "3-资源/文章摘要/Claude订阅避坑指南.md",
+                "file": "3-资源/文章摘要/Claude Code完全指南.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Claude订阅避坑指南 的大纲"
+              "title": "Claude Code完全指南 的大纲"
             }
           },
           {
@@ -207,8 +207,10 @@
   },
   "active": "25f04b4aa5a8c70d",
   "lastOpenFiles": [
-    "0-收集箱/AI Agent 最新进展汇总 2026-03-16.md",
+    "0-收集箱/Claude Code.md",
+    "3-资源/文章摘要/Claude Code完全指南.md",
     "3-资源/文章摘要/Claude订阅避坑指南.md",
+    "0-收集箱/AI Agent 最新进展汇总 2026-03-16.md",
     "0-收集箱/How to Speak.md",
     "0-收集箱/VOID..md",
     "日记/2026-03-14.md",
@@ -218,7 +220,6 @@
     "MOC/使用指南.md",
     "MOC/工作流程图.md",
     "日记/日记模板.md",
-    "0-收集箱/Claude Code.md",
     "0-收集箱/README.md",
     "0-收集箱/The spelled-out intro to language modeling building makemore.md",
     "0-收集箱/Let's build GPT from scratch, in code, spelled out..md",
@@ -237,7 +238,6 @@
     "_附件/mindmaps/kCc8FmEb1nY.json",
     "_附件/t3YJ5hKiMQ0_study_guide.md",
     "_附件/mindmaps/t3YJ5hKiMQ0.json",
-    "0-收集箱/Building makemore Part 4 Becoming a Backprop Ninja.md",
     "_附件/mindmaps/q8SA3rM6ckI.json",
     "_附件/mindmaps/P6sfmUTpUmc.json",
     "_附件/mindmaps/TCH_1BHY58I.json",

@@ -1,0 +1,44 @@
+[    4881ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    4881ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:9222/json/version:0
+[    4881ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:54345/:0
+[    4881ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    4881ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    4881ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    4881ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    4881ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    4881ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    4881ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[   14187ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://creator.xiaohongshu.com/api/galaxy/user/info:0
+[   16318ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://creator.xiaohongshu.com/api/galaxy/user/info:0
+[   33668ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[   33668ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:9222/json/version:0
+[   33668ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:54345/:0
+[   33668ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[   33668ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[   33668ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[   33668ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[   33668ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[   33668ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[   33668ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[  154336ms] [ERROR] GeolocationPositionError @ https://fe-static.xhscdn.com/formula-static/ugc/public/resource/js/project-publish-vue.5d58f720.js:0
+[  264252ms] Error: [Eaglet Exception] no match enum `1` in `NoteEditSource` field
+    at o (https://fe-static.xhscdn.com/formula-static/ugc/public/resource/js/4812.54d7fd52.js:119:335227)
+    at https://fe-static.xhscdn.com/formula-static/ugc/public/resource/js/4812.54d7fd52.js:119:336373
+    at Array.forEach (<anonymous>)
+    at e.value (https://fe-static.xhscdn.com/formula-static/ugc/public/resource/js/4812.54d7fd52.js:119:336102)
+    at https://fe-static.xhscdn.com/formula-static/ugc/public/resource/js/4812.54d7fd52.js:119:336842
+    at Array.forEach (<anonymous>)
+    at e.value (https://fe-static.xhscdn.com/formula-static/ugc/public/resource/js/4812.54d7fd52.js:119:336715)
+    at e.value (https://fe-static.xhscdn.com/formula-static/ugc/public/resource/js/4812.54d7fd52.js:119:337216)
+    at Object.push (https://fe-static.xhscdn.com/formula-static/ugc/public/resource/js/library-launcher.9cf106f6.js:1:722868)
+    at Object.<anonymous> (https://fe-static.xhscdn.com/formula-static/ugc/public/resource/js/library-launcher.9cf106f6.js:1:743478)
+    at Object.next (https://fe-static.xhscdn.com/formula-static/ugc/public/resource/js/library-polyfill.61876c47.js:1:364016)
+    at n (https://fe-static.xhscdn.com/formula-static/ugc/public/resource/js/library-polyfill.61876c47.js:1:354318)
+    at s (https://fe-static.xhscdn.com/formula-static/ugc/public/resource/js/library-polyfill.61876c47.js:1:354515)
+    at https://fe-static.xhscdn.com/formula-static/ugc/public/resource/js/library-polyfill.61876c47.js:1:354574
+    at new Promise (<anonymous>)
+    at Object.<anonymous> (https://fe-static.xhscdn.com/formula-static/ugc/public/resource/js/library-polyfill.61876c47.js:1:354456)
+[  276209ms] [WARNING] Mixed Content: The page at 'https://creator.xiaohongshu.com/new/note-manager?source=official' was loaded over HTTPS, but requested an insecure element 'http://sns-na-i11.xhscdn.com/spectrum/1040g34o31tp4uph7g8405q35mhj7alghtv6bdlg?imageView2/2/w/1080/format/jpg'. This request was automatically upgraded to HTTPS, For more information see https://blog.chromium.org/2019/10/no-more-mixed-messages-about-https.html @ https://fe-static.xhscdn.com/formula-static/ugc/public/resource/js/library-delight.d92ec8b2.js:0
+[  276210ms] [WARNING] Mixed Content: The page at 'https://creator.xiaohongshu.com/new/note-manager?source=official' was loaded over HTTPS, but requested an insecure element 'http://sns-na-i11.xhscdn.com/spectrum/1040g34o31tp4uph7g8405q35mhj7alghtv6bdlg?imageView2/2/w/1080/format/jpg'. This request was automatically upgraded to HTTPS, For more information see https://blog.chromium.org/2019/10/no-more-mixed-messages-about-https.html @ https://creator.xiaohongshu.com/new/note-manager?source=official:0
+[  290271ms] [WARNING] Mixed Content: The page at 'https://creator.xiaohongshu.com/new/note-manager?source=official' was loaded over HTTPS, but requested an insecure element 'http://sns-na-i11.xhscdn.com/spectrum/1040g34o31tp4uph7g8405q35mhj7alghtv6bdlg?imageView2/2/w/1080/format/jpg'. This request was automatically upgraded to HTTPS, For more information see https://blog.chromium.org/2019/10/no-more-mixed-messages-about-https.html @ https://creator.xiaohongshu.com/new/note-manager?source=official:0
+[  290272ms] [WARNING] Mixed Content: The page at 'https://creator.xiaohongshu.com/new/note-manager?source=official' was loaded over HTTPS, but requested an insecure element 'http://sns-na-i11.xhscdn.com/spectrum/1040g34o31tp4uph7g8405q35mhj7alghtv6bdlg?imageView2/2/w/1080/format/jpg'. This request was automatically upgraded to HTTPS, For more information see https://blog.chromium.org/2019/10/no-more-mixed-messages-about-https.html @ https://creator.xiaohongshu.com/new/note-manager?source=official:0
