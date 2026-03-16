@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "日记/2026-03-16.md",
+                "file": "3-资源/文章摘要/从LLM到Agent Skill底层逻辑拆解.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026-03-16"
+              "title": "从LLM到Agent Skill底层逻辑拆解"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "日记/2026-03-16.md",
+                "file": "3-资源/文章摘要/从LLM到Agent Skill底层逻辑拆解.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "2026-03-16 的反向链接列表"
+              "title": "从LLM到Agent Skill底层逻辑拆解 的反向链接列表"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "日记/2026-03-16.md",
+                "file": "3-资源/文章摘要/从LLM到Agent Skill底层逻辑拆解.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "2026-03-16 的出链列表"
+              "title": "从LLM到Agent Skill底层逻辑拆解 的出链列表"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "日记/2026-03-16.md",
+                "file": "3-资源/文章摘要/从LLM到Agent Skill底层逻辑拆解.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "2026-03-16 的大纲"
+              "title": "从LLM到Agent Skill底层逻辑拆解 的大纲"
             }
           },
           {
@@ -208,6 +208,7 @@
   "active": "25f04b4aa5a8c70d",
   "lastOpenFiles": [
     "0-收集箱/从 LLM 到 Agent Skill，一期视频带你打通底层逻辑！.md",
+    "3-资源/文章摘要/从LLM到Agent Skill底层逻辑拆解.md",
     "日记/2026-03-16.md",
     "3-资源/文章摘要/Claude Code完全指南.md",
     "_附件/7qO8-kx3gW8_study_guide.md",
@@ -235,7 +236,6 @@
     "0-收集箱/Building makemore Part 5 Building a WaveNet.md",
     "0-收集箱/Building makemore Part 3 Activations & Gradients, BatchNorm.md",
     "0-收集箱/Building makemore Part 2 MLP.md",
-    "_附件/l8pRSuU81PU_study_guide.md",
     "_附件/mindmaps/l8pRSuU81PU.json",
     "_附件/mindmaps/zduSFxRajkE.json",
     "_附件/mindmaps/kCc8FmEb1nY.json",

@@ -2,8 +2,23 @@
   "mcpServers": {
     "yt2obs": {
       "command": "uv",
-      "args": ["run", "--project", "/Users/hongling/youtube-to-obsidian", "python", "/Users/hongling/youtube-to-obsidian/mcp_server.py"],
-      "cwd": "/Users/hongling/youtube-to-obsidian"
+      "args": [
+        "run",
+        "--project",
+        "/Users/hongling/youtube-to-obsidian",
+        "python",
+        "/Users/hongling/youtube-to-obsidian/mcp_server.py"
+      ]
+    },
+    "bb-browser": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "bb-browser",
+        "--mcp"
+      ],
+      "env": {}
     }
   }
 }
