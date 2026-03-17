@@ -116,3 +116,4 @@ Dataview、Templater、Tasks、Obsidian Git、QuickAdd、Excalidraw、Spaced Rep
 | `suggest-links.sh` | 链接建议（发现未链接的提及） |
 | `progressive-summary.sh` | 渐进式总结进度扫描 |
 | `review-reminder.sh` | 复习提醒（过期复习、停滞项目） |
+| `blog-publish.sh` | 博客发布（Obsidian → Next.js 博客，支持 --dry-run / --publish / --deploy） |
