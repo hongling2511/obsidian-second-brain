@@ -1,0 +1,13 @@
+[    1889ms] [ERROR] Hydration completed but contains mismatches. @ https://fe-static.xhscdn.com/formula-static/xhs-pc-web/public/resource/js/library-vue.e91ead26.js:0
+[    2206ms] [ERROR] TypeError: i is not a function
+    at https://www.xiaohongshu.com/explore:1:4567 @ https://www.xiaohongshu.com/explore:0
+[    3146ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    3146ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:9222/json/version:0
+[    3146ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:54345/:0
+[    3146ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    3147ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    3147ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    3147ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    3147ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    3147ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    3147ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0

@@ -2,29 +2,30 @@
 创建日期: 2026-03-17
 类型: 文章
 作者: 个人实践总结
-关键词: OpenClaw, Docker, Telegram Bot, 自部署, AI助手
+关键词: OpenClaw, Docker, 自部署, AI助手, DeepSeek, 私有化部署
 复习间隔: 1, 7, 21, 60
 复习日期: 2026-03-18
 tags: #资源
 ---
 
-# OpenClaw Docker 部署保姆级教程｜闲置 Linux 机器秒变 AI 助手
+# 闲置 Linux 机器秒变私人 AI 助手｜Docker 部署 OpenClaw 保姆级教程
 
-> 家里吃灰的服务器终于有用了！手把手教你用 Docker 部署 OpenClaw，对接 Telegram，随时随地和 AI 聊天。
+> 家里吃灰的服务器终于有用了！手把手教你用 Docker 部署 OpenClaw，打造属于自己的私有化 AI 基础设施，数据完全自主可控。
 
 ---
 
 ## 先说结论
 
-OpenClaw 是一个开源的 AI Gateway，可以把各种大模型（Claude、DeepSeek 等）统一接入 Telegram、Discord 等聊天平台。部署完成后，你可以直接在 Telegram 里和 AI 对话，体验丝滑。
+OpenClaw 是一个开源的 AI Gateway，可以把 DeepSeek、通义千问等大模型统一接入各种终端，部署在自己的服务器上。数据不经过第三方，随时随地通过消息客户端和 AI 对话。
 
 **我的环境：** Rocky Linux 9.5 + Docker 28 + SELinux enforcing
 
 **最终效果：**
-- Telegram Bot 7×24 在线，随时响应
+- 私有 AI 助手 7×24 在线，随时响应
 - 支持多模型自动降级（主力挂了自动切备用）
 - Web Dashboard 可视化管理
 - 开机自启，重启自恢复
+- **数据全程在自己服务器上，不依赖任何第三方云服务**
 
 ---
 
@@ -93,26 +94,30 @@ openssl rand -hex 32
     }
   },
   "channels": {
-    "telegram": {
+    "im": {
       "enabled": true,
-      "botToken": "你的Telegram Bot Token",
       "dmPolicy": "pairing",
-      "groups": { "*": { "requireMention": true } },
       "streaming": "partial",
       "commands": { "native": "auto" }
     }
   },
   "models": {
     "providers": {
-      "自定义名称": {
-        "baseUrl": "你的模型API地址",
-        "apiKey": "你的API Key",
-        "api": "anthropic-messages 或 openai-chat",
+      "deepseek": {
+        "baseUrl": "https://api.deepseek.com",
+        "apiKey": "你的DeepSeek API Key",
+        "api": "openai-chat",
         "models": [
           {
-            "id": "模型ID",
-            "name": "显示名称",
-            "contextWindow": 200000,
+            "id": "deepseek-chat",
+            "name": "DeepSeek V3",
+            "contextWindow": 64000,
+            "maxTokens": 8192
+          },
+          {
+            "id": "deepseek-reasoner",
+            "name": "DeepSeek R1",
+            "contextWindow": 64000,
             "maxTokens": 8192
           }
         ]
@@ -122,8 +127,8 @@ openssl rand -hex 32
   "agents": {
     "defaults": {
       "model": {
-        "primary": "提供商名/主力模型ID",
-        "fallbacks": ["提供商名/备用模型1", "提供商名/备用模型2"]
+        "primary": "deepseek/deepseek-chat",
+        "fallbacks": ["deepseek/deepseek-reasoner"]
       }
     }
   },
@@ -139,11 +144,13 @@ openssl rand -hex 32
 | 字段 | 含义 |
 |------|------|
 | `gateway.bind: "lan"` | 允许局域网设备访问，不只是 localhost |
-| `gateway.auth.mode: "token"` | 用 token 保护 API，防止裸奔 |
-| `channels.telegram.dmPolicy: "pairing"` | 私聊需要配对确认，防止陌生人白嫖 |
-| `channels.telegram.streaming: "partial"` | 流式输出，打字机效果 |
-| `models.providers` | 支持多个模型提供商，格式灵活 |
-| `agents.defaults.model.fallbacks` | 主力模型挂了自动切备用，高可用 |
+| `gateway.auth.mode: "token"` | 用 token 保护 API，防止未授权访问 |
+| `channels.im.dmPolicy: "pairing"` | 私聊需要配对确认，仅限自己使用 |
+| `channels.im.streaming: "partial"` | 流式输出，打字机效果 |
+| `models.providers` | 支持多个模型提供商，这里用 DeepSeek |
+| `agents.defaults.model.fallbacks` | 主力模型不可用时自动切备用，高可用 |
+
+**为什么选 DeepSeek：** 国内直连、延迟低、API 价格实惠，V3 日常对话 + R1 深度推理组合性价比极高。
 
 写完后锁定权限：
 
@@ -170,8 +177,8 @@ docker ps --filter "name=openclaw"
 # 看日志，确认无 ERROR
 docker logs --tail 50 $(docker ps -q --filter name=openclaw-gateway)
 
-# 确认 Telegram bot 已连接
-docker logs $(docker ps -q --filter name=openclaw-gateway) 2>&1 | grep -i telegram
+# 确认消息通道已连接
+docker logs $(docker ps -q --filter name=openclaw-gateway) 2>&1 | grep -i "channel"
 ```
 
 ---
@@ -200,20 +207,17 @@ docker update --restart unless-stopped $(docker ps -q --filter name=openclaw-gat
 
 ---
 
-### 第 8 步：Telegram 配对
+### 第 8 步：客户端配对
 
-因为我们配了 `dmPolicy: "pairing"`，首次使用需要配对：
-
-1. 在 Telegram 中搜索你的 Bot，发一条消息
-2. 服务器端查看并批准配对请求：
+首次使用需要完成配对，确保只有自己能使用：
 
 ```bash
 cd /opt/openclaw
-docker compose run --rm openclaw-cli pairing list telegram
-docker compose run --rm openclaw-cli pairing approve telegram <配对码>
+docker compose run --rm openclaw-cli pairing list
+docker compose run --rm openclaw-cli pairing approve <配对码>
 ```
 
-3. 回到 Telegram 再发条消息，Bot 应该就能正常回复了
+配对完成后即可通过消息客户端与 AI 对话。
 
 ---
 
@@ -280,8 +284,8 @@ docker restart $(docker ps -q --filter name=openclaw-gateway)
 | `gateway.bind` | `lan` | 局域网可访问 |
 | `gateway.port` | `18789` | 默认端口 |
 | `gateway.auth.mode` | `token` | Token 认证 |
-| `telegram.dmPolicy` | `pairing` | 需配对确认 |
-| `telegram.streaming` | `partial` | 流式打字效果 |
+| `channels.im.dmPolicy` | `pairing` | 需配对确认 |
+| `channels.im.streaming` | `partial` | 流式打字效果 |
 | `tools.exec.security` | `deny` | 禁止执行命令（安全） |
 
 ---
@@ -293,10 +297,38 @@ docker restart $(docker ps -q --filter name=openclaw-gateway)
 
 **参考文档：**
 - OpenClaw Docker 安装文档
-- OpenClaw Telegram 频道配置文档
+- OpenClaw 消息通道配置文档
 - OpenClaw 模型提供商配置文档
 - OpenClaw 安全加固文档
 
 ---
 
-> **L3 总结：** OpenClaw 的核心价值是把模型 API "翻译"成聊天平台的原生体验。部署本身不难，关键是配置文件要写对（Gateway 认证 + 频道对接 + 模型端点），以及处理好 SELinux 权限。一旦跑起来，就是一个 7×24 在线的私人 AI 助手。
+> **L3 总结：** OpenClaw 的核心价值是把模型 API "翻译"成消息客户端的原生对话体验，同时保持数据完全自托管。部署本身不难，关键是配置文件要写对（Gateway 认证 + 通道对接 + 模型端点），以及处理好 SELinux 权限。推荐接入 DeepSeek，国内直连延迟低、价格实惠。一旦跑起来，就是一个 7×24 在线的私人 AI 助手，对话数据完全在自己手里。
+
+---
+
+## 小红书分享稿（审核优化版）
+
+家里有台闲置服务器？手把手教你变成私人 AI 助手 🤖
+
+很多人觉得"自己部署 AI"很难
+其实用 Docker + OpenClaw，10 步走就能搞定
+
+✅ DeepSeek V3 + R1 双模型配置
+✅ 数据完全在自己服务器上，不经过任何第三方
+✅ Web 界面可视化管理，7×24 在线
+✅ 开机自启，重启自恢复
+
+**为什么要自己部署而不直接用网页版？**
+- 数据隐私：对话记录只在你的服务器上
+- 成本可控：按 token 计费，比订阅制划算
+- 随时可用：不依赖第三方服务稳定性
+- 可以接入多个模型，灵活切换
+
+**踩坑最多的地方：**
+SELinux 权限 + 容器用户 uid 对齐
+（Rocky Linux / CentOS 用户必看，其他教程基本不提这个）
+
+完整 10 步教程在评论区，手把手带你跑起来 👇
+
+\#DeepSeek \#Docker \#私有化部署 \#AI助手 \#Linux \#开源项目 \#程序员 \#服务器
