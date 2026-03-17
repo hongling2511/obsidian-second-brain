@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "3-资源/文章摘要/Claude订阅避坑指南.md",
+                "file": "3-资源/文章摘要/OpenClaw Docker部署保姆级教程.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Claude订阅避坑指南"
+              "title": "OpenClaw Docker部署保姆级教程"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "3-资源/文章摘要/Claude订阅避坑指南.md",
+                "file": "3-资源/文章摘要/OpenClaw Docker部署保姆级教程.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Claude订阅避坑指南 的反向链接列表"
+              "title": "OpenClaw Docker部署保姆级教程 的反向链接列表"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "3-资源/文章摘要/Claude订阅避坑指南.md",
+                "file": "3-资源/文章摘要/OpenClaw Docker部署保姆级教程.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Claude订阅避坑指南 的出链列表"
+              "title": "OpenClaw Docker部署保姆级教程 的出链列表"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "3-资源/文章摘要/Claude订阅避坑指南.md",
+                "file": "3-资源/文章摘要/OpenClaw Docker部署保姆级教程.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Claude订阅避坑指南 的大纲"
+              "title": "OpenClaw Docker部署保姆级教程 的大纲"
             }
           },
           {
@@ -207,6 +207,9 @@
   },
   "active": "25f04b4aa5a8c70d",
   "lastOpenFiles": [
+    "0-收集箱/How to Speak.md",
+    "3-资源/文章摘要/OpenClaw Docker部署保姆级教程.md",
+    "3-资源/文章摘要/Claude订阅避坑指南.md",
     "3-资源/文章摘要/从LLM到Agent Skill底层逻辑拆解.md",
     "0-收集箱/从 LLM 到 Agent Skill，一期视频带你打通底层逻辑！.md",
     "日记/2026-03-16.md",
@@ -215,9 +218,7 @@
     "_附件/mindmaps/7qO8-kx3gW8.json",
     "processed.db",
     "0-收集箱/Claude Code.md",
-    "3-资源/文章摘要/Claude订阅避坑指南.md",
     "0-收集箱/AI Agent 最新进展汇总 2026-03-16.md",
-    "0-收集箱/How to Speak.md",
     "0-收集箱/VOID..md",
     "日记/2026-03-14.md",
     "_附件/Bp86buftbX8_study_guide.md",
@@ -235,7 +236,6 @@
     "_附件/Unzc731iCUY_study_guide.md",
     "0-收集箱/Building makemore Part 5 Building a WaveNet.md",
     "0-收集箱/Building makemore Part 3 Activations & Gradients, BatchNorm.md",
-    "0-收集箱/Building makemore Part 2 MLP.md",
     "_附件/mindmaps/l8pRSuU81PU.json",
     "_附件/mindmaps/zduSFxRajkE.json",
     "_附件/mindmaps/kCc8FmEb1nY.json",
