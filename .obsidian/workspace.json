@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "3-资源/文章摘要/OpenClaw Docker部署保姆级教程.md",
+                "file": "3-资源/文章摘要/用龙虾通过对话部署开源项目.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "OpenClaw Docker部署保姆级教程"
+              "title": "用龙虾通过对话部署开源项目"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "3-资源/文章摘要/OpenClaw Docker部署保姆级教程.md",
+                "file": "3-资源/文章摘要/用龙虾通过对话部署开源项目.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "OpenClaw Docker部署保姆级教程 的反向链接列表"
+              "title": "用龙虾通过对话部署开源项目 的反向链接列表"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "3-资源/文章摘要/OpenClaw Docker部署保姆级教程.md",
+                "file": "3-资源/文章摘要/用龙虾通过对话部署开源项目.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "OpenClaw Docker部署保姆级教程 的出链列表"
+              "title": "用龙虾通过对话部署开源项目 的出链列表"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "3-资源/文章摘要/OpenClaw Docker部署保姆级教程.md",
+                "file": "3-资源/文章摘要/用龙虾通过对话部署开源项目.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "OpenClaw Docker部署保姆级教程 的大纲"
+              "title": "用龙虾通过对话部署开源项目 的大纲"
             }
           },
           {
@@ -207,8 +207,10 @@
   },
   "active": "25f04b4aa5a8c70d",
   "lastOpenFiles": [
-    "0-收集箱/How to Speak.md",
+    "日记/2026-03-17.md",
+    "3-资源/文章摘要/用龙虾通过对话部署开源项目.md",
     "3-资源/文章摘要/OpenClaw Docker部署保姆级教程.md",
+    "0-收集箱/How to Speak.md",
     "3-资源/文章摘要/Claude订阅避坑指南.md",
     "3-资源/文章摘要/从LLM到Agent Skill底层逻辑拆解.md",
     "0-收集箱/从 LLM 到 Agent Skill，一期视频带你打通底层逻辑！.md",
@@ -234,8 +236,6 @@
     "0-收集箱/Let's reproduce GPT-2 (124M).md",
     "0-收集箱/【零基础】2026最新保姆级纯小白节点搭建教程，人人都能学会，目前最简单、最安全、最稳定的专属节点搭建方法，手把手自建节点搭建教学，晚高峰高速稳定，4K秒开的科学上网线路体验.md",
     "_附件/Unzc731iCUY_study_guide.md",
-    "0-收集箱/Building makemore Part 5 Building a WaveNet.md",
-    "0-收集箱/Building makemore Part 3 Activations & Gradients, BatchNorm.md",
     "_附件/mindmaps/l8pRSuU81PU.json",
     "_附件/mindmaps/zduSFxRajkE.json",
     "_附件/mindmaps/kCc8FmEb1nY.json",
