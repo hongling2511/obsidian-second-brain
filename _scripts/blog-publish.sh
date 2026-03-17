@@ -60,8 +60,40 @@ done
 get_frontmatter_field() {
     local file="$1"
     local field="$2"
-    # 提取 YAML frontmatter 中的字段
-    sed -n '/^---$/,/^---$/p' "$file" | grep -E "^${field}:" | sed "s/^${field}:[[:space:]]*//" | sed 's/^"\(.*\)"$/\1/' | head -1
+    local frontmatter
+    frontmatter="$(sed -n '/^---$/,/^---$/p' "$file")"
+
+    # 检查是否为 YAML 多行列表格式（字段后无值，下一行以 "  - " 开头）
+    local line_value
+    line_value="$(echo "$frontmatter" | grep -E "^${field}:" | sed "s/^${field}:[[:space:]]*//" | sed 's/^"\(.*\)"$/\1/' | head -1)"
+
+    if [[ -z "$line_value" ]]; then
+        # 尝试读取 YAML 列表格式：提取 "  - item" 行并转为 JSON 数组
+        local items=()
+        local in_field=false
+        while IFS= read -r line; do
+            if [[ "$line" =~ ^${field}: ]]; then
+                in_field=true
+                continue
+            fi
+            if $in_field; then
+                if [[ "$line" =~ ^[[:space:]]+- ]]; then
+                    local item
+                    item="$(echo "$line" | sed 's/^[[:space:]]*-[[:space:]]*//' | sed 's/^"\(.*\)"$/\1/')"
+                    items+=("\"$item\"")
+                else
+                    break
+                fi
+            fi
+        done <<< "$frontmatter"
+        if [[ ${#items[@]} -gt 0 ]]; then
+            local IFS=','
+            echo "[${items[*]}]"
+            return
+        fi
+    fi
+
+    echo "$line_value"
 }
 
 # 从中文标题生成 slug（使用拼音风格或直接用英文）
