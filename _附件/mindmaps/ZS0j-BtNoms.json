@@ -1,0 +1,167 @@
+{
+  "name": "2025年十大财务AI工具",
+  "children": [
+    {
+      "name": "报表自动化与分析",
+      "children": [
+        {
+          "name": "Zebra AI",
+          "children": [
+            {
+              "name": "自动转换Excel为报表"
+            },
+            {
+              "name": "IBCS标准自动化"
+            },
+            {
+              "name": "AI自动生成图表注释"
+            }
+          ]
+        },
+        {
+          "name": "BigData.com",
+          "children": [
+            {
+              "name": "机构级投资数据"
+            },
+            {
+              "name": "股票分析对话机器人"
+            },
+            {
+              "name": "实时生成财务分析图表"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "费用与支出管理",
+      "children": [
+        {
+          "name": "Moss",
+          "children": [
+            {
+              "name": "自动发票识别"
+            },
+            {
+              "name": "AI会计科目分配"
+            }
+          ]
+        },
+        {
+          "name": "Ryu",
+          "children": [
+            {
+              "name": "收据扫描与自动入账"
+            },
+            {
+              "name": "合规性与政策审查"
+            },
+            {
+              "name": "增值税异常检测"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "会计流程与结算",
+      "children": [
+        {
+          "name": "Vic.ai",
+          "children": [
+            {
+              "name": "对账自动化"
+            },
+            {
+              "name": "差异分析"
+            },
+            {
+              "name": "自然语言编写分录代码"
+            }
+          ]
+        },
+        {
+          "name": "Puzzle",
+          "children": [
+            {
+              "name": "初创公司自动化会计"
+            },
+            {
+              "name": "多系统API集成"
+            },
+            {
+              "name": "实时管理报表生成"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "审计、租约与收入",
+      "children": [
+        {
+          "name": "Trullion",
+          "children": [
+            {
+              "name": "审计底稿准备"
+            },
+            {
+              "name": "自动化租约会计"
+            },
+            {
+              "name": "多准则收入确认"
+            }
+          ]
+        },
+        {
+          "name": "Zapliance",
+          "children": [
+            {
+              "name": "SAP系统集成"
+            },
+            {
+              "name": "重复发票识别"
+            },
+            {
+              "name": "增值税进项税找回"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "财务规划与助理",
+      "children": [
+        {
+          "name": "Runway",
+          "children": [
+            {
+              "name": "直观的财务建模"
+            },
+            {
+              "name": "多场景模拟生成"
+            },
+            {
+              "name": "AI辅助经营叙述"
+            }
+          ]
+        },
+        {
+          "name": "Numra",
+          "children": [
+            {
+              "name": "虚拟会计助理Mari"
+            },
+            {
+              "name": "处理应收应付账款"
+            },
+            {
+              "name": "自动化复杂Excel任务"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

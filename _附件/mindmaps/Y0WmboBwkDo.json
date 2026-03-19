@@ -1,0 +1,80 @@
+{
+  "name": "2026年AI交易趋势",
+  "children": [
+    {
+      "name": "核心主题转变",
+      "children": [
+        {
+          "name": "从纯增长转向执行力"
+        },
+        {
+          "name": "市场竞争加剧"
+        },
+        {
+          "name": "风险管理"
+        }
+      ]
+    },
+    {
+      "name": "混合AI (Hybrid AI)",
+      "children": [
+        {
+          "name": "部署模式",
+          "children": [
+            {
+              "name": "大模型云端计算"
+            },
+            {
+              "name": "企业自有本地部署"
+            },
+            {
+              "name": "私有数据中心"
+            }
+          ]
+        },
+        {
+          "name": "主要参与者",
+          "children": [
+            {
+              "name": "云巨头 (Google, Amazon, Microsoft, Meta)"
+            },
+            {
+              "name": "硬件供应商 (Dell, HPE, Cisco)"
+            },
+            {
+              "name": "芯片制造 (Nvidia, AMD)"
+            }
+          ]
+        },
+        {
+          "name": "AI加速器竞争"
+        }
+      ]
+    },
+    {
+      "name": "网络安全 (Cyber Security)",
+      "children": [
+        {
+          "name": "AI赋能攻击者"
+        },
+        {
+          "name": "AI强化防御者"
+        },
+        {
+          "name": "能力双向提升"
+        }
+      ]
+    },
+    {
+      "name": "软件与应用",
+      "children": [
+        {
+          "name": "基于新硬件的软件开发"
+        },
+        {
+          "name": "新一轮增长浪潮"
+        }
+      ]
+    }
+  ]
+}

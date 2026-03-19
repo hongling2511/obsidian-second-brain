@@ -1,0 +1,41 @@
+{
+  "name": "2026年三大最佳人工智能股票",
+  "children": [
+    {
+      "name": "Super Micro Computer (超微电脑)",
+      "children": [
+        {
+          "name": "核心业务：构建高性能服务器"
+        },
+        {
+          "name": "功能：加速AI模型训练"
+        }
+      ]
+    },
+    {
+      "name": "Palantir Technologies",
+      "children": [
+        {
+          "name": "核心业务：人工智能平台"
+        },
+        {
+          "name": "应用领域：政府、国防、大型企业"
+        }
+      ]
+    },
+    {
+      "name": "Alphabet (谷歌)",
+      "children": [
+        {
+          "name": "AI帝国：Gemini"
+        },
+        {
+          "name": "核心部门：DeepMind"
+        },
+        {
+          "name": "基础设施：谷歌云"
+        }
+      ]
+    }
+  ]
+}
