@@ -1,0 +1,141 @@
+{
+  "name": "2026年AI八大趋势",
+  "children": [
+    {
+      "name": "多智能体编排 (Multi-agent Orchestration)",
+      "children": [
+        {
+          "name": "规划智能体：分解目标"
+        },
+        {
+          "name": "执行智能体：编写代码/调用API"
+        },
+        {
+          "name": "批评智能体：评估输出/标识问题"
+        },
+        {
+          "name": "编排层：协调与跨检查"
+        }
+      ]
+    },
+    {
+      "name": "数字劳动力 (Digital Labor Workforce)",
+      "children": [
+        {
+          "name": "多模态输入解析"
+        },
+        {
+          "name": "工作流自动化执行"
+        },
+        {
+          "name": "人机回环 (Human-in-the-loop)：监督与战略指导"
+        },
+        {
+          "name": "增强人类能力"
+        }
+      ]
+    },
+    {
+      "name": "具身智能 (Physical AI)",
+      "children": [
+        {
+          "name": "理解物理世界与3D环境"
+        },
+        {
+          "name": "模拟训练：学习重力与交互"
+        },
+        {
+          "name": "世界基础模型 (World Foundation Models)"
+        },
+        {
+          "name": "人形机器人商业化量产"
+        }
+      ]
+    },
+    {
+      "name": "社会化计算 (Social Computing)",
+      "children": [
+        {
+          "name": "共享AI架构 (Shared AI Fabric)"
+        },
+        {
+          "name": "人机协同与意图理解"
+        },
+        {
+          "name": "上下文交换与情感计算"
+        },
+        {
+          "name": "集体智能/群体计算"
+        }
+      ]
+    },
+    {
+      "name": "可验证AI (Verifiable AI)",
+      "children": [
+        {
+          "name": "欧盟AI法案合规"
+        },
+        {
+          "name": "可审计与可追溯性"
+        },
+        {
+          "name": "合规技术文档"
+        },
+        {
+          "name": "数据谱系与版权透明度"
+        }
+      ]
+    },
+    {
+      "name": "普及化量子效用 (Quantum Utility Everywhere)",
+      "children": [
+        {
+          "name": "解决现实世界复杂问题"
+        },
+        {
+          "name": "量子与经典架构混合"
+        },
+        {
+          "name": "优化、模拟与决策应用"
+        },
+        {
+          "name": "主流业务流程集成"
+        }
+      ]
+    },
+    {
+      "name": "边缘推理 (Reasoning at the Edge)",
+      "children": [
+        {
+          "name": "小型模型思维化 (SLM)"
+        },
+        {
+          "name": "推理时间计算 (Inference Time Compute)"
+        },
+        {
+          "name": "知识蒸馏：大模型赋能小模型"
+        },
+        {
+          "name": "本地运行：隐私保护与低延迟"
+        }
+      ]
+    },
+    {
+      "name": "非晶态混合计算 (Amorphous Hybrid Computing)",
+      "children": [
+        {
+          "name": "架构演进：Transformer与状态空间模型(SSM)融合"
+        },
+        {
+          "name": "异构计算架构：CPU/GPU/TPU/QPU/类脑芯片"
+        },
+        {
+          "name": "自动映射最优计算底座"
+        },
+        {
+          "name": "未来展望：DNA计算"
+        }
+      ]
+    }
+  ]
+}

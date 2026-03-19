@@ -1,0 +1,127 @@
+{
+  "name": "2026年Agentic AI框架指南",
+  "children": [
+    {
+      "name": "发展历程",
+      "children": [
+        {
+          "name": "2022年：Langchain开创链式调用"
+        },
+        {
+          "name": "2023年：Llama Index (RAG) 与 Semantic Kernel (企业级) 涌现"
+        },
+        {
+          "name": "2024年：OpenAI SDK与微软统一Agent框架"
+        },
+        {
+          "name": "2025年：Agentics AI 基金会成立（开放协议）"
+        }
+      ]
+    },
+    {
+      "name": "Langchain (全能型)",
+      "children": [
+        {
+          "name": "核心特点：模块化、乐高式组件、超强集成能力"
+        },
+        {
+          "name": "关键组件：Chains、Agents、Memory、LangGraph"
+        },
+        {
+          "name": "适用场景：快速原型、聊天机器人、多步推理"
+        },
+        {
+          "name": "优势：生态支持广泛、上手门槛低"
+        }
+      ]
+    },
+    {
+      "name": "Llama Index (知识专家)",
+      "children": [
+        {
+          "name": "核心特点：专注于RAG（检索增强生成）"
+        },
+        {
+          "name": "关键功能：数据管道、向量存储、知识图谱、Llama Hub"
+        },
+        {
+          "name": "适用场景：研究助手、文档问答、大数据语义搜索"
+        },
+        {
+          "name": "优势：海量数据处理能力、精准索引"
+        }
+      ]
+    },
+    {
+      "name": "Semantic Kernel (企业级)",
+      "children": [
+        {
+          "name": "核心特点：轻量级SDK、企业级安全与治理"
+        },
+        {
+          "name": "关键概念：Kernel函数、Plugins、Telemetry"
+        },
+        {
+          "name": "适用场景：业务流程自动化、现有企业应用集成"
+        },
+        {
+          "name": "优势：支持C#/Python/Java、模型无关性、生产环境稳健"
+        }
+      ]
+    },
+    {
+      "name": "Microsoft Agent Framework (多智能体)",
+      "children": [
+        {
+          "name": "核心特点：多Agent协同编排（AutoGen演进版）"
+        },
+        {
+          "name": "关键功能：图论工作流、事件驱动、群聊模式、人工介入"
+        },
+        {
+          "name": "适用场景：复杂多Agent协作、代码审查团队、谈判协商"
+        },
+        {
+          "name": "优势：支持长期运行任务、高度专业化分工"
+        }
+      ]
+    },
+    {
+      "name": "OpenAI Agents SDK (简约生产力)",
+      "children": [
+        {
+          "name": "核心特点：极简抽象、高性能"
+        },
+        {
+          "name": "五大原语：Handoffs、Guardrails、Sessions、Tracing、Runner"
+        },
+        {
+          "name": "适用场景：语音Agent、专家分流系统、快速生产部署"
+        },
+        {
+          "name": "优势：官方支持、自动化循环处理、无模板代码"
+        }
+      ]
+    },
+    {
+      "name": "选型建议",
+      "children": [
+        {
+          "name": "易用性优先：Langchain / OpenAI SDK"
+        },
+        {
+          "name": "数据检索优先：Llama Index"
+        },
+        {
+          "name": "企业合规优先：Semantic Kernel"
+        },
+        {
+          "name": "协同作战优先：Agent Framework"
+        },
+        {
+          "name": "趋势：框架间互操作性增强"
+        }
+      ]
+    }
+  ]
+}
