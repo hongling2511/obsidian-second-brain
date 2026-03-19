@@ -1,0 +1,204 @@
+{
+  "name": "AI Agent 基础知识",
+  "children": [
+    {
+      "name": "定义与核心概念",
+      "children": [
+        {
+          "name": "非 Agent 工作流",
+          "children": [
+            {
+              "name": "单次提示词"
+            },
+            {
+              "name": "直接输出"
+            }
+          ]
+        },
+        {
+          "name": "Agent 工作流",
+          "children": [
+            {
+              "name": "循环迭代"
+            },
+            {
+              "name": "拆解任务"
+            },
+            {
+              "name": "自我修正"
+            }
+          ]
+        },
+        {
+          "name": "全自动 Agent",
+          "children": [
+            {
+              "name": "独立决策"
+            },
+            {
+              "name": "自主工具调用"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "四种代理设计模式 (RED Turtles)",
+      "children": [
+        {
+          "name": "反思 (Reflection)",
+          "children": [
+            {
+              "name": "检查错误"
+            },
+            {
+              "name": "优化质量"
+            }
+          ]
+        },
+        {
+          "name": "工具使用 (Tool Use)",
+          "children": [
+            {
+              "name": "网络搜索"
+            },
+            {
+              "name": "代码执行"
+            },
+            {
+              "name": "API 访问"
+            }
+          ]
+        },
+        {
+          "name": "规划与推理 (Planning)",
+          "children": [
+            {
+              "name": "步骤分解"
+            },
+            {
+              "name": "模型切换"
+            }
+          ]
+        },
+        {
+          "name": "多代理系统 (Multi-agents)",
+          "children": [
+            {
+              "name": "角色分工"
+            },
+            {
+              "name": "团队协作"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "单体 Agent 构成 (Tired Alpacas Mix Tea)",
+      "children": [
+        {
+          "name": "任务 (Task)"
+        },
+        {
+          "name": "期望回答 (Answers)"
+        },
+        {
+          "name": "模型 (Models)"
+        },
+        {
+          "name": "工具 (Tools)"
+        }
+      ]
+    },
+    {
+      "name": "多代理架构模式",
+      "children": [
+        {
+          "name": "顺序模式",
+          "children": [
+            {
+              "name": "流水线作业"
+            }
+          ]
+        },
+        {
+          "name": "层级模式",
+          "children": [
+            {
+              "name": "经理与下属"
+            },
+            {
+              "name": "任务分发"
+            }
+          ]
+        },
+        {
+          "name": "混合模式",
+          "children": [
+            {
+              "name": "连续反馈循环"
+            }
+          ]
+        },
+        {
+          "name": "并行模式",
+          "children": [
+            {
+              "name": "同步处理数据"
+            }
+          ]
+        },
+        {
+          "name": "异步模式",
+          "children": [
+            {
+              "name": "实时监控"
+            },
+            {
+              "name": "独立执行"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "落地与工具",
+      "children": [
+        {
+          "name": "开发工具",
+          "children": [
+            {
+              "name": "CrewAI (代码)"
+            },
+            {
+              "name": "n8n (无代码)"
+            }
+          ]
+        },
+        {
+          "name": "应用案例",
+          "children": [
+            {
+              "name": "Telegram 助理"
+            },
+            {
+              "name": "日程管理"
+            },
+            {
+              "name": "数据分析"
+            }
+          ]
+        },
+        {
+          "name": "商业机会",
+          "children": [
+            {
+              "name": "垂直领域 AI 版 SAS"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

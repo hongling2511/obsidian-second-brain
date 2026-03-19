@@ -1,0 +1,226 @@
+{
+  "name": "主流大语言模型代理框架",
+  "children": [
+    {
+      "name": "LangGraph (LangChain生态)",
+      "children": [
+        {
+          "name": "核心定义",
+          "children": [
+            {
+              "name": "低层级编排工具"
+            },
+            {
+              "name": "管理有状态长运行代理"
+            }
+          ]
+        },
+        {
+          "name": "核心概念",
+          "children": [
+            {
+              "name": "状态图 (State Graph)"
+            },
+            {
+              "name": "节点 (Nodes): 工作单元"
+            },
+            {
+              "name": "边 (Edges): 转换与条件路由"
+            },
+            {
+              "name": "状态 (State): 共享持久对象"
+            }
+          ]
+        },
+        {
+          "name": "关键特性",
+          "children": [
+            {
+              "name": "人机交互 (Human-in-the-loop)"
+            },
+            {
+              "name": "记忆/检查点 (Checkpointer)"
+            },
+            {
+              "name": "时间旅行 (Time Travel/回溯)"
+            },
+            {
+              "name": "流式处理中间步骤"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "AG2 (原AutoGen)",
+      "children": [
+        {
+          "name": "核心定义",
+          "children": [
+            {
+              "name": "AgentOS 生产级框架"
+            },
+            {
+              "name": "专注于多代理协作"
+            }
+          ]
+        },
+        {
+          "name": "主要组件",
+          "children": [
+            {
+              "name": "对话代理 (Conversible Agent)"
+            },
+            {
+              "name": "群聊模式 (Group Chat)"
+            },
+            {
+              "name": "结构化输出 (Structured Output)"
+            }
+          ]
+        },
+        {
+          "name": "工作流程",
+          "children": [
+            {
+              "name": "配置LLM"
+            },
+            {
+              "name": "定义专用代理"
+            },
+            {
+              "name": "编排交互模式"
+            },
+            {
+              "name": "执行与自动化终止"
+            }
+          ]
+        },
+        {
+          "name": "特性",
+          "children": [
+            {
+              "name": "工具集成"
+            },
+            {
+              "name": "人机协作审批"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CrewAI",
+      "children": [
+        {
+          "name": "核心理念",
+          "children": [
+            {
+              "name": "精简、快速的Python框架"
+            },
+            {
+              "name": "角色驱动的协作智能"
+            }
+          ]
+        },
+        {
+          "name": "Crew (团队)",
+          "children": [
+            {
+              "name": "代理 (Agents): 专家角色/背景故事"
+            },
+            {
+              "name": "任务 (Tasks): 明确目标与输出"
+            },
+            {
+              "name": "流程 (Process): 管理执行路径"
+            }
+          ]
+        },
+        {
+          "name": "Flows (流)",
+          "children": [
+            {
+              "name": "事件驱动的编排"
+            },
+            {
+              "name": "状态管理 (结构化/非结构化)"
+            },
+            {
+              "name": "持久化支持"
+            },
+            {
+              "name": "条件逻辑 (OR/AND/Router)"
+            }
+          ]
+        },
+        {
+          "name": "工具",
+          "children": [
+            {
+              "name": "YAML模板配置"
+            },
+            {
+              "name": "UV包管理集成"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Semantic Kernel (微软)",
+      "children": [
+        {
+          "name": "核心定义",
+          "children": [
+            {
+              "name": "Kernel: 核心调度枢纽"
+            },
+            {
+              "name": "连接AI服务与代码"
+            }
+          ]
+        },
+        {
+          "name": "基本结构",
+          "children": [
+            {
+              "name": "服务 (Services): LLM引擎"
+            },
+            {
+              "name": "插件 (Plugins): 功能扩展/工具"
+            },
+            {
+              "name": "模板提示词 (Prompts)"
+            }
+          ]
+        },
+        {
+          "name": "代理框架",
+          "children": [
+            {
+              "name": "对话完成代理 (Chat Completion Agent)"
+            },
+            {
+              "name": "代理线程 (Agent Thread): 存储记忆"
+            },
+            {
+              "name": "模块化与协作"
+            }
+          ]
+        },
+        {
+          "name": "优势",
+          "children": [
+            {
+              "name": "负责任的AI中间件"
+            },
+            {
+              "name": "支持多语言与跨服务调用"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

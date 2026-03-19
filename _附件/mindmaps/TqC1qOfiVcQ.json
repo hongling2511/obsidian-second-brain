@@ -1,0 +1,210 @@
+{
+  "name": "Claude Agent SDK 研讨会",
+  "children": [
+    {
+      "name": "核心理念与定义",
+      "children": [
+        {
+          "name": "AI 特性演进",
+          "children": [
+            {
+              "name": "单模型功能"
+            },
+            {
+              "name": "结构化工作流"
+            },
+            {
+              "name": "自主代理 (Agents)"
+            }
+          ]
+        },
+        {
+          "name": "代理定义",
+          "children": [
+            {
+              "name": "构建自身上下文"
+            },
+            {
+              "name": "决定执行轨迹"
+            },
+            {
+              "name": "高度自治"
+            }
+          ]
+        },
+        {
+          "name": "Claude Code",
+          "children": [
+            {
+              "name": "首个真正代理"
+            },
+            {
+              "name": "SDK 的构建基础"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SDK 关键组件",
+      "children": [
+        {
+          "name": "模型与提示词 (Prompts)"
+        },
+        {
+          "name": "工具 (Tools)",
+          "children": [
+            {
+              "name": "原子化操作"
+            },
+            {
+              "name": "高上下文占用"
+            }
+          ]
+        },
+        {
+          "name": "Bash 工具",
+          "children": [
+            {
+              "name": "最强代理工具"
+            },
+            {
+              "name": "可组合性"
+            },
+            {
+              "name": "低上下文占用"
+            }
+          ]
+        },
+        {
+          "name": "文件系统",
+          "children": [
+            {
+              "name": "上下文工程"
+            },
+            {
+              "name": "存储动态结果"
+            }
+          ]
+        },
+        {
+          "name": "技能 (Skills)",
+          "children": [
+            {
+              "name": "渐进式上下文披露"
+            },
+            {
+              "name": "可重复专家指令"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "代理设计循环",
+      "children": [
+        {
+          "name": "获取上下文",
+          "children": [
+            {
+              "name": "Grep/搜索"
+            },
+            {
+              "name": "子代理简化"
+            }
+          ]
+        },
+        {
+          "name": "执行操作",
+          "children": [
+            {
+              "name": "代码生成 (Codegen)"
+            },
+            {
+              "name": "API 组合"
+            }
+          ]
+        },
+        {
+          "name": "验证工作",
+          "children": [
+            {
+              "name": "确定性规则/Linter"
+            },
+            {
+              "name": "引用来源"
+            },
+            {
+              "name": "对抗性检查"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "安全与托管",
+      "children": [
+        {
+          "name": "瑞士奶酪防御",
+          "children": [
+            {
+              "name": "模型对齐"
+            },
+            {
+              "name": "Harness 权限管理"
+            },
+            {
+              "name": "沙盒 (Sandboxing)"
+            }
+          ]
+        },
+        {
+          "name": "网络限制",
+          "children": [
+            {
+              "name": "防止数据外泄"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "开发最佳实践",
+      "children": [
+        {
+          "name": "原型设计",
+          "children": [
+            {
+              "name": "阅读运行日志"
+            },
+            {
+              "name": "从 Claude Code 开始"
+            }
+          ]
+        },
+        {
+          "name": "代码生成用于非编程任务",
+          "children": [
+            {
+              "name": "数据分析"
+            },
+            {
+              "name": "文档生成"
+            }
+          ]
+        },
+        {
+          "name": "上下文管理",
+          "children": [
+            {
+              "name": "频繁清理"
+            },
+            {
+              "name": "子代理隔离"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

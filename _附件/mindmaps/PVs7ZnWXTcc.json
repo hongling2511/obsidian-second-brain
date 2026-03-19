@@ -1,0 +1,153 @@
+{
+  "name": "AI智能体构建的四个阶段",
+  "children": [
+    {
+      "name": "阶段 1：使用框架进行提示 (Prompting)",
+      "children": [
+        {
+          "name": "核心概念",
+          "children": [
+            {
+              "name": "重塑指令思维"
+            },
+            {
+              "name": "理解模型基础原理"
+            }
+          ]
+        },
+        {
+          "name": "GCAO 提示框架",
+          "children": [
+            {
+              "name": "G: 目标 (Goal)"
+            },
+            {
+              "name": "C: 上下文 (Context)"
+            },
+            {
+              "name": "A: 行动 (Action)"
+            },
+            {
+              "name": "O: 输出格式 (Output Format)"
+            }
+          ]
+        },
+        {
+          "name": "自建提示框架",
+          "children": [
+            {
+              "name": "寻找满意风格/答案"
+            },
+            {
+              "name": "让 LLM 提取模板占位符"
+            },
+            {
+              "name": "创建可重复的提示模板"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "阶段 2：自定义指令 (Custom Instructions)",
+      "children": [
+        {
+          "name": "后端指令系统",
+          "children": [
+            {
+              "name": "控制语气与格式"
+            },
+            {
+              "name": "作为智能体系统提示词的基础"
+            }
+          ]
+        },
+        {
+          "name": "应用实例",
+          "children": [
+            {
+              "name": "引导式对话逻辑"
+            },
+            {
+              "name": "自动化角色设定"
+            },
+            {
+              "name": "后端数据处理"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "阶段 3：构建自动化 (Building Automations)",
+      "children": [
+        {
+          "name": "预定义工作流",
+          "children": [
+            {
+              "name": "基于触发器的执行"
+            },
+            {
+              "name": "固定且一致的步骤"
+            }
+          ]
+        },
+        {
+          "name": "工具与集成 (n8n)",
+          "children": [
+            {
+              "name": "连接 API 节点"
+            },
+            {
+              "name": "连接多平台 (Google Drive, Telegram 等)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "阶段 4：构建 AI 智能体 (AI Agents)",
+      "children": [
+        {
+          "name": "代理特性",
+          "children": [
+            {
+              "name": "非确定性决策"
+            },
+            {
+              "name": "根据触发器自主选择工具"
+            }
+          ]
+        },
+        {
+          "name": "核心要素",
+          "children": [
+            {
+              "name": "大型语言模型节点"
+            },
+            {
+              "name": "工具集 (Tools)"
+            },
+            {
+              "name": "外部数据库/API 访问权"
+            }
+          ]
+        },
+        {
+          "name": "实际案例",
+          "children": [
+            {
+              "name": "动态邮件分类与排程"
+            },
+            {
+              "name": "具备对话能力的日历助手"
+            },
+            {
+              "name": "动态数据报告生成"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

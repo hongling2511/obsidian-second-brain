@@ -1,0 +1,145 @@
+{
+  "name": "Andrew Ng 关于 AI 代理工作流的演讲",
+  "children": [
+    {
+      "name": "核心理念：AI 代理 (AI Agents)",
+      "children": [
+        {
+          "name": "定义：迭代式工作流",
+          "children": [
+            {
+              "name": "非零样本提示"
+            },
+            {
+              "name": "反思与修正循环"
+            },
+            {
+              "name": "规划与执行分离"
+            }
+          ]
+        },
+        {
+          "name": "性能提升",
+          "children": [
+            {
+              "name": "GPT-3.5 代理优于 GPT-4 零样本"
+            },
+            {
+              "name": "大幅超越传统编码性能"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "视觉代理 (Vision Agent)",
+      "children": [
+        {
+          "name": "功能：自动生成代码",
+          "children": [
+            {
+              "name": "处理视频与图像任务"
+            },
+            {
+              "name": "自动调用函数工具"
+            },
+            {
+              "name": "执行与测试代理协同"
+            }
+          ]
+        },
+        {
+          "name": "应用案例",
+          "children": [
+            {
+              "name": "冲浪者与鲨鱼距离测算"
+            },
+            {
+              "name": "CCTV 监控异常分析"
+            },
+            {
+              "name": "车祸检测与时间戳标记"
+            }
+          ]
+        },
+        {
+          "name": "开源贡献",
+          "children": [
+            {
+              "name": "Landing AI 视觉代理引擎"
+            },
+            {
+              "name": "促进开发者社区协作"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "AI 行业见解",
+      "children": [
+        {
+          "name": "模型发展趋势",
+          "children": [
+            {
+              "name": "缩放法则 (Scaling Laws) 的延续"
+            },
+            {
+              "name": "低成本、低能耗路径的探索"
+            },
+            {
+              "name": "开源模型的重要性（如 Arctic）"
+            }
+          ]
+        },
+        {
+          "name": "政策与监管",
+          "children": [
+            {
+              "name": "反对加州 SB 1047 法案"
+            },
+            {
+              "name": "警惕过度监管抑制创新"
+            },
+            {
+              "name": "支持针对有害应用的合理监管"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Snowflake 与开发者生态",
+      "children": [
+        {
+          "name": "平台演进",
+          "children": [
+            {
+              "name": "从闭源向应用平台转型"
+            },
+            {
+              "name": "Cortex 与 Streamlit 的集成"
+            },
+            {
+              "name": "Snowflake 原生应用加速器"
+            }
+          ]
+        },
+        {
+          "name": "开发者支持",
+          "children": [
+            {
+              "name": "1 亿美元创业基金"
+            },
+            {
+              "name": "N-Star 教育计划"
+            },
+            {
+              "name": "Coursera 上的免费课程"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

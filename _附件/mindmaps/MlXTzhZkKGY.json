@@ -1,0 +1,199 @@
+{
+  "name": "Claude MCP (模型上下文协议)",
+  "children": [
+    {
+      "name": "核心概念",
+      "children": [
+        {
+          "name": "MCP 客户端",
+          "children": [
+            {
+              "name": "Claude Desktop 应用程序"
+            }
+          ]
+        },
+        {
+          "name": "MCP 服务器",
+          "children": [
+            {
+              "name": "提供上下文、提示词和工具"
+            }
+          ]
+        },
+        {
+          "name": "主要目的",
+          "children": [
+            {
+              "name": "取代自定义集成"
+            },
+            {
+              "name": "降低复杂性"
+            },
+            {
+              "name": "减少维护开销"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "安装与设置",
+      "children": [
+        {
+          "name": "下载 Claude Desktop",
+          "children": [
+            {
+              "name": "支持 Mac 和 Windows"
+            }
+          ]
+        },
+        {
+          "name": "配置文件",
+          "children": [
+            {
+              "name": "claude_desktop_config.json"
+            }
+          ]
+        },
+        {
+          "name": "关键步骤",
+          "children": [
+            {
+              "name": "创建/编辑 JSON 配置"
+            },
+            {
+              "name": "添加服务器参数"
+            },
+            {
+              "name": "重启 Claude Desktop 生效"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "预建服务器示例",
+      "children": [
+        {
+          "name": "Brave Search",
+          "children": [
+            {
+              "name": "实现联网搜索功能"
+            },
+            {
+              "name": "需要 API 密钥"
+            }
+          ]
+        },
+        {
+          "name": "File System",
+          "children": [
+            {
+              "name": "列出目录文件"
+            },
+            {
+              "name": "读取/移动文件"
+            },
+            {
+              "name": "限制特定路径访问"
+            }
+          ]
+        },
+        {
+          "name": "其他官方服务器",
+          "children": [
+            {
+              "name": "GitHub"
+            },
+            {
+              "name": "PostgreSQL"
+            },
+            {
+              "name": "Slack"
+            },
+            {
+              "name": "Puppeteer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "自定义 MCP 服务器开发",
+      "children": [
+        {
+          "name": "环境要求",
+          "children": [
+            {
+              "name": "Python 3.10+"
+            },
+            {
+              "name": "UV (包管理器)"
+            }
+          ]
+        },
+        {
+          "name": "案例：天气服务",
+          "children": [
+            {
+              "name": "OpenWeatherMap API"
+            },
+            {
+              "name": "获取预报函数 (get_forecast)"
+            },
+            {
+              "name": "定义工具属性与必需参数"
+            }
+          ]
+        },
+        {
+          "name": "代码结构",
+          "children": [
+            {
+              "name": "列出工具资源"
+            },
+            {
+              "name": "读取资源"
+            },
+            {
+              "name": "调用工具并返回数据"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "优势与局限",
+      "children": [
+        {
+          "name": "优势",
+          "children": [
+            {
+              "name": "本地运行更安全"
+            },
+            {
+              "name": "将 AI 转化为本地代理"
+            },
+            {
+              "name": "社区支持增长快"
+            }
+          ]
+        },
+        {
+          "name": "局限",
+          "children": [
+            {
+              "name": "文档尚不完善"
+            },
+            {
+              "name": "配置过程较繁琐"
+            },
+            {
+              "name": "目前主要针对本地托管"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

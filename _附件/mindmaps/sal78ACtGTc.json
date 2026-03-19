@@ -1,0 +1,116 @@
+{
+  "name": "AI 智能体工作流 (Agentic Workflows)",
+  "children": [
+    {
+      "name": "核心概念对比",
+      "children": [
+        {
+          "name": "非智能体工作流",
+          "children": [
+            {
+              "name": "零样本提示 (Zero-shot)"
+            },
+            {
+              "name": "单次直接生成结果"
+            },
+            {
+              "name": "类似不带退格键打字"
+            }
+          ]
+        },
+        {
+          "name": "智能体工作流",
+          "children": [
+            {
+              "name": "迭代式过程"
+            },
+            {
+              "name": "包含思考与修正"
+            },
+            {
+              "name": "结果显著优于零样本"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "四大设计模式",
+      "children": [
+        {
+          "name": "反思 (Reflection)",
+          "children": [
+            {
+              "name": "自我纠错"
+            },
+            {
+              "name": "代码审查与分析"
+            },
+            {
+              "name": "单元测试反馈"
+            }
+          ]
+        },
+        {
+          "name": "工具使用 (Tool Use)",
+          "children": [
+            {
+              "name": "网络搜索"
+            },
+            {
+              "name": "运行代码"
+            },
+            {
+              "name": "扩展模型能力边界"
+            }
+          ]
+        },
+        {
+          "name": "规划 (Planning)",
+          "children": [
+            {
+              "name": "步骤分解"
+            },
+            {
+              "name": "动态调整路线"
+            },
+            {
+              "name": "处理复杂多步任务"
+            }
+          ]
+        },
+        {
+          "name": "多智能体协作 (Multi-agent)",
+          "children": [
+            {
+              "name": "角色扮演 (CEO/程序员)"
+            },
+            {
+              "name": "智能体辩论"
+            },
+            {
+              "name": "开源框架如 ChatDev"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "性能与观察",
+      "children": [
+        {
+          "name": "GPT-3.5 智能体优于 GPT-4 零样本"
+        },
+        {
+          "name": "快速 Token 生成至关重要"
+        },
+        {
+          "name": "接受延迟 (等待数分钟或数小时)"
+        },
+        {
+          "name": "通往 AGI 的重要路径"
+        }
+      ]
+    }
+  ]
+}

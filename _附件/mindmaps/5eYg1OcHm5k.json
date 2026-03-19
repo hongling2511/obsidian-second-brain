@@ -1,0 +1,146 @@
+{
+  "name": "LangGraph + CrewAI 邮件自动化工具",
+  "children": [
+    {
+      "name": "项目核心概念",
+      "children": [
+        {
+          "name": "LangGraph (状态图管理)",
+          "children": [
+            {
+              "name": "节点 (Nodes): 执行特定任务的动作"
+            },
+            {
+              "name": "边 (Edges): 连接节点的路径"
+            },
+            {
+              "name": "条件边 (Conditional Edges): 基于逻辑的决策分支"
+            },
+            {
+              "name": "状态 (State): 跨节点共享的内存/数据"
+            }
+          ]
+        },
+        {
+          "name": "CrewAI (多智能体协作)",
+          "children": [
+            {
+              "name": "智能体 (Agents): 角色分工"
+            },
+            {
+              "name": "任务 (Tasks): 具体工作目标"
+            },
+            {
+              "name": "工具 (Tools): 搜索、Gmail API、草拟邮件"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "工作流结构 (Workflow)",
+      "children": [
+        {
+          "name": "1. 检查新邮件 (Check New Emails)",
+          "children": [
+            {
+              "name": "过滤已读 ID"
+            },
+            {
+              "name": "查询 24 小时内邮件"
+            },
+            {
+              "name": "排除发件人为自己的邮件"
+            }
+          ]
+        },
+        {
+          "name": "2. 决策分支 (Conditional Logic)",
+          "children": [
+            {
+              "name": "有新邮件 -> 触发 CrewAI 任务"
+            },
+            {
+              "name": "无新邮件 -> 进入等待节点"
+            }
+          ]
+        },
+        {
+          "name": "3. 智能体执行 (CrewAI Process)",
+          "children": [
+            {
+              "name": "过滤智能体: 剔除推广垃圾邮件"
+            },
+            {
+              "name": "分析智能体: 提取关键信息与风格"
+            },
+            {
+              "name": "回复智能体: 结合 Tavily 搜索并撰写草稿"
+            }
+          ]
+        },
+        {
+          "name": "4. 等待循环 (Wait Node)",
+          "children": [
+            {
+              "name": "暂停 30 秒"
+            },
+            {
+              "name": "返回起点重新检查"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "技术栈与配置",
+      "children": [
+        {
+          "name": "API 与凭证",
+          "children": [
+            {
+              "name": "Google Cloud: OAuth 2.0 凭证"
+            },
+            {
+              "name": "Gmail API: 启用服务权限"
+            },
+            {
+              "name": "Tavily API: 联网搜索优化"
+            },
+            {
+              "name": "OpenAI API: 大语言模型驱动"
+            }
+          ]
+        },
+        {
+          "name": "环境搭建",
+          "children": [
+            {
+              "name": "Conda/Pip: Python 环境管理"
+            },
+            {
+              "name": ".env 文件: 存储敏感密钥"
+            },
+            {
+              "name": "requirements.txt: 依赖安装"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "应用价值",
+      "children": [
+        {
+          "name": "自动化处理日常咨询"
+        },
+        {
+          "name": "节省手动撰写草稿时间"
+        },
+        {
+          "name": "智能响应特定市场条件/推文"
+        }
+      ]
+    }
+  ]
+}
