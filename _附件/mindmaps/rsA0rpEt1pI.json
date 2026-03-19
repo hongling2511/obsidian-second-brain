@@ -1,0 +1,129 @@
+{
+  "name": "Go 1.25 新特性",
+  "children": [
+    {
+      "name": "语言规范与类型系统",
+      "children": [
+        {
+          "name": "核心类型 (Core Type) 移除"
+        },
+        {
+          "name": "类型系统规范简化"
+        },
+        {
+          "name": "泛型说明文档优化"
+        }
+      ]
+    },
+    {
+      "name": "运行时 (Runtime) 改进",
+      "children": [
+        {
+          "name": "Green Tea 垃圾回收器",
+          "children": [
+            {
+              "name": "减少 40% GC 开销"
+            },
+            {
+              "name": "基于 Span 的扫描机制"
+            },
+            {
+              "name": "优化内存空间局部性"
+            },
+            {
+              "name": "手动开启选项"
+            }
+          ]
+        },
+        {
+          "name": "容器感知增强",
+          "children": [
+            {
+              "name": "遵守 Cgroups CPU 限制"
+            },
+            {
+              "name": "动态调整线程提交"
+            },
+            {
+              "name": "优化 Kubernetes 运行表现"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "编译器优化",
+      "children": [
+        {
+          "name": "栈分配增强",
+          "children": [
+            {
+              "name": "切片底层数组栈分配"
+            },
+            {
+              "name": "减少堆分配压力"
+            },
+            {
+              "name": "提升函数调用性能"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "工具链更新",
+      "children": [
+        {
+          "name": "go.mod 改进",
+          "children": [
+            {
+              "name": "新增 ignore 指令"
+            },
+            {
+              "name": "支持子目录作为模块根"
+            }
+          ]
+        },
+        {
+          "name": "Monorepo 管理优化"
+        }
+      ]
+    },
+    {
+      "name": "核心库与性能",
+      "children": [
+        {
+          "name": "新版 JSON 库 (实验性)",
+          "children": [
+            {
+              "name": "解析速度提升达 10 倍"
+            },
+            {
+              "name": "向后兼容性"
+            },
+            {
+              "name": "新增流式解码器"
+            },
+            {
+              "name": "增强格式化与标签语义"
+            }
+          ]
+        },
+        {
+          "name": "Flight Recording API",
+          "children": [
+            {
+              "name": "滑动窗口追踪技术"
+            },
+            {
+              "name": "事件触发快照保存"
+            },
+            {
+              "name": "调试执行数据收集"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

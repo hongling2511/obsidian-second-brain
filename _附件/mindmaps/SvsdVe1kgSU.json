@@ -1,0 +1,105 @@
+{
+  "name": "Go语言操作系统与裸机开发 (GopherCon 2025)",
+  "children": [
+    {
+      "name": "核心概念：GOOS=none",
+      "children": [
+        {
+          "name": "含义：无操作系统支持的裸机环境"
+        },
+        {
+          "name": "目标：消除对外部OS和C库的依赖"
+        },
+        {
+          "name": "现状：Andrea Barisani 提出的运行时提案"
+        },
+        {
+          "name": "优势：增强安全性，完全掌握底层硬件"
+        }
+      ]
+    },
+    {
+      "name": "嵌入式 Go 生态系统",
+      "children": [
+        {
+          "name": "主要项目",
+          "children": [
+            {
+              "name": "TinyGo: 针对微控制器的轻量级编译器"
+            },
+            {
+              "name": "Tamago: 消除C和OS的纯Go环境"
+            },
+            {
+              "name": "Embedded Go: 剥离OS的ARM编译器实现"
+            }
+          ]
+        },
+        {
+          "name": "硬件支持",
+          "children": [
+            {
+              "name": "MCU (微控制器单元)"
+            },
+            {
+              "name": "Raspberry Pi Pico"
+            },
+            {
+              "name": "ESP32"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "性能与对比 (vs C/Rust/Python)",
+      "children": [
+        {
+          "name": "二进制体积：TinyGo 比 C/Rust 小约 3.5 倍"
+        },
+        {
+          "name": "执行速度：与 C 相当，略慢于原生实现"
+        },
+        {
+          "name": "无抖动 (Jitter-free)：恒定时间运行，实时性优于 FreeRTOS"
+        }
+      ]
+    },
+    {
+      "name": "嵌入式开发最佳实践",
+      "children": [
+        {
+          "name": "内存管理",
+          "children": [
+            {
+              "name": "重用切片 (Reuse Slice)：避免堆分配"
+            },
+            {
+              "name": "检测分配：使用 -print-allocs 标志"
+            },
+            {
+              "name": "预分配：启动时分配固定协程栈"
+            }
+          ]
+        },
+        {
+          "name": "设计模式：代际索引 (Generational Indices) 处理指针验证"
+        }
+      ]
+    },
+    {
+      "name": "未来展望",
+      "children": [
+        {
+          "name": "用户空间网络栈 (Elnetto)"
+        },
+        {
+          "name": "完善多核处理与协程调度"
+        },
+        {
+          "name": "Go 作为软件工程的首选嵌入式语言"
+        }
+      ]
+    }
+  ]
+}
