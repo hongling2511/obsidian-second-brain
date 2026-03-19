@@ -1,0 +1,96 @@
+{
+  "name": "Go 1.25 新特性",
+  "children": [
+    {
+      "name": "动态 GOMAXPROCS",
+      "children": [
+        {
+          "name": "核心功能：运行时自动检测 CPU 配额变化"
+        },
+        {
+          "name": "适用场景：容器、Kubernetes Pod、cgroups 限制调整"
+        },
+        {
+          "name": "优势：无需第三方库即可实现动态并发控制"
+        },
+        {
+          "name": "示例应用：动态调整 Goroutine 工作池大小"
+        }
+      ]
+    },
+    {
+      "name": "JSON v2 实验性软件包",
+      "children": [
+        {
+          "name": "结构设计",
+          "children": [
+            {
+              "name": "json 软件包：负责编解码逻辑"
+            },
+            {
+              "name": "jsontext 软件包：负责文本解析逻辑"
+            }
+          ]
+        },
+        {
+          "name": "新增字段标签 (Tags)",
+          "children": [
+            {
+              "name": "inline：将嵌套结构体字段提升至外层"
+            },
+            {
+              "name": "unknown：捕获未定义的 JSON 属性到 map 中"
+            }
+          ]
+        },
+        {
+          "name": "接口与 API",
+          "children": [
+            {
+              "name": "支持在创建编码器时传递配置选项"
+            },
+            {
+              "name": "新接口：MarshalerTo 和 UnmarshalerFrom"
+            },
+            {
+              "name": "基于 Token 的流式处理 API"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sync/test 软件包",
+      "children": [
+        {
+          "name": "核心概念：测试气泡 (Bubble)"
+        },
+        {
+          "name": "时间控制",
+          "children": [
+            {
+              "name": "模拟时钟：支持纳秒级精度测试"
+            },
+            {
+              "name": "手动推进：仅在 Goroutine 阻塞时前进"
+            }
+          ]
+        },
+        {
+          "name": "测试优势",
+          "children": [
+            {
+              "name": "消除竞态条件和 wall-clock 延迟"
+            },
+            {
+              "name": "自动检测死锁 (Deadlock)"
+            },
+            {
+              "name": "无需修改业务代码即可进行并发测试"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

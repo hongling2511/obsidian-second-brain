@@ -1,0 +1,175 @@
+{
+  "name": "Go 1.26 发布会",
+  "children": [
+    {
+      "name": "语言特性与内置函数",
+      "children": [
+        {
+          "name": "new 表达式增强",
+          "children": [
+            {
+              "name": "支持分配并直接赋值"
+            },
+            {
+              "name": "适用于结构体可选字段"
+            },
+            {
+              "name": "替代自定义 ptr 助手函数"
+            }
+          ]
+        },
+        {
+          "name": "错误处理优化",
+          "children": [
+            {
+              "name": "新函数 errors.AsType"
+            },
+            {
+              "name": "泛型支持与类型安全"
+            },
+            {
+              "name": "零分配且不使用反射"
+            },
+            {
+              "name": "支持类似 switch 的链式检查"
+            }
+          ]
+        },
+        {
+          "name": "迭代器 (Iterators)",
+          "children": [
+            {
+              "name": "标准库广泛引入"
+            },
+            {
+              "name": "reflect 包支持遍历字段与方法"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "运行时与性能",
+      "children": [
+        {
+          "name": "Green Tea 垃圾回收器",
+          "children": [
+            {
+              "name": "基于 Span 的线性扫描"
+            },
+            {
+              "name": "提高 CPU 缓存命中率"
+            },
+            {
+              "name": "小对象分配性能提升 5%"
+            }
+          ]
+        },
+        {
+          "name": "Goroutine 监控",
+          "children": [
+            {
+              "name": "实验性泄露检测 (runtime/pprof)"
+            },
+            {
+              "name": "新增运行时状态指标 (Metrics)"
+            },
+            {
+              "name": "监控可运行、执行中与等待状态"
+            }
+          ]
+        },
+        {
+          "name": "SIMD 向量化操作",
+          "children": [
+            {
+              "name": "目前支持 amd64 平台"
+            },
+            {
+              "name": "提升高并发计算效率"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "标准库更新",
+      "children": [
+        {
+          "name": "slog 日志包",
+          "children": [
+            {
+              "name": "新增 MultiHandler"
+            },
+            {
+              "name": "支持同时输出至多个目标"
+            }
+          ]
+        },
+        {
+          "name": "bytes.Buffer 增强",
+          "children": [
+            {
+              "name": "新增 Peak 方法"
+            },
+            {
+              "name": "非破坏性查看缓冲区数据"
+            }
+          ]
+        },
+        {
+          "name": "fmt.Errorf 优化",
+          "children": [
+            {
+              "name": "纯字符串处理性能等同 errors.New"
+            }
+          ]
+        },
+        {
+          "name": "机密模式 (Secret Mode)",
+          "children": [
+            {
+              "name": "runtime.Secret 接口"
+            },
+            {
+              "name": "自动擦除寄存器与内存数据"
+            },
+            {
+              "name": "增强加密安全性"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "工具链与开发生态",
+      "children": [
+        {
+          "name": "go fix 指令升级",
+          "children": [
+            {
+              "name": "基于 go vet 分析框架"
+            },
+            {
+              "name": "自动化代码现代化重构"
+            }
+          ]
+        },
+        {
+          "name": "GoLand IDE 支持",
+          "children": [
+            {
+              "name": "版本语法自动分析"
+            },
+            {
+              "name": "AI 助手 (Juny) 集成"
+            },
+            {
+              "name": "支持 Go 1.26 现代准则插件"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

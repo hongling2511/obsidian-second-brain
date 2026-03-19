@@ -1,0 +1,111 @@
+{
+  "name": "Golang 1.24 tool 指令",
+  "children": [
+    {
+      "name": "解决的核心问题",
+      "children": [
+        {
+          "name": "CLI 工具版本不一致"
+        },
+        {
+          "name": "缺乏官方定义方式"
+        },
+        {
+          "name": "手动安装步骤繁琐"
+        },
+        {
+          "name": "脱离项目依赖管理"
+        },
+        {
+          "name": "CI 系统兼容性问题"
+        }
+      ]
+    },
+    {
+      "name": "传统管理方式 (Legacy)",
+      "children": [
+        {
+          "name": "tools.go 文件"
+        },
+        {
+          "name": "空白导入语句 (blank imports)"
+        },
+        {
+          "name": "构建约束 (// +build tools)"
+        },
+        {
+          "name": "全局安装脚本"
+        }
+      ]
+    },
+    {
+      "name": "tool 指令新特性",
+      "children": [
+        {
+          "name": "核心优势",
+          "children": [
+            {
+              "name": "版本控制集成到 go.mod"
+            },
+            {
+              "name": "确保一致性与可复现性"
+            },
+            {
+              "name": "自动管理传递依赖"
+            }
+          ]
+        },
+        {
+          "name": "操作命令",
+          "children": [
+            {
+              "name": "添加工具: go get -tool <path>"
+            },
+            {
+              "name": "运行工具: go tool <name>"
+            },
+            {
+              "name": "查看可用工具: go tool"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "高级用法",
+      "children": [
+        {
+          "name": "依赖隔离",
+          "children": [
+            {
+              "name": "使用独立 go.mod 文件"
+            },
+            {
+              "name": "避免主项目版本冲突"
+            },
+            {
+              "name": "指定文件: go get -tool -modfile tools.mod"
+            }
+          ]
+        },
+        {
+          "name": "增强 go generate 工作流"
+        }
+      ]
+    },
+    {
+      "name": "典型工具示例",
+      "children": [
+        {
+          "name": "Stringer (自动生成方法)"
+        },
+        {
+          "name": "Linters (代码检查)"
+        },
+        {
+          "name": "Code Generators (代码生成)"
+        }
+      ]
+    }
+  ]
+}

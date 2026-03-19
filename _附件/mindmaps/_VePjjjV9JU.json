@@ -1,0 +1,136 @@
+{
+  "name": "Go 代码库现代化分析与转换工具",
+  "children": [
+    {
+      "name": "背景与动机",
+      "children": [
+        {
+          "name": "Go 1 兼容性承诺"
+        },
+        {
+          "name": "语言与库的持续演进"
+        },
+        {
+          "name": "提升代码可读性与性能"
+        },
+        {
+          "name": "解决 AI 生成陈旧代码的问题 (LLM 训练数据滞后)"
+        }
+      ]
+    },
+    {
+      "name": "现代化改造方法一：定制化现代化分析器",
+      "children": [
+        {
+          "name": "核心功能",
+          "children": [
+            {
+              "name": "识别旧模式"
+            },
+            {
+              "name": "提供自动修复建议"
+            },
+            {
+              "name": "集成至 gopls 和 go vet"
+            }
+          ]
+        },
+        {
+          "name": "典型案例",
+          "children": [
+            {
+              "name": "iterators (range over func)"
+            },
+            {
+              "name": "slices/maps 标准库函数替换循环"
+            },
+            {
+              "name": "range over int (Go 1.22)"
+            },
+            {
+              "name": "io/ioutil 迁移至 os"
+            }
+          ]
+        },
+        {
+          "name": "挑战与教训",
+          "children": [
+            {
+              "name": "极易引入细微 Bug (如变量作用域、副作用、类型变更)"
+            },
+            {
+              "name": "语法转换逻辑复杂"
+            },
+            {
+              "name": "注释处理困难"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "现代化改造方法二：基于内联的通用转换 (go:fix inline)",
+      "children": [
+        {
+          "name": "实现原理",
+          "children": [
+            {
+              "name": "通过 //gofix:inline 指令触发"
+            },
+            {
+              "name": "利用源码级内联算法"
+            },
+            {
+              "name": "系统性处理语义边界情况"
+            }
+          ]
+        },
+        {
+          "name": "优势",
+          "children": [
+            {
+              "name": "安全性更高 (编译器级别逻辑)"
+            },
+            {
+              "name": "支持自助服务 (适用于自定义 API 迁移)"
+            },
+            {
+              "name": "减少手工编写分析器的负担"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "工具链支持",
+      "children": [
+        {
+          "name": "gopls (IDE 实时反馈与 MCP 支持)"
+        },
+        {
+          "name": "analysis framework (分析框架)"
+        },
+        {
+          "name": "go fix 命令行工具 (批量处理)"
+        },
+        {
+          "name": "singlechecker (单分析器驱动)"
+        }
+      ]
+    },
+    {
+      "name": "未来展望",
+      "children": [
+        {
+          "name": "完善 go fix 命令 (Go 1.26/1.27)"
+        },
+        {
+          "name": "改进注释处理机制"
+        },
+        {
+          "name": "通过现代化代码优化 AI 训练数据"
+        }
+      ]
+    }
+  ]
+}
