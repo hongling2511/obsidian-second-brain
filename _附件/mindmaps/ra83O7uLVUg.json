@@ -1,0 +1,151 @@
+{
+  "name": "闲置设备变身旁路由指南",
+  "children": [
+    {
+      "name": "核心原理",
+      "children": [
+        {
+          "name": "开启IP转发功能"
+        },
+        {
+          "name": "代理软件共享环境"
+        },
+        {
+          "name": "网关级科学上网"
+        }
+      ]
+    },
+    {
+      "name": "Windows系统配置",
+      "children": [
+        {
+          "name": "所需工具",
+          "children": [
+            {
+              "name": "v2rayN (开启Tun模式)"
+            },
+            {
+              "name": "Route Forward (路由转发工具)"
+            }
+          ]
+        },
+        {
+          "name": "操作步骤",
+          "children": [
+            {
+              "name": "设置静态IP"
+            },
+            {
+              "name": "工具识别网关"
+            },
+            {
+              "name": "添加节点IP/域名到额外路由"
+            },
+            {
+              "name": "开启路由转发并执行"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Linux系统配置 (图形化)",
+      "children": [
+        {
+          "name": "命令行开启IP转发"
+        },
+        {
+          "name": "Clash for Windows (Linux版)",
+          "children": [
+            {
+              "name": "安装服务模式 (Service Mode)"
+            },
+            {
+              "name": "开启Tun模式"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "macOS系统配置",
+      "children": [
+        {
+          "name": "命令行开启IP转发"
+        },
+        {
+          "name": "Clash for Windows (Mac版)"
+        },
+        {
+          "name": "Surge (网关模式 - 需付费)"
+        }
+      ]
+    },
+    {
+      "name": "Linux命令行/电视盒子 (Ubuntu)",
+      "children": [
+        {
+          "name": "v2raya工具",
+          "children": [
+            {
+              "name": "安装并启动服务"
+            },
+            {
+              "name": "Web面板设置 (2017端口)"
+            },
+            {
+              "name": "启用透明代理"
+            },
+            {
+              "name": "开启IP转发"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "虚拟机安装OpenWrt",
+      "children": [
+        {
+          "name": "下载x86-64固件 (vmdk/img)"
+        },
+        {
+          "name": "VMware新建虚拟机"
+        },
+        {
+          "name": "网络连接选择桥接模式"
+        },
+        {
+          "name": "修改默认IP防止冲突"
+        }
+      ]
+    },
+    {
+      "name": "客户端设备设置",
+      "children": [
+        {
+          "name": "手动模式",
+          "children": [
+            {
+              "name": "修改网关为旁路由IP"
+            },
+            {
+              "name": "DNS设为公网IP (如1.2.3.4)"
+            }
+          ]
+        },
+        {
+          "name": "全家自动模式",
+          "children": [
+            {
+              "name": "修改主路由DHCP设置"
+            },
+            {
+              "name": "网关指向旁路由"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

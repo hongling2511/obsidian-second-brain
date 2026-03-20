@@ -1,0 +1,164 @@
+{
+  "name": "OpenClash 新手入门与进阶指南",
+  "children": [
+    {
+      "name": "基础设置与安装",
+      "children": [
+        {
+          "name": "运行模式选择",
+          "children": [
+            {
+              "name": "混合模式"
+            },
+            {
+              "name": "FIB模式"
+            }
+          ]
+        },
+        {
+          "name": "内核更新",
+          "children": [
+            {
+              "name": "自动更新"
+            },
+            {
+              "name": "手动上传 (Meta/Premium)"
+            }
+          ]
+        },
+        {
+          "name": "DNS设置",
+          "children": [
+            {
+              "name": "自定义上游DNS"
+            },
+            {
+              "name": "追加上游DNS"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "配置订阅与转换",
+      "children": [
+        {
+          "name": "添加机场订阅"
+        },
+        {
+          "name": "在线订阅转换",
+          "children": [
+            {
+              "name": "合并多条订阅"
+            },
+            {
+              "name": "自建反代转换"
+            }
+          ]
+        },
+        {
+          "name": "白名单模式",
+          "children": [
+            {
+              "name": "减少DNS泄漏"
+            },
+            {
+              "name": "国内直连优先"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "规则管理与优化",
+      "children": [
+        {
+          "name": "自定义规则集",
+          "children": [
+            {
+              "name": "Windows时钟同步直连"
+            },
+            {
+              "name": "小众网站分流"
+            }
+          ]
+        },
+        {
+          "name": "控制面板",
+          "children": [
+            {
+              "name": "Yacd面板"
+            },
+            {
+              "name": "Dashboard"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "透明代理工作方式",
+      "children": [
+        {
+          "name": "Redirect (重定向)",
+          "children": [
+            {
+              "name": "适用TCP流量"
+            },
+            {
+              "name": "劫持53端口DNS"
+            },
+            {
+              "name": "修改目标IP"
+            }
+          ]
+        },
+        {
+          "name": "TProxy (透明代理)",
+          "children": [
+            {
+              "name": "支持UDP流量"
+            },
+            {
+              "name": "不修改数据包IP"
+            },
+            {
+              "name": "配合策略路由(Mark)"
+            }
+          ]
+        },
+        {
+          "name": "TUN模式 (虚拟网卡)",
+          "children": [
+            {
+              "name": "创建utun接口"
+            },
+            {
+              "name": "不依赖防火墙规则"
+            },
+            {
+              "name": "gVisor/System协议栈"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "网络原理与调试",
+      "children": [
+        {
+          "name": "防火墙 (Nftables/Iptables)"
+        },
+        {
+          "name": "路由决策 (Route Policy)"
+        },
+        {
+          "name": "DNS泄露防护"
+        },
+        {
+          "name": "IP转发 (IP Forward)"
+        }
+      ]
+    }
+  ]
+}

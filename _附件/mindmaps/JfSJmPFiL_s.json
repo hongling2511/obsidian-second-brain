@@ -1,0 +1,216 @@
+{
+  "name": "软路由新手入门指南",
+  "children": [
+    {
+      "name": "基本概念",
+      "children": [
+        {
+          "name": "什么是软路由",
+          "children": [
+            {
+              "name": "可安装系统的通用硬件"
+            },
+            {
+              "name": "形态：迷你PC、工控机、旧笔记本"
+            }
+          ]
+        },
+        {
+          "name": "软硬路由区别",
+          "children": [
+            {
+              "name": "硬路由：功能固化，厂家定义"
+            },
+            {
+              "name": "软路由：功能可扩展，插件丰富"
+            }
+          ]
+        },
+        {
+          "name": "核心优势",
+          "children": [
+            {
+              "name": "全家设备科学上网"
+            },
+            {
+              "name": "解决电视/VR等无法装代理的问题"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "硬件选择",
+      "children": [
+        {
+          "name": "选购标准",
+          "children": [
+            {
+              "name": "必须有两个以上网口"
+            },
+            {
+              "name": "按预算与性能需求选择"
+            }
+          ]
+        },
+        {
+          "name": "推荐设备",
+          "children": [
+            {
+              "name": "ARM架构：友善NanoPi R2S (高性价比)"
+            },
+            {
+              "name": "硬路由刷机：红米AX6000 (自带WiFi)"
+            },
+            {
+              "name": "x86平台：N100等小主机 (高性能/易折腾)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "固件与系统",
+      "children": [
+        {
+          "name": "常见系统",
+          "children": [
+            {
+              "name": "OpenWrt (最热门)"
+            },
+            {
+              "name": "iStoreOS / ImmortalWrt"
+            },
+            {
+              "name": "Pfsense / 爱快"
+            }
+          ]
+        },
+        {
+          "name": "获取途径",
+          "children": [
+            {
+              "name": "第三方编译固件 (插件多但有安全风险)"
+            },
+            {
+              "name": "自行编译 (门槛高/繁琐)"
+            },
+            {
+              "name": "官方纯净版 (最推荐/需自行下插件)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "安装与刷机",
+      "children": [
+        {
+          "name": "刷机工具",
+          "children": [
+            {
+              "name": "Rufus (Windows推荐)"
+            },
+            {
+              "name": "BalenaEtcher (跨平台)"
+            }
+          ]
+        },
+        {
+          "name": "刷机步骤",
+          "children": [
+            {
+              "name": "下载img/gz固件"
+            },
+            {
+              "name": "写盘到SD卡或U盘"
+            },
+            {
+              "name": "插入设备并启动"
+            },
+            {
+              "name": "x86需设置BIOS启动项"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "网络配置",
+      "children": [
+        {
+          "name": "管理界面",
+          "children": [
+            {
+              "name": "默认网关：192.168.1.1"
+            },
+            {
+              "name": "默认用户：root (密码为空)"
+            }
+          ]
+        },
+        {
+          "name": "接口设置",
+          "children": [
+            {
+              "name": "LAN口：配置内网IP/DHCP"
+            },
+            {
+              "name": "WAN口：PPPoE拨号或DHCP获取"
+            },
+            {
+              "name": "禁用IPv6 (避免代理冲突)"
+            }
+          ]
+        },
+        {
+          "name": "AP模式",
+          "children": [
+            {
+              "name": "硬路由作为无线交换机"
+            },
+            {
+              "name": "关闭硬路由DHCP"
+            },
+            {
+              "name": "有线中继模式"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "科学上网插件",
+      "children": [
+        {
+          "name": "常用插件",
+          "children": [
+            {
+              "name": "PassWall (操作直观)"
+            },
+            {
+              "name": "HomeProxy (基于Sing-box)"
+            },
+            {
+              "name": "OpenClash (功能强大/WebUI)"
+            }
+          ]
+        },
+        {
+          "name": "节点配置",
+          "children": [
+            {
+              "name": "链接导入"
+            },
+            {
+              "name": "订阅地址更新"
+            },
+            {
+              "name": "内核下载与更新"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
