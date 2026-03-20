@@ -1,0 +1,126 @@
+{
+  "name": "国内使用TikTok方法大全",
+  "children": [
+    {
+      "name": "核心前提",
+      "children": [
+        {
+          "name": "科学上网环境"
+        }
+      ]
+    },
+    {
+      "name": "检测原理",
+      "children": [
+        {
+          "name": "SIM卡归属地 (C region/mccmnc)"
+        },
+        {
+          "name": "系统设置地区 (sys region)"
+        },
+        {
+          "name": "语言与时区设置"
+        }
+      ]
+    },
+    {
+      "name": "苹果(iOS)使用方法",
+      "children": [
+        {
+          "name": "网页版",
+          "children": [
+            {
+              "name": "浏览器访问tiktok.com"
+            },
+            {
+              "name": "无需拔卡但体验较差"
+            }
+          ]
+        },
+        {
+          "name": "拔卡模式",
+          "children": [
+            {
+              "name": "外区ID下载APP"
+            },
+            {
+              "name": "移除SIM卡"
+            },
+            {
+              "name": "修改系统地区与时区"
+            }
+          ]
+        },
+        {
+          "name": "免拔卡方式",
+          "children": [
+            {
+              "name": "启动时拔卡后插回"
+            },
+            {
+              "name": "使用海外废卡"
+            },
+            {
+              "name": "MITM抓包篡改数据"
+            },
+            {
+              "name": "第三方修改版(需签名/巨魔)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "安卓(Android)使用方法",
+      "children": [
+        {
+          "name": "修改版APP",
+          "children": [
+            {
+              "name": "LSPatch嵌入模块"
+            },
+            {
+              "name": "集成TikTok Plus面板"
+            }
+          ]
+        },
+        {
+          "name": "Root模式",
+          "children": [
+            {
+              "name": "使用Xposed框架"
+            },
+            {
+              "name": "应用变量模块修改参数"
+            }
+          ]
+        },
+        {
+          "name": "不插卡使用",
+          "children": [
+            {
+              "name": "部分机型兼容"
+            },
+            {
+              "name": "修改系统地区"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "进阶运营建议",
+      "children": [
+        {
+          "name": "伪装度检查"
+        },
+        {
+          "name": "修改APP内语言"
+        },
+        {
+          "name": "保持节点稳定"
+        }
+      ]
+    }
+  ]
+}

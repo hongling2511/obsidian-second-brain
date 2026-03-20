@@ -1,0 +1,124 @@
+{
+  "name": "代理检测原理与绕过方法",
+  "children": [
+    {
+      "name": "代理 IP 自身问题",
+      "children": [
+        {
+          "name": "IP 黑名单 (Blocklist)",
+          "children": [
+            {
+              "name": "滥用行为记录"
+            },
+            {
+              "name": "已知 VPN/Tor 节点"
+            }
+          ]
+        },
+        {
+          "name": "数据中心 IP (Hosting)",
+          "children": [
+            {
+              "name": "判定依据：ASN 归属"
+            },
+            {
+              "name": "解决方法：更换 ISP/Business 类型 IP"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "网络行为异常",
+      "children": [
+        {
+          "name": "延迟检测 (TCP vs WS)",
+          "children": [
+            {
+              "name": "原理：中转节点导致延迟差过大"
+            },
+            {
+              "name": "解决方法：选择地理位置相近的节点"
+            }
+          ]
+        },
+        {
+          "name": "DNS 解析异常",
+          "children": [
+            {
+              "name": "不存在域名解析超时"
+            },
+            {
+              "name": "FakeIP 模式干扰"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "代理配置不当",
+      "children": [
+        {
+          "name": "WebRTC 泄漏",
+          "children": [
+            {
+              "name": "原理：UDP 直连暴露真实 IP"
+            },
+            {
+              "name": "解决方法：浏览器插件屏蔽或全局 TUN 模式"
+            }
+          ]
+        },
+        {
+          "name": "DNS 泄漏",
+          "children": [
+            {
+              "name": "原理：查询请求发送至国内服务器"
+            },
+            {
+              "name": "解决方法：由节点代理由解析 DNS"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "系统环境特征",
+      "children": [
+        {
+          "name": "TCP/IP 指纹",
+          "children": [
+            {
+              "name": "原理：系统握手参数差异"
+            },
+            {
+              "name": "解决方法：修改 User-Agent 或同系统自建"
+            }
+          ]
+        },
+        {
+          "name": "时区不匹配",
+          "children": [
+            {
+              "name": "原因：本地时区与 IP 地理位置冲突"
+            },
+            {
+              "name": "解决方法：修改系统时区或使用指纹浏览器"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "终极解决方案",
+      "children": [
+        {
+          "name": "远程桌面 (RDP/VNC) 直接操作 VPS"
+        },
+        {
+          "name": "使用高质量住宅 IP"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "name": "TikTok专线节点搭建与优化",
+  "children": [
+    {
+      "name": "准备工作",
+      "children": [
+        {
+          "name": "免拔卡设置 (iPhone)",
+          "children": [
+            {
+              "name": "通用设置修改为非中国地区"
+            },
+            {
+              "name": "连接节点直接观看"
+            }
+          ]
+        },
+        {
+          "name": "问题诊断",
+          "children": [
+            {
+              "name": "零播放/无法点赞/关注失败"
+            },
+            {
+              "name": "原因：账号风控或手机环境"
+            },
+            {
+              "name": "误区：盲目购买所谓专线IP"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "寻找纯净VPS商家",
+      "children": [
+        {
+          "name": "搜索技巧",
+          "children": [
+            {
+              "name": "利用特定网址+国家代码 (如 HK, TW, US)"
+            },
+            {
+              "name": "小众国家搜索规则 (如 C + port443)"
+            }
+          ]
+        },
+        {
+          "name": "IP信息校验",
+          "children": [
+            {
+              "name": "IPINFO查询ISP类型"
+            },
+            {
+              "name": "优先选择双ISP/住宅IP"
+            },
+            {
+              "name": "检测欺诈值 (Scamalytics)"
+            },
+            {
+              "name": "bgp.tools查询反向DNS与域名绑定"
+            }
+          ]
+        },
+        {
+          "name": "商家选择建议",
+          "children": [
+            {
+              "name": "避开热门大厂 (如阿里云、腾讯云、AWS)"
+            },
+            {
+              "name": "寻找本地运营商下游商家"
+            },
+            {
+              "name": "冷门商家风险更小"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "节点搭建实操",
+      "children": [
+        {
+          "name": "环境创建",
+          "children": [
+            {
+              "name": "注册并激活账号"
+            },
+            {
+              "name": "创建Ubuntu 20.04系统"
+            },
+            {
+              "name": "SSH远程连接"
+            }
+          ]
+        },
+        {
+          "name": "面板安装",
+          "children": [
+            {
+              "name": "修改root密码"
+            },
+            {
+              "name": "关闭防火墙"
+            },
+            {
+              "name": "安装X-UI/xray面板"
+            }
+          ]
+        },
+        {
+          "name": "协议配置",
+          "children": [
+            {
+              "name": "搭建SS/VLESS等协议"
+            },
+            {
+              "name": "导出节点链接"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "进阶优化与伪装",
+      "children": [
+        {
+          "name": "中转提速",
+          "children": [
+            {
+              "name": "原因：直连线路未优化速度慢"
+            },
+            {
+              "name": "方法：利用Shadowrocket代理解析"
+            },
+            {
+              "name": "效果：提升观看与直播流畅度"
+            }
+          ]
+        },
+        {
+          "name": "解决IP与DNS不符",
+          "children": [
+            {
+              "name": "查询当地公共DNS服务器"
+            },
+            {
+              "name": "在面板模板中覆盖默认DNS"
+            },
+            {
+              "name": "重启面板实现位置匹配"
+            }
+          ]
+        },
+        {
+          "name": "安全建议",
+          "children": [
+            {
+              "name": "修改默认面板端口与路径"
+            },
+            {
+              "name": "修改默认账号密码"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

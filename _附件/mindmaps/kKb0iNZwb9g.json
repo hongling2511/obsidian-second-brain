@@ -1,0 +1,111 @@
+{
+  "name": "VPS配置无限IPv6地址与站群应用",
+  "children": [
+    {
+      "name": "核心功能与应用场景",
+      "children": [
+        {
+          "name": "批量注册与养号"
+        },
+        {
+          "name": "跨境电商多账号防关联"
+        },
+        {
+          "name": "网络爬虫防封IP"
+        },
+        {
+          "name": "解锁奈飞 (Netflix) 视频"
+        },
+        {
+          "name": "节点永不被墙 (无限入口)"
+        }
+      ]
+    },
+    {
+      "name": "技术前提条件",
+      "children": [
+        {
+          "name": "VPS需支持IPv6"
+        },
+        {
+          "name": "IPv6前缀小于128 (推荐/64)"
+        },
+        {
+          "name": "无公网IPv6需使用隧道 (如Hurricane Electric)"
+        }
+      ]
+    },
+    {
+      "name": "实施步骤",
+      "children": [
+        {
+          "name": "获取/添加IPv6",
+          "children": [
+            {
+              "name": "直接使用VPS原生IPv6"
+            },
+            {
+              "name": "HE隧道配置 (Netplan应用)"
+            }
+          ]
+        },
+        {
+          "name": "生成无限IP指令",
+          "children": [
+            {
+              "name": "使用工具随机生成IPv6地址"
+            },
+            {
+              "name": "通过脚本批量绑定至网卡"
+            }
+          ]
+        },
+        {
+          "name": "部署代理服务端",
+          "children": [
+            {
+              "name": "安装并配置Xray"
+            },
+            {
+              "name": "设置多端口映射 (Socks/VLESS)"
+            },
+            {
+              "name": "每个端口对应独立出口IP"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "客户端配置",
+      "children": [
+        {
+          "name": "批量导入节点到v2rayN"
+        },
+        {
+          "name": "根据需求切换不同端口/IP"
+        },
+        {
+          "name": "检测落地IP是否生效"
+        }
+      ]
+    },
+    {
+      "name": "注意事项与风险",
+      "children": [
+        {
+          "name": "目标网站需支持IPv6访问"
+        },
+        {
+          "name": "临时IP重启VPS后会失效"
+        },
+        {
+          "name": "存在被封锁整个IPv6前缀段风险"
+        },
+        {
+          "name": "IPv6路由质量可能略逊于IPv4"
+        }
+      ]
+    }
+  ]
+}
