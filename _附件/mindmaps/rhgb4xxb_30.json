@@ -1,0 +1,144 @@
+{
+  "name": "VPN抓包获取节点教程",
+  "children": [
+    {
+      "name": "抓包工具准备",
+      "children": [
+        {
+          "name": "安卓端",
+          "children": [
+            {
+              "name": "HttpCanary (小黄鸟)"
+            },
+            {
+              "name": "平行空间 (未ROOT备选)"
+            }
+          ]
+        },
+        {
+          "name": "苹果端",
+          "children": [
+            {
+              "name": "网球 (HTTPCatch)"
+            },
+            {
+              "name": "锤子 (Thor)"
+            }
+          ]
+        },
+        {
+          "name": "Windows端",
+          "children": [
+            {
+              "name": "Fiddler"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "核心环境配置",
+      "children": [
+        {
+          "name": "目标应用选择"
+        },
+        {
+          "name": "SSL证书配置",
+          "children": [
+            {
+              "name": "导出小黄鸟根证书"
+            },
+            {
+              "name": "导入系统证书目录 (需ROOT)"
+            },
+            {
+              "name": "信任并启用证书"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "抓包分析流程",
+      "children": [
+        {
+          "name": "定位数据包",
+          "children": [
+            {
+              "name": "关键词过滤 (node/list)"
+            },
+            {
+              "name": "观察软件触发行为"
+            }
+          ]
+        },
+        {
+          "name": "查看响应内容 (Response)",
+          "children": [
+            {
+              "name": "Headers (响应头)"
+            },
+            {
+              "name": "Preview (格式化预览)"
+            },
+            {
+              "name": "Raw (原始数据)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "各软件实操案例",
+      "children": [
+        {
+          "name": "一键连",
+          "children": [
+            {
+              "name": "JSON数据格式"
+            },
+            {
+              "name": "特征：同IP/端口靠nodeid区分"
+            }
+          ]
+        },
+        {
+          "name": "阿特",
+          "children": [
+            {
+              "name": "特征：IP/端口/密码"
+            },
+            {
+              "name": "协议推测：Trojan"
+            }
+          ]
+        },
+        {
+          "name": "Disco",
+          "children": [
+            {
+              "name": "乱码处理：切换预览标签"
+            },
+            {
+              "name": "协议推测：SSR"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "局限性与防御",
+      "children": [
+        {
+          "name": "数据加密 (Base64/自定义算法)"
+        },
+        {
+          "name": "动态下发机制"
+        },
+        {
+          "name": "防抓包对策：代码混淆/反编译校验"
+        }
+      ]
+    }
+  ]
+}

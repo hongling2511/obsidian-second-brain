@@ -1,0 +1,179 @@
+{
+  "name": "一键全自动节点测速软件",
+  "children": [
+    {
+      "name": "软件概述",
+      "children": [
+        {
+          "name": "核心基础",
+          "children": [
+            {
+              "name": "V2RayN 二次开发"
+            },
+            {
+              "name": "Clash 测速内核"
+            }
+          ]
+        },
+        {
+          "name": "核心功能",
+          "children": [
+            {
+              "name": "一键自动测速"
+            },
+            {
+              "name": "筛选可用节点"
+            },
+            {
+              "name": "导出测速结果"
+            }
+          ]
+        },
+        {
+          "name": "支持协议",
+          "children": [
+            {
+              "name": "SS/SSR"
+            },
+            {
+              "name": "VMess/Trojan"
+            },
+            {
+              "name": "Socks5"
+            },
+            {
+              "name": "HTTP/HTTPS"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "节点导入方式",
+      "children": [
+        {
+          "name": "URL链接",
+          "children": [
+            {
+              "name": "单行节点链接"
+            },
+            {
+              "name": "Base64订阅链接"
+            }
+          ]
+        },
+        {
+          "name": "节点池导入",
+          "children": [
+            {
+              "name": "YAML/Clash格式"
+            },
+            {
+              "name": "本地节点池地址"
+            }
+          ]
+        },
+        {
+          "name": "手动操作",
+          "children": [
+            {
+              "name": "剪贴板粘贴"
+            },
+            {
+              "name": "自动去重"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "测速配置项",
+      "children": [
+        {
+          "name": "延迟测速",
+          "children": [
+            {
+              "name": "超时时间设置"
+            },
+            {
+              "name": "延迟达标数量筛选"
+            }
+          ]
+        },
+        {
+          "name": "下载测速",
+          "children": [
+            {
+              "name": "10秒默认时段"
+            },
+            {
+              "name": "低速节点自动移除"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "操作技巧",
+      "children": [
+        {
+          "name": "停止测速",
+          "children": [
+            {
+              "name": "一键取消"
+            },
+            {
+              "name": "多线程安全停止"
+            }
+          ]
+        },
+        {
+          "name": "配置保存",
+          "children": [
+            {
+              "name": "手动点击保存配置"
+            }
+          ]
+        },
+        {
+          "name": "获取资源",
+          "children": [
+            {
+              "name": "Google搜索inurl指令"
+            },
+            {
+              "name": "查找节点池URL"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "注意事项",
+      "children": [
+        {
+          "name": "系统兼容性",
+          "children": [
+            {
+              "name": "默认64位内核"
+            },
+            {
+              "name": "32位系统需手动替换"
+            }
+          ]
+        },
+        {
+          "name": "解析限制",
+          "children": [
+            {
+              "name": "不支持特殊字符密码"
+            },
+            {
+              "name": "不支持含配置信息的Clash订阅"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
