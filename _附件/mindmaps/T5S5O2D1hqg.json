@@ -1,0 +1,124 @@
+{
+  "name": "STUN 大内网 P2P 穿透技术",
+  "children": [
+    {
+      "name": "核心背景",
+      "children": [
+        {
+          "name": "无公网 IPv4"
+        },
+        {
+          "name": "IPv6 兼容性差且配置繁琐"
+        },
+        {
+          "name": "传统内网穿透（FRP/花生壳）带宽贵且慢"
+        }
+      ]
+    },
+    {
+      "name": "关键前提条件",
+      "children": [
+        {
+          "name": "NAT 类型必须为 NAT1 (Full Cone)"
+        },
+        {
+          "name": "软路由防火墙需开启 FullCone NAT"
+        },
+        {
+          "name": "光猫需改桥接或设置 DMZ 插件"
+        }
+      ]
+    },
+    {
+      "name": "STUN 打洞原理",
+      "children": [
+        {
+          "name": "客户端向 STUN 服务器发 UDP/TCP 请求"
+        },
+        {
+          "name": "服务器返回客户端出口公网 IP 和端口"
+        },
+        {
+          "name": "NAT 建立映射表并保持通道开启"
+        },
+        {
+          "name": "NAT1 环境允许任意外部 IP 访问该通道"
+        }
+      ]
+    },
+    {
+      "name": "实施工具与操作",
+      "children": [
+        {
+          "name": "常用工具",
+          "children": [
+            {
+              "name": "Natmap (轻量纯粹)"
+            },
+            {
+              "name": "Lucky (功能丰富)"
+            }
+          ]
+        },
+        {
+          "name": "配置步骤",
+          "children": [
+            {
+              "name": "设置 TCP/UDP 协议与 STUN 服务器"
+            },
+            {
+              "name": "绑定本地监听端口"
+            },
+            {
+              "name": "防火墙放行对应端口流量"
+            },
+            {
+              "name": "配置 Keepalive 保活机制"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "代理干扰处理",
+      "children": [
+        {
+          "name": "STUN 流量必须直连（绕过内核）"
+        },
+        {
+          "name": "保活 IP 流量必须直连"
+        },
+        {
+          "name": "防止内核重开端口导致映射失效"
+        }
+      ]
+    },
+    {
+      "name": "地址变更通知方案",
+      "children": [
+        {
+          "name": "短链接方案",
+          "children": [
+            {
+              "name": "利用公开短网址 API"
+            },
+            {
+              "name": "脚本自动更新跳转地址"
+            }
+          ]
+        },
+        {
+          "name": "Cloudflare 方案",
+          "children": [
+            {
+              "name": "配置域名重定向"
+            },
+            {
+              "name": "通过 API 自动修改 Page Rules"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

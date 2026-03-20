@@ -1,0 +1,161 @@
+{
+  "name": "IPv6 工作流程与软路由配置指南",
+  "children": [
+    {
+      "name": "配置 IPv6 的初衷",
+      "children": [
+        {
+          "name": "公网访问家内设备"
+        },
+        {
+          "name": "无公网 IPv4 地址替代方案"
+        },
+        {
+          "name": "IPTV 观看更稳定流畅"
+        }
+      ]
+    },
+    {
+      "name": "常见代理环境问题",
+      "children": [
+        {
+          "name": "分流异常"
+        },
+        {
+          "name": "DNS 污染与泄露"
+        },
+        {
+          "name": "网站访问缓慢或无法访问"
+        }
+      ]
+    },
+    {
+      "name": "OpenWrt 基础 IPv6 设置",
+      "children": [
+        {
+          "name": "全局网络：删除 ULA 前缀"
+        },
+        {
+          "name": "DNS 高级设置：取消过滤 IPv6 解析"
+        },
+        {
+          "name": "接口设置：LAN 口分配长度 64"
+        },
+        {
+          "name": "DHCP/RA 设置：服务器模式，取消本地 DNS"
+        }
+      ]
+    },
+    {
+      "name": "不同网络环境配置方案",
+      "children": [
+        {
+          "name": "光猫桥接 (推荐)",
+          "children": [
+            {
+              "name": "路由器 PPPoE 拨号"
+            },
+            {
+              "name": "获取 IPv6 PD 前缀委派"
+            }
+          ]
+        },
+        {
+          "name": "光猫路由模式 (二级路由)",
+          "children": [
+            {
+              "name": "方案一：获取下发 PD 前缀"
+            },
+            {
+              "name": "方案二：中继模式 (Relay)"
+            },
+            {
+              "name": "方案三：NAT66 (开启 IPv6 伪装)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "IPv6 工作原理详解",
+      "children": [
+        {
+          "name": "PD (Prefix Delegation) 前缀委派"
+        },
+        {
+          "name": "RA (Router Advertisement) 路由通告"
+        },
+        {
+          "name": "SLAAC 无状态自动配置"
+        },
+        {
+          "name": "地址生成方式",
+          "children": [
+            {
+              "name": "EUI-64：基于 MAC 地址 (隐私风险)"
+            },
+            {
+              "name": "随机后缀：现代系统默认"
+            },
+            {
+              "name": "临时地址：对外访问保护隐私"
+            }
+          ]
+        },
+        {
+          "name": "生命周期：首选 (Preferred) 与 有效 (Valid)"
+        },
+        {
+          "name": "DAD 重复地址检测"
+        }
+      ]
+    },
+    {
+      "name": "代理插件与 IPv6 兼容性",
+      "children": [
+        {
+          "name": "HomeProxy (Sing-box)",
+          "children": [
+            {
+              "name": "DNS 策略：仅 IPv4 或 默认 (双栈)"
+            },
+            {
+              "name": "IPv6 流量截持：按需开启"
+            },
+            {
+              "name": "绕过中国大陆流量设置"
+            }
+          ]
+        },
+        {
+          "name": "OpenClash (Mihomo)",
+          "children": [
+            {
+              "name": "Fake-IP 模式原理"
+            },
+            {
+              "name": "开启 IPv6 解析支持"
+            },
+            {
+              "name": "节点需支持 IPv6 访问"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "DNS 配置核心建议",
+      "children": [
+        {
+          "name": "不配置 IPv6 DNS (防止泄露)"
+        },
+        {
+          "name": "使用 IPv4 DNS 获取 AAAA 记录"
+        },
+        {
+          "name": "禁用 DHCPv6 服务 (减少兼容性问题)"
+        }
+      ]
+    }
+  ]
+}

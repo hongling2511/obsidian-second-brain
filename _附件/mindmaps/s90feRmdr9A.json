@@ -2,133 +2,131 @@
   "name": "零基础保姆级节点搭建教学",
   "children": [
     {
-      "name": "核心目标",
+      "name": "准备工作",
       "children": [
         {
-          "name": "高速稳定"
-        },
-        {
-          "name": "安全防封"
-        },
-        {
-          "name": "操作省心"
-        },
-        {
-          "name": "伪装隐藏"
-        }
-      ]
-    },
-    {
-      "name": "硬件与资源准备",
-      "children": [
-        {
-          "name": "VPS购买 (搬瓦工)",
+          "name": "VPS购买 (搬瓦工 CN2 GIA)",
           "children": [
             {
-              "name": "CN2 GIA优化线路"
+              "name": "选择洛杉矶机房"
             },
             {
-              "name": "洛杉矶数据中心"
+              "name": "使用优惠码"
             },
             {
-              "name": "系统更换为 Ubuntu 22.04"
+              "name": "支付宝结算"
             }
           ]
         },
         {
-          "name": "域名注册",
+          "name": "域名注册 (Namesilo)",
           "children": [
             {
-              "name": "NameSilo购买低价域名"
+              "name": "搜索便宜后缀"
             },
             {
-              "name": "设置DNS解析 (A记录与泛解析)"
-            }
-          ]
-        },
-        {
-          "name": "SSH工具",
-          "children": [
-            {
-              "name": "FinalShell安装与连接"
+              "name": "解析IP到VPS"
             }
           ]
         }
       ]
     },
     {
-      "name": "服务器环境配置",
+      "name": "VPS环境配置",
       "children": [
         {
-          "name": "系统更新与重启"
+          "name": "重装系统为 Ubuntu 22.04"
         },
         {
-          "name": "开启BBR拥塞控制算法"
+          "name": "使用 FinalShell 连接 SSH"
         },
         {
-          "name": "证书申请 (acme.sh)",
+          "name": "开启 BBR 加速"
+        },
+        {
+          "name": "更新操作系统软件源"
+        }
+      ]
+    },
+    {
+      "name": "核心组件安装",
+      "children": [
+        {
+          "name": "x-ui 面板安装",
           "children": [
             {
-              "name": "关联域名自动申请"
+              "name": "设置用户名密码"
             },
             {
-              "name": "安装证书到指定目录"
+              "name": "设置访问端口"
+            }
+          ]
+        },
+        {
+          "name": "SSL证书申请",
+          "children": [
+            {
+              "name": "安装 acme.sh"
+            },
+            {
+              "name": "自动申请并安装证书"
             }
           ]
         }
       ]
     },
     {
-      "name": "X-UI面板部署",
+      "name": "安全与伪装配置",
       "children": [
         {
-          "name": "一键脚本安装"
+          "name": "寻找伪装网站 (私人网盘)"
         },
         {
-          "name": "设置账号、密码及端口"
-        },
-        {
-          "name": "创建VMess/VLESS节点"
-        },
-        {
-          "name": "配置WS传输协议"
-        },
-        {
-          "name": "修改监听IP为127.0.0.1"
+          "name": "Nginx 反向代理配置",
+          "children": [
+            {
+              "name": "配置 443 端口转发"
+            },
+            {
+              "name": "隐藏 x-ui 管理路径"
+            },
+            {
+              "name": "配置分流路径"
+            }
+          ]
         }
       ]
     },
     {
-      "name": "Nginx安全伪装",
+      "name": "节点创建与连接",
       "children": [
         {
-          "name": "寻找合法伪装站点 (如私人网盘)"
+          "name": "x-ui 节点设置",
+          "children": [
+            {
+              "name": "协议: VMess/VLESS"
+            },
+            {
+              "name": "传输方式: WebSocket (WS)"
+            },
+            {
+              "name": "监听地址: 127.0.0.1"
+            }
+          ]
         },
         {
-          "name": "配置HTTPS (443端口)"
-        },
-        {
-          "name": "配置反向代理分流"
-        },
-        {
-          "name": "隐藏X-UI管理路径"
-        }
-      ]
-    },
-    {
-      "name": "客户端接入",
-      "children": [
-        {
-          "name": "导入节点配置"
-        },
-        {
-          "name": "地址设为域名/端口443"
-        },
-        {
-          "name": "开启TLS加密"
-        },
-        {
-          "name": "WS路径匹配"
+          "name": "客户端参数修改",
+          "children": [
+            {
+              "name": "地址改为域名"
+            },
+            {
+              "name": "端口改为 443"
+            },
+            {
+              "name": "开启 TLS"
+            }
+          ]
         }
       ]
     },
@@ -136,13 +134,13 @@
       "name": "多用户合租方案",
       "children": [
         {
-          "name": "单端口多用户分流"
+          "name": "WS 路径分流"
         },
         {
-          "name": "通过不同WS路径区分用户"
+          "name": "限制总流量与到期时间"
         },
         {
-          "name": "设置流量限制与到期时间"
+          "name": "单端口多用户共享 443"
         }
       ]
     }

@@ -1,0 +1,127 @@
+{
+  "name": "VLESS + XTLS + 回落技术详解",
+  "children": [
+    {
+      "name": "核心协议与工具关系",
+      "children": [
+        {
+          "name": "V2Ray与Xray分家",
+          "children": [
+            {
+              "name": "起因：XTLS开源许可协议(Non-Profit)不符Debian规则"
+            },
+            {
+              "name": "冲突：社区维护者与XTLS作者(rprx)理念不合"
+            },
+            {
+              "name": "结果：V2Ray移除XTLS，Xray作为分支独立并支持XTLS"
+            }
+          ]
+        },
+        {
+          "name": "VLESS协议特点",
+          "children": [
+            {
+              "name": "轻量化：不包含额外加密，依赖TLS"
+            },
+            {
+              "name": "简洁性：头部数据比Trojan更短(UUID 16字节)"
+            },
+            {
+              "name": "无校验：无需系统时间同步"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "XTLS 技术原理",
+      "children": [
+        {
+          "name": "性能优势：跳过已加密数据的二次加密，接近“裸奔”速度"
+        },
+        {
+          "name": "运行机制：仅加密TLS头部信息，直接转发后续流量"
+        },
+        {
+          "name": "安全风险",
+          "children": [
+            {
+              "name": "特征识别：TLS 1.3包中可能包含TLS 1.2指纹"
+            },
+            {
+              "name": "漏洞示例：26字节拦截逻辑失效导致关闭通知泄露"
+            },
+            {
+              "name": "序列号特征：非随机的递增序列号易被GFW探测"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "回落 (Fallback) 功能",
+      "children": [
+        {
+          "name": "核心作用：实现单端口(443)复用多种协议"
+        },
+        {
+          "name": "工作流程",
+          "children": [
+            {
+              "name": "首层：VLESS解析，非合法流量转至下层"
+            },
+            {
+              "name": "中转：可转至Trojan或其它端口"
+            },
+            {
+              "name": "末端：回落至Nginx/网站服务实现完美伪装"
+            }
+          ]
+        },
+        {
+          "name": "应用场景：防主动探测，模拟正常HTTPS网站响应"
+        }
+      ]
+    },
+    {
+      "name": "搭建与配置要点",
+      "children": [
+        {
+          "name": "环境准备：VPS、域名解析、关闭防火墙"
+        },
+        {
+          "name": "核心步骤",
+          "children": [
+            {
+              "name": "安装：使用Xray官方一键脚本"
+            },
+            {
+              "name": "证书：使用acme.sh申请SSL证书"
+            },
+            {
+              "name": "配置：修改config.json设置Inbounds与Fallback"
+            }
+          ]
+        },
+        {
+          "name": "管理工具：XUI面板(图形化) vs 手动修改(更灵活)"
+        }
+      ]
+    },
+    {
+      "name": "协议选择建议",
+      "children": [
+        {
+          "name": "保守派：标准TLS + 网站伪装 (最安全)"
+        },
+        {
+          "name": "激进派：裸SS/VMess协议 (低延迟但易封锁)"
+        },
+        {
+          "name": "性能派：XTLS (理论最快但存在被墙风险)"
+        }
+      ]
+    }
+  ]
+}
