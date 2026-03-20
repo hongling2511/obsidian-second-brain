@@ -1,0 +1,155 @@
+{
+  "name": "家用路由器搭建GFW (openfw)",
+  "children": [
+    {
+      "name": "项目概述",
+      "children": [
+        {
+          "name": "核心项目: openfw"
+        },
+        {
+          "name": "作者: Hy2 (Hysteria) 作者"
+        },
+        {
+          "name": "目标: 模拟长城防火墙行为"
+        }
+      ]
+    },
+    {
+      "name": "功能特性",
+      "children": [
+        {
+          "name": "SNI 阻断"
+        },
+        {
+          "name": "DNS 污染"
+        },
+        {
+          "name": "加密代理协议识别"
+        },
+        {
+          "name": "流量记录与审计"
+        }
+      ]
+    },
+    {
+      "name": "部署流程",
+      "children": [
+        {
+          "name": "环境准备",
+          "children": [
+            {
+              "name": "安装 Go 语言环境"
+            },
+            {
+              "name": "下载 openfw 源码"
+            }
+          ]
+        },
+        {
+          "name": "交叉编译",
+          "children": [
+            {
+              "name": "设置 GOOS=linux"
+            },
+            {
+              "name": "设置 GOARCH (如 arm64)"
+            },
+            {
+              "name": "执行 go build"
+            }
+          ]
+        },
+        {
+          "name": "路由器设置 (OpenWrt)",
+          "children": [
+            {
+              "name": "关闭软件流量分载"
+            },
+            {
+              "name": "开启 IP 动态伪装"
+            },
+            {
+              "name": "安装依赖包"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "配置与运行",
+      "children": [
+        {
+          "name": "配置文件: config.yaml (设置 nftables)"
+        },
+        {
+          "name": "规则文件: rules.yaml"
+        },
+        {
+          "name": "执行权限: chmod +x"
+        },
+        {
+          "name": "启动指令: ./opfw"
+        }
+      ]
+    },
+    {
+      "name": "实验测试",
+      "children": [
+        {
+          "name": "阻断测试",
+          "children": [
+            {
+              "name": "HTTP/HTTPS 关键词阻断"
+            },
+            {
+              "name": "域名后缀匹配 (如baidu.com)"
+            }
+          ]
+        },
+        {
+          "name": "污染测试",
+          "children": [
+            {
+              "name": "DNS 劫持篡改 IP"
+            },
+            {
+              "name": "证书不匹配警告"
+            }
+          ]
+        },
+        {
+          "name": "代理探测",
+          "children": [
+            {
+              "name": "识别 Shadowsocks (全加密)"
+            },
+            {
+              "name": "识别 VMess (TCP)"
+            },
+            {
+              "name": "识别 Trojan (秋卷)"
+            },
+            {
+              "name": "QUIC/Hysteria 屏蔽"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "应用场景",
+      "children": [
+        {
+          "name": "家庭访问控制"
+        },
+        {
+          "name": "公司审计"
+        },
+        {
+          "name": "IDC 代理屏蔽"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "name": "Clash 节点流量被偷跑与安全配置",
+  "children": [
+    {
+      "name": "安全风险现状",
+      "children": [
+        {
+          "name": "公网开放 API 接口"
+        },
+        {
+          "name": "未设置授权密码 (Secret)"
+        },
+        {
+          "name": "默认密码泄露 (如 123456)"
+        },
+        {
+          "name": "被当做免费公共代理"
+        },
+        {
+          "name": "远程执行恶意指令风险"
+        }
+      ]
+    },
+    {
+      "name": "流量偷跑原理",
+      "children": [
+        {
+          "name": "扫描公网 IP 与 9090 端口"
+        },
+        {
+          "name": "控制外部 Dashboard 界面"
+        },
+        {
+          "name": "利用 HTTP/Socks 代理端口"
+        },
+        {
+          "name": "未授权访问分流规则与日志"
+        }
+      ]
+    },
+    {
+      "name": "受影响客户端",
+      "children": [
+        {
+          "name": "Clash Core / Meta",
+          "children": [
+            {
+              "name": "裸跑内核用户"
+            },
+            {
+              "name": "配置文件缺少 Secret"
+            }
+          ]
+        },
+        {
+          "name": "OpenClash",
+          "children": [
+            {
+              "name": "默认开启 API 鉴权"
+            },
+            {
+              "name": "用户未修改默认密码"
+            }
+          ]
+        },
+        {
+          "name": "Clash for Windows",
+          "children": [
+            {
+              "name": "低风险 (通常无公网IP)"
+            },
+            {
+              "name": "需注意 Allow LAN 选项"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "防护解决方案",
+      "children": [
+        {
+          "name": "API 鉴权设置",
+          "children": [
+            {
+              "name": "添加 secret 复杂密码"
+            },
+            {
+              "name": "修改外部控制默认端口"
+            }
+          ]
+        },
+        {
+          "name": "代理端口验证",
+          "children": [
+            {
+              "name": "设置 http-auth 账号密码"
+            },
+            {
+              "name": "设置 socks5-auth"
+            }
+          ]
+        },
+        {
+          "name": "系统级防护",
+          "children": [
+            {
+              "name": "配置防火墙规则"
+            },
+            {
+              "name": "非必要不开启允许局域网"
+            },
+            {
+              "name": "关闭公网 IP 暴露"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "工具与操作",
+      "children": [
+        {
+          "name": "fofa 搜索开放节点"
+        },
+        {
+          "name": "Clash Dashboard 控制台"
+        },
+        {
+          "name": "SwitchyOmega 插件测试"
+        }
+      ]
+    }
+  ]
+}
