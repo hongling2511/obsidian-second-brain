@@ -1,0 +1,167 @@
+{
+  "name": "局域网科学上网共享方法",
+  "children": [
+    {
+      "name": "代理共享 (Proxy Sharing)",
+      "children": [
+        {
+          "name": "工作原理",
+          "children": [
+            {
+              "name": "客户端开启允许局域网连接"
+            },
+            {
+              "name": "其他设备设置HTTP/Socks代理IP和端口"
+            }
+          ]
+        },
+        {
+          "name": "实现方式",
+          "children": [
+            {
+              "name": "手机共享给电脑 (v2rayNG/Clash)"
+            },
+            {
+              "name": "电脑共享给手机/TV (v2rayN/Clash)"
+            },
+            {
+              "name": "iPhone小火箭代理共享"
+            }
+          ]
+        },
+        {
+          "name": "优点",
+          "children": [
+            {
+              "name": "实现简单，一键开启"
+            },
+            {
+              "name": "客户端支持丰富"
+            }
+          ]
+        },
+        {
+          "name": "缺点",
+          "children": [
+            {
+              "name": "每台设备需单独设置"
+            },
+            {
+              "name": "部分应用绕过系统代理"
+            },
+            {
+              "name": "HTTP代理不支持UDP"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "网关共享 (Gateway/Transparent Proxy)",
+      "children": [
+        {
+          "name": "工作原理",
+          "children": [
+            {
+              "name": "将设备IP设为局域网默认网关"
+            },
+            {
+              "name": "流量全接管，对客户端透明"
+            }
+          ]
+        },
+        {
+          "name": "实现方式",
+          "children": [
+            {
+              "name": "闲置安卓手机充当旁路网关"
+            },
+            {
+              "name": "Linux/Mac开启IP转发与TUN模式"
+            },
+            {
+              "name": "Windows通过虚拟机运行Linux实现"
+            }
+          ]
+        },
+        {
+          "name": "优点",
+          "children": [
+            {
+              "name": "真正的透明代理，接管所有流量"
+            },
+            {
+              "name": "设备无需安装插件或设置代理"
+            },
+            {
+              "name": "方便实现链式代理"
+            }
+          ]
+        },
+        {
+          "name": "缺点",
+          "children": [
+            {
+              "name": "Windows系统原生不支持"
+            },
+            {
+              "name": "配置相对复杂"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "路由共享 (Router Sharing)",
+      "children": [
+        {
+          "name": "工作原理",
+          "children": [
+            {
+              "name": "设备自建网段，充当路由器角色"
+            },
+            {
+              "name": "通过WiFi热点或USB共享网络"
+            }
+          ]
+        },
+        {
+          "name": "实现方式",
+          "children": [
+            {
+              "name": "Windows双网卡共享TUN虚拟网卡"
+            },
+            {
+              "name": "安卓手机WiFi热点共享 (需Root或系统支持)"
+            },
+            {
+              "name": "VPN热点工具 (需Root)"
+            }
+          ]
+        },
+        {
+          "name": "优点",
+          "children": [
+            {
+              "name": "连上即用，无需设置网关"
+            },
+            {
+              "name": "适合出差等无局域网环境"
+            }
+          ]
+        },
+        {
+          "name": "缺点",
+          "children": [
+            {
+              "name": "多一层NAT，影响性能"
+            },
+            {
+              "name": "不同网段设备互通困难"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
