@@ -1,0 +1,135 @@
+{
+  "name": "科学上网与AnyTLS协议指南",
+  "children": [
+    {
+      "name": "主流代理协议反馈",
+      "children": [
+        {
+          "name": "SS协议",
+          "children": [
+            {
+              "name": "风险：封锁概率极高"
+            },
+            {
+              "name": "表现：通常第二天IP被封"
+            }
+          ]
+        },
+        {
+          "name": "VMess + WS",
+          "children": [
+            {
+              "name": "风险：频繁封锁端口"
+            },
+            {
+              "name": "现状：2024年起不再推荐"
+            }
+          ]
+        },
+        {
+          "name": "VLESS + TLS + Vision",
+          "children": [
+            {
+              "name": "表现：端口或域名可能被阻断"
+            },
+            {
+              "name": "原因：特定域名证书(nip.io)被黑名单"
+            }
+          ]
+        },
+        {
+          "name": "VLESS + Reality",
+          "children": [
+            {
+              "name": "评价：稳如老狗"
+            },
+            {
+              "name": "优势：无被封反馈，模拟大厂域名"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "AnyTLS协议详解",
+      "children": [
+        {
+          "name": "原理：在TLS中传输TLS数据"
+        },
+        {
+          "name": "核心功能：自定义填充随机数据消除特征"
+        },
+        {
+          "name": "优势：比Vision更灵活的Padding策略"
+        },
+        {
+          "name": "客户端支持",
+          "children": [
+            {
+              "name": "v2rayN (Socks桥接)"
+            },
+            {
+              "name": "Shadowrocket (小火箭)"
+            },
+            {
+              "name": "v2rayNG / NB4A"
+            },
+            {
+              "name": "Mihomo (原Clash.Meta)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "AnyTLS搭建方式",
+      "children": [
+        {
+          "name": "方式一：AnyTLS-Go (Demo版)",
+          "children": [
+            {
+              "name": "特点：简单快速，默认自签名证书"
+            },
+            {
+              "name": "服务端：anytls-server 命令行运行"
+            },
+            {
+              "name": "客户端：anytls-client 转 Socks5"
+            }
+          ]
+        },
+        {
+          "name": "方式二：Mihomo (内核版)",
+          "children": [
+            {
+              "name": "特点：支持复杂规则与个性化Padding"
+            },
+            {
+              "name": "配置：需设置监听端口、密码、证书路径"
+            },
+            {
+              "name": "自定义：可指定前N个数据包的填充范围"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "搭建建议与优化",
+      "children": [
+        {
+          "name": "VPS选择：建议自行搭建以规避机场攻击"
+        },
+        {
+          "name": "证书：推荐使用正规CA证书并开启SNI"
+        },
+        {
+          "name": "安全：自签名证书需勾选“允许不安全”"
+        },
+        {
+          "name": "后台运行：使用 nohup 或相关命令持久化"
+        }
+      ]
+    }
+  ]
+}

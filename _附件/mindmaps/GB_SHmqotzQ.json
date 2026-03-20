@@ -1,0 +1,111 @@
+{
+  "name": "xhttp传输协议",
+  "children": [
+    {
+      "name": "协议背景与演进",
+      "children": [
+        {
+          "name": "MEK协议 (2023.05)"
+        },
+        {
+          "name": "SplitHTTP (2024.06)"
+        },
+        {
+          "name": "xhttp命名 (2024下半年)"
+        }
+      ]
+    },
+    {
+      "name": "核心传输机制",
+      "children": [
+        {
+          "name": "分包上行 (Packet Up)"
+        },
+        {
+          "name": "流式下行 (Stream Down)"
+        },
+        {
+          "name": "流式上行 (Stream Up)"
+        },
+        {
+          "name": "上下行分离"
+        }
+      ]
+    },
+    {
+      "name": "主要优势特性",
+      "children": [
+        {
+          "name": "高效过CDN"
+        },
+        {
+          "name": "字节填充 (Padding)"
+        },
+        {
+          "name": "多路复用 (Mux)"
+        },
+        {
+          "name": "伪装正常HTTP流量"
+        }
+      ]
+    },
+    {
+      "name": "搭建场景方案",
+      "children": [
+        {
+          "name": "xhttp + Reality",
+          "children": [
+            {
+              "name": "直连模式"
+            },
+            {
+              "name": "具备HTTP传输特性"
+            }
+          ]
+        },
+        {
+          "name": "xhttp + TLS + CDN",
+          "children": [
+            {
+              "name": "通过Cloudflare转发"
+            },
+            {
+              "name": "灵活加密模式"
+            },
+            {
+              "name": "重写目标端口"
+            }
+          ]
+        },
+        {
+          "name": "上下行分离高级配置",
+          "children": [
+            {
+              "name": "多域名分离 (A域名上/B域名下)"
+            },
+            {
+              "name": "CDN上行 + Reality下行"
+            },
+            {
+              "name": "利用回落(Fallback)机制"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "客户端支持",
+      "children": [
+        {
+          "name": "v2rayN (Windows/Mac)"
+        },
+        {
+          "name": "v2rayNG (Android)"
+        },
+        {
+          "name": "内核更新 (Xray/Go)"
+        }
+      ]
+    }
+  ]
+}

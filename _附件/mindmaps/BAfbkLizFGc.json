@@ -1,0 +1,170 @@
+{
+  "name": "sing-box 全方位指南",
+  "children": [
+    {
+      "name": "核心优势",
+      "children": [
+        {
+          "name": "协议支持全面"
+        },
+        {
+          "name": "更新频率极高"
+        },
+        {
+          "name": "支持 Clash API"
+        },
+        {
+          "name": "全平台覆盖 (iOS/Android/macOS/TVOS)"
+        }
+      ]
+    },
+    {
+      "name": "新手快速入门",
+      "children": [
+        {
+          "name": "图形化客户端",
+          "children": [
+            {
+              "name": "配置类型选择远程获取"
+            },
+            {
+              "name": "导入机场订阅链接"
+            },
+            {
+              "name": "使用方式类似 Clash"
+            }
+          ]
+        },
+        {
+          "name": "订阅转换",
+          "children": [
+            {
+              "name": "支持通用订阅转换工具"
+            },
+            {
+              "name": "注意隐私风险"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "OpenWrt/HomeProxy 配置",
+      "children": [
+        {
+          "name": "基础设置",
+          "children": [
+            {
+              "name": "安装 HomeProxy 插件"
+            },
+            {
+              "name": "导入节点与订阅"
+            },
+            {
+              "name": "设置主节点与路由模式"
+            }
+          ]
+        },
+        {
+          "name": "进阶功能",
+          "children": [
+            {
+              "name": "开启 Dashboard (Clash API)"
+            },
+            {
+              "name": "自定义规则集 (Rule Set)"
+            },
+            {
+              "name": "绕过中国流量 (增强性能)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "DNS 优化与解析",
+      "children": [
+        {
+          "name": "Real IP 模式",
+          "children": [
+            {
+              "name": "拒绝 DNS 污染"
+            },
+            {
+              "name": "支持 DNS 缓存与预解析"
+            }
+          ]
+        },
+        {
+          "name": "ECS 功能 (1.9+ 核心)",
+          "children": [
+            {
+              "name": "填入国内近源 IP"
+            },
+            {
+              "name": "实现国内外精确分流"
+            },
+            {
+              "name": "解决 DNS 泄露"
+            }
+          ]
+        },
+        {
+          "name": "DoH 加密解析",
+          "children": [
+            {
+              "name": "使用 HTTPS 传输 DNS"
+            },
+            {
+              "name": "利用长连接降低延迟"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "流量嗅探与覆写",
+      "children": [
+        {
+          "name": "Sniff (嗅探)",
+          "children": [
+            {
+              "name": "识别域名的流媒体/协议"
+            },
+            {
+              "name": "用于精确路由匹配"
+            }
+          ]
+        },
+        {
+          "name": "Override (覆写)",
+          "children": [
+            {
+              "name": "解锁 Netflix (奈飞) 必要条件"
+            },
+            {
+              "name": "解决节点无法解锁流媒体问题"
+            },
+            {
+              "name": "特殊环境需按需开启 (如智能家居/Tor)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "流媒体与 AI 解锁",
+      "children": [
+        {
+          "name": "Netflix DNS 解锁原理"
+        },
+        {
+          "name": "ChatGPT 解锁技巧"
+        },
+        {
+          "name": "屏蔽 QUIC (HTTP/3) 强制嗅探"
+        }
+      ]
+    }
+  ]
+}

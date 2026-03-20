@@ -1,0 +1,134 @@
+{
+  "name": "VPN与远程访问内网指南",
+  "children": [
+    {
+      "name": "VPN核心概念",
+      "children": [
+        {
+          "name": "定义：虚拟专用网络 (Virtual Private Network)"
+        },
+        {
+          "name": "本质：公网上的虚拟隧道（虚拟网线）"
+        },
+        {
+          "name": "主要用途：异地访问内网、数据加密、安全访问"
+        },
+        {
+          "name": "与代理区别：VPN封装网络层(L3)，可获取真实Ping延迟"
+        }
+      ]
+    },
+    {
+      "name": "VPN分类",
+      "children": [
+        {
+          "name": "点对点 (Site-to-Site)",
+          "children": [
+            {
+              "name": "部署在两台路由器上"
+            },
+            {
+              "name": "实现两个局域网互通"
+            }
+          ]
+        },
+        {
+          "name": "远程访问 (Remote Access)",
+          "children": [
+            {
+              "name": "一端接路由器，一端接用户终端"
+            },
+            {
+              "name": "适用于个人及出差办公"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "WireGuard (WG) 搭建步骤",
+      "children": [
+        {
+          "name": "环境准备",
+          "children": [
+            {
+              "name": "确保公网IPv6地址"
+            },
+            {
+              "name": "安装软件包：ddns-scripts-dynv6, wireguard-tools, qrencode"
+            }
+          ]
+        },
+        {
+          "name": "DDNS配置",
+          "children": [
+            {
+              "name": "注册dynv6获取免费域名"
+            },
+            {
+              "name": "路由器配置动态DNS同步IPv6"
+            }
+          ]
+        },
+        {
+          "name": "服务端配置",
+          "children": [
+            {
+              "name": "生成密钥对"
+            },
+            {
+              "name": "设置虚拟网段 (如192.168.5.x)"
+            },
+            {
+              "name": "开放防火墙UDP端口 (默认23456)"
+            }
+          ]
+        },
+        {
+          "name": "客户端接入",
+          "children": [
+            {
+              "name": "扫描二维码或导入配置文件"
+            },
+            {
+              "name": "调整MTU值 (如1400/1380) 解决卡顿"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "其他访问方式",
+      "children": [
+        {
+          "name": "代理协议 (SS/Vmess/Vless)",
+          "children": [
+            {
+              "name": "工作在应用层"
+            },
+            {
+              "name": "需修改规则：取消内网网段绕过"
+            },
+            {
+              "name": "风险：存在内网隐私暴露风险"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "安全建议",
+      "children": [
+        {
+          "name": "及时更新Windows安全补丁 (防御IPv6 RCE漏洞)"
+        },
+        {
+          "name": "非必要不将内网服务直接暴露公网"
+        },
+        {
+          "name": "提高网络安全意识，防止成为肉鸡"
+        }
+      ]
+    }
+  ]
+}

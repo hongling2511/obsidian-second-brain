@@ -1,0 +1,121 @@
+{
+  "name": "DNS 泄漏及其解决方法",
+  "children": [
+    {
+      "name": "DNS 基本原理",
+      "children": [
+        {
+          "name": "定义：将域名解析为 IP"
+        },
+        {
+          "name": "本地缓存：浏览器、操作系统"
+        },
+        {
+          "name": "递归查询：路由器 -> 运营商 DNS -> 根/权威 DNS"
+        },
+        {
+          "name": "TTL：缓存生存时间"
+        }
+      ]
+    },
+    {
+      "name": "什么是 DNS 泄漏",
+      "children": [
+        {
+          "name": "代理环境下发送了本地明文 DNS 请求"
+        },
+        {
+          "name": "运营商/防火墙可感知访问意图"
+        },
+        {
+          "name": "地理位置服务（如 Netflix）判定代理"
+        },
+        {
+          "name": "检测方法：使用随机子域名观察上游 DNS IP"
+        }
+      ]
+    },
+    {
+      "name": "各平台解决方法",
+      "children": [
+        {
+          "name": "V2RayN",
+          "children": [
+            {
+              "name": "使用绕过大陆路由"
+            },
+            {
+              "name": "域名策略改为 AsIs"
+            }
+          ]
+        },
+        {
+          "name": "Clash (Windows)",
+          "children": [
+            {
+              "name": "使用特定订阅转换配置文件"
+            },
+            {
+              "name": "TUN 模式：开启 Fake-IP"
+            },
+            {
+              "name": "系统设置：禁用智能多宿主名称解析"
+            }
+          ]
+        },
+        {
+          "name": "Android (v2rayNG/Clash)",
+          "children": [
+            {
+              "name": "启用虚拟 DNS (Fake-IP)"
+            },
+            {
+              "name": "域名策略改为 AsIs"
+            },
+            {
+              "name": "Clash：强制启用增强模式"
+            }
+          ]
+        },
+        {
+          "name": "iOS (Shadowrocket)",
+          "children": [
+            {
+              "name": "添加自定义配置文件"
+            },
+            {
+              "name": "全局路由设置为配置模式"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "进阶安全问题",
+      "children": [
+        {
+          "name": "WebRTC 泄漏",
+          "children": [
+            {
+              "name": "原理：绕过代理泄露真实本机 IP"
+            },
+            {
+              "name": "解决方法：安装浏览器插件禁用 WebRTC"
+            }
+          ]
+        },
+        {
+          "name": "其他优化",
+          "children": [
+            {
+              "name": "解决 DNS 污染"
+            },
+            {
+              "name": "提升解析速度"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

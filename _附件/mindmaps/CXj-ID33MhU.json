@@ -1,0 +1,103 @@
+{
+  "name": "Hysteria 2 (歇斯底里2) 搭建与使用教程",
+  "children": [
+    {
+      "name": "协议原理",
+      "children": [
+        {
+          "name": "底层传输: 基于 UDP 的 QUIC 协议"
+        },
+        {
+          "name": "提速核心: 修改拥塞控制算法 (brutal)"
+        },
+        {
+          "name": "竞争机制: 不主动降速，抢占有限带宽"
+        },
+        {
+          "name": "适用场景: 高延迟、高丢包的劣质线路"
+        }
+      ]
+    },
+    {
+      "name": "服务端搭建",
+      "children": [
+        {
+          "name": "系统要求: Ubuntu 22.04 等主流 Linux"
+        },
+        {
+          "name": "安装步骤: 官方一键安装脚本"
+        },
+        {
+          "name": "证书配置: 自签名证书 或 CA 证书 (ACME)"
+        },
+        {
+          "name": "关键配置: 端口 (443)、密码、伪装网址"
+        },
+        {
+          "name": "防火墙: 需放行 TCP/UDP 80 及 443 端口"
+        }
+      ]
+    },
+    {
+      "name": "客户端配置 (Windows)",
+      "children": [
+        {
+          "name": "工具: v2rayN + Hysteria 2 内核"
+        },
+        {
+          "name": "参数设置: 服务器 IP、端口、密码、认证信息"
+        },
+        {
+          "name": "带宽协商: Up (上传) 与 Down (下载) 限制"
+        },
+        {
+          "name": "模式选择: SOCKS5 代理 或 TUN 模式"
+        }
+      ]
+    },
+    {
+      "name": "移动端使用",
+      "children": [
+        {
+          "name": "Android",
+          "children": [
+            {
+              "name": "应用: sing-box for Android"
+            },
+            {
+              "name": "配置: JSON 格式配置文件"
+            }
+          ]
+        },
+        {
+          "name": "iOS",
+          "children": [
+            {
+              "name": "应用: sing-box (TestFlight 版 1.5+)"
+            },
+            {
+              "name": "配置: 导入并保存 VPN 配置文件"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "进阶特性",
+      "children": [
+        {
+          "name": "抗审查: 支持反向代理伪装"
+        },
+        {
+          "name": "传统模式: 可切换回标准 BBR 拥塞控制"
+        },
+        {
+          "name": "端口跳跃: 解决运营商端口限速"
+        },
+        {
+          "name": "ACL 控制: 支持二代代理与解锁流媒体"
+        }
+      ]
+    }
+  ]
+}

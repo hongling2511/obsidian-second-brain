@@ -1,0 +1,189 @@
+{
+  "name": "sing-box 网络代理工具",
+  "children": [
+    {
+      "name": "工具特点",
+      "children": [
+        {
+          "name": "核心地位",
+          "children": [
+            {
+              "name": "比肩 v2ray 和 clash"
+            },
+            {
+              "name": "网络代理的瑞士军刀"
+            }
+          ]
+        },
+        {
+          "name": "协议支持",
+          "children": [
+            {
+              "name": "丰富度极高"
+            },
+            {
+              "name": "支持传统协议 (ss, vmess, trojan)"
+            },
+            {
+              "name": "支持新型协议 (hysteria, shadowtls)"
+            }
+          ]
+        },
+        {
+          "name": "高级功能",
+          "children": [
+            {
+              "name": "内置 ACME 证书管理"
+            },
+            {
+              "name": "支持 TUN 模式 (接管全系统流量)"
+            },
+            {
+              "name": "TProxy 实现效率高"
+            }
+          ]
+        },
+        {
+          "name": "现状",
+          "children": [
+            {
+              "name": "更新活跃"
+            },
+            {
+              "name": "目前缺乏专用 GUI"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ShadowTLS 协议",
+      "children": [
+        {
+          "name": "核心优势",
+          "children": [
+            {
+              "name": "绕过 SNI 白名单限制"
+            },
+            {
+              "name": "无需自备域名和开启 TLS"
+            },
+            {
+              "name": "模拟访问白名单网站"
+            }
+          ]
+        },
+        {
+          "name": "工作原理",
+          "children": [
+            {
+              "name": "客户端发送白名单域名 SNI"
+            },
+            {
+              "name": "服务端直接转发请求给目标网站"
+            },
+            {
+              "name": "获取真实证书骗过防火墙"
+            },
+            {
+              "name": "连接建立后传输加密数据"
+            }
+          ]
+        },
+        {
+          "name": "局限性",
+          "children": [
+            {
+              "name": "无法防止主动探测"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "服务端搭建步骤",
+      "children": [
+        {
+          "name": "安装",
+          "children": [
+            {
+              "name": "下载 .deb 或 .rpm 安装包"
+            },
+            {
+              "name": "使用指令释放文件"
+            }
+          ]
+        },
+        {
+          "name": "配置",
+          "children": [
+            {
+              "name": "编辑 config.json"
+            },
+            {
+              "name": "配置 ShadowTLS 入口 (监听 443)"
+            },
+            {
+              "name": "设置转发至 Shadowsocks 节点"
+            }
+          ]
+        },
+        {
+          "name": "管理",
+          "children": [
+            {
+              "name": "启动服务"
+            },
+            {
+              "name": "查看运行状态 (Running)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "客户端使用模式",
+      "children": [
+        {
+          "name": "代理模式",
+          "children": [
+            {
+              "name": "设置系统代理"
+            },
+            {
+              "name": "支持浏览器等遵循系统的软件"
+            },
+            {
+              "name": "配置 Shadowsocks + ShadowTLS 出口"
+            }
+          ]
+        },
+        {
+          "name": "TUN 模式",
+          "children": [
+            {
+              "name": "创建虚拟网卡"
+            },
+            {
+              "name": "强制接管所有软件流量"
+            },
+            {
+              "name": "需管理员权限运行"
+            }
+          ]
+        },
+        {
+          "name": "运行",
+          "children": [
+            {
+              "name": "命令行运行 sing-box run"
+            },
+            {
+              "name": "开启多路复用 (Multiplex) 降低延迟"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
