@@ -1,0 +1,148 @@
+{
+  "name": "影响节点速度的因素与线路知识",
+  "children": [
+    {
+      "name": "核心网络架构",
+      "children": [
+        {
+          "name": "自治系统 (AS)",
+          "children": [
+            {
+              "name": "电信 163 骨干网 (AS4134)"
+            },
+            {
+              "name": "联通 169 骨干网 (AS4837)"
+            },
+            {
+              "name": "移动 骨干网 (AS9808)"
+            },
+            {
+              "name": "边界网关协议 (BGP)"
+            }
+          ]
+        },
+        {
+          "name": "连接方式",
+          "children": [
+            {
+              "name": "对等互联 (Peering)"
+            },
+            {
+              "name": "付费接入 (Transit)"
+            },
+            {
+              "name": "互联网交换中心 (IXP)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "运营商精品线路",
+      "children": [
+        {
+          "name": "中国电信",
+          "children": [
+            {
+              "name": "CN2 GT (半精品)"
+            },
+            {
+              "name": "CN2 GIA (全精品 AS4809)"
+            }
+          ]
+        },
+        {
+          "name": "中国联通",
+          "children": [
+            {
+              "name": "A网 (AS9929)"
+            }
+          ]
+        },
+        {
+          "name": "中国移动",
+          "children": [
+            {
+              "name": "CMI 国际网络 (AS58453)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "影响速度的瓶颈",
+      "children": [
+        {
+          "name": "晚高峰拥堵"
+        },
+        {
+          "name": "国际出口带宽限制"
+        },
+        {
+          "name": "防火墙 (GFW) 拦截与丢包"
+        },
+        {
+          "name": "服务质量 (QoS) 限制"
+        },
+        {
+          "name": "路由问题",
+          "children": [
+            {
+              "name": "绕路 (如经美国/日本)"
+            },
+            {
+              "name": "去程与回程不一致"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "提速方案与技术",
+      "children": [
+        {
+          "name": "中转线路",
+          "children": [
+            {
+              "name": "端口转发 (NAT)"
+            },
+            {
+              "name": "隧道中转 (加密封装)"
+            },
+            {
+              "name": "流量分发/多网接入"
+            }
+          ]
+        },
+        {
+          "name": "软件优化",
+          "children": [
+            {
+              "name": "BBR 拥塞控制算法"
+            },
+            {
+              "name": "CDN (如 Cloudflare)"
+            }
+          ]
+        },
+        {
+          "name": "双线/三线机房"
+        }
+      ]
+    },
+    {
+      "name": "测试与验证",
+      "children": [
+        {
+          "name": "路由追踪 (mtr/traceroute)"
+        },
+        {
+          "name": "Looking Glass 测速"
+        },
+        {
+          "name": "回程路由脚本测试"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+{
+  "name": "vmess+ws 预前制 CDN 搭建",
+  "children": [
+    {
+      "name": "协议原理",
+      "children": [
+        {
+          "name": "WebSocket (ws)",
+          "children": [
+            {
+              "name": "基于 TCP"
+            },
+            {
+              "name": "全双工通信"
+            },
+            {
+              "name": "通过 HTTP Upgrade 升级"
+            },
+            {
+              "name": "对比 Mic 效率更高"
+            }
+          ]
+        },
+        {
+          "name": "0-RTT 优化",
+          "children": [
+            {
+              "name": "路径后加 ?ed=2048"
+            },
+            {
+              "name": "减少握手延迟"
+            }
+          ]
+        },
+        {
+          "name": "HTTPUpgrade",
+          "children": [
+            {
+              "name": "不封装成 ws 帧"
+            },
+            {
+              "name": "减轻性能压力"
+            },
+            {
+              "name": "兼容性略低"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fastly 搭建步骤",
+      "children": [
+        {
+          "name": "注册账号 (邮箱)"
+        },
+        {
+          "name": "创建 Service"
+        },
+        {
+          "name": "配置后端服务器 IP 与端口"
+        },
+        {
+          "name": "开启 WebSocket 支持"
+        },
+        {
+          "name": "添加 VCL 脚本"
+        },
+        {
+          "name": "部署配置"
+        }
+      ]
+    },
+    {
+      "name": "Gcore 搭建步骤",
+      "children": [
+        {
+          "name": "选择免费计划"
+        },
+        {
+          "name": "创建 CDN 资源"
+        },
+        {
+          "name": "添加 DNS 记录 (指向 VPS)"
+        },
+        {
+          "name": "设置源站端口"
+        },
+        {
+          "name": "等待 10-20 分钟生效"
+        }
+      ]
+    },
+    {
+      "name": "客户端配置",
+      "children": [
+        {
+          "name": "基础设置",
+          "children": [
+            {
+              "name": "地址填优选 IP"
+            },
+            {
+              "name": "端口 80 (非 TLS) / 443 (TLS)"
+            },
+            {
+              "name": "伪装域名 (Host)"
+            }
+          ]
+        },
+        {
+          "name": "完全体 (TLS)",
+          "children": [
+            {
+              "name": "开启 TLS"
+            },
+            {
+              "name": "SNI 填前置域名"
+            },
+            {
+              "name": "隐藏自定义域名"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "优选 IP",
+      "children": [
+        {
+          "name": "使用工具提取 CDN 节点"
+        },
+        {
+          "name": "测速软件自动测试"
+        },
+        {
+          "name": "获取高速低延迟节点"
+        }
+      ]
+    },
+    {
+      "name": "预前制核心优势",
+      "children": [
+        {
+          "name": "无需域名和证书"
+        },
+        {
+          "name": "突破白名单限制"
+        },
+        {
+          "name": "防止 VPS IP 被封"
+        },
+        {
+          "name": "隐匿性强 (伪装成正规网站)"
+        }
+      ]
+    }
+  ]
+}
