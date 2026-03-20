@@ -1,0 +1,145 @@
+{
+  "name": "NaiveProxy 节点搭建教程",
+  "children": [
+    {
+      "name": "核心优势",
+      "children": [
+        {
+          "name": "隐藏翻墙特征"
+        },
+        {
+          "name": "消除 TLS 指纹 (JA3/JASM)"
+        },
+        {
+          "name": "解决 TLS-in-TLS 特征"
+        },
+        {
+          "name": "基于 Chrome 网络协议栈"
+        },
+        {
+          "name": "低延迟 (HTTP2 多路复用)"
+        }
+      ]
+    },
+    {
+      "name": "服务端搭建 (Caddy)",
+      "children": [
+        {
+          "name": "环境准备",
+          "children": [
+            {
+              "name": "VPS 操作系统 (Ubuntu 22.04)"
+            },
+            {
+              "name": "域名 DNS 解析"
+            },
+            {
+              "name": "安装 Go 语言环境"
+            }
+          ]
+        },
+        {
+          "name": "编译过程",
+          "children": [
+            {
+              "name": "下载 xcaddy"
+            },
+            {
+              "name": "编译带 Naive 插件的 Caddy"
+            }
+          ]
+        },
+        {
+          "name": "配置文件 (Caddyfile)",
+          "children": [
+            {
+              "name": "设置域名与邮箱"
+            },
+            {
+              "name": "配置用户名和密码"
+            },
+            {
+              "name": "设置反向代理伪装网站"
+            }
+          ]
+        },
+        {
+          "name": "运行管理",
+          "children": [
+            {
+              "name": "前台运行 (调试证书)"
+            },
+            {
+              "name": "后台启动 (caddy start)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "客户端配置",
+      "children": [
+        {
+          "name": "Windows (v2rayN)",
+          "children": [
+            {
+              "name": "下载 Naive 核心"
+            },
+            {
+              "name": "添加自定义配置服务器"
+            },
+            {
+              "name": "配置 JSON 文件"
+            }
+          ]
+        },
+        {
+          "name": "iOS (小火箭 Shadowrocket)",
+          "children": [
+            {
+              "name": "协议类型选择 HTTPS/HTTP2"
+            }
+          ]
+        },
+        {
+          "name": "Android (SagerNet)",
+          "children": [
+            {
+              "name": "安装 NaiveProxy 插件"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "安全原理深度解析",
+      "children": [
+        {
+          "name": "TLS 指纹识别",
+          "children": [
+            {
+              "name": "JA3 (客户端指纹)"
+            },
+            {
+              "name": "JA3S (服务端指纹)"
+            },
+            {
+              "name": "JASM (主动探测指纹)"
+            }
+          ]
+        },
+        {
+          "name": "伪装的重要性",
+          "children": [
+            {
+              "name": "表现层伪装 (正常网页)"
+            },
+            {
+              "name": "行为层伪装 (符合常用中间件特征)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

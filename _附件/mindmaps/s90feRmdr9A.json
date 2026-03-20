@@ -15,113 +15,111 @@
             },
             {
               "name": "支付宝结算"
+            },
+            {
+              "name": "重装系统为 Ubuntu 22.04"
             }
           ]
         },
         {
-          "name": "域名注册 (Namesilo)",
+          "name": "域名注册 (NameSilo)",
           "children": [
             {
-              "name": "搜索便宜后缀"
+              "name": "搜索廉价域名"
             },
             {
-              "name": "解析IP到VPS"
+              "name": "DNS解析设置 (A记录/泛解析)"
+            }
+          ]
+        },
+        {
+          "name": "SSH工具 (FinalShell)",
+          "children": [
+            {
+              "name": "下载并安装"
+            },
+            {
+              "name": "连接VPS IP及端口"
             }
           ]
         }
       ]
     },
     {
-      "name": "VPS环境配置",
+      "name": "环境部署",
       "children": [
         {
-          "name": "重装系统为 Ubuntu 22.04"
-        },
-        {
-          "name": "使用 FinalShell 连接 SSH"
+          "name": "系统更新 (apt update/upgrade)"
         },
         {
           "name": "开启 BBR 加速"
         },
         {
-          "name": "更新操作系统软件源"
+          "name": "安装 x-ui 面板"
+        },
+        {
+          "name": "安装 acme.sh 申请 TLS 证书"
         }
       ]
     },
     {
-      "name": "核心组件安装",
+      "name": "安全性与伪装配置",
       "children": [
         {
-          "name": "x-ui 面板安装",
+          "name": "Nginx 配置",
           "children": [
             {
-              "name": "设置用户名密码"
+              "name": "寻找私人网盘作为伪装站点"
             },
-            {
-              "name": "设置访问端口"
-            }
-          ]
-        },
-        {
-          "name": "SSL证书申请",
-          "children": [
-            {
-              "name": "安装 acme.sh"
-            },
-            {
-              "name": "自动申请并安装证书"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "安全与伪装配置",
-      "children": [
-        {
-          "name": "寻找伪装网站 (私人网盘)"
-        },
-        {
-          "name": "Nginx 反向代理配置",
-          "children": [
             {
               "name": "配置 443 端口转发"
             },
             {
-              "name": "隐藏 x-ui 管理路径"
+              "name": "设置反向代理路径"
+            }
+          ]
+        },
+        {
+          "name": "隐藏服务",
+          "children": [
+            {
+              "name": "x-ui 面板监听 127.0.0.1"
             },
             {
-              "name": "配置分流路径"
+              "name": "节点监听 127.0.0.1"
+            },
+            {
+              "name": "仅暴露 HTTPS 443 端口"
             }
           ]
         }
       ]
     },
     {
-      "name": "节点创建与连接",
+      "name": "节点搭建与连接",
       "children": [
         {
-          "name": "x-ui 节点设置",
+          "name": "x-ui 设置",
           "children": [
             {
-              "name": "协议: VMess/VLESS"
+              "name": "创建 VMess/VLESS 节点"
             },
             {
-              "name": "传输方式: WebSocket (WS)"
+              "name": "传输协议选择 WebSocket (WS)"
             },
             {
-              "name": "监听地址: 127.0.0.1"
+              "name": "设置路径 (Path)"
             }
           ]
         },
         {
-          "name": "客户端参数修改",
+          "name": "客户端配置",
           "children": [
             {
-              "name": "地址改为域名"
+              "name": "修改地址为域名"
             },
             {
-              "name": "端口改为 443"
+              "name": "端口设为 443"
             },
             {
               "name": "开启 TLS"
@@ -131,16 +129,21 @@
       ]
     },
     {
-      "name": "多用户合租方案",
+      "name": "进阶应用",
       "children": [
         {
-          "name": "WS 路径分流"
-        },
-        {
-          "name": "限制总流量与到期时间"
-        },
-        {
-          "name": "单端口多用户共享 443"
+          "name": "单端口多用户合租",
+          "children": [
+            {
+              "name": "通过 WS 路径分流"
+            },
+            {
+              "name": "限制总流量与到期时间"
+            },
+            {
+              "name": "配置多个 Nginx Location"
+            }
+          ]
         }
       ]
     }

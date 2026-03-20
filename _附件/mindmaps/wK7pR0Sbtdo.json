@@ -1,0 +1,164 @@
+{
+  "name": "AnyReality 节点搭建与协议分析",
+  "children": [
+    {
+      "name": "代理协议三层架构",
+      "children": [
+        {
+          "name": "第一层：代理协议",
+          "children": [
+            {
+              "name": "SS (Shadowsocks)"
+            },
+            {
+              "name": "Vmess / Vless"
+            },
+            {
+              "name": "Trojan"
+            },
+            {
+              "name": "Hysteria"
+            },
+            {
+              "name": "ANTLS"
+            }
+          ]
+        },
+        {
+          "name": "第二层：传输方式",
+          "children": [
+            {
+              "name": "Raw (原始 TCP/UDP)"
+            },
+            {
+              "name": "WebSocket (WS)"
+            },
+            {
+              "name": "gRPC"
+            },
+            {
+              "name": "HTTP Upgrade"
+            },
+            {
+              "name": "QUIC"
+            }
+          ]
+        },
+        {
+          "name": "第三层：传输安全",
+          "children": [
+            {
+              "name": "TLS (需域名证书)"
+            },
+            {
+              "name": "Reality (无需证书/伪装网站)"
+            },
+            {
+              "name": "无加密 (裸奔)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "抓包实验分析",
+      "children": [
+        {
+          "name": "SS 协议分析",
+          "children": [
+            {
+              "name": "未加密：明文显示域名和端口"
+            },
+            {
+              "name": "AES 加密：数据包膨胀，呈现乱码"
+            },
+            {
+              "name": "SS+WS：HTTP 101 状态码切换协议"
+            },
+            {
+              "name": "SS+Reality：外观伪装成访问雅虎"
+            }
+          ]
+        },
+        {
+          "name": "UDP 传输特性",
+          "children": [
+            {
+              "name": "SS UDP 默认不走底层传输安全"
+            },
+            {
+              "name": "原生 UDP 延迟低但易被阻断"
+            },
+            {
+              "name": "需开启协议加密防止明文特征"
+            }
+          ]
+        },
+        {
+          "name": "Trojan 协议分析",
+          "children": [
+            {
+              "name": "默认强制 TLS"
+            },
+            {
+              "name": "脱掉 TLS 后可见 56 字节哈希密码"
+            },
+            {
+              "name": "通过 TCP 传输数据"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "AnyReality 搭建 (Sing-box)",
+      "children": [
+        {
+          "name": "核心优势",
+          "children": [
+            {
+              "name": "ANTLS 自定义填充解决指纹问题"
+            },
+            {
+              "name": "Reality 解决证书申请繁琐问题"
+            },
+            {
+              "name": "强伪装与高性能结合"
+            }
+          ]
+        },
+        {
+          "name": "服务端配置",
+          "children": [
+            {
+              "name": "安装 Sing-box"
+            },
+            {
+              "name": "配置 433 端口监听"
+            },
+            {
+              "name": "设置 Reality 目标网站与私钥"
+            },
+            {
+              "name": "自定义 Padding 填充字节"
+            }
+          ]
+        },
+        {
+          "name": "客户端支持",
+          "children": [
+            {
+              "name": "SFA (Android)"
+            },
+            {
+              "name": "SFM (macOS)"
+            },
+            {
+              "name": "iOS 需等待 1.12 正式版或 TestFlight"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
