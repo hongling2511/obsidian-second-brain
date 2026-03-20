@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "3-资源/博客文章/脑总MrBrain投资体系方法论梳理.md",
+                "file": "_附件/zt0JA5rxdfM_study_guide.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "脑总MrBrain投资体系方法论梳理"
+              "title": "zt0JA5rxdfM_study_guide"
             }
           }
         ]
@@ -205,8 +205,24 @@
       "obsidian-spaced-repetition:复习卡片": false
     }
   },
-  "active": "b534069ba8dfa3ca",
+  "active": "25f04b4aa5a8c70d",
   "lastOpenFiles": [
+    "_附件/_1C1mRhUYwo_study_guide.md",
+    "README.md",
+    "CLAUDE.md",
+    "MOC/Obsidian 第二大脑实施计划（old）.md",
+    "MOC/Claude交互日志.md",
+    "2-领域/财务/README.md",
+    "MOC/领域概览.md",
+    "0-收集箱/右派投资者的自我修养：《反脆弱》与《非对称风险》述评.md",
+    "0-收集箱/🤖 Agentic AI Explained NVIDIA GTC 2025 Keynote with Jensen Huang 🚀.md",
+    "3-资源/博客文章/脑总MrBrain的书评与投资思想体系.md",
+    "3-资源/博客文章/脑总MrBrain投资体系方法论梳理.md",
+    "_附件/img-modern-fragility.png",
+    "_附件/img-convexity-comparison.png",
+    "_附件/img-competition-vs-monopoly.png",
+    "_附件/img-black-swan-distribution.png",
+    "_附件/img-barbell-strategy.png",
     "_附件/xr1BoXa13To_study_guide.md",
     "_附件/mindmaps/xr1BoXa13To.json",
     "_附件/mindmaps/ggzw_6EBHBY.json",
@@ -229,19 +245,8 @@
     "0-收集箱/中国镀金时代合集，我从五道口地下室到东南亚电诈园，见证一代人创业和投机的疯狂.md",
     "0-收集箱/【脑总私董会 EP.01】对话前美军航母老兵：华裔“阿甘”从底层实现阶级跨越的人生方法论.md",
     "3-资源/博客文章/脑总MrBrain的宏观经济与债务体系梳理.md",
-    "3-资源/思维模型/OpenClaw故障排查手册.md",
-    "_附件/vBu6zJAWcGs_study_guide.md",
-    "_附件/p5F0vg-BgVg_study_guide.md",
     "_附件/mindmaps/vBu6zJAWcGs.json",
     "_附件/mindmaps/p5F0vg-BgVg.json",
-    "_附件/mindmaps/hEr3ogBj92c.json",
-    "_附件/hEr3ogBj92c_study_guide.md",
-    "_附件/g-KPIQSrYOU_study_guide.md",
-    "_附件/enjWl1IJvCg_study_guide.md",
-    "_附件/cOxXsKLXbAw_study_guide.md",
-    "_附件/6WjdqxcEjR8_study_guide.md",
-    "_附件/4ewrGvc6PqM_study_guide.md",
-    "_附件/3L6GK1nk5K4_study_guide.md",
-    "3-资源/博客文章/脑总MrBrain的书评与投资思想体系.md"
+    "_附件/mindmaps/hEr3ogBj92c.json"
   ]
 }
