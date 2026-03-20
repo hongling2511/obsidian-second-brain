@@ -1,0 +1,141 @@
+{
+  "name": "NAT类型与P2P穿透技术详解",
+  "children": [
+    {
+      "name": "NAT基础概念",
+      "children": [
+        {
+          "name": "网络地址转换 (NAT)"
+        },
+        {
+          "name": "出站映射行为 (Mapping)"
+        },
+        {
+          "name": "入站过滤行为 (Filtering)"
+        },
+        {
+          "name": "端口和IP关联性"
+        }
+      ]
+    },
+    {
+      "name": "NAT四种类型 (RFC3489)",
+      "children": [
+        {
+          "name": "NAT 1: Full Cone (全圆锥型)",
+          "children": [
+            {
+              "name": "端点无关映射"
+            },
+            {
+              "name": "端点无关过滤"
+            }
+          ]
+        },
+        {
+          "name": "NAT 2: Address Restricted (IP限制型)",
+          "children": [
+            {
+              "name": "端点无关映射"
+            },
+            {
+              "name": "IP地址相关过滤"
+            }
+          ]
+        },
+        {
+          "name": "NAT 3: Port Restricted (端口限制型)",
+          "children": [
+            {
+              "name": "端点无关映射"
+            },
+            {
+              "name": "IP及端口相关过滤"
+            }
+          ]
+        },
+        {
+          "name": "NAT 4: Symmetric (对称型)",
+          "children": [
+            {
+              "name": "端点相关映射"
+            },
+            {
+              "name": "IP及端口相关过滤"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P2P 打洞可行性",
+      "children": [
+        {
+          "name": "EasyNAT (1-3) 之间: 极易打洞"
+        },
+        {
+          "name": "NAT 1 与 NAT 4: 可以打洞"
+        },
+        {
+          "name": "NAT 3 与 NAT 4: 难打洞 (需端口预测/UPnP)"
+        },
+        {
+          "name": "NAT 4 与 NAT 4: 极难打洞 (需端口碰撞/易失败)"
+        }
+      ]
+    },
+    {
+      "name": "P2PVPN 工具实战",
+      "children": [
+        {
+          "name": "Tailscale (TS)",
+          "children": [
+            {
+              "name": "基于WireGuard"
+            },
+            {
+              "name": "DERP中转服务器"
+            },
+            {
+              "name": "支持EasyNAT直连"
+            }
+          ]
+        },
+        {
+          "name": "Netbird / Lucky / Easytail",
+          "children": [
+            {
+              "name": "端口预测技术"
+            },
+            {
+              "name": "支持NAT3与NAT4穿透"
+            },
+            {
+              "name": "跨平台检测工具"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "改善网络环境建议",
+      "children": [
+        {
+          "name": "开启路由器UPnP/NAT-PMP"
+        },
+        {
+          "name": "设置DMZ主机"
+        },
+        {
+          "name": "联系运营商修改NAT类型"
+        },
+        {
+          "name": "使用IPv6 (绕过NAT)"
+        },
+        {
+          "name": "自建中转服务器 (跳过打洞)"
+        }
+      ]
+    }
+  ]
+}

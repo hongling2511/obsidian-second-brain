@@ -1,0 +1,122 @@
+{
+  "name": "Subconverter 订阅转换工具安全预警",
+  "children": [
+    {
+      "name": "漏洞背景",
+      "children": [
+        {
+          "name": "核心工具: Subconverter (开源项目)"
+        },
+        {
+          "name": "核心风险: 订阅链接与节点信息泄露"
+        },
+        {
+          "name": "受影响群体: 使用第三方或自建转换服务的用户"
+        }
+      ]
+    },
+    {
+      "name": "主要漏洞类型",
+      "children": [
+        {
+          "name": "配置信息泄露",
+          "children": [
+            {
+              "name": "路径穿越过滤不严"
+            },
+            {
+              "name": "暴露关键 Token 值"
+            },
+            {
+              "name": "接口风险: /trainscripts, /subconvert"
+            }
+          ]
+        },
+        {
+          "name": "远程代码执行 (RCE)",
+          "children": [
+            {
+              "name": "利用条件: 开启缓存 (Cache)"
+            },
+            {
+              "name": "攻击方式: 恶意指令写入缓存目录"
+            },
+            {
+              "name": "后果: 获取服务器 Root 权限"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "攻击实战步骤",
+      "children": [
+        {
+          "name": "获取后端版本与接口状态"
+        },
+        {
+          "name": "通过特定接口获取配置文件与 Token"
+        },
+        {
+          "name": "拼接恶意指令并 MD5 加密写入缓存"
+        },
+        {
+          "name": "触发执行缓存文件实现反弹 Shell"
+        },
+        {
+          "name": "接管服务器并窃取用户节点日志"
+        }
+      ]
+    },
+    {
+      "name": "受影响版本情况",
+      "children": [
+        {
+          "name": "历史版本: 2022年8月前版本普遍存在风险"
+        },
+        {
+          "name": "最新 Release: GitHub 0.7.2 仍包含未修复漏洞"
+        },
+        {
+          "name": "API Mode: 为 False 时无需 Token 即可执行脚本"
+        }
+      ]
+    },
+    {
+      "name": "防御建议",
+      "children": [
+        {
+          "name": "服务提供者 (站长)",
+          "children": [
+            {
+              "name": "使用最新代码自行编译"
+            },
+            {
+              "name": "API Mode 必须设为 Force (True)"
+            },
+            {
+              "name": "设置强强度 Token 密码"
+            },
+            {
+              "name": "关闭缓存服务 (Cache)"
+            },
+            {
+              "name": "使用 Nginx 反代隐藏关键接口"
+            }
+          ]
+        },
+        {
+          "name": "普通使用者",
+          "children": [
+            {
+              "name": "优先使用本地订阅转换工具"
+            },
+            {
+              "name": "避免使用不可信的第三方公共后端"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

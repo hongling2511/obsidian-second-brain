@@ -1,0 +1,124 @@
+{
+  "name": "通过代理协议访问家庭内网",
+  "children": [
+    {
+      "name": "核心原理",
+      "children": [
+        {
+          "name": "替代传统VPN"
+        },
+        {
+          "name": "利用Socks5/SS/Vmess协议"
+        },
+        {
+          "name": "节点分流策略"
+        },
+        {
+          "name": "绕过运营商UDP QoS限制"
+        }
+      ]
+    },
+    {
+      "name": "服务端配置 (路由器/NAS)",
+      "children": [
+        {
+          "name": "插件选择",
+          "children": [
+            {
+              "name": "Home Proxy (创建SS节点)"
+            },
+            {
+              "name": "PassWall (允许局域网访问)"
+            },
+            {
+              "name": "OpenClash (设置Socks5入站)"
+            }
+          ]
+        },
+        {
+          "name": "公网暴露",
+          "children": [
+            {
+              "name": "IPv4: 端口转发 (7788)"
+            },
+            {
+              "name": "IPv6: 通信规则放行"
+            },
+            {
+              "name": "DDNS: 应对动态IP"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "客户端配置通用步骤",
+      "children": [
+        {
+          "name": "添加Home代理节点"
+        },
+        {
+          "name": "配置IP/CIDR分流规则"
+        },
+        {
+          "name": "删除局域网直连/跳过列表"
+        }
+      ]
+    },
+    {
+      "name": "各平台软件配置",
+      "children": [
+        {
+          "name": "iOS/macOS",
+          "children": [
+            {
+              "name": "Shadowrocket (修改配置文件/添加规则)"
+            },
+            {
+              "name": "Quantumult X (排除路由设置)"
+            },
+            {
+              "name": "Sing-box (编辑Outbounds/Route)"
+            }
+          ]
+        },
+        {
+          "name": "Windows",
+          "children": [
+            {
+              "name": "Clash for Windows (编辑Parsers/系统代理设置)"
+            },
+            {
+              "name": "v2rayN (手动切换节点/路由设置)"
+            }
+          ]
+        },
+        {
+          "name": "Android",
+          "children": [
+            {
+              "name": "v2rayNG (预定义规则)"
+            },
+            {
+              "name": "Surfboard (修改跳过代理列表)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "注意事项",
+      "children": [
+        {
+          "name": "避免网段冲突 (Local vs Home)"
+        },
+        {
+          "name": "DNS泄露防护"
+        },
+        {
+          "name": "确保端口联通性"
+        }
+      ]
+    }
+  ]
+}
