@@ -1,0 +1,117 @@
+{
+  "name": "Xray反向代理住宅IP搭建指南",
+  "children": [
+    {
+      "name": "核心原理与背景",
+      "children": [
+        {
+          "name": "核心痛点：机房IP易触发风控/封号"
+        },
+        {
+          "name": "解决方案：反向代理获取住宅/移动IP"
+        },
+        {
+          "name": "适用场景：跨境电商、TikTok、加密货币、养号"
+        },
+        {
+          "name": "核心架构：用户 -> 中转VPS -> 朋友住宅设备 -> 目标网站"
+        }
+      ]
+    },
+    {
+      "name": "中转服务器配置 (VPS)",
+      "children": [
+        {
+          "name": "选购建议：CN2 GIA线路、高性能VPS"
+        },
+        {
+          "name": "系统环境：安装3X-UI面板"
+        },
+        {
+          "name": "入站配置：创建VLESS+Reality协议节点"
+        },
+        {
+          "name": "中转配置：创建Shadowsocks(SS)节点用于互联"
+        },
+        {
+          "name": "反向代理设置：配置Portal类型与路由规则"
+        }
+      ]
+    },
+    {
+      "name": "住宅端设备配置 (Bridge)",
+      "children": [
+        {
+          "name": "Linux/Windows桌面端",
+          "children": [
+            {
+              "name": "安装3X-UI或运行相关程序"
+            },
+            {
+              "name": "出站设置：解析SS节点链接"
+            },
+            {
+              "name": "反向代理：设置Bridge类型及标签"
+            }
+          ]
+        },
+        {
+          "name": "Android移动端 (v2rayNG)",
+          "children": [
+            {
+              "name": "导入自定义JSON配置模板"
+            },
+            {
+              "name": "设置分应用代理/分段代理模式"
+            },
+            {
+              "name": "通过WiFi热点或直接运行"
+            }
+          ]
+        },
+        {
+          "name": "iOS移动端 (V2Box)",
+          "children": [
+            {
+              "name": "添加手动配置(JS脚本模式)"
+            },
+            {
+              "name": "粘贴SS互联模板及反向代理参数"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "直接购买方案 (免配置)",
+      "children": [
+        {
+          "name": "推荐商家：提供ATT真实住宅IP VPS"
+        },
+        {
+          "name": "产品特点：双ISP认证、原生住宅IP、独享带宽"
+        },
+        {
+          "name": "服务类型：Windows/Linux VPS、Socks5代理、独服"
+        }
+      ]
+    },
+    {
+      "name": "进阶与注意事项",
+      "children": [
+        {
+          "name": "带宽限制：受限于住宅宽带上行速率"
+        },
+        {
+          "name": "IP检测：通过IPinfo或欺诈检测工具验证"
+        },
+        {
+          "name": "IPv6支持：部分住宅VPS提供/64前缀IPv6"
+        },
+        {
+          "name": "端口冲突：必要时修改API端口"
+        }
+      ]
+    }
+  ]
+}

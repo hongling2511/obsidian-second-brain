@@ -1,0 +1,130 @@
+{
+  "name": "高质量美国AT&T家宽住宅IP指南",
+  "children": [
+    {
+      "name": "住宅IP的核心价值",
+      "children": [
+        {
+          "name": "定义：运营商分配给真实家庭用户的IP"
+        },
+        {
+          "name": "优势：IP质量最高、稀缺、风控阈值高"
+        },
+        {
+          "name": "应用场景：TikTok直播运营、跨境电商养号、数字移民、加密货币、银行开户"
+        },
+        {
+          "name": "风险：普通机房IP易导致限流、封号、无法注册"
+        }
+      ]
+    },
+    {
+      "name": "产品类型与选择",
+      "children": [
+        {
+          "name": "Socks5代理：免搭建，适合小白"
+        },
+        {
+          "name": "入门级VPS：需自建节点，支持多IP"
+        },
+        {
+          "name": "高性能VPS：适合RDP远程桌面访问"
+        },
+        {
+          "name": "独立服务器：高配置、多IP、无限流量"
+        }
+      ]
+    },
+    {
+      "name": "IP质量检测工具",
+      "children": [
+        {
+          "name": "IPINFO：检测双ISP/住宅类型"
+        },
+        {
+          "name": "Ping.pe：直观查看IP类型（机房/广播）"
+        },
+        {
+          "name": "注意事项：检测结果仅供参考，非100%准确"
+        }
+      ]
+    },
+    {
+      "name": "使用与搭建方案",
+      "children": [
+        {
+          "name": "Socks5代理连接",
+          "children": [
+            {
+              "name": "Shadowrocket (iOS)"
+            },
+            {
+              "name": "Nekobox (Android)"
+            },
+            {
+              "name": "V2RayN (Windows)"
+            }
+          ]
+        },
+        {
+          "name": "VPS自建多IP节点",
+          "children": [
+            {
+              "name": "SSH连接与系统安装"
+            },
+            {
+              "name": "安装X-UI面板"
+            },
+            {
+              "name": "出站规则配置：实现不同节点对应不同住宅IP"
+            }
+          ]
+        },
+        {
+          "name": "RDP远程桌面",
+          "children": [
+            {
+              "name": "Windows自带连接工具"
+            },
+            {
+              "name": "Mac专用WindowsApp"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "节点复活与稳定方案",
+      "children": [
+        {
+          "name": "二级代理/中转",
+          "children": [
+            {
+              "name": "原理：使用高速GIA线路VPS作为前置代理"
+            },
+            {
+              "name": "协议选择：Reality协议（高隐蔽性）"
+            },
+            {
+              "name": "功能：解决Socks5/SS易被封锁问题，提升网速"
+            }
+          ]
+        },
+        {
+          "name": "链式代理配置",
+          "children": [
+            {
+              "name": "Shadowrocket：设置“代理通过”"
+            },
+            {
+              "name": "Nekobox：手动输入链式配置"
+            },
+            {
+              "name": "V2RayN：使用自定义分组/TUN模式"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
