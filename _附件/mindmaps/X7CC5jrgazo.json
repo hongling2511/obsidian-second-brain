@@ -1,0 +1,114 @@
+{
+  "name": "Cloudflare Worker 订阅转换反代服务",
+  "children": [
+    {
+      "name": "核心优势",
+      "children": [
+        {
+          "name": "隐私保护"
+        },
+        {
+          "name": "永久免费"
+        },
+        {
+          "name": "上手简单"
+        },
+        {
+          "name": "防节点泄露"
+        }
+      ]
+    },
+    {
+      "name": "工作原理 (中继模式)",
+      "children": [
+        {
+          "name": "Worker接收真实节点"
+        },
+        {
+          "name": "信息随机化处理 (虚假IP/密码)"
+        },
+        {
+          "name": "发送虚假信息至公共后端"
+        },
+        {
+          "name": "Worker获取转换结果"
+        },
+        {
+          "name": "还原真实信息并返回用户"
+        }
+      ]
+    },
+    {
+      "name": "搭建步骤",
+      "children": [
+        {
+          "name": "Cloudflare配置",
+          "children": [
+            {
+              "name": "创建Worker"
+            },
+            {
+              "name": "粘贴GitHub项目代码"
+            },
+            {
+              "name": "绑定自定义域名 (可选)"
+            }
+          ]
+        },
+        {
+          "name": "环境变量设置",
+          "children": [
+            {
+              "name": "backend (第三方订阅转换后端)"
+            }
+          ]
+        },
+        {
+          "name": "存储绑定 (二选一)",
+          "children": [
+            {
+              "name": "KV (简单/1000次每天)"
+            },
+            {
+              "name": "R2 (略复杂/每月百万次/需绑卡)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "高级用法",
+      "children": [
+        {
+          "name": "临时更换后端 (URL后缀添加&b=)"
+        },
+        {
+          "name": "支持协议 (SS, SSR, Vmess, Trojan)"
+        },
+        {
+          "name": "Meta版本转换 (Vless, Hysteria)"
+        },
+        {
+          "name": "支持直接转换Clash节点格式"
+        },
+        {
+          "name": "Base64数据直接转换"
+        }
+      ]
+    },
+    {
+      "name": "注意事项",
+      "children": [
+        {
+          "name": "不支直接访问IP/非标端口"
+        },
+        {
+          "name": "Clash节点不可包含竖线符号"
+        },
+        {
+          "name": "后端地址需保留https前缀"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "name": "零成本使用 ChatGPT 教程",
+  "children": [
+    {
+      "name": "基础注册",
+      "children": [
+        {
+          "name": "官网注册"
+        },
+        {
+          "name": "邮箱验证"
+        },
+        {
+          "name": "绕过手机号验证 (F12 提取 Sensitive ID)"
+        },
+        {
+          "name": "注意事项 (需翻墙/禁用香港节点)"
+        }
+      ]
+    },
+    {
+      "name": "直接使用方式",
+      "children": [
+        {
+          "name": "网页版 (需翻墙/易封节点)"
+        },
+        {
+          "name": "第三方 WebUI (作者搭建/免翻墙)"
+        }
+      ]
+    },
+    {
+      "name": "API Key 获取与管理",
+      "children": [
+        {
+          "name": "Sensitive ID 作为 Key"
+        },
+        {
+          "name": "额度查询 (新用户 5 美金)"
+        },
+        {
+          "name": "消耗单位 (Token)"
+        },
+        {
+          "name": "安全保护 (更新 Key 需重新登录)"
+        }
+      ]
+    },
+    {
+      "name": "进阶搭建 (免翻墙/防封/隐私)",
+      "children": [
+        {
+          "name": "Cloudflare 反向代理",
+          "children": [
+            {
+              "name": "Workers/Pages 部署"
+            },
+            {
+              "name": "替换 API 接口地址"
+            },
+            {
+              "name": "自定义域名绑定"
+            }
+          ]
+        },
+        {
+          "name": "个人专属 WebUI (Vercel/GitHub)",
+          "children": [
+            {
+              "name": "一键部署"
+            },
+            {
+              "name": "配置环境变量 (API Key/访问密码)"
+            },
+            {
+              "name": "多 Key 轮询 (突破速率限制)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "解决痛点",
+      "children": [
+        {
+          "name": "无需 VPS"
+        },
+        {
+          "name": "无需国外手机号"
+        },
+        {
+          "name": "解决节点屏蔽"
+        },
+        {
+          "name": "移动端适配"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,176 @@
+{
+  "name": "免翻墙访问被墙网站新姿势",
+  "children": [
+    {
+      "name": "核心原理：域前置与SNI伪装",
+      "children": [
+        {
+          "name": "SNI伪装",
+          "children": [
+            {
+              "name": "修改HTTPS握手中的SNI字段"
+            },
+            {
+              "name": "绕过防火墙黑名单检测"
+            },
+            {
+              "name": "利用未封锁域名(如g.cn)作为伪装"
+            }
+          ]
+        },
+        {
+          "name": "IP映射",
+          "children": [
+            {
+              "name": "指定未被封锁的服务器IP"
+            },
+            {
+              "name": "绕过DNS污染"
+            }
+          ]
+        },
+        {
+          "name": "SNI代理服务器",
+          "children": [
+            {
+              "name": "中转访问请求"
+            },
+            {
+              "name": "解决目标域名IP全线封锁问题"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "操作方法：快捷方式配置",
+      "children": [
+        {
+          "name": "浏览器要求",
+          "children": [
+            {
+              "name": "基于Chromium内核"
+            },
+            {
+              "name": "Chrome / Edge / Brave"
+            }
+          ]
+        },
+        {
+          "name": "Windows配置步骤",
+          "children": [
+            {
+              "name": "网页生成配置代码"
+            },
+            {
+              "name": "修改快捷方式属性"
+            },
+            {
+              "name": "在目标路径后粘贴代码"
+            },
+            {
+              "name": "彻底关闭后台进程后重启"
+            }
+          ]
+        },
+        {
+          "name": "macOS配置步骤",
+          "children": [
+            {
+              "name": "获取浏览器可执行文件路径"
+            },
+            {
+              "name": "在终端中拼接路径与配置"
+            },
+            {
+              "name": "运行终端命令启动"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "进阶应用：访问更多网站",
+      "children": [
+        {
+          "name": "批量处理",
+          "children": [
+            {
+              "name": "抓取GitHub域名数据"
+            },
+            {
+              "name": "生成长配置代码"
+            },
+            {
+              "name": "通过CMD/命令行运行"
+            }
+          ]
+        },
+        {
+          "name": "支持范围",
+          "children": [
+            {
+              "name": "Google / YouTube网页"
+            },
+            {
+              "name": "Twitter / Facebook / Telegram网页版"
+            },
+            {
+              "name": "Pornhub"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "解决YouTube视频播放(高级)",
+      "children": [
+        {
+          "name": "前提条件",
+          "children": [
+            {
+              "name": "本地IPv6地址"
+            },
+            {
+              "name": "安装CA根证书"
+            }
+          ]
+        },
+        {
+          "name": "工具使用",
+          "children": [
+            {
+              "name": "使用专用Windows客户端"
+            },
+            {
+              "name": "配置nginx规则"
+            },
+            {
+              "name": "开启全局伪造"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "注意事项与局限性",
+      "children": [
+        {
+          "name": "浏览器显示“连接不安全”属预期现象"
+        },
+        {
+          "name": "速度受限，高峰期可能缓慢"
+        },
+        {
+          "name": "IP可能失效"
+        },
+        {
+          "name": "Edge需关闭后台长驻设置"
+        },
+        {
+          "name": "重度用户建议直接使用机场代理"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,171 @@
+{
+  "name": "去广告方法大全",
+  "children": [
+    {
+      "name": "DNS去广告",
+      "children": [
+        {
+          "name": "原理：DNS污染/屏蔽广告域名"
+        },
+        {
+          "name": "常见工具",
+          "children": [
+            {
+              "name": "AdGuard Home"
+            },
+            {
+              "name": "SmartDNS"
+            },
+            {
+              "name": "DNSMasq"
+            },
+            {
+              "name": "代理工具内置DNS模块"
+            }
+          ]
+        },
+        {
+          "name": "局限性",
+          "children": [
+            {
+              "name": "无法处理同域名下的广告"
+            },
+            {
+              "name": "仅能针对整站屏蔽"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Host/访问阶段屏蔽",
+      "children": [
+        {
+          "name": "原理：获取IP后根据Host分流规则拦截"
+        },
+        {
+          "name": "软路由实现",
+          "children": [
+            {
+              "name": "Hiddify/Sing-box (封锁出站)"
+            },
+            {
+              "name": "OpenClash (Reject策略)"
+            }
+          ]
+        },
+        {
+          "name": "移动端实现",
+          "children": [
+            {
+              "name": "v2rayNG (自定义规则阻止)"
+            },
+            {
+              "name": "Shadowrocket (规则级Reject)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "MITM中间人攻击",
+      "children": [
+        {
+          "name": "原理：解密HTTPS流量，识别并修改数据包"
+        },
+        {
+          "name": "核心功能",
+          "children": [
+            {
+              "name": "URL重写 (Reject/Redirect)"
+            },
+            {
+              "name": "脚本修补 (删除特定广告元素)"
+            },
+            {
+              "name": "解锁本地VIP功能"
+            }
+          ]
+        },
+        {
+          "name": "操作要求",
+          "children": [
+            {
+              "name": "安装并信任CA证书"
+            },
+            {
+              "name": "配置解密域名列表"
+            }
+          ]
+        },
+        {
+          "name": "缺点",
+          "children": [
+            {
+              "name": "消耗性能/手机发烫"
+            },
+            {
+              "name": "安卓7.0+需Root安装系统证书"
+            },
+            {
+              "name": "TLS Pinning导致无法抓包"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "浏览器插件",
+      "children": [
+        {
+          "name": "优势：无需安装证书，直接处理解密后的HTML"
+        },
+        {
+          "name": "常用插件",
+          "children": [
+            {
+              "name": "AdGuard"
+            },
+            {
+              "name": "uBlock Origin"
+            },
+            {
+              "name": "Tampermonkey (脚本自定)"
+            }
+          ]
+        },
+        {
+          "name": "功能：修改网页DOM元素，隐藏广告位"
+        }
+      ]
+    },
+    {
+      "name": "非常规方法",
+      "children": [
+        {
+          "name": "第三方修改版APP"
+        },
+        {
+          "name": "送中节点 (针对YouTube免广告)"
+        },
+        {
+          "name": "自动跳过APP (如李跳跳)"
+        }
+      ]
+    },
+    {
+      "name": "注意事项",
+      "children": [
+        {
+          "name": "误杀风险 (导致验证码/正常功能失效)"
+        },
+        {
+          "name": "安全风险 (隐私泄露/第三方客户端)"
+        },
+        {
+          "name": "视频内嵌广告无法通过技术手段去除"
+        }
+      ]
+    }
+  ]
+}

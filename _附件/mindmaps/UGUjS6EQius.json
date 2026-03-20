@@ -1,0 +1,60 @@
+{
+  "name": "不翻墙流媒体解锁方案",
+  "children": [
+    {
+      "name": "核心技术：SNI反向代理",
+      "children": [
+        {
+          "name": "原理：利用SNI域名转发，实现直连加速"
+        },
+        {
+          "name": "局限：仅限特定流媒体，严禁反带Google/YouTube"
+        }
+      ]
+    },
+    {
+      "name": "本地配置 (Windows)",
+      "children": [
+        {
+          "name": "DNS工具：Acrylic 安装与配置转发"
+        },
+        {
+          "name": "Hosts修改：映射SNI服务器IP并刷新缓存"
+        }
+      ]
+    },
+    {
+      "name": "服务器获取",
+      "children": [
+        {
+          "name": "筛选：支持HTTPS、低延迟地区IP"
+        },
+        {
+          "name": "方案：第三方公共服务器或使用脚本自建"
+        }
+      ]
+    },
+    {
+      "name": "进阶与替代方案",
+      "children": [
+        {
+          "name": "X-UI解锁：通过配置文件重定向流媒体流量"
+        },
+        {
+          "name": "REALITY技术：无证书TLS连接（需防封风险）"
+        }
+      ]
+    },
+    {
+      "name": "使用提示",
+      "children": [
+        {
+          "name": "建议使用无痕模式避开DNS缓存干扰"
+        },
+        {
+          "name": "注意部分APP硬编码DNS导致的失效问题"
+        }
+      ]
+    }
+  ]
+}

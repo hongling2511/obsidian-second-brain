@@ -1,0 +1,139 @@
+{
+  "name": "潘多拉 (Pandora) ChatGPT 一站式解决方案",
+  "children": [
+    {
+      "name": "核心优势",
+      "children": [
+        {
+          "name": "免翻墙直连"
+        },
+        {
+          "name": "支持账号注册"
+        },
+        {
+          "name": "无API额度消耗"
+        },
+        {
+          "name": "支持API调用 (chat2api)"
+        },
+        {
+          "name": "比官方API速度快"
+        }
+      ]
+    },
+    {
+      "name": "使用方式",
+      "children": [
+        {
+          "name": "轻度用户 (共享池)",
+          "children": [
+            {
+              "name": "使用作者提供的2000+共享账号"
+            },
+            {
+              "name": "设置8位隔离密码保护隐私"
+            },
+            {
+              "name": "10秒发送限制"
+            }
+          ]
+        },
+        {
+          "name": "个人用户 (自建/演示站)",
+          "children": [
+            {
+              "name": "潘多拉演示站直接注册账号"
+            },
+            {
+              "name": "支持账号密码登录"
+            },
+            {
+              "name": "支持Token登录 (Access/Session)"
+            }
+          ]
+        },
+        {
+          "name": "进阶用户 (私有化部署)",
+          "children": [
+            {
+              "name": "VPS部署 (Linux/amd64)"
+            },
+            {
+              "name": "需提供GitHub License ID"
+            },
+            {
+              "name": "开启Proxy模式支持API"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Token 管理体系",
+      "children": [
+        {
+          "name": "Access Token (10天有效期)"
+        },
+        {
+          "name": "Session Token (3个月有效期)"
+        },
+        {
+          "name": "Share Token (潘多拉专属/隔离会话)"
+        },
+        {
+          "name": "Pool Token (多个账号轮询调用)"
+        }
+      ]
+    },
+    {
+      "name": "自动化与优化",
+      "children": [
+        {
+          "name": "Python 脚本",
+          "children": [
+            {
+              "name": "自动提取/续期Token"
+            },
+            {
+              "name": "管理 session.txt 和 tokens.txt"
+            },
+            {
+              "name": "实现长期稳定运行"
+            }
+          ]
+        },
+        {
+          "name": "网络优化",
+          "children": [
+            {
+              "name": "Cloudflare Pages 反代"
+            },
+            {
+              "name": "Cloudflare 规则实现 HTTPS/TLS"
+            },
+            {
+              "name": "解决浏览器安全内容屏蔽"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "风险与注意事项",
+      "children": [
+        {
+          "name": "第三方平台隐私问题"
+        },
+        {
+          "name": "API调用消耗双倍额度 (1:4)"
+        },
+        {
+          "name": "GitHub 账号需注册满半年"
+        },
+        {
+          "name": "配置文件需设置强密码"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "name": "BGP广播与纯净IP站群服务器搭建",
+  "children": [
+    {
+      "name": "BGP基础知识",
+      "children": [
+        {
+          "name": "定义：边界网关协议"
+        },
+        {
+          "name": "作用：跨自治域(AS)传递路由"
+        },
+        {
+          "name": "AS与ASN：自治域及唯一编号"
+        },
+        {
+          "name": "路由收敛：全球BGP更新完成"
+        }
+      ]
+    },
+    {
+      "name": "核心资源获取",
+      "children": [
+        {
+          "name": "ASN申请：个人可办，年费数百元"
+        },
+        {
+          "name": "IP段租用：IPv4/IPv6，LOA授权"
+        },
+        {
+          "name": "BGP Transit：建立连接的服务商"
+        }
+      ]
+    },
+    {
+      "name": "搭建流程",
+      "children": [
+        {
+          "name": "Vultr设置：开启BGP，填入ASN/密码/IP段"
+        },
+        {
+          "name": "VPS部署：Ubuntu系统，开启BGP支持"
+        },
+        {
+          "name": "软件安装：安装BIRD协议栈"
+        },
+        {
+          "name": "路由宣告：配置bird.conf广播IP段"
+        },
+        {
+          "name": "本地绑定：配置网卡接口与非本地地址支持"
+        }
+      ]
+    },
+    {
+      "name": "IP属性辨析",
+      "children": [
+        {
+          "name": "原生IP：机房位置与归属地一致"
+        },
+        {
+          "name": "广播IP：机房与归属地不一致"
+        },
+        {
+          "name": "任播(Anycast)：多数据中心宣告同一IP"
+        },
+        {
+          "name": "IP评分：受ASN信誉与黑名单影响"
+        }
+      ]
+    },
+    {
+      "name": "站群与爬虫应用",
+      "children": [
+        {
+          "name": "随机落地IP：使用Xray新版配置"
+        },
+        {
+          "name": "TCP连接变换：每次新连接随机IPv6"
+        },
+        {
+          "name": "本地IPv6玩转：利用/64前缀与NDP代理"
+        }
+      ]
+    }
+  ]
+}
