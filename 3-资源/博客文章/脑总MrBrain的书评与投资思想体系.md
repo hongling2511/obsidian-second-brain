@@ -11,7 +11,7 @@ slug: mrbrain-book-review-investment-philosophy
   - 段永平
   - 彼得蒂尔
   - 投资哲学
-博客状态: 草稿
+博客状态: 已发布
 tags:
 ---
 
