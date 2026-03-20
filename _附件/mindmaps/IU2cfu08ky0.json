@@ -1,0 +1,149 @@
+{
+  "name": "SOCKS代理安全风险预警",
+  "children": [
+    {
+      "name": "核心风险：认证绕过",
+      "children": [
+        {
+          "name": "受影响软件",
+          "children": [
+            {
+              "name": "V2Ray / Xray"
+            },
+            {
+              "name": "Clash / Mihomo"
+            }
+          ]
+        },
+        {
+          "name": "原理：UDP实现不规范",
+          "children": [
+            {
+              "name": "RFC标准：UDP端口应随机分配"
+            },
+            {
+              "name": "缺陷实现：UDP端口固定且等同于TCP端口"
+            },
+            {
+              "name": "漏洞后果：UDP流量不经过TCP的身份验证"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "重灾区场景",
+      "children": [
+        {
+          "name": "软路由用户",
+          "children": [
+            {
+              "name": "开启远程访问"
+            },
+            {
+              "name": "防火墙配置不当"
+            }
+          ]
+        },
+        {
+          "name": "VPS用户",
+          "children": [
+            {
+              "name": "使用x-ui搭建SOCKS节点"
+            },
+            {
+              "name": "使用中转线路（如阿里专线）"
+            }
+          ]
+        },
+        {
+          "name": "电脑拨号/DMZ区域"
+        }
+      ]
+    },
+    {
+      "name": "黑客利用方式",
+      "children": [
+        {
+          "name": "公网扫描",
+          "children": [
+            {
+              "name": "工具：Fofa / Shodan / Python脚本"
+            },
+            {
+              "name": "目标：7891等默认端口"
+            }
+          ]
+        },
+        {
+          "name": "攻击行为",
+          "children": [
+            {
+              "name": "当作免费跳板机"
+            },
+            {
+              "name": "中转Hysteria等UDP协议"
+            },
+            {
+              "name": "白嫖高倍率流量/专线"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "检测与验证",
+      "children": [
+        {
+          "name": "查询公网IP"
+        },
+        {
+          "name": "在线端口扫描",
+          "children": [
+            {
+              "name": "检查10810 / 7890 / 7891端口"
+            },
+            {
+              "name": "显示“开启”则存在风险"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "防护建议",
+      "children": [
+        {
+          "name": "防火墙策略",
+          "children": [
+            {
+              "name": "修改WAN区入站为“拒绝”"
+            },
+            {
+              "name": "添加通信规则：单独屏蔽SOCKS端口"
+            }
+          ]
+        },
+        {
+          "name": "配置优化",
+          "children": [
+            {
+              "name": "关闭SOCKS的UDP转发"
+            },
+            {
+              "name": "禁止将SOCKS代理暴露在公网"
+            }
+          ]
+        },
+        {
+          "name": "终极方案",
+          "children": [
+            {
+              "name": "更换为 sing-box（符合RFC规范）"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
