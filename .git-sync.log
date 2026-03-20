@@ -1,0 +1,18 @@
+2026-03-20 11:08:27 [STASH] Local changes stashed
+2026-03-20 11:08:30 [PULL] From github.com:hongling2511/obsidian-second-brain
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+2026-03-20 11:08:30 [ERROR] Stash pop conflict: error: The following untracked working tree files would be overwritten by merge:
+	.git-sync.log
+Please move or remove them before you merge.
+Aborting
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.git-sync.log
+
+nothing added to commit but untracked files present (use "git add" to track)
+The stash entry is kept in case you need it again.
+2026-03-20 11:08:30 [STASH POP] Restored local changes
