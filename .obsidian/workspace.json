@@ -13,6 +13,20 @@
             "state": {
               "type": "markdown",
               "state": {
+                "file": "0-收集箱/【脑总私董会 EP.01】对话前美军航母老兵：华裔“阿甘”从底层实现阶级跨越的人生方法论.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "【脑总私董会 EP.01】对话前美军航母老兵：华裔“阿甘”从底层实现阶级跨越的人生方法论"
+            }
+          },
+          {
+            "id": "64ed2d5c1417b390",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
                 "file": "3-资源/跨境电商/【代理检测】盘点解决各种代理检测手段的方法，防止账号被风控，拒绝裸奔，tiktok运营、跨境电商小白用户必看｜IP黑名单检测｜延迟检测｜IP泄漏检测｜TCPIP指纹检测.md",
                 "mode": "source",
                 "source": false
@@ -32,9 +46,37 @@
               "icon": "lucide-book-up",
               "title": "版本说明 1.12.7"
             }
+          },
+          {
+            "id": "6072cec4eec0b81d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "0-收集箱/Which Agentic Framework Should You Use in 2026.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Which Agentic Framework Should You Use in 2026"
+            }
+          },
+          {
+            "id": "53046aa4301e3c8f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "conflict-files-obsidian-git.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "conflict-files-obsidian-git"
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 4
       }
     ],
     "direction": "vertical"
@@ -218,8 +260,21 @@
       "obsidian-spaced-repetition:复习卡片": false
     }
   },
-  "active": "20fe233accd6984b",
+  "active": "53046aa4301e3c8f",
   "lastOpenFiles": [
+    "0-收集箱/Which Agentic Framework Should You Use in 2026.md",
+    "conflict-files-obsidian-git.md",
+    "0-收集箱/Why the AI trade could change in 2026.md",
+    "3-资源/博客文章/AI Agent 2025-2026：从框架混战到生产落地的九个信号.md",
+    "_附件/mindmaps/DW4a1Cm8nG4.json",
+    "_附件/DW4a1Cm8nG4_study_guide.md",
+    "3-资源/推特发布列表/README.md",
+    "3-资源/推特发布列表/2026-03-24-AI-Coding-Agent血泪教训.md",
+    "3-资源/推特发布列表",
+    "0-收集箱/I got a private lesson on Claude Cowork & Claude Code.md",
+    "0-收集箱/2026-03-24-twitter素材.md",
+    "0-收集箱/VOID..md",
+    "0-收集箱/“普通人别学投资”，是我听过最荒谬的蠢话.md",
     "日记/2026-03-24.md",
     "_附件/mindmaps/fPaouFLKfn0.json",
     "_附件/fPaouFLKfn0_study_guide.md",
@@ -239,23 +294,12 @@
     "3-资源/跨境电商/高质量家宽住宅IP推荐，tiktok直播运营、跨境电商养号、数字移民必备，AT&T美国电信运营商住宅IP，Socks代理、自建住宅多ip节点、RDP远程桌面住宅IP.md",
     "3-资源/跨境电商/账号注册经常被风控？浏览器多开防串号，让账号环境完美隔离！浏览器指纹检测原理与应对策略，矩阵养号防封技巧，cookie的安全风险，指纹浏览器使用教程，tiktok运营，撸空投必.md",
     "3-资源/跨境电商/【跨境电商】我从零开始注册运营了TikTok账号，详谈各种风控因素，刷机竟然毫无作用？硬件设备选择、网络环境伪装、住宅IP和机房IP的区别、视频质量对自然推流的影响，跨境电.md",
-    "3-资源/跨境电商/【跨境电商】一个wifi对应一个住宅ip，通过链式代理提速，最多支持创建32个wifi，tiktok多账号运营隔离防关联，每台设备分配不同节点IP，代理伪装、养号必备技能.md",
-    "3-资源/跨境电商/【全网最全】国内使用TikTok的所有方法，独家分享TikTok的检测原理，跨境电商，运营TikTok必看，绕过TikTok检测机制检测SIM卡归属地，拔卡、免拔卡、MITM、HOOK、修改版、自签名.md",
-    "3-资源/跨境电商/【代理检测】盘点解决各种代理检测手段的方法，防止账号被风控，拒绝裸奔，tiktok运营、跨境电商小白用户必看｜IP黑名单检测｜延迟检测｜IP泄漏检测｜TCPIP指纹检测.md",
     "3-资源/跨境电商",
-    "3-资源/网络安全/【高危漏洞】大量用户节点被盗！实战演示获取所有人的节点和机场订阅链接，使用在线订阅转换节点安全预警，Subconverter订阅转换工具接口泄漏配置文件token，导致RCE安全漏洞，所.md",
-    "3-资源/网络安全/【我墙我自己】在家用路由器上搭建GFW长城防火墙，实现人人有墙建，人人会建墙，sni阻断、dns污染、shadowsocks、vmess、trojan探测识别.md",
-    "3-资源/网络安全/【安全预警】xray作者的安全提醒，竟是因我而起！？警惕节点信息被中间人劫持，解决明文http泄露面板节点信息，ssh隧道转发使用教程，无需域名实现https加密，免费IP证书申请流程.md",
-    "3-资源/网络安全/【全网预警】clash节点流量被偷跑？获取大量免费高质量公共节点，警惕不当的配置导致你的电脑成为免费公共代理服务器，机场流量被偷跑光光，clash meta、openclash开启api鉴权避免滥.md",
-    "3-资源/网络安全/【使用CFW的朋友注意啦！】clash for windows又爆远程代码执行高危漏洞！尽快更新到最新版，防止被黑客执行恶意代码，导致电脑被安装木马病毒远程控制沦为肉鸡！.md",
-    "3-资源/网络安全/clash爆高危漏洞！clash.meta也中招！所有系统全中招！如何安全设置clash？暴露RESTful api接口的危害，实战演示中木马病毒被黑客控制电脑，任意目录写入文件漏洞，跨域攻击.md",
     "3-资源/网络安全",
     "3-资源/流媒体解锁",
     "3-资源/工具与技巧",
     "3-资源/加密货币",
     "3-资源/CDN优选与提速",
-    "3-资源/软路由",
-    "3-资源/节点搭建",
     "_附件/img-modern-fragility.png",
     "_附件/img-convexity-comparison.png",
     "_附件/img-competition-vs-monopoly.png",

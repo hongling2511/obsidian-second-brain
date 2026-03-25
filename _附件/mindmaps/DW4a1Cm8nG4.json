@@ -1,0 +1,142 @@
+{
+  "name": "Claude Co-work & Claude Code 指南",
+  "children": [
+    {
+      "name": "产品概述",
+      "children": [
+        {
+          "name": "Claude Co-work",
+          "children": [
+            {
+              "name": "面向非技术用户的简单UI"
+            },
+            {
+              "name": "基于Claude Code内核"
+            },
+            {
+              "name": "目前仅限Mac OS"
+            }
+          ]
+        },
+        {
+          "name": "Claude Code",
+          "children": [
+            {
+              "name": "针对工程师的终端工具"
+            },
+            {
+              "name": "高度可定制化"
+            },
+            {
+              "name": "支持复杂编程任务"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "核心能力与技术",
+      "children": [
+        {
+          "name": "代理特性 (Agentic AI)",
+          "children": [
+            {
+              "name": "执行操作而非仅输出文本"
+            },
+            {
+              "name": "工具使用 (Tool Use)"
+            },
+            {
+              "name": "计算机使用 (Computer Use)"
+            }
+          ]
+        },
+        {
+          "name": "集成功能",
+          "children": [
+            {
+              "name": "文件操作与组织"
+            },
+            {
+              "name": "浏览器控制 (Chrome)"
+            },
+            {
+              "name": "MCP 协议支持"
+            },
+            {
+              "name": "Google Sheets/Gmail集成"
+            }
+          ]
+        },
+        {
+          "name": "模型优势",
+          "children": [
+            {
+              "name": "Opus 4.5 与 Thinking 模式"
+            },
+            {
+              "name": "更强的规划能力"
+            },
+            {
+              "name": "实际使用成本更低"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "安全与机制",
+      "children": [
+        {
+          "name": "对齐与神经元研究 (Alignment)"
+        },
+        {
+          "name": "沙盒虚拟运行环境"
+        },
+        {
+          "name": "删除保护机制"
+        },
+        {
+          "name": "反向提示 (询问澄清)"
+        }
+      ]
+    },
+    {
+      "name": "专家使用技巧",
+      "children": [
+        {
+          "name": "并行任务处理 (5-10个窗口同时运行)"
+        },
+        {
+          "name": "先规划后执行 (Plan Mode)"
+        },
+        {
+          "name": "维护团队 Claude.md 知识库"
+        },
+        {
+          "name": "安装 GitHub Action 自动审查"
+        },
+        {
+          "name": "利用 Chrome 扩展验证输出"
+        },
+        {
+          "name": "跨设备协同 (iOS/Android/Web)"
+        }
+      ]
+    },
+    {
+      "name": "未来展望 (2027)",
+      "children": [
+        {
+          "name": "从代码编写转向全自动化"
+        },
+        {
+          "name": "数字队友/技能垂直化"
+        },
+        {
+          "name": "指数级增长的生产力"
+        }
+      ]
+    }
+  ]
+}
