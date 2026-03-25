@@ -20,8 +20,21 @@
               "icon": "lucide-file",
               "title": "【代理检测】盘点解决各种代理检测手段的方法，防止账号被风控，拒绝裸奔，tiktok运营、跨境电商小白用户必看｜IP黑名单检测｜延迟检测｜IP泄漏检测｜TCPIP指纹检测"
             }
+          },
+          {
+            "id": "188c79e6eb30bfe3",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.12.7"
+              },
+              "icon": "lucide-book-up",
+              "title": "版本说明 1.12.7"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -205,7 +218,7 @@
       "obsidian-spaced-repetition:复习卡片": false
     }
   },
-  "active": "b534069ba8dfa3ca",
+  "active": "20fe233accd6984b",
   "lastOpenFiles": [
     "日记/2026-03-24.md",
     "_附件/mindmaps/fPaouFLKfn0.json",
