@@ -1,3 +1,7 @@
 # Git sync artifacts
 .git-sync.log
 .git-sync.sh
+
+# Local Obsidian state (do not sync between Macs)
+.obsidian/workspace.json
+.obsidian/plugins/obsidian-git/
