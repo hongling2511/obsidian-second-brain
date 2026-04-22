@@ -1,0 +1,614 @@
+- generic [active] [ref=e1]:
+  - banner:
+    - generic [ref=e2]:
+      - link "跳至主要内容":
+        - /url: "#main"
+      - generic [ref=e4]:
+        - link "OpenAI 主页" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - img [ref=e7]
+        - generic [ref=e9]:
+          - navigation "主导航" [ref=e11]:
+            - list [ref=e12]:
+              - listitem [ref=e13]:
+                - link "研究" [ref=e14] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/research/index/
+                  - generic [ref=e16]: 研究
+                - button "研究 菜单"
+              - listitem [ref=e17]:
+                - button "产品" [ref=e18] [cursor=pointer]:
+                  - generic [ref=e20]: 产品
+                - button "产品 菜单"
+              - listitem [ref=e21]:
+                - link "企业" [ref=e22] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/business/
+                  - generic [ref=e24]: 企业
+                - button "企业 菜单"
+              - listitem [ref=e25]:
+                - link "开发人员" [ref=e26] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/api/
+                  - generic [ref=e28]: 开发人员
+                - button "开发人员 菜单"
+              - listitem [ref=e29]:
+                - link "公司" [ref=e30] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/about/
+                  - generic [ref=e32]: 公司
+                - button "公司 菜单"
+              - listitem [ref=e33]:
+                - link "基金会 （在新窗口中打开）" [ref=e34] [cursor=pointer]:
+                  - /url: https://openaifoundation.org
+                  - generic [ref=e36]: 基金会
+                  - generic [ref=e37]: （在新窗口中打开）
+          - generic [ref=e39]:
+            - button "打开搜索" [ref=e41] [cursor=pointer]:
+              - img [ref=e42]
+            - button "关闭搜索" [ref=e44] [cursor=pointer]:
+              - img [ref=e45]
+          - generic [ref=e48]:
+            - button "登录" [ref=e49] [cursor=pointer]:
+              - text: 登录
+              - img [ref=e50]
+            - link "试用 ChatGPT （在新窗口中打开）" [ref=e52] [cursor=pointer]:
+              - /url: https://chatgpt.com/
+              - text: 试用 ChatGPT
+              - img [ref=e53]
+              - generic [ref=e55]: （在新窗口中打开）
+  - generic [ref=e56]:
+    - main [ref=e57]:
+      - generic [ref=e58]: OpenAI
+      - navigation:
+        - generic [ref=e60]:
+          - button "目录" [ref=e61] [cursor=pointer]:
+            - generic [ref=e62]: 目录
+          - img [ref=e64]
+      - article [ref=e66]:
+        - generic [ref=e67]:
+          - generic [ref=e71]:
+            - generic [ref=e72]:
+              - paragraph [ref=e73]: 2026年1月29日
+              - link "工程" [ref=e74] [cursor=pointer]:
+                - /url: /news/engineering/
+            - heading "深入了解 OpenAI 的内部数据智能体" [level=1] [ref=e75]
+            - paragraph [ref=e77]: 作者：Bonnie Xu、Aravind Suresh 和 Emma Tang
+          - generic [ref=e79]:
+            - generic [ref=e82]:
+              - button "播放页面文本音频" [disabled] [ref=e83]:
+                - img [ref=e84]
+              - generic [ref=e86]: 正在加载…
+            - button "分享" [ref=e91] [cursor=pointer]:
+              - img [ref=e92]
+              - text: 分享
+        - generic [ref=e95]:
+          - paragraph [ref=e97]:
+            - text: 数据为系统如何学习、产品如何演进以及企业如何做出选择提供动力。但要快速、准确地获取答案，并结合相关上下文，往往比想象中更为困难。随着 OpenAI 业务范围的扩展，为了简化这项工作，我们建立了
+            - generic [ref=e98]: 专属定制内部 AI 数据智能体
+            - text: ，通过 OpenAI 的平台进行探索和推理
+            - generic [ref=e99]: 。
+          - paragraph [ref=e101]:
+            - text: 我们的智能体是一款定制内部专用工具（非外部产品），围绕 OpenAI 的数据、权限和工作流而构建。我们将展示 OpenAI 如何构建和使用这一工具，以帮助大家了解 AI 如何以切实可行的方式，支持团队完成日常工作。我们用于构建和运行这一智能体的 OpenAI 工具（
+            - link "Codex" [ref=e102] [cursor=pointer]:
+              - /url: /index/introducing-codex/
+              - generic [ref=e103]: Codex
+            - text: 、
+            - link "我们的 GPT‑5 旗舰模型" [ref=e104] [cursor=pointer]:
+              - /url: /index/introducing-gpt-5-2/
+              - generic [ref=e105]: 我们的 GPT‑5 旗舰模型
+            - text: 、
+            - link "Evals API⁠ （在新窗口中打开）" [ref=e106] [cursor=pointer]:
+              - /url: https://platform.openai.com/docs/guides/evals
+              - generic [ref=e107]: Evals API
+              - text: ⁠
+              - generic [ref=e108]: （在新窗口中打开）
+            - text: 和
+            - link "Embeddings API⁠ （在新窗口中打开）" [ref=e109] [cursor=pointer]:
+              - /url: https://platform.openai.com/docs/guides/embeddings
+              - generic [ref=e110]: Embeddings API
+              - text: ⁠
+              - generic [ref=e111]: （在新窗口中打开）
+            - text: ）与我们面向全球各地开发人员提供的工具相同。
+          - paragraph [ref=e113]:
+            - text: 我们的数据智能体可支持员工在几分钟（而非几天）内从问题中提取洞察数据。这降低了所有职能部门（而不仅仅是我们的数据团队）提取数据和进行细致分析的门槛。如今，OpenAI 的工程、数据科学、市场进入、财务和研究团队都依赖智能体来解答
+            - generic [ref=e114]: 高价值数据问题。
+            - text: 例如，它可以通过直观的自然语言格式，回答如何评估发布流程和理解业务运行状况等问题。该智能体结合了 Codex 驱动的表格级知识，以及产品和组织的背景信息。其持续学习记忆系统意味着它能够不断优化。
+          - figure [ref=e116]:
+            - img "屏幕截图显示用户在 2025 年 10 月 6 日询问 ChatGPT 周活跃用户 (WAU) 数据，并与 DevDay 2023 期间的数据进行比较。智能体报告称，2025 年的 WAU 约为 8 亿，2023 年的 WAU 约为 1 亿，备注信息表明变化幅度超过 7 亿，增长约 8 倍，随后还附上说明背景信息。" [ref=e124]
+          - paragraph [ref=e126]: 在这篇文章中，我们将深入分析为什么我们需要定制 AI 数据智能体，代码增强型数据上下文和自学习功能为何如此重要，以及我们在此过程中汲取的经验教训。
+          - heading "为什么我们需要定制工具" [level=2] [ref=e130]
+          - paragraph [ref=e132]:
+            - text: OpenAI 的数据平台为工程、产品和研究部门的
+            - generic [ref=e133]: 3,500 多名内部用户
+            - text: 提供服务，涵盖
+            - generic [ref=e134]: 70,000 个数据集
+            - text: 中超过
+            - generic [ref=e135]: 600 PB
+            - text: 的数据。在此规模下，寻找合适的表格可能是分析过程中最耗时的环节之一。
+          - paragraph [ref=e137]: 正如一位内部用户所解释的：
+          - paragraph [ref=e139]:
+            - generic [ref=e140]: “我们有很多非常相似的表格，我曾耗费大量时间去厘清它们的不同之处，以及具体应选择哪一个表格。有的表格包括已注销用户，有的则不包括这些用户。有的表格存在重叠字段，很难分辨具体内容。”
+          - paragraph [ref=e142]: 即使选择了正确的表格，生成正确的结果也并非易事。分析师必须对表格数据和表格关系进行推理，以确保正确应用转换和筛选功能。常见的故障模式 — 多对多连接、筛选条件下推错误和未处理的空值，都可能会在不知不觉中输出无效结果。鉴于 OpenAI 庞大的组织架构，分析师不应将时间浪费在调试 SQL 语义或查询性能上：他们的重点应放在定义指标、验证假设和制定数据驱动的决策。
+          - figure [ref=e144]:
+            - generic [ref=e145]:
+              - img "SQL 代码屏幕截图，其中定义了两个 CTE — order_enriched 和 monthly_segment，用于连接客户地理数据，推导订单月份字段，以及计算订单数量、总收入、含税收入以及从发货到签收的平均天数等月度汇总指标。" [ref=e152]
+              - paragraph [ref=e159]: 这条 SQL 语句长达 180 多行。要确认我们是否连接正确的表格并查询相关列，并非易事。
+          - heading "工作原理" [level=2] [ref=e163]
+          - paragraph [ref=e165]: 让我们逐步了解 OpenAI 的智能体及其如何整理上下文并不断自我完善。
+          - paragraph [ref=e167]:
+            - text: 我们的智能体由
+            - link "GPT‑5.2" [ref=e168] [cursor=pointer]:
+              - /url: /index/introducing-gpt-5-2/
+              - generic [ref=e170]: GPT‑5.2
+            - text: 驱动，旨在通过 OpenAI 的数据平台进行推理。无论员工在何处办公，都可以使用这一工具：它能够充当 Slack 智能体、通过 Web 界面、嵌入集成开发环境 (IDE)、
+            - link "经由 MCP 连接的 Codex CLI⁠ （在新窗口中打开）" [ref=e171] [cursor=pointer]:
+              - /url: https://developers.openai.com/codex/mcp/
+              - generic [ref=e172]: 经由 MCP 连接的 Codex CLI
+              - text: ⁠
+              - generic [ref=e173]: （在新窗口中打开）
+            - text: 以及直接
+            - link "通过 MCP 连接器在 OpenAI 的内部 ChatGPT 应用中调用⁠ （在新窗口中打开）" [ref=e174] [cursor=pointer]:
+              - /url: https://platform.openai.com/docs/guides/tools-connectors-mcp
+              - generic [ref=e175]: 通过 MCP 连接器在 OpenAI 的内部 ChatGPT 应用中调用
+              - text: ⁠
+              - generic [ref=e176]: （在新窗口中打开）
+            - text: 。
+          - figure [ref=e178]:
+            - img "标题为“数据智能体运作原理”的图表。Agent-UI、Local Agent-MCP、Remote Agent-MCP 和 Slack Agent 等入口点均已输入到 Agent-API。API 可连接内部数据知识和企业背景信息，与数据仓库和平台源同步，并通过 Agent-MCP 与 GPT-5.2 模型交换请求。" [ref=e186]
+          - paragraph [ref=e188]:
+            - text: 用户可以提出复杂的开放式问题，这通常需要多轮人工探索。以使用测试数据集的提示为例：
+            - generic [ref=e189]: “For NYC taxi trips, which pickup-to-dropoff ZIP pairs are the most unreliable, with the largest gap between typical and worst-case travel times, and when does that variability occur?”
+          - paragraph [ref=e191]:
+            - text: 从理解问题到探索数据、运行查询和汇总结果，
+            - generic [ref=e192]: 智能体可负责执行端到端分析
+            - text: 。
+          - generic [ref=e194]:
+            - tablist "标签" [ref=e195]:
+              - generic [ref=e198]:
+                - tab "分析" [selected] [ref=e199] [cursor=pointer]:
+                  - generic [ref=e200]: 分析
+                - tab "数据" [ref=e201] [cursor=pointer]:
+                  - generic [ref=e202]: 数据
+                - tab "查询" [ref=e203] [cursor=pointer]:
+                  - generic [ref=e204]: 查询
+                - tab "图表" [ref=e205] [cursor=pointer]:
+                  - generic [ref=e206]: 图表
+            - tabpanel "分析" [ref=e208]:
+              - figure [ref=e209]:
+                - generic [ref=e210]:
+                  - img "屏幕截图显示，一位用户正在询问纽约市哪些出租车上车→下车点的 ZIP 组合最“不可靠”。智能体基于来自 samples.nyctaxi.trips 的约 21,000 次行程样本作出解释，定义典型情况 (p50) 与最坏情况 (p95)，应用筛选条件，并说明它如何识别每个 ZIP 对的最长行程时间。" [ref=e217]
+                  - paragraph [ref=e224]: 智能体对问题的答复。
+          - paragraph [ref=e226]:
+            - text: 智能体的一项核心优势在于其解决问题的推理能力。智能体并非遵循固定的脚本，而是会自行评估流程进展。如果某个中间结果出现异常（例如，由于错误的连接或筛选操作导致行数为零），智能体就会调查出现非问题的具体环节，调整其方法，并再次尝试。在此过程中，它会保留完整的上下文，并在各步骤之间传递学习成果。这一
+            - generic [ref=e227]: 闭环式自学习过程
+            - text: 可将迭代任务从用户转移到智能体自身，从而更快输出结果，并持续提供质量远高于手动工作流的分析数据。
+          - figure [ref=e229]:
+            - generic [ref=e230]:
+              - img "任务工作流的屏幕截图，展示 AI 智能体分析纽约市出租车行程时长的分布计划。它包括目标、内部搜索、模式检查、代码片段，以及关于计算 p50/p95 差值、识别不可靠的 ZIP 对，并规划 SQL 查询的推理过程。" [ref=e237]
+              - paragraph [ref=e244]: 智能体可凭借推理能力，识别最不可靠的纽约市出租车上车点-下车点配对数据。
+          - paragraph [ref=e246]: 该智能体现已涵盖完整的分析工作流：发现数据、运行 SQL、发布笔记及报告。它能够理解企业内部知识，通过网络搜索获取外部信息，并不断积累记忆以实现持续优化。
+          - heading "上下文决定一切" [level=2] [ref=e250]
+          - paragraph [ref=e252]:
+            - text: 高质量的答案取决于
+            - generic [ref=e253]: 丰富、准确的上下文
+            - text: 。在缺乏上下文的情况下，即使是强大的模型也可能会输出错误结果，例如严重误估用户数量或曲解内部术语。
+          - generic [ref=e257]:
+            - generic [ref=e258]:
+              - img "屏幕截图：显示用户正在询问“What was ChatGPT Image Gen logged-in DAU for the last 30 days?”，下方的状态行显示智能体已“Working for 22m 41s”，表明其仍在处理长期运行的查询。" [ref=e263]
+              - paragraph [ref=e269]: 没有记忆能力的智能体，无法有效进行查询。
+            - generic [ref=e270]:
+              - img "屏幕截图：显示用户正在询问“What was ChatGPT Image Gen logged-in DAU for the last 30 days?”消息下方的状态行显示“Worked for 1m 22s”字样，表明查询仍在运行，且需要很长时间才能完成。" [ref=e275]
+              - paragraph [ref=e281]: 智能体的记忆可通过定位正确的表格，加快查询速度。
+          - paragraph [ref=e283]:
+            - text: 为了避免这些故障模式，我们围绕
+            - generic [ref=e284]: 多层上下文构建智能体，并以 OpenAI 的数据和机构知识为基础。
+          - figure [ref=e286]:
+            - img "标题为“数据智能体上下文层级”的图表，展示了六个堆叠层级：1) 表格使用情况，2) 人工注释，3) Codex 增强，4) 机构知识，5) 记忆和 6) 运行时上下文。每一层都以金字塔形状的条形图显示。" [ref=e294]
+          - heading "第 1 层：表格使用情况" [level=4] [ref=e298]
+          - list [ref=e300]:
+            - listitem [ref=e301]:
+              - generic [ref=e302]: 元数据基础：
+              - text: 智能体依赖模式元数据（列名和数据类型）来指导 SQL 编写，并使用表格沿袭（例如，上游和下游表格关系）来理解不同表格之间的上下文。
+            - listitem [ref=e303]:
+              - generic [ref=e304]: 查询推理：
+              - text: 采集历史查询有助于智能体理解如何编写查询，以及哪些表格通常相互关联。
+          - heading "第 2 层：人工注释" [level=4] [ref=e308]
+          - list [ref=e310]:
+            - listitem [ref=e311]:
+              - generic [ref=e312]: 精选描述
+              - text: ：由领域专家精心整理的表格和列相关描述，用于记录意图、语义、业务含义，以及无法从模式或过往查询中轻易推断的已知注意事项。
+          - paragraph [ref=e314]: 仅靠元数据是不够的。要真正区分表格，你需要了解其创建方式及来源。
+          - heading "第 3 层：Codex 增强" [level=4] [ref=e318]
+          - list [ref=e320]:
+            - listitem [ref=e321]:
+              - text: 通过推导表格的代码级定义，智能体能够更深入地理解数据的实际内容。
+              - list [ref=e322]:
+                - listitem [ref=e323]: 关于表格中存储的内容以及如何根据分析事件中得出的细微差别提供额外的信息。例如，它可以提供关于值的唯一性、表格数据更新频率、数据范围（例如，如果表格排除某些字段，即标识其具备相应的粒度级别）等上下文。
+            - listitem [ref=e324]: 通过展示如何在 Spark、Python 和其他数据系统中使用 SQL 以外的表格，提供更丰富的使用情况上下文。
+            - listitem [ref=e325]: 这意味着，智能体可以区分内容相似但存在关键差异的表格。例如，它可以判断某个表格是否仅包含第一方 ChatGPT 流量。该上下文还会自动刷新，因此无需手动维护即可保持更新。
+          - figure [ref=e327]:
+            - img "标题为“Codex 增强知识管道”的图表。主流表格已应用于多个 Codex 任务，这些任务从 OpenAI 代码库中提取细节，包括表格的用途、粒度和主键、下游使用模式、替代表格选项以及数据新鲜度。" [ref=e335]
+          - heading "第 4 层：机构知识" [level=4] [ref=e339]
+          - list [ref=e341]:
+            - listitem [ref=e342]: 智能体可以访问 Slack、Google Docs 和 Notion，这些平台可记录关键的企业背景信息，例如产品发布、可靠性事件、内部代号和工具，以及关键指标的规范定义和计算逻辑。
+            - listitem [ref=e343]: 这些文档会被采集、嵌入，并与元数据和权限一起存储。检索服务可在运行时处理访问控制和缓存，支持智能体高效且安全地获取这些信息。
+          - figure [ref=e345]:
+            - img "用户询问连接器的使用量为何在 12 月呈现下滑趋势的屏幕截图。智能体解释称，使用量下降的原因是 2025 年 11 月 13 日出现的日志问题，导致 ChatGPT 5.1 发布后的使用量被低估。传统的遥测技术一直处于空白状态，直到更新的事件成为可信数据源。" [ref=e353]
+          - heading "第 5 层：记忆" [level=4] [ref=e357]
+          - list [ref=e359]:
+            - listitem [ref=e360]:
+              - text: 当智能体收到更正信息或发现某些数据问题存在细微差别时，它能够保存这些学习结果以供后续使用，从而在与用户交互的过程中持续改进。
+              - list [ref=e361]:
+                - listitem [ref=e362]: 因此，未来的答案将以更准确的基线为切入点，而非反复处理相同的问题。
+                - listitem [ref=e363]: 记忆的目标是保留并复用那些不易察觉的更正信息、过滤条件和约束限制，这些内容对于维持数据的正确性至关重要，但仅凭其他层级难以有效推断。
+                - listitem [ref=e364]: 例如，在某个案例中，智能体不知道如何筛选特定的分析实验（它需要依赖与实验门中定义的特定字符串进行匹配）。在此过程中，记忆至关重要，因为这一能力可确保智能体正确筛选相关信息，而非盲目尝试进行字符串匹配。
+            - listitem [ref=e365]:
+              - text: 当你向智能体提出更正意见，或者当其从对话中查找学习内容时，它会提示你保存记忆，以备后续使用。
+              - list [ref=e366]:
+                - listitem [ref=e367]: 用户也可以手动创建和编辑记忆。
+                - listitem [ref=e368]: 记忆的范围涵盖全局和个人层面，而智能体所配备的工具将简化编辑流程。
+          - figure [ref=e370]:
+            - img "通知横幅显示“数据智能体希望将 2 条学习内容保存到其记忆中”，其中一个标注项为“ChatGPT 顶级指标”，右侧的确认消息显示“已保存到全局记忆”字样，且包含绿色复选标记。" [ref=e378]
+          - heading "第 6 层：运行时上下文" [level=4] [ref=e382]
+          - list [ref=e384]:
+            - listitem [ref=e385]: 如果表格缺乏先前的上下文或现有信息过时，智能体可以向数据仓库发起实时查询，以直接检查和查询该表格。这使其能够验证模式、实时理解数据，并做出相应的回复。
+            - listitem [ref=e386]: 该智能体还能根据需要与其他数据平台系统（元数据服务、Airflow、Spark）进行对话，以获取数据仓库之外更广泛的数据上下文。
+          - paragraph [ref=e388]:
+            - text: We run a daily offline pipeline that aggregates table usage, human annotations, and Codex-derived enrichment into a single, normalized representation. This enriched context is then converted into embeddings using the
+            - link "OpenAI embeddings API⁠ （在新窗口中打开）" [ref=e389] [cursor=pointer]:
+              - /url: https://platform.openai.com/docs/api-reference/embeddings
+              - generic [ref=e390]: OpenAI embeddings API
+              - text: ⁠
+              - generic [ref=e391]: （在新窗口中打开）
+            - text: and stored for retrieval. At query time, the agent pulls only the most relevant embedded context via
+            - link "retrieval-augmented generation⁠ （在新窗口中打开）" [ref=e392] [cursor=pointer]:
+              - /url: https://en.wikipedia.org/wiki/Retrieval-augmented_generation
+              - generic [ref=e393]: retrieval-augmented generation
+              - text: ⁠
+              - generic [ref=e394]: （在新窗口中打开）
+            - text: (RAG) instead of scanning raw metadata or logs. This makes table understanding fast and scalable, even across tens of thousands of tables, while keeping runtime latency predictable and low. Runtime queries are issued to our data warehouse live as needed.
+          - figure [ref=e396]:
+            - img "标题为“数据智能体中的上下文检索”的图表。离线预处理层包括表格使用情况、人工注释、Codex 增强、机构知识和记忆，这些信息均已输入到 RAG 嵌入中。实时检索表明智能体可通过语义搜索或精确文本检索功能来查询数据库，以生成运行时上下文。" [ref=e404]
+          - paragraph [ref=e406]: Together, these layers ensure the agent’s reasoning is grounded in OpenAI’s data, code, and institutional knowledge, dramatically reducing errors and improving answer quality.
+          - heading "Built to think and work like a teammate" [level=2] [ref=e410]
+          - paragraph [ref=e412]: One-shot answers work when the problem is clear, but most questions aren’t. More often, arriving at the correct result requires back-and-forth refinement and some course correction.
+          - paragraph [ref=e414]: The agent is built to behave like a teammate you can reason with. It’s a conversational, always-on and handles both quick answers and iterative exploration.
+          - paragraph [ref=e416]: It carries over complete context across turns, so users can ask follow-up questions, adjust their intent, or change direction without restating everything. If the agent starts heading down the wrong path, users can interrupt mid-analysis and redirect it, just like working with a human collaborator who listens instead of plowing ahead.
+          - paragraph [ref=e418]: When instructions are unclear or incomplete, the agent proactively asks clarifying questions. If no response is provided, it applies sensible defaults to make progress. For example, if a user asks about business growth with no date range specified, it may assume the last seven or 30 days. These priors allow it to stay responsive and non-blocking while still converging on the right outcome.
+          - paragraph [ref=e420]:
+            - text: The result is an agent that works well both when you know
+            - generic [ref=e421]: exactly what you want
+            - text: (e.g., “Tell me about this table”) and
+            - generic [ref=e422]: just as strong when you’re exploring
+            - text: (e.g., “I’m seeing a dip here, can we break this down by customer type and timeframe?”).
+          - paragraph [ref=e424]: After rollout, we observed that users frequently ran the same analyses for routine repetitive work. To expedite this, the agent's workflows package recurring analyses into reusable instruction sets. Examples include workflows for weekly business reports and table validations. By encoding context and best practices once, workflows streamline repeat analyses and ensure consistent results across users.
+          - figure [ref=e426]:
+            - img "包含“提出数据问题”字样占位符的用户界面 (UI) 输入栏。输入栏下方是标注“使用工作流”字样的按钮，右侧为麦克风和发送图标。该条形图采用圆角设计，且置于深色背景之上。" [ref=e434]
+          - heading "Moving fast without breaking trust" [level=2] [ref=e438]
+          - paragraph [ref=e440]: Building an always-on, evolving agent means quality can drift just as easily as it can improve. Without a tight feedback loop, regressions are inevitable and invisible. The only way to scale capability without breaking trust is through systematic evaluation.
+          - paragraph [ref=e442]:
+            - text: In this section, we’ll discuss how we leverage
+            - link "OpenAI’s Evals API⁠ （在新窗口中打开）" [ref=e443] [cursor=pointer]:
+              - /url: https://platform.openai.com/docs/guides/evals
+              - generic [ref=e444]: OpenAI’s Evals API
+              - text: ⁠
+              - generic [ref=e445]: （在新窗口中打开）
+            - text: to measure and protect the agent’s response quality.
+          - paragraph [ref=e447]: Its Evals are built on curated sets of question-answer pairs. Each question targets an important metric or analytical pattern we care deeply about getting right, paired with a manually authored “golden” SQL query that produces the expected result. For each eval, we send the natural language question to its query-generation endpoint, execute the generated SQL, and compare the output against the result of the expected SQL.
+          - figure [ref=e449]:
+            - img "标题为“数据智能体评估管道”的图表。问答评估与预期的 SQL 同步输入到生成步骤，用于生成 SQL 和结果。OpenAI Evals 使用 dataframe 和 SQL 比较功能，比对生成的结果与预期结果，并输出评分和推理。" [ref=e457]
+          - paragraph [ref=e459]: Evaluation doesn’t rely on naive string matching. Generated SQL can differ syntactically while still being correct, and result sets may include extra columns that don’t materially affect the answer. To account for this, we compare both the SQL and the resulting data, and feed these signals into OpenAI’s Evals grader. The grader produces a final score along with an explanation, capturing both correctness and acceptable variation.
+          - paragraph [ref=e461]: These evals are like unit tests that run continuously during development to identify regressions as canaries in production; this allows us to catch issues early and confidently iterate as the agent's capabilities expand.
+          - heading "Agent security" [level=2] [ref=e465]
+          - paragraph [ref=e467]: Our agent plugs directly into OpenAI’s existing security and access-control model. It operates purely as an interface layer, inheriting and enforcing the same permissions and guardrails that govern OpenAI’s data.
+          - paragraph [ref=e469]:
+            - generic [ref=e470]: All of the agent’s access is strictly
+            - generic [ref=e471]: pass-through
+            - text: ", meaning users can only query tables they already have permission to access. When access is missing, it flags this or falls back to alternative datasets the user is authorized to use."
+          - paragraph [ref=e473]:
+            - text: Finally, it's built for transparency. Like any system, it can make mistakes. It
+            - generic [ref=e474]: exposes its reasoning process
+            - text: by summarizing assumptions and execution steps alongside each answer. When queries are executed, it links directly to the underlying results, allowing users to inspect raw data and verify every step of the analysis.
+          - heading "Lessons learned" [level=2] [ref=e478]
+          - paragraph [ref=e480]: Building our agent from scratch surfaced practical lessons about how agents behave, where they struggle, and what actually makes them reliable at scale.
+          - 'heading "Lesson #1: Less is More" [level=5] [ref=e484]':
+            - text: "Lesson #1:"
+            - generic [ref=e485]: Less is More
+          - paragraph [ref=e487]: Early on, we exposed our full tool set to the agent, and quickly ran into problems with overlapping functionality. While this redundancy can be helpful for specific custom cases and is more obvious to a human when manually invoking, it’s confusing to agents. To reduce ambiguity and improve reliability, we restricted and consolidated certain tool calls.
+          - 'heading "Lesson #2: Guide the Goal, Not the Path" [level=5] [ref=e491]':
+            - text: "Lesson #2:"
+            - generic [ref=e492]: Guide the Goal, Not the Path
+          - paragraph [ref=e494]: We also discovered that highly prescriptive prompting degraded results. While many questions share a general analytical shape, the details vary enough that rigid instructions often pushed the agent down incorrect paths. By shifting to higher-level guidance and relying on GPT‑5’s reasoning to choose the appropriate execution path, the agent became more robust and produced better results.
+          - 'heading "Lesson #3: Meaning Lives in Code" [level=5] [ref=e498]':
+            - text: "Lesson #3:"
+            - generic [ref=e499]: Meaning Lives in Code
+          - paragraph [ref=e501]: Schemas and query history describe a table’s shape and usage, but its true meaning lives in the code that produces it. Pipeline logic captures assumptions, freshness guarantees, and business intent that never surface in SQL or metadata. By crawling the codebase with Codex, our agent understands how datasets are actually constructed and is able to better reason about what each table actually contains. It can answer “what’s in here” and “when can I use it” far more accurately than from warehouse signals alone.
+          - heading "Same vision, new tools" [level=2] [ref=e505]
+          - paragraph [ref=e507]: We’re constantly working to improve our agent by increasing its ability to handle ambiguous questions, improving its reliability and accuracy with stronger validations, and integrating it more deeply into workflows. We believe it should blend naturally into how people already work, instead of functioning like a separate tool.
+          - paragraph [ref=e509]: "While our tooling will keep benefiting from underlying improvements in agent reasoning, validation, and self-correction, our team’s mission remains the same: seamlessly deliver fast, trustworthy data analysis across OpenAI’s data ecosystem."
+        - generic [ref=e512]:
+          - list [ref=e514]:
+            - listitem [ref=e515]:
+              - link "2026" [ref=e516] [cursor=pointer]:
+                - /url: /news/?tags=2026
+          - generic [ref=e517]:
+            - heading "作者" [level=2] [ref=e518]
+            - generic [ref=e519]: Bonnie Xu、Aravind Suresh、Emma Tang
+          - generic [ref=e520]:
+            - heading "致谢" [level=2] [ref=e521]
+            - paragraph [ref=e523]: 特别鸣谢数据生产力和数据科学团队，以及众多跨职能用户的实验和反馈。
+        - generic [ref=e524]:
+          - generic [ref=e525]:
+            - heading "继续阅读" [level=2] [ref=e527]
+            - link "查看全部" [ref=e528] [cursor=pointer]:
+              - /url: /news/
+          - generic [ref=e531]:
+            - generic [ref=e533]:
+              - img "Equip responses API > card image" [ref=e539]
+              - link "从模型到智能体：为 Responses API 配备计算机环境 - 工程 - 2026年3月11日" [ref=e540] [cursor=pointer]:
+                - /url: /index/equip-responses-api-computer-environment/
+                - generic [ref=e541]:
+                  - generic [ref=e542]: 从模型到智能体：为 Responses API 配备计算机环境
+                  - paragraph [ref=e543]:
+                    - generic [ref=e544]: 工程
+                    - time [ref=e546]: 2026年3月11日
+            - generic [ref=e548]:
+              - img "fin eng (credits) > card image" [ref=e554]
+              - link "超越速率限制：扩大 Codex 和 Sora 的访问规模 - 工程 - 2026年2月13日" [ref=e555] [cursor=pointer]:
+                - /url: /index/beyond-rate-limits/
+                - generic [ref=e556]:
+                  - generic [ref=e557]: 超越速率限制：扩大 Codex 和 Sora 的访问规模
+                  - paragraph [ref=e558]:
+                    - generic [ref=e559]: 工程
+                    - time [ref=e561]: 2026年2月13日
+            - generic [ref=e563]:
+              - img "harness eng > card image" [ref=e569]
+              - link "工程技术：在智能体优先的世界中利用 Codex - 工程 - 2026年2月11日" [ref=e570] [cursor=pointer]:
+                - /url: /index/harness-engineering/
+                - generic [ref=e571]:
+                  - generic [ref=e572]: 工程技术：在智能体优先的世界中利用 Codex
+                  - paragraph [ref=e573]:
+                    - generic [ref=e574]: 工程
+                    - time [ref=e576]: 2026年2月11日
+    - contentinfo [ref=e577]:
+      - generic [ref=e579]:
+        - generic [ref=e580]:
+          - generic [ref=e581]:
+            - heading "我们的研究" [level=2] [ref=e582]
+            - list [ref=e583]:
+              - listitem [ref=e584]:
+                - link "研究索引" [ref=e585] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/research/index/
+              - listitem [ref=e586]:
+                - link "研究概览" [ref=e587] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/research/
+              - listitem [ref=e588]:
+                - link "研究驻留" [ref=e589] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/residency/
+              - listitem [ref=e590]:
+                - link "经济研究" [ref=e591] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/signals/
+          - generic [ref=e592]:
+            - heading "最新进展" [level=2] [ref=e593]
+            - list [ref=e594]:
+              - listitem [ref=e595]:
+                - link "GPT-5.3 Instant" [ref=e596] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/index/gpt-5-3-instant/
+              - listitem [ref=e597]:
+                - link "GPT-5.3-Codex" [ref=e598] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/index/introducing-gpt-5-3-codex/
+              - listitem [ref=e599]:
+                - link "GPT-5" [ref=e600] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/gpt-5/
+              - listitem [ref=e601]:
+                - link "Codex" [ref=e602] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/index/introducing-gpt-5-3-codex/
+          - generic [ref=e603]:
+            - heading "安全" [level=2] [ref=e604]
+            - list [ref=e605]:
+              - listitem [ref=e606]:
+                - link "安全措施" [ref=e607] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/safety/
+              - listitem [ref=e608]:
+                - link "安全与隐私" [ref=e609] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/security-and-privacy/
+              - listitem [ref=e610]:
+                - link "信任与透明度" [ref=e611] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/trust-and-transparency/
+        - generic [ref=e612]:
+          - generic [ref=e613]:
+            - heading "ChatGPT" [level=2] [ref=e614]
+            - list [ref=e615]:
+              - listitem [ref=e616]:
+                - link "探索 ChatGPT （在新窗口中打开）" [ref=e617] [cursor=pointer]:
+                  - /url: https://chatgpt.com/overview
+                  - text: 探索 ChatGPT
+                  - img [ref=e618]
+                  - generic [ref=e620]: （在新窗口中打开）
+              - listitem [ref=e621]:
+                - link "Business 版" [ref=e622] [cursor=pointer]:
+                  - /url: https://chatgpt.com/business/business-plan
+              - listitem [ref=e623]:
+                - link "Enterprise 版" [ref=e624] [cursor=pointer]:
+                  - /url: https://chatgpt.com/business/enterprise
+              - listitem [ref=e625]:
+                - link "Education 版" [ref=e626] [cursor=pointer]:
+                  - /url: https://chatgpt.com/business/education
+              - listitem [ref=e627]:
+                - link "定价 （在新窗口中打开）" [ref=e628] [cursor=pointer]:
+                  - /url: https://chatgpt.com/pricing
+                  - text: 定价
+                  - img [ref=e629]
+                  - generic [ref=e631]: （在新窗口中打开）
+              - listitem [ref=e632]:
+                - link "下载 （在新窗口中打开）" [ref=e633] [cursor=pointer]:
+                  - /url: https://chatgpt.com/download
+                  - text: 下载
+                  - img [ref=e634]
+                  - generic [ref=e636]: （在新窗口中打开）
+          - generic [ref=e637]:
+            - heading "Sora" [level=2] [ref=e638]
+            - list [ref=e639]:
+              - listitem [ref=e640]:
+                - link "Sora 概览" [ref=e641] [cursor=pointer]:
+                  - /url: /sora/
+              - listitem [ref=e642]:
+                - link "功能" [ref=e643] [cursor=pointer]:
+                  - /url: /sora/#features
+              - listitem [ref=e644]:
+                - link "定价" [ref=e645] [cursor=pointer]:
+                  - /url: /sora/#pricing
+              - listitem [ref=e646]:
+                - link "Sora 登录 （在新窗口中打开）" [ref=e647] [cursor=pointer]:
+                  - /url: https://sora.com/
+                  - text: Sora 登录
+                  - img [ref=e648]
+                  - generic [ref=e650]: （在新窗口中打开）
+          - generic [ref=e651]:
+            - heading "API 平台" [level=2] [ref=e652]
+            - list [ref=e653]:
+              - listitem [ref=e654]:
+                - link "平台概览" [ref=e655] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/api/
+              - listitem [ref=e656]:
+                - link "定价" [ref=e657] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/api/pricing/
+              - listitem [ref=e658]:
+                - link "API 登录 （在新窗口中打开）" [ref=e659] [cursor=pointer]:
+                  - /url: https://platform.openai.com/login
+                  - text: API 登录
+                  - img [ref=e660]
+                  - generic [ref=e662]: （在新窗口中打开）
+              - listitem [ref=e663]:
+                - link "文档 （在新窗口中打开）" [ref=e664] [cursor=pointer]:
+                  - /url: https://developers.openai.com/api/docs
+                  - text: 文档
+                  - img [ref=e665]
+                  - generic [ref=e667]: （在新窗口中打开）
+              - listitem [ref=e668]:
+                - link "开发者论坛 （在新窗口中打开）" [ref=e669] [cursor=pointer]:
+                  - /url: https://community.openai.com/
+                  - text: 开发者论坛
+                  - img [ref=e670]
+                  - generic [ref=e672]: （在新窗口中打开）
+        - generic [ref=e673]:
+          - generic [ref=e674]:
+            - heading "商业应用" [level=2] [ref=e675]
+            - list [ref=e676]:
+              - listitem [ref=e677]:
+                - link "商业应用概览" [ref=e678] [cursor=pointer]:
+                  - /url: /business/
+              - listitem [ref=e679]:
+                - link "解决方案" [ref=e680] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/solutions/
+              - listitem [ref=e681]:
+                - link "联系销售团队" [ref=e682] [cursor=pointer]:
+                  - /url: /contact-sales/
+          - generic [ref=e683]:
+            - heading "公司" [level=2] [ref=e684]
+            - list [ref=e685]:
+              - listitem [ref=e686]:
+                - link "关于我们" [ref=e687] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/about/
+              - listitem [ref=e688]:
+                - link "我们的宪章" [ref=e689] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/charter/
+              - listitem [ref=e690]:
+                - link "基金会 （在新窗口中打开）" [ref=e691] [cursor=pointer]:
+                  - /url: https://openaifoundation.org
+                  - text: 基金会
+                  - img [ref=e692]
+                  - generic [ref=e694]: （在新窗口中打开）
+              - listitem [ref=e695]:
+                - link "工作机会" [ref=e696] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/careers/
+              - listitem [ref=e697]:
+                - link "品牌" [ref=e698] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/brand/
+          - generic [ref=e699]:
+            - heading "支持" [level=2] [ref=e700]
+            - list [ref=e701]:
+              - listitem [ref=e702]:
+                - link "帮助中心 （在新窗口中打开）" [ref=e703] [cursor=pointer]:
+                  - /url: https://help.openai.com/
+                  - text: 帮助中心
+                  - img [ref=e704]
+                  - generic [ref=e706]: （在新窗口中打开）
+          - generic [ref=e707]:
+            - heading "更多" [level=2] [ref=e708]
+            - list [ref=e709]:
+              - listitem [ref=e710]:
+                - link "新闻" [ref=e711] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/news/
+              - listitem [ref=e712]:
+                - link "客户案例" [ref=e713] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/stories/
+              - listitem [ref=e714]:
+                - link "Academy" [ref=e715] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/academy/
+              - listitem [ref=e716]:
+                - link "直播" [ref=e717] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/live/
+              - listitem [ref=e718]:
+                - link "播客" [ref=e719] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/podcast/
+              - listitem [ref=e720]:
+                - link "RSS" [ref=e721] [cursor=pointer]:
+                  - /url: https://openai.com/news/rss.xml
+        - generic [ref=e723]:
+          - heading "条款与政策" [level=2] [ref=e724]
+          - list [ref=e725]:
+            - listitem [ref=e726]:
+              - link "使用条款" [ref=e727] [cursor=pointer]:
+                - /url: /zh-Hans-CN/policies/terms-of-use/
+            - listitem [ref=e728]:
+              - link "隐私政策" [ref=e729] [cursor=pointer]:
+                - /url: /zh-Hans-CN/policies/privacy-policy/
+            - listitem [ref=e730]:
+              - link "其他政策" [ref=e731] [cursor=pointer]:
+                - /url: /zh-Hans-CN/policies/
+      - generic [ref=e732]:
+        - generic [ref=e733]:
+          - link "X" [ref=e734] [cursor=pointer]:
+            - /url: https://x.com/OpenAI
+            - img [ref=e735]
+            - generic [ref=e737]: （在新窗口中打开）
+          - link "YouTube" [ref=e738] [cursor=pointer]:
+            - /url: https://www.youtube.com/OpenAI
+            - img [ref=e739]
+            - generic [ref=e741]: （在新窗口中打开）
+          - link "LinkedIn" [ref=e742] [cursor=pointer]:
+            - /url: https://www.linkedin.com/company/openai
+            - img [ref=e743]
+            - generic [ref=e745]: （在新窗口中打开）
+          - link "GitHub" [ref=e746] [cursor=pointer]:
+            - /url: https://github.com/openai
+            - img [ref=e747]
+            - generic [ref=e749]: （在新窗口中打开）
+          - link "Instagram" [ref=e750] [cursor=pointer]:
+            - /url: https://www.instagram.com/openai/
+            - img [ref=e751]
+            - generic [ref=e753]: （在新窗口中打开）
+          - link "TikTok" [ref=e754] [cursor=pointer]:
+            - /url: https://www.tiktok.com/@openai
+            - img [ref=e755]
+            - generic [ref=e757]: （在新窗口中打开）
+          - link "Discord" [ref=e758] [cursor=pointer]:
+            - /url: https://discord.gg/openai
+            - img [ref=e759]
+            - generic [ref=e761]: （在新窗口中打开）
+        - generic [ref=e762]:
+          - generic [ref=e763]: OpenAI © 2015–2026
+          - button "管理 Cookie" [ref=e764] [cursor=pointer]
+        - generic [ref=e765]:
+          - button "更改语言" [ref=e766] [cursor=pointer]:
+            - generic [ref=e767]:
+              - img [ref=e768]
+              - generic [ref=e771]:
+                - text: 中文
+                - generic [ref=e772]: 中国
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - img
+                    - textbox "按名称或地区搜索区域设置":
+                      - /placeholder: 搜索

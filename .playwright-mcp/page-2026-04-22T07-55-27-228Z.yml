@@ -1,0 +1,699 @@
+- generic [active] [ref=e1]:
+  - banner:
+    - generic [ref=e2]:
+      - link "跳至主要内容":
+        - /url: "#main"
+      - generic [ref=e4]:
+        - link "OpenAI 主页" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - img [ref=e7]
+        - generic [ref=e9]:
+          - navigation "主导航" [ref=e11]:
+            - list [ref=e12]:
+              - listitem [ref=e13]:
+                - link "研究" [ref=e14] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/research/index/
+                  - generic [ref=e16]: 研究
+                - button "研究 菜单"
+              - listitem [ref=e17]:
+                - button "产品" [ref=e18] [cursor=pointer]:
+                  - generic [ref=e20]: 产品
+                - button "产品 菜单"
+              - listitem [ref=e21]:
+                - link "企业" [ref=e22] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/business/
+                  - generic [ref=e24]: 企业
+                - button "企业 菜单"
+              - listitem [ref=e25]:
+                - link "开发人员" [ref=e26] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/api/
+                  - generic [ref=e28]: 开发人员
+                - button "开发人员 菜单"
+              - listitem [ref=e29]:
+                - link "公司" [ref=e30] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/about/
+                  - generic [ref=e32]: 公司
+                - button "公司 菜单"
+              - listitem [ref=e33]:
+                - link "基金会 （在新窗口中打开）" [ref=e34] [cursor=pointer]:
+                  - /url: https://openaifoundation.org
+                  - generic [ref=e36]: 基金会
+                  - generic [ref=e37]: （在新窗口中打开）
+          - generic [ref=e39]:
+            - button "打开搜索" [ref=e41] [cursor=pointer]:
+              - img [ref=e42]
+            - button "关闭搜索" [ref=e44] [cursor=pointer]:
+              - img [ref=e45]
+          - generic [ref=e48]:
+            - button "登录" [ref=e49] [cursor=pointer]:
+              - text: 登录
+              - img [ref=e50]
+            - link "试用 ChatGPT （在新窗口中打开）" [ref=e52] [cursor=pointer]:
+              - /url: https://chatgpt.com/
+              - text: 试用 ChatGPT
+              - img [ref=e53]
+              - generic [ref=e55]: （在新窗口中打开）
+  - generic [ref=e56]:
+    - main [ref=e57]:
+      - generic [ref=e58]: OpenAI
+      - navigation:
+        - generic [ref=e60]:
+          - button "目录" [ref=e61] [cursor=pointer]:
+            - generic [ref=e62]: 目录
+          - img [ref=e64]
+      - article [ref=e66]:
+        - generic [ref=e67]:
+          - generic [ref=e71]:
+            - generic [ref=e72]:
+              - paragraph [ref=e73]: 2026年2月4日
+              - link "工程" [ref=e74] [cursor=pointer]:
+                - /url: /news/engineering/
+            - heading "解锁 Codex 运行框架：我们如何构建 App Server" [level=1] [ref=e75]
+            - paragraph [ref=e77]: Celia Chen，技术团队成员
+          - generic [ref=e79]:
+            - generic [ref=e82]:
+              - button "播放页面文本音频" [disabled] [ref=e83]:
+                - img [ref=e84]
+              - generic [ref=e86]: 正在加载…
+            - button "分享" [ref=e91] [cursor=pointer]:
+              - img [ref=e92]
+              - text: 分享
+        - generic [ref=e95]:
+          - paragraph [ref=e97]:
+            - text: OpenAI 的编码智能体 Codex 部署于多个不同的平台：
+            - link "Web 应用⁠ （在新窗口中打开）" [ref=e98] [cursor=pointer]:
+              - /url: https://chatgpt.com/codex
+              - text: Web 应用⁠
+              - generic [ref=e99]: （在新窗口中打开）
+            - text: 、
+            - link "CLI⁠ （在新窗口中打开）" [ref=e100] [cursor=pointer]:
+              - /url: https://github.com/openai/codex
+              - text: CLI⁠
+              - generic [ref=e101]: （在新窗口中打开）
+            - text: 、
+            - link "IDE 扩展⁠ （在新窗口中打开）" [ref=e102] [cursor=pointer]:
+              - /url: https://developers.openai.com/codex/ide/
+              - text: IDE 扩展⁠
+              - generic [ref=e103]: （在新窗口中打开）
+            - text: ，以及
+            - link "新的 Codex macOS 应用" [ref=e104] [cursor=pointer]:
+              - /url: /index/introducing-the-codex-app/
+            - text: 。其底层架构均由同一个 Codex 运行框架驱动 — 支撑着所有 Codex 体验的智能体循环和逻辑。它们之间有何重要关联？
+            - link "Codex App Server⁠ （在新窗口中打开）" [ref=e105] [cursor=pointer]:
+              - /url: https://developers.openai.com/codex/app-server
+              - text: Codex App Server⁠
+              - generic [ref=e106]: （在新窗口中打开）
+            - text: 是客户端友好型双向 JSON-RPC
+            - superscript [ref=e107]:
+              - link "1" [ref=e109] [cursor=pointer]:
+                - /url: "#citation-bottom-1"
+            - text: API。
+          - paragraph [ref=e111]: 在这篇文章中，我们将介绍 Codex App Server，并分享我们迄今为止所掌握的经验，助你将 Codex 的功能引入产品，以便用户能够大幅提升工作流效率。我们将介绍 App Server 的架构和协议，及其如何与不同的 Codex 界面集成，并分享利用 Codex 的技巧；无论你是想让 Codex 充当代码审查员、SRE 智能体，还是编程助手，它都能助你一臂之力。
+          - heading "App Server 的起源" [level=2] [ref=e115]
+          - paragraph [ref=e117]: 在深入了解架构之前，不妨先看看 App Server 的背景故事。最初，App Server 是一种在不同产品中复用 Codex 运行框架的实用方法，后来逐渐演变为我们的标准协议。
+          - paragraph [ref=e119]:
+            - text: Codex CLI 最初曾作为 TUI（终端用户界面），这意味着你可以通过终端访问 Codex。当我们构建 VS Code 扩展（一种更适用于与 Codex 智能体交互的 IDE 友好型方案）时，我们需要应用相同的运行框架，在不重新实施的情况下，从 IDE 用户界面 (UI) 驱动相同的智能体循环。这意味着要支持超越请求/响应的丰富交互模式，例如探索工作空间、在智能体进行推理时流式传输进程，以及输出差异。我们最初尝试将
+            - link "Codex 作为 MCP 服务器⁠ （在新窗口中打开）" [ref=e120] [cursor=pointer]:
+              - /url: https://github.com/openai/codex/pull/2264
+              - text: Codex 作为 MCP 服务器⁠
+              - generic [ref=e121]: （在新窗口中打开）
+            - text: 对外发布，但我们发现难以运用 VS Code 方案来维护 MCP 语义。相反，我们引入了一个类似 TUI 循环的 JSON-RPC 协议，它成为了 App Server 的
+            - link "非官方首发版本⁠ （在新窗口中打开）" [ref=e122] [cursor=pointer]:
+              - /url: https://github.com/openai/codex/pull/4471
+              - text: 非官方首发版本⁠
+              - generic [ref=e123]: （在新窗口中打开）
+            - text: 。当时，我们并未预料到其他客户会选择 App Server，因为其设计初衷并非是构建稳定的 API。
+          - paragraph [ref=e125]: 在接下来的几个月里，随着 Codex 的应用率不断增长，内部团队和外部合作伙伴希望能够在其自研产品中嵌入同一个运行框架，以加速其用户的软件开发工作流。例如，JetBrains 和 Xcode 希望获得 IDE 级智能体体验，而 Codex 桌面应用则需要并行编排多个 Codex 智能体。这些需求促使我们设计了一个平台界面，确保我们的产品和合作伙伴集成能够基于该平台实现长期稳定运行。它既要易于集成，又要向后兼容，这意味着我们可以在不破坏现有客户端的情况下优化该协议。
+          - paragraph [ref=e127]: 接下来，我们将逐步介绍如何设计相关架构和协议，以便不同的客户端可以应用同一个运行框架。
+          - heading "在 Codex 运行框架内" [level=2] [ref=e131]
+          - paragraph [ref=e133]:
+            - text: 首先，让我们聚焦于 Codex harness 内部的运行框架，以及 Codex App Server 如何向客户端呈现这一框架。在上一篇 Codex
+            - link "博客" [ref=e134] [cursor=pointer]:
+              - /url: /index/unrolling-the-codex-agent-loop/
+            - text: 中，我们拆解了用于协调用户、模型和工具间交互的核心智能体循环。这正是 Codex 运行框架的核心逻辑，但完整的智能体体验远不止于此：
+          - paragraph [ref=e136]:
+            - generic [ref=e137]: 1. 线程生命周期和持久性
+            - text: 。线程是用户与智能体间的 Codex 对话。Codex 可创建、恢复、派生和归档线程，并持久保存事件历史记录，以便客户端重新连接并呈现一致的时间线。
+          - paragraph [ref=e139]:
+            - generic [ref=e140]: 2. 配置和身份验证
+            - text: 。Codex 可加载配置、管理默认值，并运行“使用 ChatGPT 登录”等身份验证流程，包括凭据状态。
+          - paragraph [ref=e142]:
+            - generic [ref=e143]: 3. 工具执行和扩展
+            - text: 。Codex 可在沙盒中执行 shell/文件工具，并连接 MCP 服务器和技能等集成，从而根据一致的策略模式参与智能体循环。
+          - paragraph [ref=e145]:
+            - text: 我们在此提到的所有智能体逻辑（包括核心智能体循环），都位于 Codex CLI 代码库中名为“
+            - link "Codex 核心⁠ （在新窗口中打开）" [ref=e146] [cursor=pointer]:
+              - /url: https://github.com/openai/codex/tree/main/codex-rs/core
+              - text: Codex 核心⁠
+              - generic [ref=e147]: （在新窗口中打开）
+            - text: ”的模块内。“Codex 核心”既是一个存放所有智能体代码的存储库，也是一个可启动的运行时环境，可用于运行智能体循环并管理 Codex 线程（对话）的持久性。
+          - paragraph [ref=e149]: 为了发挥效力，Codex 运行框架需要授予客户端访问权限。这正是 App Server 的“用武之地”。
+          - figure [ref=e151]:
+            - img "标题为“应用服务器流程”的示意图。客户端会将 JSON-RPC 消息发送到 stdio 读取器，该读取器则会将请求分派给 Codex 消息处理器。处理器会通过查找线程、线程句柄、提交的请求和事件/更新，与线程管理器和核心线程交互，然后将响应返回给客户端。" [ref=e159]
+          - paragraph [ref=e161]: App Server 既是客户端与服务器间的 JSON-RPC 协议，也是托管 Codex 核心线程的长期进程。如上图所示，App Server 进程包含四个主要组件：stdio 读取器、Codex 消息处理器、线程管理器和核心线程。线程管理器可为每个线程启动一个核心会话，Codex 消息处理器则可直接与每个核心会话通信，以提交客户端请求并接收更新。
+          - paragraph [ref=e163]: 一个客户端请求可能会导致多个事件更新，正是这些详细的事件支持我们在 App Server 上构建丰富的用户界面。此外，stdio 读取器和 Codex 消息处理器可作为客户端与 Codex 核心线程间的转换层。它们可将客户端 JSON-RPC 请求转换为 Codex 核心操作，监听 Codex 核心的内部事件流，然后将这些低级事件转换为一小组稳定的用户界面就绪型 JSON-RPC 通知。
+          - paragraph [ref=e165]: 客户端与 App Server 间的 JSON-RPC 协议处于完全双向模式。典型的线程包含一个客户端请求和多个服务器通知。此外，当智能体需要输入（例如审批）时，服务器可以发起请求，然后暂停该轮次，直到客户端响应。
+          - heading "对话原语" [level=2] [ref=e169]
+          - paragraph [ref=e171]: 接下来，我们将拆解对话原语，即 App Server 协议的构建模块。为智能体循环设计 API 颇为棘手，因为用户/智能体交互并非简单的请求/响应。一个用户请求可能会展开为一系列结构化的操作序列，客户端需要忠实呈现相应信息：用户的输入、智能体的增量进度，以及在此过程中产生的工件（例如，差异文件）。为了确保交互流易于集成并在各种用户界面中保持弹性，我们确定了三个包含明确边界和生命周期的核心原语：
+          - paragraph [ref=e173]:
+            - generic [ref=e174]: 1. 项目：
+            - text: 项目是 Codex 中输入/输出的基本单位。各个项目都有相应的类型（例如，用户消息、智能体消息、工具执行、审批请求、差异），并且每一个项目都有明确的生命周期：
+          - list [ref=e176]:
+            - listitem [ref=e177]:
+              - code [ref=e179]: item/started
+              - text: ：当项目开始时
+            - listitem [ref=e180]:
+              - text: 可选的
+              - code [ref=e182]: item/*/delta
+              - text: 事件：作为内容流输入（用于流式项目类型）
+            - listitem [ref=e183]:
+              - code [ref=e185]: item/completed
+              - text: ：当项目完成其终端负载时
+          - paragraph [ref=e187]:
+            - text: 此生命周期允许客户端在
+            - code [ref=e189]: started
+            - text: 时立即开始渲染，在
+            - code [ref=e191]: delta
+            - text: 时流式传输增量更新，并在
+            - code [ref=e193]: completed
+            - text: 时最终完成处理。
+          - paragraph [ref=e195]:
+            - generic [ref=e196]: 2. 轮次
+            - text: ：轮次是由用户输入发起的智能体工作单位。当客户端提交输入（例如，“运行测试并总结失败”）时，轮次就会启动；当智能体为该输入生成输出时，轮次就会终止。一个轮次包含一系列项目，这些项目代表了在此过程中产生的中间步骤和输出结果。
+          - paragraph [ref=e198]:
+            - generic [ref=e199]: 3. 线程
+            - text: ：线程是用户与智能体间正在进行的 Codex 会话的持久容器。它包含多个轮次。线程可以被创建、恢复、派生和归档。线程历史记录会被持久化保存，以便客户端重新连接并呈现一致的时间线。
+          - paragraph [ref=e201]: 现在，我们来看看客户端和智能体间的简化对话，该对话由原语表示：
+          - figure [ref=e203]:
+            - img "标注为“客户端-服务器协议消息流：初始化握手”的示意图。客户端会向服务器发送一个包含 clientInfo 的初始化请求。服务器会返回一个包含 userAgent 字符串“my_client/1.0”的结果事件。" [ref=e211]
+          - paragraph [ref=e213]:
+            - text: 在对话开始时，客户端和服务器需要建立
+            - code [ref=e215]: initialize
+            - text: 握手。客户端必须在调用任何其他方法前发送一个
+            - code [ref=e217]: initialize
+            - text: 请求，服务器会通过响应进行确认。这样，服务器就能展现自己的能力，并确保双方在真正投入运行前就协议版本、功能标志和默认值达成一致。以下是 OpenAI VS Code 扩展的负载示例：
+          - generic [ref=e221]:
+            - generic [ref=e222]:
+              - heading "JSON" [level=4] [ref=e223]
+              - button "复制代码块" [ref=e224] [cursor=pointer]:
+                - img [ref=e225]
+            - code [ref=e228]:
+              - generic [ref=e229]:
+                - generic [ref=e230]:
+                  - generic [ref=e231]: "1"
+                  - generic [ref=e232]: "{"
+                - generic [ref=e233]:
+                  - generic [ref=e234]: "2"
+                  - generic [ref=e235]: "\"method\": \"initialize\","
+                - generic [ref=e236]:
+                  - generic [ref=e237]: "3"
+                  - generic [ref=e238]: "\"id\": 0,"
+                - generic [ref=e239]:
+                  - generic [ref=e240]: "4"
+                  - generic [ref=e241]: "\"params\": {"
+                - generic [ref=e242]:
+                  - generic [ref=e243]: "5"
+                  - generic [ref=e244]: "\"clientInfo\": {"
+                - generic [ref=e245]:
+                  - generic [ref=e246]: "6"
+                  - generic [ref=e247]: "\"name\": \"codex_vscode\","
+                - generic [ref=e248]:
+                  - generic [ref=e249]: "7"
+                  - generic [ref=e250]: "\"title\": \"Codex VS Code Extension\","
+                - generic [ref=e251]:
+                  - generic [ref=e252]: "8"
+                  - generic [ref=e253]: "\"version\": \"0.1.0\""
+                - generic [ref=e254]:
+                  - generic [ref=e255]: "9"
+                  - generic [ref=e256]: "}"
+                - generic [ref=e257]:
+                  - generic [ref=e258]: "10"
+                  - generic [ref=e259]: "}"
+                - generic [ref=e260]:
+                  - generic [ref=e261]: "11"
+                  - generic [ref=e262]: "}"
+          - paragraph [ref=e264]: 以下是服务器返回的内容：
+          - generic [ref=e268]:
+            - generic [ref=e269]:
+              - heading "JSON" [level=4] [ref=e270]
+              - button "复制代码块" [ref=e271] [cursor=pointer]:
+                - img [ref=e272]
+            - code [ref=e275]:
+              - generic [ref=e276]:
+                - generic [ref=e277]:
+                  - generic [ref=e278]: "1"
+                  - generic [ref=e279]: "{"
+                - generic [ref=e280]:
+                  - generic [ref=e281]: "2"
+                  - generic [ref=e282]: "\"id\": 0,"
+                - generic [ref=e283]:
+                  - generic [ref=e284]: "3"
+                  - generic [ref=e285]: "\"result\": {"
+                - generic [ref=e286]:
+                  - generic [ref=e287]: "4"
+                  - generic [ref=e288]: "\"userAgent\": \"codex_vscode/0.94.0-alpha.7 (Mac OS 26.2.0; arm64) vscode/2.4.22 (codex_vscode; 0.1.0)\""
+                - generic [ref=e289]:
+                  - generic [ref=e290]: "5"
+                  - generic [ref=e291]: "}"
+                - generic [ref=e292]:
+                  - generic [ref=e293]: "6"
+                  - generic [ref=e294]: "}"
+          - figure [ref=e296]:
+            - img "标题为“客户端-服务器协议消息流：线程与轮次生命周期”的示意图。客户端会向服务器发送 thread/start 和 turn/start 请求。服务器会触发事件（thread/started、turn/started、item/started 和 item/completed），并显示用户消息为“运行测试并总结失败”的轮次。" [ref=e304]
+          - paragraph [ref=e306]:
+            - text: 当客户端发起新请求时，它会先创建一个线程，然后创建一个轮次。服务器将返回进度通知（
+            - code [ref=e308]: thread/started
+            - text: 和
+            - code [ref=e310]: turn/started
+            - text: ）。它还会返回自身识别为项目的输入，比如此示例中的用户消息。
+          - figure [ref=e312]:
+            - img "标题为“客户端-服务器协议消息流：包含审批选项的工具执行”的示意图。在工具调用期间，服务器会发出 item/started，然后发出 item/commandExecution/requestApproval，并说明原因（“运行测试”）。客户端会返回一个审批事件（允许/拒绝）。然后，服务器会发出 item/completed，显示命令执行（“pnpm test”）。" [ref=e320]
+          - paragraph [ref=e322]: 工具调用也会作为项目发送回客户端。此外，服务器在执行操作之前，可能会通过发送服务器请求来请求客户端进行审批。审批将暂停该轮次，直到客户端回复“允许”或“拒绝”。VS Code 扩展中的审批流程如下：
+          - figure [ref=e324]:
+            - img "深色主题界面中的权限提示：“Do you want to allow me to run pnpm test for this workspace?”它列出了以下选项：1) 是；2) 是，且不再询问以 pnpm test 开头的命令；3) 否，且底部设有提交按钮。" [ref=e331]
+          - figure [ref=e333]:
+            - img "标题为“客户端-服务器协议消息流：流式传输智能体消息流”的示意图。服务器会将助理消息流划分为几个部分：item/started、两个 agentMessage/delta 事件（“已运行 3 次测试”、“全部通过”），以及 item/completed。该轮次则以 turn/completed 收尾。" [ref=e341]
+          - paragraph [ref=e343]:
+            - text: 最后，服务器会发送一条智能体消息，然后以
+            - code [ref=e345]: turn/completed
+            - text: 结束该轮次。智能体消息增量事件会持续流式返回消息片段，直到消息以
+            - code [ref=e347]: item/completed
+            - text: 收尾。
+          - paragraph [ref=e349]: 为便于理解，示意图中的信息已经过简化。如果你想查看完整轮次的 JSON，可以从 Codex CLI 代码仓库运行测试客户端：
+          - generic [ref=e353]:
+            - generic [ref=e354]:
+              - heading "Bash" [level=4] [ref=e355]
+              - button "复制代码块" [ref=e356] [cursor=pointer]:
+                - img [ref=e357]
+            - code [ref=e360]:
+              - generic [ref=e362]:
+                - generic [ref=e363]: "1"
+                - generic [ref=e364]: codex debug app-server send-message-v2 "run tests and summarize failures"
+          - heading "与客户端集成" [level=2] [ref=e368]
+          - paragraph [ref=e370]: 现在，让我们看看不同的客户端界面如何通过 App Server 嵌入 Codex。我们将介绍三种模式：本地应用和 IDE、Codex Web 运行时，以及 TUI。
+          - figure [ref=e372]:
+            - img "标题为“Codex 客户端通过应用服务器与 Codex 运行框架集成”的示意图。第一方客户端（Codex 桌面应用、TUI/CLI、Web Runtime）和第三方集成（JetBrains IDE、VS Code、Xcode）通过 JSON-RPC 调用与 Codex 运行框架进行通信。" [ref=e380]
+          - paragraph [ref=e382]: 在上述三种模式中，传输方式均为 JSON-RPC over stdio (JSONL)。JSON-RPC 可助你使用所选的语言，轻松构建客户端绑定。Codex 界面和合作伙伴集成已在 Go、Python、TypeScript、Swift 和 Kotlin 等多种语言中部署 App Server 客户端。对于 TypeScript，你可以通过运行以下命令直接从 Rust 协议生成定义：
+          - generic [ref=e386]:
+            - generic [ref=e387]:
+              - heading "Bash" [level=4] [ref=e388]
+              - button "复制代码块" [ref=e389] [cursor=pointer]:
+                - img [ref=e390]
+            - code [ref=e393]:
+              - generic [ref=e395]:
+                - generic [ref=e396]: "1"
+                - generic [ref=e397]: codex app-server generate-ts
+          - paragraph [ref=e399]: 对于其他语言，你可以生成一个 JSON 模式捆绑包，并通过运行以下命令将其输入到你首选的代码生成器中：
+          - generic [ref=e403]:
+            - generic [ref=e404]:
+              - heading "Bash" [level=4] [ref=e405]
+              - button "复制代码块" [ref=e406] [cursor=pointer]:
+                - img [ref=e407]
+            - code [ref=e410]:
+              - generic [ref=e412]:
+                - generic [ref=e413]: "1"
+                - generic [ref=e414]: codex app-server generate-json-schema
+          - heading "本地应用和 IDE" [level=5] [ref=e418]
+          - figure [ref=e420]:
+            - img "VS Code 的屏幕截图，图中包含正在运行的 Codex 扩展。Rust 测试文件已打开，其下方的 Codex 面板显示仅运行 fmt 和 cargo test -p codex-app-server 的描述，表明格式化和测试正在进行中，需等待通过/失败的最终结果。" [ref=e427]
+          - paragraph [ref=e429]: 本地客户端通常会捆绑或获取特定平台的 App Server 二进制文件，将其作为一个长期运行的子进程启动，并为 JSON-RPC 开通一个双向 stdio 通道。例如，在我们的 VS Code 扩展和桌面应用中，随附的工件包含特定平台的 Codex 二进制文件，并固定为已测试版本，以便客户端始终运行与验证完全一致的代码。
+          - paragraph [ref=e431]: 并非所有集成都能频繁发布客户端更新。部分合作伙伴（如 Xcode）通过保持客户端稳定，并在需要时允许其指向更新的 App Server 二进制文件，解耦发布周期。这样一来，他们就可以应用服务器端的优化（例如，Codex 核心中更好的自动压缩或新的支持配置键），并推出错误修复程序，而无需等待客户端发布。App Server 的 JSON-RPC 接口采用向后兼容设计，因此旧版客户端可以安全地与新版服务器通信。
+          - heading "Codex Web" [level=5] [ref=e435]
+          - figure [ref=e437]:
+            - img "Codex Web 界面的屏幕截图：显示标题为“更新登录成功消息”的更新内容。左侧面板汇总了变更、测试和已修改的文件，右侧面板则展示了 login.rs 的代码差异，且包含“更新登录成功消息”字样。" [ref=e444]
+          - paragraph [ref=e446]:
+            - text: Codex Web 使用 Codex 运行框架，但其在容器环境中运行。工作节点会提供一个包含已签出工作空间的容器，在其中启动 App Server 二进制文件，并通过 stdio
+            - superscript [ref=e447]:
+              - link "2" [ref=e449] [cursor=pointer]:
+                - /url: "#citation-bottom-2"
+            - text: 通道维护长期运行的 JSON-RPC。Web 应用（在用户的浏览器标签页中运行）通过 HTTP 和 SSE 与 Codex 后端对话，后者则会流式传输由工作节点生成的任务事件。这样既能保持浏览器端用户界面的轻量化状态，又能在桌面和 Web 端保持一致的运行时。
+          - paragraph [ref=e451]: 由于网页会话为临时性质（标签页关闭、网络中断），因此 Web 应用不能作为长期任务的可信数据源。在服务器上保留状态和进度意味着，即使标签页消失，任务也会继续运行。流式传输协议和已保存的线程会话可支持新会话轻松实现重新连接、从中断处继续运行，并快速同步状态，而无需在客户端内重建状态。
+          - heading "TUI/Codex CLI" [level=5] [ref=e455]
+          - figure [ref=e457]:
+            - img "运行 Codex CLI 的终端屏幕截图。图中显示了包含 gpt-5.2-codex medium 模型的 OpenAI Codex 横幅、“为我解释应用服务器的原理”字样的用户命令以及“正在运行”状态。图片下方则显示“为 @filename 编写测试”字样的建议，且包含快捷方式选项。" [ref=e464]
+          - paragraph [ref=e466]: 就传统意义而言，TUI 是一个“原生”客户端，它在与智能体循环相同的进程中运行，且直接与 Rust 核心类型通信，而非使用应用服务器协议。这有助于提高早期迭代速度，同时也会让 TUI 成为特殊的界面。
+          - paragraph [ref=e468]:
+            - text: 既然 App Server 已经存在，我们计划
+            - link "重构 TUI⁠ （在新窗口中打开）" [ref=e469] [cursor=pointer]:
+              - /url: https://github.com/openai/codex/pull/10192
+              - text: 重构 TUI⁠
+              - generic [ref=e470]: （在新窗口中打开）
+            - text: 以投入实际应用，确保其发挥类似于其他客户端的作用：启动一个 App Server 子进程，通过 stdio 进行 JSON-RPC 通信，并渲染相同的流式事件和审批。这样一来，TUI 就可以连接远程设备上运行的 Codex 服务器，确保智能体部署于接近计算资源的位置，即使笔记本电脑休眠或断开连接也能继续运行，同时还能在本地实现实时更新和控制。
+          - heading "选择合适的协议" [level=2] [ref=e474]
+          - paragraph [ref=e476]: Codex App Server 将是我们今后维护的首要集成方案，但也有其他功能较为有限的方法。默认情况下，我们建议客户使用 Codex App Server 与 Codex 集成，借鉴其他集成方法并深入研究其优缺点。以下是驱动 Codex 的最常见方式，以及每种方式的应用场景。
+          - heading "JSON-RPC 协议" [level=4] [ref=e480]
+          - heading "作为 MCP 服务器的 Codex" [level=5] [ref=e484]
+          - paragraph [ref=e486]:
+            - text: 运行
+            - link "codex mcp-server⁠ （在新窗口中打开）" [ref=e487] [cursor=pointer]:
+              - /url: https://developers.openai.com/codex/guides/agents-sdk/
+              - code [ref=e489]: codex mcp-server
+              - text: ⁠
+              - generic [ref=e490]: （在新窗口中打开）
+            - text: ，然后从任何支持 stdio 服务器的 MCP 客户端连接（例如，
+            - link "OpenAI Agents SDK⁠ （在新窗口中打开）" [ref=e491] [cursor=pointer]:
+              - /url: https://openai.github.io/openai-agents-js/
+              - text: OpenAI Agents SDK⁠
+              - generic [ref=e492]: （在新窗口中打开）
+            - text: ）。如果你已构建基于 MCP 的工作流，并希望将 Codex 作为可调用的工具，那么这一方案就是理想选择。其缺点在于，你只能获取 MCP 公开的内容，因此依赖更丰富会话语义（例如，差异更新）的 Codex 特定交互可能无法通过 MCP 端点清晰映射。
+          - heading "跨提供商智能体运行框架协议" [level=5] [ref=e496]
+          - paragraph [ref=e498]:
+            - text: 部分生态系统可面向多个模型提供商和运行时环境提供可移植接口。如果你需要借助抽象化来协调多个智能体，这就是一个不错的选择。其代价在于，这些协议往往趋同于通用的功能子集，这可能会使更丰富的交互难以表示，特别是当特定提供商的工具和会话语义至关重要时。这一领域正在迅速发展，我们预计，随着 OpenAI 不断探索用于表示真实智能体工作流的最佳原语，更多的通用标准也会相继涌现（
+            - link "技能⁠ （在新窗口中打开）" [ref=e499] [cursor=pointer]:
+              - /url: https://agentskills.io/home
+              - text: 技能⁠
+              - generic [ref=e500]: （在新窗口中打开）
+            - text: 就是其中的典型案例）。
+          - heading "Codex App Server" [level=5] [ref=e504]
+          - paragraph [ref=e506]: 当你希望将完整的 Codex 运行框架以稳定的用户界面友好型事件流形式展示时，请选择 App Server。你将同时获得智能体循环的完整功能，以及其他支持功能，例如使用 ChatGPT 登录、模型发现和配置管理。其主要成本在于集成工作，因为你需要使用所选的语言构建客户端的 JSON-RPC 绑定。但实际上，如果你向 Codex 提供 JSON 模式和文档，它就能完成大量繁重的工作。与我们合作的许多团队都会使用 Codex 快速开发可用集成。
+          - heading "嵌入 Codex 的其他方法" [level=4] [ref=e510]
+          - heading "Codex Exec⁠ （在新窗口中打开）" [level=5] [ref=e514]:
+            - link "Codex Exec⁠ （在新窗口中打开）" [ref=e515] [cursor=pointer]:
+              - /url: https://developers.openai.com/codex/cli/reference/#codex-exec
+              - text: Codex Exec⁠
+              - generic [ref=e516]: （在新窗口中打开）
+          - paragraph [ref=e518]: 一种轻量级、可编写脚本的 CLI 模式，适用于一次性任务和 CI 运行。它适用于自动化和管道场景，在这些场景中，你希望通过一条命令以非交互形式实现全程运行，为日志流式传输结构化输出，并在退出时发出明确的成功或失败信号。
+          - heading "Codex SDK⁠ （在新窗口中打开）" [level=5] [ref=e522]:
+            - link "Codex SDK⁠ （在新窗口中打开）" [ref=e523] [cursor=pointer]:
+              - /url: https://developers.openai.com/codex/sdk/
+              - text: Codex SDK⁠
+              - generic [ref=e524]: （在新窗口中打开）
+          - paragraph [ref=e526]: TypeScript 代码库，用于在你自己的应用程序中以编程方式控制本地 Codex 智能体。当你希望为服务器端工具和工作流提供原生库接口，而无需构建单独的 JSON-RPC 客户端时，它就是最佳选择。由于它比 App Server 更早发布，目前支持的语言较少，且覆盖范围也较小。如果开发人员有意了解相关信息，我们可能会添加更多封装 App Server 协议的 SDK，以便你的团队覆盖更多的运行框架界面，而无需编写 JSON-RPC 绑定。
+          - heading "推进相关工作" [level=2] [ref=e530]
+          - paragraph [ref=e532]: 在这篇文章中，我们分享了如何设计与智能体交互的新标准，以及如何将 Codex 运行框架转变为稳定的客户端友好型协议。我们介绍了 App Server 如何公开 Codex 核心，如何支持客户端驱动整个智能体循环，以及如何为 TUI、本地 IDE 集成和网络运行时等环境提供动力。
+          - paragraph [ref=e534]:
+            - text: 如果这激发了你将 Codex 集成至专属工作流的灵感，那么 App Server 值得一试。所有源代码都存放在 Codex CLI 开源
+            - link "代码仓库⁠ （在新窗口中打开）" [ref=e535] [cursor=pointer]:
+              - /url: https://github.com/openai/codex/blob/main/codex-rs/app-server/README.md
+              - text: 代码仓库⁠
+              - generic [ref=e536]: （在新窗口中打开）
+            - text: 中。欢迎你分享反馈意见和功能建议。我们期望收到你的回复，并将继续面向所有用户推广智能体。
+        - generic [ref=e539]:
+          - list [ref=e541]:
+            - listitem [ref=e542]:
+              - link "Codex" [ref=e543] [cursor=pointer]:
+                - /url: /news/?tags=codex
+            - listitem [ref=e544]:
+              - link "2026" [ref=e545] [cursor=pointer]:
+                - /url: /news/?tags=2026
+          - generic [ref=e546]:
+            - heading "作者" [level=2] [ref=e547]
+            - generic [ref=e548]: Celia Chen
+          - generic [ref=e549]:
+            - heading "致谢" [level=2] [ref=e550]
+            - paragraph [ref=e552]: 特别鸣谢 Michael Bolin、Owen Lin、Eric Traut 和 Rasmus Rygaard 参与本文的撰稿工作，以及从事 App Server 开发工作的 Codex 团队全体成员。
+          - generic [ref=e553]:
+            - heading "脚注" [level=2] [ref=e554]
+            - list [ref=e556]:
+              - listitem [ref=e557]:
+                - generic [ref=e558]: "1"
+                - paragraph [ref=e560]:
+                  - text: 我们使用“JSON‑RPC lite”的变体：它能保留请求/响应/通知的结构，但会省略
+                  - code [ref=e561]: "\"jsonrpc\": \"2.0\""
+                  - text: 标头，且采用 JSONL over stdio 格式，而非严格的 JSON‑RPC 2.0.
+                  - button "滚动到引文 1 参考" [ref=e563] [cursor=pointer]:
+                    - img [ref=e564]
+              - listitem [ref=e566]:
+                - generic [ref=e567]: "2"
+                - paragraph [ref=e569]:
+                  - text: “stdio” 指的是容器内应用服务器的 stdin/stdout。在托管设置中，这些数据流通常通过持久化网络连接（例如，类似 WebSocket 的网络连接）信道传输到容器运行时 — 因此其行为近似于 stdio，即使它并非字面意义上的本地管道。
+                  - button "滚动到引文 2 参考" [ref=e571] [cursor=pointer]:
+                    - img [ref=e572]
+        - generic [ref=e574]:
+          - generic [ref=e575]:
+            - heading "继续阅读" [level=2] [ref=e577]
+            - link "查看全部" [ref=e578] [cursor=pointer]:
+              - /url: /news/
+          - generic [ref=e581]:
+            - generic [ref=e583]:
+              - img "Equip responses API > card image" [ref=e589]
+              - link "从模型到智能体：为 Responses API 配备计算机环境 - 工程 - 2026年3月11日" [ref=e590] [cursor=pointer]:
+                - /url: /index/equip-responses-api-computer-environment/
+                - generic [ref=e591]:
+                  - generic [ref=e592]: 从模型到智能体：为 Responses API 配备计算机环境
+                  - paragraph [ref=e593]:
+                    - generic [ref=e594]: 工程
+                    - time [ref=e596]: 2026年3月11日
+            - generic [ref=e598]:
+              - img "fin eng (credits) > card image" [ref=e604]
+              - link "超越速率限制：扩大 Codex 和 Sora 的访问规模 - 工程 - 2026年2月13日" [ref=e605] [cursor=pointer]:
+                - /url: /index/beyond-rate-limits/
+                - generic [ref=e606]:
+                  - generic [ref=e607]: 超越速率限制：扩大 Codex 和 Sora 的访问规模
+                  - paragraph [ref=e608]:
+                    - generic [ref=e609]: 工程
+                    - time [ref=e611]: 2026年2月13日
+            - generic [ref=e613]:
+              - img "harness eng > card image" [ref=e619]
+              - link "工程技术：在智能体优先的世界中利用 Codex - 工程 - 2026年2月11日" [ref=e620] [cursor=pointer]:
+                - /url: /index/harness-engineering/
+                - generic [ref=e621]:
+                  - generic [ref=e622]: 工程技术：在智能体优先的世界中利用 Codex
+                  - paragraph [ref=e623]:
+                    - generic [ref=e624]: 工程
+                    - time [ref=e626]: 2026年2月11日
+    - contentinfo [ref=e627]:
+      - generic [ref=e629]:
+        - generic [ref=e630]:
+          - generic [ref=e631]:
+            - heading "我们的研究" [level=2] [ref=e632]
+            - list [ref=e633]:
+              - listitem [ref=e634]:
+                - link "研究索引" [ref=e635] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/research/index/
+              - listitem [ref=e636]:
+                - link "研究概览" [ref=e637] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/research/
+              - listitem [ref=e638]:
+                - link "研究驻留" [ref=e639] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/residency/
+              - listitem [ref=e640]:
+                - link "经济研究" [ref=e641] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/signals/
+          - generic [ref=e642]:
+            - heading "最新进展" [level=2] [ref=e643]
+            - list [ref=e644]:
+              - listitem [ref=e645]:
+                - link "GPT-5.3 Instant" [ref=e646] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/index/gpt-5-3-instant/
+              - listitem [ref=e647]:
+                - link "GPT-5.3-Codex" [ref=e648] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/index/introducing-gpt-5-3-codex/
+              - listitem [ref=e649]:
+                - link "GPT-5" [ref=e650] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/gpt-5/
+              - listitem [ref=e651]:
+                - link "Codex" [ref=e652] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/index/introducing-gpt-5-3-codex/
+          - generic [ref=e653]:
+            - heading "安全" [level=2] [ref=e654]
+            - list [ref=e655]:
+              - listitem [ref=e656]:
+                - link "安全措施" [ref=e657] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/safety/
+              - listitem [ref=e658]:
+                - link "安全与隐私" [ref=e659] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/security-and-privacy/
+              - listitem [ref=e660]:
+                - link "信任与透明度" [ref=e661] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/trust-and-transparency/
+        - generic [ref=e662]:
+          - generic [ref=e663]:
+            - heading "ChatGPT" [level=2] [ref=e664]
+            - list [ref=e665]:
+              - listitem [ref=e666]:
+                - link "探索 ChatGPT （在新窗口中打开）" [ref=e667] [cursor=pointer]:
+                  - /url: https://chatgpt.com/overview
+                  - text: 探索 ChatGPT
+                  - img [ref=e668]
+                  - generic [ref=e670]: （在新窗口中打开）
+              - listitem [ref=e671]:
+                - link "Business 版" [ref=e672] [cursor=pointer]:
+                  - /url: https://chatgpt.com/business/business-plan
+              - listitem [ref=e673]:
+                - link "Enterprise 版" [ref=e674] [cursor=pointer]:
+                  - /url: https://chatgpt.com/business/enterprise
+              - listitem [ref=e675]:
+                - link "Education 版" [ref=e676] [cursor=pointer]:
+                  - /url: https://chatgpt.com/business/education
+              - listitem [ref=e677]:
+                - link "定价 （在新窗口中打开）" [ref=e678] [cursor=pointer]:
+                  - /url: https://chatgpt.com/pricing
+                  - text: 定价
+                  - img [ref=e679]
+                  - generic [ref=e681]: （在新窗口中打开）
+              - listitem [ref=e682]:
+                - link "下载 （在新窗口中打开）" [ref=e683] [cursor=pointer]:
+                  - /url: https://chatgpt.com/download
+                  - text: 下载
+                  - img [ref=e684]
+                  - generic [ref=e686]: （在新窗口中打开）
+          - generic [ref=e687]:
+            - heading "Sora" [level=2] [ref=e688]
+            - list [ref=e689]:
+              - listitem [ref=e690]:
+                - link "Sora 概览" [ref=e691] [cursor=pointer]:
+                  - /url: /sora/
+              - listitem [ref=e692]:
+                - link "功能" [ref=e693] [cursor=pointer]:
+                  - /url: /sora/#features
+              - listitem [ref=e694]:
+                - link "定价" [ref=e695] [cursor=pointer]:
+                  - /url: /sora/#pricing
+              - listitem [ref=e696]:
+                - link "Sora 登录 （在新窗口中打开）" [ref=e697] [cursor=pointer]:
+                  - /url: https://sora.com/
+                  - text: Sora 登录
+                  - img [ref=e698]
+                  - generic [ref=e700]: （在新窗口中打开）
+          - generic [ref=e701]:
+            - heading "API 平台" [level=2] [ref=e702]
+            - list [ref=e703]:
+              - listitem [ref=e704]:
+                - link "平台概览" [ref=e705] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/api/
+              - listitem [ref=e706]:
+                - link "定价" [ref=e707] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/api/pricing/
+              - listitem [ref=e708]:
+                - link "API 登录 （在新窗口中打开）" [ref=e709] [cursor=pointer]:
+                  - /url: https://platform.openai.com/login
+                  - text: API 登录
+                  - img [ref=e710]
+                  - generic [ref=e712]: （在新窗口中打开）
+              - listitem [ref=e713]:
+                - link "文档 （在新窗口中打开）" [ref=e714] [cursor=pointer]:
+                  - /url: https://developers.openai.com/api/docs
+                  - text: 文档
+                  - img [ref=e715]
+                  - generic [ref=e717]: （在新窗口中打开）
+              - listitem [ref=e718]:
+                - link "开发者论坛 （在新窗口中打开）" [ref=e719] [cursor=pointer]:
+                  - /url: https://community.openai.com/
+                  - text: 开发者论坛
+                  - img [ref=e720]
+                  - generic [ref=e722]: （在新窗口中打开）
+        - generic [ref=e723]:
+          - generic [ref=e724]:
+            - heading "商业应用" [level=2] [ref=e725]
+            - list [ref=e726]:
+              - listitem [ref=e727]:
+                - link "商业应用概览" [ref=e728] [cursor=pointer]:
+                  - /url: /business/
+              - listitem [ref=e729]:
+                - link "解决方案" [ref=e730] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/solutions/
+              - listitem [ref=e731]:
+                - link "联系销售团队" [ref=e732] [cursor=pointer]:
+                  - /url: /contact-sales/
+          - generic [ref=e733]:
+            - heading "公司" [level=2] [ref=e734]
+            - list [ref=e735]:
+              - listitem [ref=e736]:
+                - link "关于我们" [ref=e737] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/about/
+              - listitem [ref=e738]:
+                - link "我们的宪章" [ref=e739] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/charter/
+              - listitem [ref=e740]:
+                - link "基金会 （在新窗口中打开）" [ref=e741] [cursor=pointer]:
+                  - /url: https://openaifoundation.org
+                  - text: 基金会
+                  - img [ref=e742]
+                  - generic [ref=e744]: （在新窗口中打开）
+              - listitem [ref=e745]:
+                - link "工作机会" [ref=e746] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/careers/
+              - listitem [ref=e747]:
+                - link "品牌" [ref=e748] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/brand/
+          - generic [ref=e749]:
+            - heading "支持" [level=2] [ref=e750]
+            - list [ref=e751]:
+              - listitem [ref=e752]:
+                - link "帮助中心 （在新窗口中打开）" [ref=e753] [cursor=pointer]:
+                  - /url: https://help.openai.com/
+                  - text: 帮助中心
+                  - img [ref=e754]
+                  - generic [ref=e756]: （在新窗口中打开）
+          - generic [ref=e757]:
+            - heading "更多" [level=2] [ref=e758]
+            - list [ref=e759]:
+              - listitem [ref=e760]:
+                - link "新闻" [ref=e761] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/news/
+              - listitem [ref=e762]:
+                - link "客户案例" [ref=e763] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/stories/
+              - listitem [ref=e764]:
+                - link "Academy" [ref=e765] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/academy/
+              - listitem [ref=e766]:
+                - link "直播" [ref=e767] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/live/
+              - listitem [ref=e768]:
+                - link "播客" [ref=e769] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/podcast/
+              - listitem [ref=e770]:
+                - link "RSS" [ref=e771] [cursor=pointer]:
+                  - /url: https://openai.com/news/rss.xml
+        - generic [ref=e773]:
+          - heading "条款与政策" [level=2] [ref=e774]
+          - list [ref=e775]:
+            - listitem [ref=e776]:
+              - link "使用条款" [ref=e777] [cursor=pointer]:
+                - /url: /zh-Hans-CN/policies/terms-of-use/
+            - listitem [ref=e778]:
+              - link "隐私政策" [ref=e779] [cursor=pointer]:
+                - /url: /zh-Hans-CN/policies/privacy-policy/
+            - listitem [ref=e780]:
+              - link "其他政策" [ref=e781] [cursor=pointer]:
+                - /url: /zh-Hans-CN/policies/
+      - generic [ref=e782]:
+        - generic [ref=e783]:
+          - link "X" [ref=e784] [cursor=pointer]:
+            - /url: https://x.com/OpenAI
+            - img [ref=e785]
+            - generic [ref=e787]: （在新窗口中打开）
+          - link "YouTube" [ref=e788] [cursor=pointer]:
+            - /url: https://www.youtube.com/OpenAI
+            - img [ref=e789]
+            - generic [ref=e791]: （在新窗口中打开）
+          - link "LinkedIn" [ref=e792] [cursor=pointer]:
+            - /url: https://www.linkedin.com/company/openai
+            - img [ref=e793]
+            - generic [ref=e795]: （在新窗口中打开）
+          - link "GitHub" [ref=e796] [cursor=pointer]:
+            - /url: https://github.com/openai
+            - img [ref=e797]
+            - generic [ref=e799]: （在新窗口中打开）
+          - link "Instagram" [ref=e800] [cursor=pointer]:
+            - /url: https://www.instagram.com/openai/
+            - img [ref=e801]
+            - generic [ref=e803]: （在新窗口中打开）
+          - link "TikTok" [ref=e804] [cursor=pointer]:
+            - /url: https://www.tiktok.com/@openai
+            - img [ref=e805]
+            - generic [ref=e807]: （在新窗口中打开）
+          - link "Discord" [ref=e808] [cursor=pointer]:
+            - /url: https://discord.gg/openai
+            - img [ref=e809]
+            - generic [ref=e811]: （在新窗口中打开）
+        - generic [ref=e812]:
+          - generic [ref=e813]: OpenAI © 2015–2026
+          - button "管理 Cookie" [ref=e814] [cursor=pointer]
+        - generic [ref=e815]:
+          - button "更改语言" [ref=e816] [cursor=pointer]:
+            - generic [ref=e817]:
+              - img [ref=e818]
+              - generic [ref=e821]:
+                - text: 中文
+                - generic [ref=e822]: 中国
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - img
+                    - textbox "按名称或地区搜索区域设置":
+                      - /placeholder: 搜索

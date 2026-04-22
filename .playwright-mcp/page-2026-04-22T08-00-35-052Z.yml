@@ -1,0 +1,1418 @@
+- generic [active] [ref=e1]:
+  - banner:
+    - generic [ref=e2]:
+      - link "跳至主要内容":
+        - /url: "#main"
+      - generic [ref=e4]:
+        - link "OpenAI 主页" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - img [ref=e7]
+        - generic [ref=e9]:
+          - navigation "主导航" [ref=e11]:
+            - list [ref=e12]:
+              - listitem [ref=e13]:
+                - link "研究" [ref=e14] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/research/index/
+                  - generic [ref=e16]: 研究
+                - button "研究 菜单"
+              - listitem [ref=e17]:
+                - button "产品" [ref=e18] [cursor=pointer]:
+                  - generic [ref=e20]: 产品
+                - button "产品 菜单"
+              - listitem [ref=e21]:
+                - link "企业" [ref=e22] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/business/
+                  - generic [ref=e24]: 企业
+                - button "企业 菜单"
+              - listitem [ref=e25]:
+                - link "开发人员" [ref=e26] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/api/
+                  - generic [ref=e28]: 开发人员
+                - button "开发人员 菜单"
+              - listitem [ref=e29]:
+                - link "公司" [ref=e30] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/about/
+                  - generic [ref=e32]: 公司
+                - button "公司 菜单"
+              - listitem [ref=e33]:
+                - link "基金会 （在新窗口中打开）" [ref=e34] [cursor=pointer]:
+                  - /url: https://openaifoundation.org
+                  - generic [ref=e36]: 基金会
+                  - generic [ref=e37]: （在新窗口中打开）
+          - generic [ref=e39]:
+            - button "打开搜索" [ref=e41] [cursor=pointer]:
+              - img [ref=e42]
+            - button "关闭搜索" [ref=e44] [cursor=pointer]:
+              - img [ref=e45]
+          - generic [ref=e48]:
+            - button "登录" [ref=e49] [cursor=pointer]:
+              - text: 登录
+              - img [ref=e50]
+            - link "试用 ChatGPT （在新窗口中打开）" [ref=e52] [cursor=pointer]:
+              - /url: https://chatgpt.com/
+              - text: 试用 ChatGPT
+              - img [ref=e53]
+              - generic [ref=e55]: （在新窗口中打开）
+  - generic [ref=e56]:
+    - main [ref=e57]:
+      - generic [ref=e58]: OpenAI
+      - navigation:
+        - generic [ref=e60]:
+          - button "目录" [ref=e61] [cursor=pointer]:
+            - generic [ref=e62]: 目录
+          - img [ref=e64]
+      - article [ref=e66]:
+        - generic [ref=e67]:
+          - generic [ref=e71]:
+            - generic [ref=e72]:
+              - paragraph [ref=e73]: 2026年1月23日
+              - link "工程" [ref=e74] [cursor=pointer]:
+                - /url: /news/engineering/
+            - heading "深入解析 Codex 智能体循环" [level=1] [ref=e75]
+            - paragraph [ref=e77]: 作者：Michael Bolin，技术团队成员
+          - generic [ref=e79]:
+            - generic [ref=e82]:
+              - button "播放页面文本音频" [disabled] [ref=e83]:
+                - img [ref=e84]
+              - generic [ref=e86]: 正在加载…
+            - button "分享" [ref=e91] [cursor=pointer]:
+              - img [ref=e92]
+              - text: 分享
+        - generic [ref=e95]:
+          - paragraph [ref=e97]:
+            - link "Codex CLI⁠ （在新窗口中打开）" [ref=e98] [cursor=pointer]:
+              - /url: https://developers.openai.com/codex/cli
+              - generic [ref=e99]: Codex CLI
+              - text: ⁠
+              - generic [ref=e100]: （在新窗口中打开）
+            - text: 是我们打造的跨平台本地软件智能体，其设计宗旨是在你的计算机上安全、高效地运行，并交付高质量、可靠的软件变更。
+            - link "自四月首次发布该 CLI 以来⁠" [ref=e101] [cursor=pointer]:
+              - /url: https://openai.com/index/introducing-o3-and-o4-mini/
+              - generic [ref=e102]: 自四月首次发布该 CLI 以来
+              - text: ⁠
+            - text: ，我们在构建先进软件智能体方面积累了丰富经验。为分享这些收获与思考，我们推出了本系列文章。作为开篇之作，本文将深入解析 Codex 的运作机制与核心原理，并分享我们在实践中积累的经验。（如需详细了解 Codex CLI 的底层实现细节，请查看我们的开源仓库：
+            - link "https://github.com/openai/codex⁠ （在新窗口中打开）" [ref=e103] [cursor=pointer]:
+              - /url: https://github.com/openai/codex
+              - generic [ref=e104]: https://github.com/openai/codex
+              - text: ⁠
+              - generic [ref=e105]: （在新窗口中打开）
+            - text: 。我们的许多设计决策细节都记录在 GitHub 的议题和 Pull Request 中，可供深入查阅。）
+          - paragraph [ref=e107]:
+            - text: 首先，我们将聚焦于
+            - generic [ref=e108]: 智能体循环
+            - text: — 这是 Codex CLI 的核心逻辑，负责协调用户、模型以及模型为执行任务所调用的工具三者之间的交互。希望本文能帮助你全面理解我们的智能体（或称“运行框架”）在运用大语言模型（LLM）时所发挥的关键作用。
+          - paragraph [ref=e110]:
+            - text: 在深入之前，先简单说明一下术语：在 OpenAI，“Codex”是指一系列软件智能体产品，包括 Codex CLI、Codex Cloud 和 Codex VS Code 扩展。本文重点探讨 Codex 的
+            - generic [ref=e111]: 运行框架
+            - text: 。它提供了核心的智能体循环与执行逻辑，是所有 Codex 体验的基石，并通过 Codex CLI 对外提供。为行文简洁，下文将交替使用“Codex”与“Codex CLI”。
+          - heading "智能体循环" [level=2] [ref=e115]
+          - paragraph [ref=e117]: 对任何一个 AI 智能体来说，其核心都是一套称为“智能体循环”的运行机制。其简化示意如下图所示：
+          - figure [ref=e119]:
+            - img "标题为“Agent loop”的示意图，展示了 AI 系统如何处理用户请求、调用工具、观察结果、更新计划并返回输出。箭头连接用户输入、模型推理、工具操作和最终响应等步骤。" [ref=e127]
+          - paragraph [ref=e129]:
+            - text: 首先，智能体接收用户
+            - generic [ref=e130]: 输入
+            - text: ，并将其整合为一系列为可供模型使用的文本指令，这一系列指令称为
+            - generic [ref=e131]: 提示
+            - text: 。
+          - paragraph [ref=e133]:
+            - text: 接着，智能体将指令发送给模型，并要求模型生成响应，这个过程称为
+            - generic [ref=e134]: 推理
+            - text: 。在推理过程中，文本提示首先被转换为一串输入
+            - link "Token⁠ （在新窗口中打开）" [ref=e135] [cursor=pointer]:
+              - /url: https://platform.openai.com/docs/concepts#tokens
+              - generic [ref=e136]: Token
+              - text: ⁠
+              - generic [ref=e137]: （在新窗口中打开）
+            - text: — 这些 Token 是用于索引模型词汇表的整数值。随后，这些 Token 被用于对模型进行采样，从而生成一串新的输出 Token。
+          - paragraph [ref=e139]: 输出 Token 会转换回文本作为模型响应。由于 Token 是逐次生成的，转换过程可以与模型运行同步进行，因此许多大语言模型应用能实现流式输出。实际应用中，推理过程通常封装在一个处理文本的 API 内部，从而对使用者隐藏了 Token 化的细节。
+          - paragraph [ref=e141]:
+            - text: 推理步骤完成后，模型可能产生两种结果：(1) 生成对用户原始输入的最终响应；或 (2) 请求智能体执行一次
+            - generic [ref=e142]: 工具调用
+            - text: （例如，“运行
+            - code [ref=e144]: ls
+            - text: 命令并返回结果”）。若是情况 (2)，智能体则执行所请求的工具调用，并将工具执行的结果追加到原始提示中。工具的输出结果将用于生成新的输入，并再次提交给模型；智能体基于这个更新后的上下文，开始新一轮推理。
+          - paragraph [ref=e146]:
+            - text: 此过程循环往复，直至模型不再发起工具调用，转而生成一条面向用户的消息（在 OpenAI 模型中称为
+            - generic [ref=e147]: 助手消息
+            - text: ）。多数情况下，此消息会直接回应用户的初始请求，但也可能是一个向用户提出的追问。
+          - paragraph [ref=e149]:
+            - text: 由于智能体能够执行会修改本地环境的工具调用，因此其“输出”并不局限于助手消息本身。在许多场景下，软件智能体最主要的“输出”，其实是它在你计算机上直接编写或修改的代码。然而，每一轮交互最终都会由一条助手消息来结束，例如“你要求的
+            - code [ref=e151]: architecture.md
+            - text: 文件已添加”，这标志着智能体循环达到终止状态。从智能体的视角来看，其任务已告完成，控制权也随之交还给用户。
+          - paragraph [ref=e153]:
+            - text: 图中所示的从
+            - generic [ref=e154]: 用户输入
+            - text: 到
+            - generic [ref=e155]: 智能体响应
+            - text: 的完整过程，被称为一次对话
+            - generic [ref=e156]: 轮次
+            - text: （在 Codex 中也称为一个
+            - generic [ref=e157]: 对话线程
+            - text: ）。需要注意的是，一次
+            - generic [ref=e158]: 对话轮次
+            - text: 可能包含
+            - generic [ref=e159]: 模型推理
+            - text: 与
+            - generic [ref=e160]: 工具调用
+            - text: 之间的多次循环迭代。每当你向既有对话发送新消息时，包括之前所有轮次的消息与工具调用在内的完整对话历史，都会被纳入新轮次的提示中：
+          - figure [ref=e162]:
+            - img "标题为“Multi-turn agent loop”的图示，展示 AI 智能体如何迭代地接收用户输入、生成行动、咨询工具、更新状态并返回结果。图示包含带标签的步骤、箭头以及展示智能体推理循环的示例工具输出。" [ref=e170]
+          - paragraph [ref=e172]:
+            - text: 这意味着，随着对话的推进，用于模型采样的提示也会越来越长。提示长度至关重要，因为每个模型都有一个
+            - generic [ref=e173]: 上下文窗口
+            - text: ，即其单次推理调用所能处理的最大 Token 数。需要注意，此窗口的容量同时涵盖了输入
+            - generic [ref=e174]: 与
+            - text: 输出 Token。可以想象，智能体在单轮交互中可能发起数百次工具调用，因此存在耗尽上下文窗口的风险。正因如此，
+            - generic [ref=e175]: 上下文窗口管理
+            - text: 便成了智能体的核心职责之一。现在，让我们深入 Codex 内部，看其如何运行智能体循环。
+          - heading "模型推理" [level=2] [ref=e179]
+          - paragraph [ref=e181]:
+            - text: Codex CLI 通过向
+            - link "Responses API⁠ （在新窗口中打开）" [ref=e182] [cursor=pointer]:
+              - /url: https://platform.openai.com/docs/api-reference/responses
+              - generic [ref=e183]: Responses API
+              - text: ⁠
+              - generic [ref=e184]: （在新窗口中打开）
+            - text: 发送 HTTP 请求来执行模型推理。接下来，我们将详细分析信息如何流经 Codex，以及它如何利用 Responses API 来驱动智能体循环。
+          - paragraph [ref=e186]:
+            - text: Codex CLI 所使用的 Responses API 端点是
+            - link "可配置的⁠ （在新窗口中打开）" [ref=e187] [cursor=pointer]:
+              - /url: https://developers.openai.com/codex/config-advanced#custom-model-providers
+              - generic [ref=e188]: 可配置的
+              - text: ⁠
+              - generic [ref=e189]: （在新窗口中打开）
+            - text: ，这意味着它可以与任何
+            - link "实现 Responses API⁠ （在新窗口中打开）" [ref=e190] [cursor=pointer]:
+              - /url: https://www.openresponses.org
+              - generic [ref=e191]: 实现 Responses API
+              - text: ⁠
+              - generic [ref=e192]: （在新窗口中打开）
+            - text: 的端点一同工作，例如：
+          - list [ref=e194]:
+            - listitem [ref=e195]:
+              - link "通过 ChatGPT 登录⁠ （在新窗口中打开）" [ref=e196] [cursor=pointer]:
+                - /url: https://github.com/openai/codex/blob/d886a8646cb8d3671c3029d08ae8f13fa6536899/codex-rs/core/src/model_provider_info.rs#L141
+                - generic [ref=e197]: 通过 ChatGPT 登录
+                - text: ⁠
+                - generic [ref=e198]: （在新窗口中打开）
+              - text: 使用 Codex CLI 时，会使用
+              - code [ref=e200]: https://chatgpt.com/backend-api/codex/responses
+              - text: 作为端点
+            - listitem [ref=e201]:
+              - link "使用 API 密钥对 OpenAI 托管模型进行身份验证时，会使用 ⁠ （在新窗口中打开）" [ref=e202] [cursor=pointer]:
+                - /url: https://github.com/openai/codex/blob/d886a8646cb8d3671c3029d08ae8f13fa6536899/codex-rs/core/src/model_provider_info.rs#L143
+                - generic [ref=e203]: 使用 API 密钥对 OpenAI 托管模型进行身份验证时，会使用
+                - text: ⁠
+                - generic [ref=e204]: （在新窗口中打开）
+              - code [ref=e206]: https://api.openai.com/v1/responses
+              - text: 作为端点
+            - listitem [ref=e207]:
+              - text: 使用
+              - code [ref=e209]: "--oss"
+              - text: 参数运行 Codex CLI 以配合
+              - link "gpt-oss⁠" [ref=e210] [cursor=pointer]:
+                - /url: https://openai.com/index/introducing-gpt-oss/
+                - generic [ref=e211]: gpt-oss
+                - text: ⁠
+              - text: （并与
+              - link "ollama 0.13.4+⁠ （在新窗口中打开）" [ref=e212] [cursor=pointer]:
+                - /url: https://github.com/openai/codex/pull/8798
+                - generic [ref=e213]: ollama 0.13.4+
+                - text: ⁠
+                - generic [ref=e214]: （在新窗口中打开）
+              - text: 或
+              - link "LM Studio 0.3.39+⁠ （在新窗口中打开）" [ref=e215] [cursor=pointer]:
+                - /url: https://lmstudio.ai/blog/openresponses
+                - generic [ref=e216]: LM Studio 0.3.39+
+                - text: ⁠
+                - generic [ref=e217]: （在新窗口中打开）
+              - text: 一同使用）时，默认端点为本地运行的
+              - code [ref=e219]: http://localhost:11434/v1/responses
+            - listitem [ref=e220]: Codex CLI 也可与 Azure 等云服务商托管的 Responses API 协同运行
+          - paragraph [ref=e222]: 接下来，我们探讨 Codex 如何为对话中的第一次推理调用创建提示。
+          - heading "构建初始提示" [level=4] [ref=e226]
+          - paragraph [ref=e228]: 作为最终用户，你在查询 Responses API 时，并不需要逐字输入用于对模型进行采样的提示。取而代之的是，你只需在查询中指定各类输入，Responses API 服务器会负责将这些信息组织成模型可接受的提示结构。你可以将提示理解为一个“项目列表”；本节将阐述你的查询如何被转换为此列表。
+          - paragraph [ref=e230]:
+            - text: 在初始提示中，列表内的每个项目都关联一个角色。
+            - code [ref=e232]: 角色
+            - text: 决定了其关联内容的权重优先级，取值如下（按优先级降序排列）：
+            - code [ref=e234]: system
+            - text: 、
+            - code [ref=e236]: developer
+            - text: 、
+            - code [ref=e238]: user
+            - text: 、
+            - code [ref=e240]: assistant
+            - text: 。
+          - paragraph [ref=e242]:
+            - link "Responses API⁠ （在新窗口中打开）" [ref=e243] [cursor=pointer]:
+              - /url: https://platform.openai.com/docs/api-reference/responses/create
+              - generic [ref=e244]: Responses API
+              - text: ⁠
+              - generic [ref=e245]: （在新窗口中打开）
+            - text: 接收一个包含多个参数的 JSON 负载。我们重点关注以下三个参数：
+          - list [ref=e247]:
+            - listitem [ref=e248]:
+              - link "instructions⁠ （在新窗口中打开）" [ref=e249] [cursor=pointer]:
+                - /url: https://platform.openai.com/docs/api-reference/responses/create#responses_create-instructions
+                - code [ref=e251]:
+                  - generic [ref=e252]: instructions
+                - text: ⁠
+                - generic [ref=e253]: （在新窗口中打开）
+              - text: ：插入到模型上下文中的系统（或开发者）消息
+            - listitem [ref=e254]:
+              - link "tools⁠ （在新窗口中打开）" [ref=e255] [cursor=pointer]:
+                - /url: https://platform.openai.com/docs/api-reference/responses/create#responses_create-tools
+                - code [ref=e257]:
+                  - generic [ref=e258]: tools
+                - text: ⁠
+                - generic [ref=e259]: （在新窗口中打开）
+              - text: ：模型在生成响应时可能调用的工具列表
+            - listitem [ref=e260]:
+              - link "input⁠ （在新窗口中打开）" [ref=e261] [cursor=pointer]:
+                - /url: https://platform.openai.com/docs/api-reference/responses/create#responses_create-input
+                - code [ref=e263]:
+                  - generic [ref=e264]: input
+                - text: ⁠
+                - generic [ref=e265]: （在新窗口中打开）
+              - text: ：提供给模型的文本、图像或文件输入列表
+          - paragraph [ref=e267]:
+            - text: 在 Codex 中，
+            - code [ref=e269]: instructions
+            - text: 字段可从
+            - link "model_instructions_file⁠ （在新窗口中打开）" [ref=e270] [cursor=pointer]:
+              - /url: https://github.com/openai/codex/blob/338f2d634b2360ef3c899cac7e61a22c6b49c94f/codex-rs/core/src/config/mod.rs#L1474-L1483
+              - code [ref=e272]:
+                - generic [ref=e273]: model_instructions_file
+              - text: ⁠
+              - generic [ref=e274]: （在新窗口中打开）
+            - text: （路径为
+            - code [ref=e276]: ~/.codex/config.toml
+            - text: ）中读取（如已指定）；
+            - link "否则， 使用与模型关联的 base_instructions⁠ （在新窗口中打开）" [ref=e277] [cursor=pointer]:
+              - /url: https://github.com/openai/codex/blob/338f2d634b2360ef3c899cac7e61a22c6b49c94f/codex-rs/core/src/codex.rs#L279-L288
+              - generic [ref=e278]: 否则， 使用与模型关联的
+              - code [ref=e280]:
+                - generic [ref=e281]: base_instructions
+              - text: ⁠
+              - generic [ref=e282]: （在新窗口中打开）
+            - text: 。这些模型特定的指令存放在 Codex 代码仓库中，并随 CLI 打包发布（例如
+            - link "gpt-5.2-codex_prompt.md⁠ （在新窗口中打开）" [ref=e283] [cursor=pointer]:
+              - /url: https://github.com/openai/codex/blob/e958d0337e98f6398771917867d7de689dab3b7a/codex-rs/core/gpt-5.2-codex_prompt.md
+              - code [ref=e285]:
+                - generic [ref=e286]: gpt-5.2-codex_prompt.md
+              - text: ⁠
+              - generic [ref=e287]: （在新窗口中打开）
+            - text: ）。
+          - paragraph [ref=e289]:
+            - code [ref=e291]: tools
+            - text: 字段是一个工具定义列表，需符合 Responses API 定义的 schema。对 Codex 而言，这一列表通常包含：Codex CLI 内置工具、通过 Responses API 向 Codex 开放的工具，以及用户（通常通过 MCP 服务器）提供的工具：
+          - generic [ref=e295]:
+            - generic [ref=e296]:
+              - heading "JavaScript" [level=4] [ref=e297]
+              - button "复制代码块" [ref=e298] [cursor=pointer]:
+                - img [ref=e299]
+            - code [ref=e302]:
+              - generic [ref=e303]:
+                - generic [ref=e304]:
+                  - generic [ref=e305]: "1"
+                  - generic [ref=e306]: "["
+                - generic [ref=e307]:
+                  - generic [ref=e308]: "2"
+                  - generic [ref=e310]:
+                    - text: // Codex's
+                    - link "default shell tool" [ref=e311] [cursor=pointer]:
+                      - /url: https://github.com/openai/codex/blob/99f47d6e9a3546c14c43af99c7a58fa6bd130548/codex-rs/core/src/tools/spec.rs#L278-L340
+                    - text: for spawning new processes locally.
+                - generic [ref=e312]:
+                  - generic [ref=e313]: "3"
+                  - generic [ref=e314]: "{"
+                - generic [ref=e315]:
+                  - generic [ref=e316]: "4"
+                  - generic [ref=e317]: "\"type\": \"function\","
+                - generic [ref=e318]:
+                  - generic [ref=e319]: "5"
+                  - generic [ref=e320]: "\"name\": \"shell\","
+                - generic [ref=e321]:
+                  - generic [ref=e322]: "6"
+                  - generic [ref=e323]: "\"description\": \"Runs a shell command and returns its output...\","
+                - generic [ref=e324]:
+                  - generic [ref=e325]: "7"
+                  - generic [ref=e326]: "\"strict\": false,"
+                - generic [ref=e327]:
+                  - generic [ref=e328]: "8"
+                  - generic [ref=e329]: "\"parameters\": {"
+                - generic [ref=e330]:
+                  - generic [ref=e331]: "9"
+                  - generic [ref=e332]: "\"type\": \"object\","
+                - generic [ref=e333]:
+                  - generic [ref=e334]: "10"
+                  - generic [ref=e335]: "\"properties\": {"
+                - generic [ref=e336]:
+                  - generic [ref=e337]: "11"
+                  - generic [ref=e338]: "\"command\": {\"type\": \"array\", \"description\": \"The command to execute\", ...},"
+                - generic [ref=e339]:
+                  - generic [ref=e340]: "12"
+                  - generic [ref=e341]: "\"workdir\": {\"description\": \"The working directory...\", ...},"
+                - generic [ref=e342]:
+                  - generic [ref=e343]: "13"
+                  - generic [ref=e344]: "\"timeout_ms\": {\"description\": \"The timeout for the command...\", ...},"
+                - generic [ref=e345]:
+                  - generic [ref=e346]: "14"
+                  - generic [ref=e347]: ...
+                - generic [ref=e348]:
+                  - generic [ref=e349]: "15"
+                  - generic [ref=e350]: "},"
+                - generic [ref=e351]:
+                  - generic [ref=e352]: "16"
+                  - generic [ref=e353]: "\"required\": [\"command\"],"
+                - generic [ref=e354]:
+                  - generic [ref=e355]: "17"
+                  - generic [ref=e356]: "}"
+                - generic [ref=e357]:
+                  - generic [ref=e358]: "18"
+                  - generic [ref=e359]: "}"
+                - generic [ref=e361]: "19"
+                - generic [ref=e363]:
+                  - generic [ref=e364]: "20"
+                  - generic [ref=e366]:
+                    - text: // Codex's
+                    - link "built-in plan tool" [ref=e367] [cursor=pointer]:
+                      - /url: https://github.com/openai/codex/blob/99f47d6e9a3546c14c43af99c7a58fa6bd130548/codex-rs/core/src/tools/handlers/plan.rs#L20-L60
+                    - text: .
+                - generic [ref=e368]:
+                  - generic [ref=e369]: "21"
+                  - generic [ref=e370]: "{"
+                - generic [ref=e371]:
+                  - generic [ref=e372]: "22"
+                  - generic [ref=e373]: "\"type\": \"function\","
+                - generic [ref=e374]:
+                  - generic [ref=e375]: "23"
+                  - generic [ref=e376]: "\"name\": \"update_plan\","
+                - generic [ref=e377]:
+                  - generic [ref=e378]: "24"
+                  - generic [ref=e379]: "\"description\": \"Updates the task plan...\","
+                - generic [ref=e380]:
+                  - generic [ref=e381]: "25"
+                  - generic [ref=e382]: "\"strict\": false,"
+                - generic [ref=e383]:
+                  - generic [ref=e384]: "26"
+                  - generic [ref=e385]: "\"parameters\": {"
+                - generic [ref=e386]:
+                  - generic [ref=e387]: "27"
+                  - generic [ref=e388]: "\"type\": \"object\","
+                - generic [ref=e389]:
+                  - generic [ref=e390]: "28"
+                  - generic [ref=e391]: "\"properties\": {\"plan\":..., \"explanation\":...},"
+                - generic [ref=e392]:
+                  - generic [ref=e393]: "29"
+                  - generic [ref=e394]: "\"required\": [\"plan\"]"
+                - generic [ref=e395]:
+                  - generic [ref=e396]: "30"
+                  - generic [ref=e397]: "}"
+                - generic [ref=e398]:
+                  - generic [ref=e399]: "31"
+                  - generic [ref=e400]: "},"
+                - generic [ref=e402]: "32"
+                - generic [ref=e404]:
+                  - generic [ref=e405]: "33"
+                  - generic [ref=e407]:
+                    - text: //
+                    - link "Web search tool" [ref=e408] [cursor=pointer]:
+                      - /url: https://platform.openai.com/docs/guides/tools-web-search
+                    - text: provided by the Responses API.
+                - generic [ref=e409]:
+                  - generic [ref=e410]: "34"
+                  - generic [ref=e411]: "{"
+                - generic [ref=e412]:
+                  - generic [ref=e413]: "35"
+                  - generic [ref=e414]: "\"type\": \"web_search\","
+                - generic [ref=e415]:
+                  - generic [ref=e416]: "36"
+                  - generic [ref=e417]: "\"external_web_access\": false"
+                - generic [ref=e418]:
+                  - generic [ref=e419]: "37"
+                  - generic [ref=e420]: "},"
+                - generic [ref=e422]: "38"
+                - generic [ref=e424]:
+                  - generic [ref=e425]: "39"
+                  - generic [ref=e426]: // MCP server for getting weather as configured in the
+                - generic [ref=e427]:
+                  - generic [ref=e428]: "40"
+                  - generic [ref=e429]: // user's ~/.codex/config.toml.
+                - generic [ref=e430]:
+                  - generic [ref=e431]: "41"
+                  - generic [ref=e432]: "{"
+                - generic [ref=e433]:
+                  - generic [ref=e434]: "42"
+                  - generic [ref=e435]: "\"type\": \"function\","
+                - generic [ref=e436]:
+                  - generic [ref=e437]: "43"
+                  - generic [ref=e438]: "\"name\": \"mcp__weather__get-forecast\","
+                - generic [ref=e439]:
+                  - generic [ref=e440]: "44"
+                  - generic [ref=e441]: "\"description\": \"Get weather alerts for a US state\","
+                - generic [ref=e442]:
+                  - generic [ref=e443]: "45"
+                  - generic [ref=e444]: "\"strict\": false,"
+                - generic [ref=e445]:
+                  - generic [ref=e446]: "46"
+                  - generic [ref=e447]: "\"parameters\": {"
+                - generic [ref=e448]:
+                  - generic [ref=e449]: "47"
+                  - generic [ref=e450]: "\"type\": \"object\","
+                - generic [ref=e451]:
+                  - generic [ref=e452]: "48"
+                  - generic [ref=e453]: "\"properties\": {\"latitude\": {...}, \"longitude\": {...}},"
+                - generic [ref=e454]:
+                  - generic [ref=e455]: "49"
+                  - generic [ref=e456]: "\"required\": [\"latitude\", \"longitude\"]"
+                - generic [ref=e457]:
+                  - generic [ref=e458]: "50"
+                  - generic [ref=e459]: "}"
+                - generic [ref=e460]:
+                  - generic [ref=e461]: "51"
+                  - generic [ref=e462]: "}"
+                - generic [ref=e463]:
+                  - generic [ref=e464]: "52"
+                  - generic [ref=e465]: "]"
+          - paragraph [ref=e467]:
+            - text: 最后，JSON 负载中的
+            - code [ref=e469]: input
+            - text: 字段本身也是一个项目列表。在添加用户消息之前，Codex 会先
+            - link "将以下项目插入⁠ （在新窗口中打开）" [ref=e470] [cursor=pointer]:
+              - /url: https://github.com/openai/codex/blob/99f47d6e9a3546c14c43af99c7a58fa6bd130548/codex-rs/core/src/codex.rs#L1387-L1415
+              - generic [ref=e471]: 将以下项目插入
+              - text: ⁠
+              - generic [ref=e472]: （在新窗口中打开）
+            - code [ref=e474]: input
+            - text: ：
+          - paragraph [ref=e476]:
+            - text: 1.一条
+            - code [ref=e478]: role=developer
+            - text: 的消息，用于描述沙盒权限。此沙盒
+            - generic [ref=e479]: 仅适用于在
+            - code [ref=e481]:
+              - generic [ref=e482]: tools
+            - text: 部分定义的、由 Codex 提供的
+            - code [ref=e485]: shell
+            - text: 工具。也就是说，其他工具（例如来自 MCP 服务器的工具）不受 Codex 沙盒限制，需自行负责执行其防护措施。
+          - paragraph [ref=e487]:
+            - text: 该消息基于一个模板构建，其关键内容来自打包到 Codex CLI 中的 Markdown 代码片段，例如
+            - link "workspace_write.md⁠ （在新窗口中打开）" [ref=e488] [cursor=pointer]:
+              - /url: https://github.com/openai/codex/blob/1fc72c647fd52e3e73d4309c3b568d4d5fe012b5/codex-rs/protocol/src/prompts/permissions/sandbox_mode/workspace_write.md
+              - code [ref=e490]:
+                - generic [ref=e491]: workspace_write.md
+              - text: ⁠
+              - generic [ref=e492]: （在新窗口中打开）
+            - text: 和
+            - link "on_request.md⁠ （在新窗口中打开）" [ref=e493] [cursor=pointer]:
+              - /url: https://github.com/openai/codex/blob/1fc72c647fd52e3e73d4309c3b568d4d5fe012b5/codex-rs/protocol/src/prompts/permissions/approval_policy/on_request.md
+              - code [ref=e495]:
+                - generic [ref=e496]: on_request.md
+              - text: ⁠
+              - generic [ref=e497]: （在新窗口中打开）
+            - text: ：
+          - generic [ref=e501]:
+            - generic [ref=e502]:
+              - heading "纯文本" [level=4] [ref=e503]
+              - button "复制代码块" [ref=e504] [cursor=pointer]:
+                - img [ref=e505]
+            - code [ref=e508]:
+              - generic [ref=e509]:
+                - generic [ref=e510]:
+                  - generic [ref=e511]: "1"
+                  - generic [ref=e512]: <permissions instructions>
+                - generic [ref=e513]:
+                  - generic [ref=e514]: "2"
+                  - generic [ref=e515]: "- description of the sandbox explaining file permissions and network access"
+                - generic [ref=e516]:
+                  - generic [ref=e517]: "3"
+                  - generic [ref=e518]: "- instructions for when to ask the user for permissions to run a shell command"
+                - generic [ref=e519]:
+                  - generic [ref=e520]: "4"
+                  - generic [ref=e521]: "- list of folders writable by Codex, if any"
+                - generic [ref=e522]:
+                  - generic [ref=e523]: "5"
+                  - generic [ref=e524]: </permissions instructions>
+          - paragraph [ref=e526]:
+            - text: 2. （可选）一条
+            - code [ref=e528]: role=developer
+            - text: 的消息，其内容是从用户
+            - code [ref=e530]: config.toml
+            - text: 文件中读取的
+            - code [ref=e532]: developer_instructions
+            - text: 值。
+          - paragraph [ref=e534]:
+            - text: 3.（可选）一条
+            - code [ref=e536]: role=user
+            - text: 的消息，其内容为“用户指令”，这些指令并非源自单一文件，而是
+            - link "从多个来源聚合而来⁠ （在新窗口中打开）" [ref=e537] [cursor=pointer]:
+              - /url: https://github.com/openai/codex/blob/99f47d6e9a3546c14c43af99c7a58fa6bd130548/codex-rs/core/src/project_doc.rs#L37-L42
+              - generic [ref=e538]: 从多个来源聚合而来
+              - text: ⁠
+              - generic [ref=e539]: （在新窗口中打开）
+            - text: 。通常，更具体的指令会出现在更靠后的位置：
+          - list [ref=e541]:
+            - listitem [ref=e542]:
+              - code [ref=e544]: $CODEX_HOME
+              - text: 目录中
+              - code [ref=e546]: AGENTS.override.md
+              - text: 和
+              - code [ref=e548]: AGENTS.md
+              - text: 的内容
+            - listitem [ref=e549]:
+              - text: 受大小限制（默认 32 KiB），从
+              - code [ref=e551]: cwd
+              - text: 的 Git/项目根目录（如果存在）开始，向上逐级检查每个目录，直至
+              - code [ref=e553]: cwd
+              - text: 本身：添加
+              - code [ref=e555]: AGENTS.override.md
+              - text: 、
+              - code [ref=e557]: AGENTS.md
+              - text: 、或 config.toml 中由
+              - code [ref=e559]: project_doc_fallback_filenames
+              - text: 指定的任何文件的内容
+            - listitem [ref=e560]:
+              - text: 如果已配置任何
+              - link "技能⁠ （在新窗口中打开）" [ref=e561] [cursor=pointer]:
+                - /url: https://developers.openai.com/codex/skills/
+                - generic [ref=e562]: 技能
+                - text: ⁠
+                - generic [ref=e563]: （在新窗口中打开）
+              - text: ：
+              - list [ref=e564]:
+                - listitem [ref=e565]: 一段关于技能的简短前言
+                - listitem [ref=e566]:
+                  - text: 每个技能的
+                  - link "技能元数据⁠ （在新窗口中打开）" [ref=e567] [cursor=pointer]:
+                    - /url: https://github.com/openai/codex/blob/99f47d6e9a3546c14c43af99c7a58fa6bd130548/codex-rs/core/src/skills/model.rs#L6-L13
+                    - generic [ref=e568]: 技能元数据
+                    - text: ⁠
+                    - generic [ref=e569]: （在新窗口中打开）
+                - listitem [ref=e570]:
+                  - text: 一个关于
+                  - link "如何使用技能⁠ （在新窗口中打开）" [ref=e571] [cursor=pointer]:
+                    - /url: https://github.com/openai/codex/blob/99f47d6e9a3546c14c43af99c7a58fa6bd130548/codex-rs/core/src/skills/render.rs#L20
+                    - generic [ref=e572]: 如何使用技能
+                    - text: ⁠
+                    - generic [ref=e573]: （在新窗口中打开）
+                  - text: 的章节
+          - paragraph [ref=e575]:
+            - text: 4. 一条
+            - code [ref=e577]: role=user
+            - text: 的消息，描述智能体当前运行的本地环境。该消息会
+            - link "指定当前工作目录和用户的 shell⁠ （在新窗口中打开）" [ref=e578] [cursor=pointer]:
+              - /url: https://github.com/openai/codex/blob/99f47d6e9a3546c14c43af99c7a58fa6bd130548/codex-rs/core/src/environment_context.rs#L51-L71
+              - generic [ref=e579]: 指定当前工作目录和用户的 shell
+              - text: ⁠
+              - generic [ref=e580]: （在新窗口中打开）
+            - text: ：
+          - generic [ref=e584]:
+            - generic [ref=e585]:
+              - heading "纯文本" [level=4] [ref=e586]
+              - button "复制代码块" [ref=e587] [cursor=pointer]:
+                - img [ref=e588]
+            - code [ref=e591]:
+              - generic [ref=e592]:
+                - generic [ref=e593]:
+                  - generic [ref=e594]: "1"
+                  - generic [ref=e595]: <environment_context>
+                - generic [ref=e596]:
+                  - generic [ref=e597]: "2"
+                  - generic [ref=e598]: <cwd>/Users/mbolin/code/codex5</cwd>
+                - generic [ref=e599]:
+                  - generic [ref=e600]: "3"
+                  - generic [ref=e601]: <shell>zsh</shell>
+                - generic [ref=e602]:
+                  - generic [ref=e603]: "4"
+                  - generic [ref=e604]: </environment_context>
+          - paragraph [ref=e606]:
+            - text: 当 Codex 根据前述计算对
+            - code [ref=e608]: input
+            - text: 进行初始化后，就会将用户消息追加进去，从而开始一轮新的对话。
+          - paragraph [ref=e610]:
+            - text: 前面的示例侧重于每条消息的内容，但请注意，
+            - code [ref=e612]: input
+            - text: 中的每个元素都是一个 JSON 对象，包含
+            - code [ref=e614]: type
+            - text: 、
+            - link "role⁠ （在新窗口中打开）" [ref=e615] [cursor=pointer]:
+              - /url: https://www.reddit.com/r/OpenAI/comments/1hgxcgi/what_is_the_purpose_of_the_new_developer_role_in/
+              - code [ref=e617]: role
+              - text: ⁠
+              - generic [ref=e618]: （在新窗口中打开）
+            - text: 和
+            - code [ref=e620]: content
+            - text: 字段，如下所示：
+          - generic [ref=e624]:
+            - generic [ref=e625]:
+              - heading "JSON" [level=4] [ref=e626]
+              - button "复制代码块" [ref=e627] [cursor=pointer]:
+                - img [ref=e628]
+            - code [ref=e631]:
+              - generic [ref=e632]:
+                - generic [ref=e633]:
+                  - generic [ref=e634]: "1"
+                  - generic [ref=e635]: "{"
+                - generic [ref=e636]:
+                  - generic [ref=e637]: "2"
+                  - generic [ref=e638]: "\"type\": \"message\","
+                - generic [ref=e639]:
+                  - generic [ref=e640]: "3"
+                  - generic [ref=e641]: "\"role\": \"user\","
+                - generic [ref=e642]:
+                  - generic [ref=e643]: "4"
+                  - generic [ref=e644]: "\"content\": ["
+                - generic [ref=e645]:
+                  - generic [ref=e646]: "5"
+                  - generic [ref=e647]: "{"
+                - generic [ref=e648]:
+                  - generic [ref=e649]: "6"
+                  - generic [ref=e650]: "\"type\": \"input_text\","
+                - generic [ref=e651]:
+                  - generic [ref=e652]: "7"
+                  - generic [ref=e653]: "\"text\": \"Add an architecture diagram to the README.md\""
+                - generic [ref=e654]:
+                  - generic [ref=e655]: "8"
+                  - generic [ref=e656]: "}"
+                - generic [ref=e657]:
+                  - generic [ref=e658]: "9"
+                  - generic [ref=e659]: "]"
+                - generic [ref=e660]:
+                  - generic [ref=e661]: "10"
+                  - generic [ref=e662]: "}"
+          - paragraph [ref=e664]:
+            - text: 当 Codex 构建好要发送给 Responses API 的完整 JSON 负载后，它会根据
+            - code [ref=e666]: ~/.codex/config.toml
+            - text: 中 Responses API 端点的配置，发起一个带有
+            - code [ref=e668]: Authorization
+            - text: 标头的 HTTP POST 请求（如果指定了额外的 HTTP 头和查询参数，也会一并添加）。
+          - paragraph [ref=e670]: 当 OpenAI 的 Responses API 服务器收到请求时，它会使用 JSON 为模型推导出提示，如下所示（当然，Responses API 的自定义实现可能做出不同选择）：
+          - figure [ref=e672]:
+            - img "展示 AI 智能体循环中单一步骤的快照图。用户请求输入模型，模型生成一个思考、一个带工具名称的行动和一个工具输入。该图突出了工具被调用之前的这个中间推理步骤。" [ref=e680]
+          - paragraph [ref=e682]:
+            - text: 如你所见，提示中前三个项目的顺序由服务器决定，而非客户端。也就是说，在这三个项目中，只有
+            - generic [ref=e683]: system message
+            - text: 的内容也由服务器控制，因为
+            - code [ref=e685]: tools
+            - text: 和
+            - code [ref=e687]: instructions
+            - text: 由客户端决定。之后，来自 JSON 负载的
+            - code [ref=e689]: input
+            - text: 会紧随其后，从而完成整个提示的构建。
+          - paragraph [ref=e691]: 现在，我们已准备好提示，可以对模型进行采样。
+          - heading "第一轮对话" [level=4] [ref=e695]
+          - paragraph [ref=e697]:
+            - text: 这次对 Responses API 的 HTTP 请求开启了 Codex 中的第一轮对话。服务器回复一个服务器发送事件 (
+            - link "SSE⁠ （在新窗口中打开）" [ref=e698] [cursor=pointer]:
+              - /url: https://en.wikipedia.org/wiki/Server-sent_events
+              - generic [ref=e699]: SSE
+              - text: ⁠
+              - generic [ref=e700]: （在新窗口中打开）
+            - text: ) 流。每个事件的
+            - code [ref=e702]: data
+            - text: 是一个 JSON 负载，其
+            - code [ref=e704]: ”type”
+            - text: 字段以
+            - code [ref=e706]: ”response”
+            - text: 开头，可能类似以下示例（完整事件列表请参阅我们的
+            - link "API 文档⁠ （在新窗口中打开）" [ref=e707] [cursor=pointer]:
+              - /url: https://platform.openai.com/docs/api-reference/responses-streaming
+              - generic [ref=e708]: API 文档
+              - text: ⁠
+              - generic [ref=e709]: （在新窗口中打开）
+            - text: ）：
+          - generic [ref=e713]:
+            - generic [ref=e714]:
+              - heading "纯文本" [level=4] [ref=e715]
+              - button "复制代码块" [ref=e716] [cursor=pointer]:
+                - img [ref=e717]
+            - code [ref=e720]:
+              - generic [ref=e721]:
+                - generic [ref=e722]:
+                  - generic [ref=e723]: "1"
+                  - generic [ref=e724]: "data: {\"type\":\"response.reasoning_summary_text.delta\",\"delta\":\"ah \", ...}"
+                - generic [ref=e725]:
+                  - generic [ref=e726]: "2"
+                  - generic [ref=e727]: "data: {\"type\":\"response.reasoning_summary_text.delta\",\"delta\":\"ha!\", ...}"
+                - generic [ref=e728]:
+                  - generic [ref=e729]: "3"
+                  - generic [ref=e730]: "data: {\"type\":\"response.reasoning_summary_text.done\", \"item_id\":...}"
+                - generic [ref=e731]:
+                  - generic [ref=e732]: "4"
+                  - generic [ref=e733]: "data: {\"type\":\"response.output_item.added\", \"item\":{...}}"
+                - generic [ref=e734]:
+                  - generic [ref=e735]: "5"
+                  - generic [ref=e736]: "data: {\"type\":\"response.output_text.delta\", \"delta\":\"forty-\", ...}"
+                - generic [ref=e737]:
+                  - generic [ref=e738]: "6"
+                  - generic [ref=e739]: "data: {\"type\":\"response.output_text.delta\", \"delta\":\"two!\", ...}"
+                - generic [ref=e740]:
+                  - generic [ref=e741]: "7"
+                  - generic [ref=e742]: "data: {\"type\":\"response.completed\",\"response\":{...}}"
+          - paragraph [ref=e744]:
+            - text: Codex 会
+            - link "处理事件流⁠ （在新窗口中打开）" [ref=e745] [cursor=pointer]:
+              - /url: https://github.com/openai/codex/blob/2a68b74b9bf16b64e285495c1b149d7d6ac8bdf4/codex-rs/codex-api/src/sse/responses.rs#L334-L342
+              - generic [ref=e746]: 处理事件流
+              - text: ⁠
+              - generic [ref=e747]: （在新窗口中打开）
+            - text: ，并将其重新发布为可供客户端使用的内部事件对象。像
+            - code [ref=e749]: response.output_text.delta
+            - text: 这样的事件用于支持 UI 中的流式输出，而像
+            - code [ref=e751]: response.output_item.added
+            - text: 这样的事件则被转换为对象，并追加到
+            - code [ref=e753]: input
+            - text: 中，供后续的 Responses API 调用使用。
+          - paragraph [ref=e755]:
+            - text: 假设对 Responses API 的第一次请求包含两个
+            - code [ref=e757]: response.output_item.done
+            - text: 事件：一个
+            - code [ref=e759]: type=reasoning
+            - text: ，另一个
+            - code [ref=e761]: type=function_call
+            - text: 。当我们带着工具调用的响应再次查询模型时，这些事件必须体现在 JSON 的
+            - code [ref=e763]: input
+            - text: 字段中：
+          - generic [ref=e767]:
+            - generic [ref=e768]:
+              - heading "JavaScript" [level=4] [ref=e769]
+              - button "复制代码块" [ref=e770] [cursor=pointer]:
+                - img [ref=e771]
+            - code [ref=e774]:
+              - generic [ref=e775]:
+                - generic [ref=e776]:
+                  - generic [ref=e777]: "1"
+                  - generic [ref=e778]: "["
+                - generic [ref=e779]:
+                  - generic [ref=e780]: "2"
+                  - generic [ref=e781]: /* ... original 5 items from the input array ... */
+                - generic [ref=e782]:
+                  - generic [ref=e783]: "3"
+                  - generic [ref=e784]: "{"
+                - generic [ref=e785]:
+                  - generic [ref=e786]: "4"
+                  - generic [ref=e787]: "\"type\": \"reasoning\","
+                - generic [ref=e788]:
+                  - generic [ref=e789]: "5"
+                  - generic [ref=e790]: "\"summary\": ["
+                - generic [ref=e791]:
+                  - generic [ref=e792]: "6"
+                  - generic [ref=e793]: "\"type\": \"summary_text\","
+                - generic [ref=e794]:
+                  - generic [ref=e795]: "7"
+                  - generic [ref=e796]: "\"text\": \"**Adding an architecture diagram for README.md**\\n\\nI need to...\""
+                - generic [ref=e797]:
+                  - generic [ref=e798]: "8"
+                  - generic [ref=e799]: "],"
+                - generic [ref=e800]:
+                  - generic [ref=e801]: "9"
+                  - generic [ref=e802]: "\"encrypted_content\": \"gAAAAABpaDWNMxMeLw...\""
+                - generic [ref=e803]:
+                  - generic [ref=e804]: "10"
+                  - generic [ref=e805]: "},"
+                - generic [ref=e806]:
+                  - generic [ref=e807]: "11"
+                  - generic [ref=e808]: "{"
+                - generic [ref=e809]:
+                  - generic [ref=e810]: "12"
+                  - generic [ref=e811]: "\"type\": \"function_call\","
+                - generic [ref=e812]:
+                  - generic [ref=e813]: "13"
+                  - generic [ref=e814]: "\"name\": \"shell\","
+                - generic [ref=e815]:
+                  - generic [ref=e816]: "14"
+                  - generic [ref=e817]: "\"arguments\": \"{\\\"command\\\":\\\"cat README.md\\\",\\\"workdir\\\":\\\"/Users/mbolin/code/codex5\\\"}\","
+                - generic [ref=e818]:
+                  - generic [ref=e819]: "15"
+                  - generic [ref=e820]: "\"call_id\": \"call_8675309...\""
+                - generic [ref=e821]:
+                  - generic [ref=e822]: "16"
+                  - generic [ref=e823]: "},"
+                - generic [ref=e824]:
+                  - generic [ref=e825]: "17"
+                  - generic [ref=e826]: "{"
+                - generic [ref=e827]:
+                  - generic [ref=e828]: "18"
+                  - generic [ref=e829]: "\"type\": \"function_call_output\","
+                - generic [ref=e830]:
+                  - generic [ref=e831]: "19"
+                  - generic [ref=e832]: "\"call_id\": \"call_8675309...\","
+                - generic [ref=e833]:
+                  - generic [ref=e834]: "20"
+                  - generic [ref=e835]: "\"output\": \"<p align=\\\"center\\\"><code>npm i -g @openai/codex</code>...\""
+                - generic [ref=e836]:
+                  - generic [ref=e837]: "21"
+                  - generic [ref=e838]: "}"
+                - generic [ref=e839]:
+                  - generic [ref=e840]: "22"
+                  - generic [ref=e841]: "]"
+          - paragraph [ref=e843]: 那么，用于在后续查询中对模型进行采样的提示将如下所示：
+          - figure [ref=e845]:
+            - img "标题为“Snapshot 2”的示意图，展示了一次工具调用后的 AI 智能体。模型接收工具观测结果，并产生新的思考和行动。箭头连接输入、观测和输出，以展示智能体如何迭代其推理循环。" [ref=e853]
+          - paragraph [ref=e855]:
+            - text: 需要特别注意的是，旧提示是新提示的
+            - generic [ref=e856]: 精确前缀
+            - text: 。这是有意为之的，因为这样可以显著提升后续请求的效率，让我们得以充分利用
+            - generic [ref=e857]: 提示缓存
+            - text: （详见下一节“性能”部分）。
+          - paragraph [ref=e859]: 回顾智能体循环的第一张示意图，我们可以看到推理和工具调用之间可能发生多次迭代。提示可能会持续增长，直到我们最终收到一条助手消息，标志该轮对话结束：
+          - generic [ref=e863]:
+            - generic [ref=e864]:
+              - heading "纯文本" [level=4] [ref=e865]
+              - button "复制代码块" [ref=e866] [cursor=pointer]:
+                - img [ref=e867]
+            - code [ref=e870]:
+              - generic [ref=e871]:
+                - generic [ref=e872]:
+                  - generic [ref=e873]: "1"
+                  - generic [ref=e874]: "data: {\"type\":\"response.output_text.done\",\"text\": \"I added a diagram to explain...\", ...}"
+                - generic [ref=e875]:
+                  - generic [ref=e876]: "2"
+                  - generic [ref=e877]: "data: {\"type\":\"response.completed\",\"response\":{...}}"
+          - paragraph [ref=e879]:
+            - text: 在 Codex CLI 中，我们会向用户展示助手消息，并自动聚焦输入框，提示用户该轮到自己继续输入、推进对话了。如果用户做出回应，则上一轮的助手消息和用户的新消息都必须追加到 Responses API 请求的
+            - code [ref=e881]: input
+            - text: 中，以开始新一轮对话：
+          - generic [ref=e885]:
+            - generic [ref=e886]:
+              - heading "JavaScript" [level=4] [ref=e887]
+              - button "复制代码块" [ref=e888] [cursor=pointer]:
+                - img [ref=e889]
+            - code [ref=e892]:
+              - generic [ref=e893]:
+                - generic [ref=e894]:
+                  - generic [ref=e895]: "1"
+                  - generic [ref=e896]: "["
+                - generic [ref=e897]:
+                  - generic [ref=e898]: "2"
+                  - generic [ref=e899]: /* ... all items from the last Responses API request ... */
+                - generic [ref=e900]:
+                  - generic [ref=e901]: "3"
+                  - generic [ref=e902]: "{"
+                - generic [ref=e903]:
+                  - generic [ref=e904]: "4"
+                  - generic [ref=e905]: "\"type\": \"message\","
+                - generic [ref=e906]:
+                  - generic [ref=e907]: "5"
+                  - generic [ref=e908]: "\"role\": \"assistant\","
+                - generic [ref=e909]:
+                  - generic [ref=e910]: "6"
+                  - generic [ref=e911]: "\"content\": ["
+                - generic [ref=e912]:
+                  - generic [ref=e913]: "7"
+                  - generic [ref=e914]: "{"
+                - generic [ref=e915]:
+                  - generic [ref=e916]: "8"
+                  - generic [ref=e917]: "\"type\": \"output_text\","
+                - generic [ref=e918]:
+                  - generic [ref=e919]: "9"
+                  - generic [ref=e920]: "\"text\": \"I added a diagram to explain the client/server architecture.\""
+                - generic [ref=e921]:
+                  - generic [ref=e922]: "10"
+                  - generic [ref=e923]: "}"
+                - generic [ref=e924]:
+                  - generic [ref=e925]: "11"
+                  - generic [ref=e926]: "]"
+                - generic [ref=e927]:
+                  - generic [ref=e928]: "12"
+                  - generic [ref=e929]: "},"
+                - generic [ref=e930]:
+                  - generic [ref=e931]: "13"
+                  - generic [ref=e932]: "{"
+                - generic [ref=e933]:
+                  - generic [ref=e934]: "14"
+                  - generic [ref=e935]: "\"type\": \"message\","
+                - generic [ref=e936]:
+                  - generic [ref=e937]: "15"
+                  - generic [ref=e938]: "\"role\": \"user\","
+                - generic [ref=e939]:
+                  - generic [ref=e940]: "16"
+                  - generic [ref=e941]: "\"content\": ["
+                - generic [ref=e942]:
+                  - generic [ref=e943]: "17"
+                  - generic [ref=e944]: "{"
+                - generic [ref=e945]:
+                  - generic [ref=e946]: "18"
+                  - generic [ref=e947]: "\"type\": \"input_text\","
+                - generic [ref=e948]:
+                  - generic [ref=e949]: "19"
+                  - generic [ref=e950]: "\"text\": \"That's not bad, but the diagram is missing the bike shed.\""
+                - generic [ref=e951]:
+                  - generic [ref=e952]: "20"
+                  - generic [ref=e953]: "}"
+                - generic [ref=e954]:
+                  - generic [ref=e955]: "21"
+                  - generic [ref=e956]: "]"
+                - generic [ref=e957]:
+                  - generic [ref=e958]: "22"
+                  - generic [ref=e959]: "}"
+                - generic [ref=e960]:
+                  - generic [ref=e961]: "23"
+                  - generic [ref=e962]: "]"
+          - paragraph [ref=e964]:
+            - text: 再次强调，随着对话不断推进，我们发送给 Responses API 的
+            - code [ref=e966]: input
+            - text: 长度会不断增加：
+          - figure [ref=e968]:
+            - img "标题为“Snapshot 3”的示意图，展示了 AI 智能体循环的最终阶段。收到工具结果后，模型生成一个总结性思考，并向用户返回最终答案。箭头说明了从工具输出到完成响应的过渡。" [ref=e976]
+          - paragraph [ref=e978]: 接下来，我们分析这个不断增长的提示会对性能产生什么样的影响。
+          - heading "性能考量" [level=4] [ref=e982]
+          - paragraph [ref=e984]:
+            - text: 不少读者这时可能会想到：“如果把整段对话都算上，发送到 Responses API 的 JSON 总量是不是呈
+            - generic [ref=e985]: 二次增长
+            - text: ？”这种直觉是正确的。尽管 Responses API 确实支持一个可选的
+            - link "previous_response_id⁠ （在新窗口中打开）" [ref=e986] [cursor=pointer]:
+              - /url: https://platform.openai.com/docs/api-reference/responses/create#responses_create-previous_response_id
+              - code [ref=e988]:
+                - generic [ref=e989]: previous_response_id
+              - text: ⁠
+              - generic [ref=e990]: （在新窗口中打开）
+            - text: 参数来缓解此问题，但 Codex 目前并未使用它，主要是为了保持请求完全无状态，并支持零数据保留 (ZDR) 配置。
+          - paragraph [ref=e998]:
+            - text: 选择不使用
+            - code [ref=e999]: previous_response_id
+            - text: ，可以让 Responses API 提供方的实现更简单，因为每个请求都将保持无状态。对选择启用
+            - link "零数据保留（ZDR）⁠ （在新窗口中打开）" [ref=e1000] [cursor=pointer]:
+              - /url: https://platform.openai.com/docs/guides/migrate-to-responses#4-decide-when-to-use-statefulness
+              - text: 零数据保留（ZDR）⁠
+              - generic [ref=e1001]: （在新窗口中打开）
+            - text: 的客户而言，这也让支持流程更简单明晰，因为只要依赖
+            - code [ref=e1002]: previous_response_id
+            - text: ，就需要存储相应数据，而这与 ZDR 的原则相违背。请注意，ZDR 客户不会牺牲从先前轮次专有推理消息中获益的能力，因为相关的
+            - code [ref=e1003]: encrypted_content
+            - text: 可以在服务器上解密。（OpenAI 会保存 ZDR 客户的解密密钥，但不会保存他们的数据。）有关支持 ZDR 的 Codex 相关更改，请参见 PR
+            - link "#642⁠ （在新窗口中打开）" [ref=e1004] [cursor=pointer]:
+              - /url: https://github.com/openai/codex/pull/642
+              - text: "#642⁠"
+              - generic [ref=e1005]: （在新窗口中打开）
+            - text: 和
+            - link "#1641⁠ （在新窗口中打开）" [ref=e1006] [cursor=pointer]:
+              - /url: https://github.com/openai/codex/pull/1641
+              - text: "#1641⁠"
+              - generic [ref=e1007]: （在新窗口中打开）
+            - text: 。
+          - paragraph [ref=e1009]:
+            - text: 通常，模型采样的成本远高于网络流量成本，因此采样成为我们提升效率的主要目标。正因如此，提示缓存才至关重要，它使我们能够重用先前推理调用中的计算。一旦命中缓存，
+            - generic [ref=e1010]: 模型采样的开销就会从二次复杂度降为线性复杂度
+            - text: 。我们的
+            - link "提示缓存⁠ （在新窗口中打开）" [ref=e1011] [cursor=pointer]:
+              - /url: https://platform.openai.com/docs/guides/prompt-caching#structuring-prompts
+              - generic [ref=e1012]: 提示缓存
+              - text: ⁠
+              - generic [ref=e1013]: （在新窗口中打开）
+            - text: 文档有更详细的说明：
+          - paragraph [ref=e1015]:
+            - generic [ref=e1016]: 缓存命中仅在提示内部存在精确的前缀匹配时才可能发生。为实现缓存优势，请将指令和示例等静态内容置于提示开头，而将用户特定信息等可变内容置于提示末尾。这也适用于图像和工具，它们在各次请求间必须完全相同。
+          - paragraph [ref=e1018]: 考虑到这一点，让我们看看哪些类型的操作可能导致 Codex 发生“缓存未命中”：
+          - list [ref=e1020]:
+            - listitem [ref=e1021]:
+              - text: 在对话中途更改模型可用的
+              - code [ref=e1023]: tools
+              - text: 。
+            - listitem [ref=e1024]:
+              - text: 更改作为 Responses API 请求目标的
+              - code [ref=e1026]: 模型
+              - text: （实际上，这会更改原始提示中的第三项，因为该项包含模型特定的指令）。
+            - listitem [ref=e1027]: 更改沙盒配置、审批模式或当前工作目录。
+          - paragraph [ref=e1029]:
+            - text: Codex 团队在 Codex CLI 中引入可能损害提示缓存的新功能时，必须非常谨慎。例如，我们最初对 MCP 工具的支持曾引入一个
+            - link "未能以固定顺序枚举工具的 bug⁠ （在新窗口中打开）" [ref=e1030] [cursor=pointer]:
+              - /url: https://github.com/openai/codex/pull/2611
+              - generic [ref=e1031]: 未能以固定顺序枚举工具的 bug
+              - text: ⁠
+              - generic [ref=e1032]: （在新窗口中打开）
+            - text: ，导致缓存未命中。请注意，MCP 工具可能尤其棘手，因为 MCP 服务器可以通过
+            - link "notifications/tools/list_changed⁠ （在新窗口中打开）" [ref=e1033] [cursor=pointer]:
+              - /url: https://modelcontextprotocol.io/specification/2025-11-25/server/tools#list-changed-notification
+              - code [ref=e1035]:
+                - generic [ref=e1036]: notifications/tools/list_changed
+              - text: ⁠
+              - generic [ref=e1037]: （在新窗口中打开）
+            - text: 通知动态更改其提供的工具列表。在长对话中途响应此通知，可能导致代价高昂的缓存未命中。
+          - paragraph [ref=e1039]:
+            - text: 在可能的情况下，我们通过向
+            - generic [ref=e1040]: input
+            - text: 追加一条
+            - code [ref=e1042]: 新
+            - text: 消息（而非修改之前的消息）来处理对话中发生的配置更改：
+          - list [ref=e1044]:
+            - listitem [ref=e1045]:
+              - text: 如果沙盒配置或审批模式发生变化，我们
+              - link "插入⁠ （在新窗口中打开）" [ref=e1046] [cursor=pointer]:
+                - /url: https://github.com/openai/codex/blob/99f47d6e9a3546c14c43af99c7a58fa6bd130548/codex-rs/core/src/codex.rs#L1037-L1057
+                - generic [ref=e1047]: 插入
+                - text: ⁠
+                - generic [ref=e1048]: （在新窗口中打开）
+              - text: 一条新的
+              - code [ref=e1050]: role=developer
+              - text: 消息，其格式与原始的
+              - code [ref=e1052]: <permissions instructions>
+              - text: 项目相同。
+            - listitem [ref=e1053]:
+              - text: 如果当前工作目录发生变化，我们
+              - link "插入⁠ （在新窗口中打开）" [ref=e1054] [cursor=pointer]:
+                - /url: https://github.com/openai/codex/blob/99f47d6e9a3546c14c43af99c7a58fa6bd130548/codex-rs/core/src/codex.rs#L1017-L1035
+                - generic [ref=e1055]: 插入
+                - text: ⁠
+                - generic [ref=e1056]: （在新窗口中打开）
+              - text: 一条新的
+              - code [ref=e1058]: role=user
+              - text: 消息，其格式与原始的
+              - code [ref=e1060]: <environment_context>
+              - text: 相同。
+          - paragraph [ref=e1062]: 我们竭尽全力确保缓存命中以提升性能。我们还需管理另一个关键资源：上下文窗口。
+          - paragraph [ref=e1064]:
+            - text: 为避免耗尽上下文窗口，我们采用的通用策略是：当 Token 总数超过设定阈值时，就对当前对话进行
+            - generic [ref=e1065]: 压缩
+            - text: 。具体来说，我们用一个新的、更小的项目列表替换
+            - code [ref=e1067]: input
+            - text: ，该列表代表了对话内容，使智能体能够在理解已发生情况的基础上继续工作。早期的
+            - link "压缩实现⁠ （在新窗口中打开）" [ref=e1068] [cursor=pointer]:
+              - /url: https://github.com/openai/codex/pull/1527
+              - generic [ref=e1069]: 压缩实现
+              - text: ⁠
+              - generic [ref=e1070]: （在新窗口中打开）
+            - text: 要求用户手动调用
+            - code [ref=e1072]: /compact
+            - text: 命令，该命令会使用现有对话加上用于
+            - link "摘要⁠ （在新窗口中打开）" [ref=e1073] [cursor=pointer]:
+              - /url: https://github.com/openai/codex/blob/e2c994e32a31415e87070bef28ed698968d2e549/SUMMARY.md
+              - generic [ref=e1074]: 摘要
+              - text: ⁠
+              - generic [ref=e1075]: （在新窗口中打开）
+            - text: 的自定义指令来查询 Responses API。Codex 将包含摘要的助手消息结果
+            - link "用作新的 input⁠ （在新窗口中打开）" [ref=e1076] [cursor=pointer]:
+              - /url: https://github.com/openai/codex/blob/e2c994e32a31415e87070bef28ed698968d2e549/codex-rs/core/src/codex.rs#L1424
+              - generic [ref=e1077]: 用作新的
+              - code [ref=e1079]:
+                - generic [ref=e1080]: input
+              - text: ⁠
+              - generic [ref=e1081]: （在新窗口中打开）
+            - text: ，用于后续对话轮次。
+          - paragraph [ref=e1083]:
+            - text: 在后续版本中，Responses API 引入了专门的
+            - link "/responses/compact 端点⁠ （在新窗口中打开）" [ref=e1084] [cursor=pointer]:
+              - /url: https://platform.openai.com/docs/guides/conversation-state#compaction-advanced
+              - code [ref=e1086]:
+                - generic [ref=e1087]: /responses/compact
+              - generic [ref=e1088]: 端点
+              - text: ⁠
+              - generic [ref=e1089]: （在新窗口中打开）
+            - text: ，用于更高效地执行对话压缩。该端点会返回
+            - link "一个项目列表⁠ （在新窗口中打开）" [ref=e1090] [cursor=pointer]:
+              - /url: https://platform.openai.com/docs/api-reference/responses/compacted-object
+              - generic [ref=e1091]: 一个项目列表
+              - text: ⁠
+              - generic [ref=e1092]: （在新窗口中打开）
+            - text: ，可用来替代先前的
+            - code [ref=e1094]: input
+            - text: 以继续对话，同时释放上下文窗口。此列表包含一个特殊的
+            - code [ref=e1096]: type=compaction
+            - text: 项目，附带一个不透明的
+            - code [ref=e1098]: encrypted_content
+            - text: 项目，用于保存模型对原始对话的潜在理解。现在，当超过
+            - link "auto_compact_limit⁠ （在新窗口中打开）" [ref=e1099] [cursor=pointer]:
+              - /url: https://github.com/openai/codex/blob/99f47d6e9a3546c14c43af99c7a58fa6bd130548/codex-rs/core/src/codex.rs#L2558-L2560
+              - code [ref=e1101]:
+                - generic [ref=e1102]: auto_compact_limit
+              - text: ⁠
+              - generic [ref=e1103]: （在新窗口中打开）
+            - text: 时，Codex 会自动使用此端点压缩对话。
+          - heading "下期预告" [level=2] [ref=e1107]
+          - paragraph [ref=e1109]: 我们已经介绍了 Codex 智能体循环，并逐步讲解了 Codex 在查询模型时如何构建和管理其上下文。在此过程中，我们强调了在 Responses API 之上构建智能体循环时的实用考量和最佳实践。
+          - paragraph [ref=e1111]: 虽然智能体循环为 Codex 奠定了基础，但这仅仅是个开始。在接下来的文章中，我们将深入探讨 CLI 的架构、研究工具使用的实现方式，并仔细审视 Codex 的沙盒模型。
+        - generic [ref=e1114]:
+          - list [ref=e1116]:
+            - listitem [ref=e1117]:
+              - link "Codex" [ref=e1118] [cursor=pointer]:
+                - /url: /news/?tags=codex
+            - listitem [ref=e1119]:
+              - link "2026" [ref=e1120] [cursor=pointer]:
+                - /url: /news/?tags=2026
+          - generic [ref=e1121]:
+            - heading "作者" [level=2] [ref=e1122]
+            - generic [ref=e1123]: Michael Bolin
+          - generic [ref=e1124]:
+            - heading "致谢" [level=2] [ref=e1125]
+            - paragraph [ref=e1127]: 特别感谢构建 Codex CLI 的整个团队。
+        - generic [ref=e1128]:
+          - generic [ref=e1129]:
+            - heading "继续阅读" [level=2] [ref=e1131]
+            - link "查看全部" [ref=e1132] [cursor=pointer]:
+              - /url: /news/
+          - generic [ref=e1135]:
+            - generic [ref=e1137]:
+              - img "Equip responses API > card image" [ref=e1143]
+              - link "从模型到智能体：为 Responses API 配备计算机环境 - 工程 - 2026年3月11日" [ref=e1144] [cursor=pointer]:
+                - /url: /index/equip-responses-api-computer-environment/
+                - generic [ref=e1145]:
+                  - generic [ref=e1146]: 从模型到智能体：为 Responses API 配备计算机环境
+                  - paragraph [ref=e1147]:
+                    - generic [ref=e1148]: 工程
+                    - time [ref=e1150]: 2026年3月11日
+            - generic [ref=e1152]:
+              - img "fin eng (credits) > card image" [ref=e1158]
+              - link "超越速率限制：扩大 Codex 和 Sora 的访问规模 - 工程 - 2026年2月13日" [ref=e1159] [cursor=pointer]:
+                - /url: /index/beyond-rate-limits/
+                - generic [ref=e1160]:
+                  - generic [ref=e1161]: 超越速率限制：扩大 Codex 和 Sora 的访问规模
+                  - paragraph [ref=e1162]:
+                    - generic [ref=e1163]: 工程
+                    - time [ref=e1165]: 2026年2月13日
+            - generic [ref=e1167]:
+              - img "harness eng > card image" [ref=e1173]
+              - link "工程技术：在智能体优先的世界中利用 Codex - 工程 - 2026年2月11日" [ref=e1174] [cursor=pointer]:
+                - /url: /index/harness-engineering/
+                - generic [ref=e1175]:
+                  - generic [ref=e1176]: 工程技术：在智能体优先的世界中利用 Codex
+                  - paragraph [ref=e1177]:
+                    - generic [ref=e1178]: 工程
+                    - time [ref=e1180]: 2026年2月11日
+    - contentinfo [ref=e1181]:
+      - generic [ref=e1183]:
+        - generic [ref=e1184]:
+          - generic [ref=e1185]:
+            - heading "我们的研究" [level=2] [ref=e1186]
+            - list [ref=e1187]:
+              - listitem [ref=e1188]:
+                - link "研究索引" [ref=e1189] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/research/index/
+              - listitem [ref=e1190]:
+                - link "研究概览" [ref=e1191] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/research/
+              - listitem [ref=e1192]:
+                - link "研究驻留" [ref=e1193] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/residency/
+              - listitem [ref=e1194]:
+                - link "经济研究" [ref=e1195] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/signals/
+          - generic [ref=e1196]:
+            - heading "最新进展" [level=2] [ref=e1197]
+            - list [ref=e1198]:
+              - listitem [ref=e1199]:
+                - link "GPT-5.3 Instant" [ref=e1200] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/index/gpt-5-3-instant/
+              - listitem [ref=e1201]:
+                - link "GPT-5.3-Codex" [ref=e1202] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/index/introducing-gpt-5-3-codex/
+              - listitem [ref=e1203]:
+                - link "GPT-5" [ref=e1204] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/gpt-5/
+              - listitem [ref=e1205]:
+                - link "Codex" [ref=e1206] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/index/introducing-gpt-5-3-codex/
+          - generic [ref=e1207]:
+            - heading "安全" [level=2] [ref=e1208]
+            - list [ref=e1209]:
+              - listitem [ref=e1210]:
+                - link "安全措施" [ref=e1211] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/safety/
+              - listitem [ref=e1212]:
+                - link "安全与隐私" [ref=e1213] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/security-and-privacy/
+              - listitem [ref=e1214]:
+                - link "信任与透明度" [ref=e1215] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/trust-and-transparency/
+        - generic [ref=e1216]:
+          - generic [ref=e1217]:
+            - heading "ChatGPT" [level=2] [ref=e1218]
+            - list [ref=e1219]:
+              - listitem [ref=e1220]:
+                - link "探索 ChatGPT （在新窗口中打开）" [ref=e1221] [cursor=pointer]:
+                  - /url: https://chatgpt.com/overview
+                  - text: 探索 ChatGPT
+                  - img [ref=e1222]
+                  - generic [ref=e1224]: （在新窗口中打开）
+              - listitem [ref=e1225]:
+                - link "Business 版" [ref=e1226] [cursor=pointer]:
+                  - /url: https://chatgpt.com/business/business-plan
+              - listitem [ref=e1227]:
+                - link "Enterprise 版" [ref=e1228] [cursor=pointer]:
+                  - /url: https://chatgpt.com/business/enterprise
+              - listitem [ref=e1229]:
+                - link "Education 版" [ref=e1230] [cursor=pointer]:
+                  - /url: https://chatgpt.com/business/education
+              - listitem [ref=e1231]:
+                - link "定价 （在新窗口中打开）" [ref=e1232] [cursor=pointer]:
+                  - /url: https://chatgpt.com/pricing
+                  - text: 定价
+                  - img [ref=e1233]
+                  - generic [ref=e1235]: （在新窗口中打开）
+              - listitem [ref=e1236]:
+                - link "下载 （在新窗口中打开）" [ref=e1237] [cursor=pointer]:
+                  - /url: https://chatgpt.com/download
+                  - text: 下载
+                  - img [ref=e1238]
+                  - generic [ref=e1240]: （在新窗口中打开）
+          - generic [ref=e1241]:
+            - heading "Sora" [level=2] [ref=e1242]
+            - list [ref=e1243]:
+              - listitem [ref=e1244]:
+                - link "Sora 概览" [ref=e1245] [cursor=pointer]:
+                  - /url: /sora/
+              - listitem [ref=e1246]:
+                - link "功能" [ref=e1247] [cursor=pointer]:
+                  - /url: /sora/#features
+              - listitem [ref=e1248]:
+                - link "定价" [ref=e1249] [cursor=pointer]:
+                  - /url: /sora/#pricing
+              - listitem [ref=e1250]:
+                - link "Sora 登录 （在新窗口中打开）" [ref=e1251] [cursor=pointer]:
+                  - /url: https://sora.com/
+                  - text: Sora 登录
+                  - img [ref=e1252]
+                  - generic [ref=e1254]: （在新窗口中打开）
+          - generic [ref=e1255]:
+            - heading "API 平台" [level=2] [ref=e1256]
+            - list [ref=e1257]:
+              - listitem [ref=e1258]:
+                - link "平台概览" [ref=e1259] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/api/
+              - listitem [ref=e1260]:
+                - link "定价" [ref=e1261] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/api/pricing/
+              - listitem [ref=e1262]:
+                - link "API 登录 （在新窗口中打开）" [ref=e1263] [cursor=pointer]:
+                  - /url: https://platform.openai.com/login
+                  - text: API 登录
+                  - img [ref=e1264]
+                  - generic [ref=e1266]: （在新窗口中打开）
+              - listitem [ref=e1267]:
+                - link "文档 （在新窗口中打开）" [ref=e1268] [cursor=pointer]:
+                  - /url: https://developers.openai.com/api/docs
+                  - text: 文档
+                  - img [ref=e1269]
+                  - generic [ref=e1271]: （在新窗口中打开）
+              - listitem [ref=e1272]:
+                - link "开发者论坛 （在新窗口中打开）" [ref=e1273] [cursor=pointer]:
+                  - /url: https://community.openai.com/
+                  - text: 开发者论坛
+                  - img [ref=e1274]
+                  - generic [ref=e1276]: （在新窗口中打开）
+        - generic [ref=e1277]:
+          - generic [ref=e1278]:
+            - heading "商业应用" [level=2] [ref=e1279]
+            - list [ref=e1280]:
+              - listitem [ref=e1281]:
+                - link "商业应用概览" [ref=e1282] [cursor=pointer]:
+                  - /url: /business/
+              - listitem [ref=e1283]:
+                - link "解决方案" [ref=e1284] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/solutions/
+              - listitem [ref=e1285]:
+                - link "联系销售团队" [ref=e1286] [cursor=pointer]:
+                  - /url: /contact-sales/
+          - generic [ref=e1287]:
+            - heading "公司" [level=2] [ref=e1288]
+            - list [ref=e1289]:
+              - listitem [ref=e1290]:
+                - link "关于我们" [ref=e1291] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/about/
+              - listitem [ref=e1292]:
+                - link "我们的宪章" [ref=e1293] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/charter/
+              - listitem [ref=e1294]:
+                - link "基金会 （在新窗口中打开）" [ref=e1295] [cursor=pointer]:
+                  - /url: https://openaifoundation.org
+                  - text: 基金会
+                  - img [ref=e1296]
+                  - generic [ref=e1298]: （在新窗口中打开）
+              - listitem [ref=e1299]:
+                - link "工作机会" [ref=e1300] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/careers/
+              - listitem [ref=e1301]:
+                - link "品牌" [ref=e1302] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/brand/
+          - generic [ref=e1303]:
+            - heading "支持" [level=2] [ref=e1304]
+            - list [ref=e1305]:
+              - listitem [ref=e1306]:
+                - link "帮助中心 （在新窗口中打开）" [ref=e1307] [cursor=pointer]:
+                  - /url: https://help.openai.com/
+                  - text: 帮助中心
+                  - img [ref=e1308]
+                  - generic [ref=e1310]: （在新窗口中打开）
+          - generic [ref=e1311]:
+            - heading "更多" [level=2] [ref=e1312]
+            - list [ref=e1313]:
+              - listitem [ref=e1314]:
+                - link "新闻" [ref=e1315] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/news/
+              - listitem [ref=e1316]:
+                - link "客户案例" [ref=e1317] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/stories/
+              - listitem [ref=e1318]:
+                - link "Academy" [ref=e1319] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/academy/
+              - listitem [ref=e1320]:
+                - link "直播" [ref=e1321] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/live/
+              - listitem [ref=e1322]:
+                - link "播客" [ref=e1323] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/podcast/
+              - listitem [ref=e1324]:
+                - link "RSS" [ref=e1325] [cursor=pointer]:
+                  - /url: https://openai.com/news/rss.xml
+        - generic [ref=e1327]:
+          - heading "条款与政策" [level=2] [ref=e1328]
+          - list [ref=e1329]:
+            - listitem [ref=e1330]:
+              - link "使用条款" [ref=e1331] [cursor=pointer]:
+                - /url: /zh-Hans-CN/policies/terms-of-use/
+            - listitem [ref=e1332]:
+              - link "隐私政策" [ref=e1333] [cursor=pointer]:
+                - /url: /zh-Hans-CN/policies/privacy-policy/
+            - listitem [ref=e1334]:
+              - link "其他政策" [ref=e1335] [cursor=pointer]:
+                - /url: /zh-Hans-CN/policies/
+      - generic [ref=e1336]:
+        - generic [ref=e1337]:
+          - link "X" [ref=e1338] [cursor=pointer]:
+            - /url: https://x.com/OpenAI
+            - img [ref=e1339]
+            - generic [ref=e1341]: （在新窗口中打开）
+          - link "YouTube" [ref=e1342] [cursor=pointer]:
+            - /url: https://www.youtube.com/OpenAI
+            - img [ref=e1343]
+            - generic [ref=e1345]: （在新窗口中打开）
+          - link "LinkedIn" [ref=e1346] [cursor=pointer]:
+            - /url: https://www.linkedin.com/company/openai
+            - img [ref=e1347]
+            - generic [ref=e1349]: （在新窗口中打开）
+          - link "GitHub" [ref=e1350] [cursor=pointer]:
+            - /url: https://github.com/openai
+            - img [ref=e1351]
+            - generic [ref=e1353]: （在新窗口中打开）
+          - link "Instagram" [ref=e1354] [cursor=pointer]:
+            - /url: https://www.instagram.com/openai/
+            - img [ref=e1355]
+            - generic [ref=e1357]: （在新窗口中打开）
+          - link "TikTok" [ref=e1358] [cursor=pointer]:
+            - /url: https://www.tiktok.com/@openai
+            - img [ref=e1359]
+            - generic [ref=e1361]: （在新窗口中打开）
+          - link "Discord" [ref=e1362] [cursor=pointer]:
+            - /url: https://discord.gg/openai
+            - img [ref=e1363]
+            - generic [ref=e1365]: （在新窗口中打开）
+        - generic [ref=e1366]:
+          - generic [ref=e1367]: OpenAI © 2015–2026
+          - button "管理 Cookie" [ref=e1368] [cursor=pointer]
+        - generic [ref=e1369]:
+          - button "更改语言" [ref=e1370] [cursor=pointer]:
+            - generic [ref=e1371]:
+              - img [ref=e1372]
+              - generic [ref=e1375]:
+                - text: 中文
+                - generic [ref=e1376]: 中国
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - img
+                    - textbox "按名称或地区搜索区域设置":
+                      - /placeholder: 搜索

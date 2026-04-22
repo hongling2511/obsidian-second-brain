@@ -1,0 +1,553 @@
+- generic [active] [ref=e1]:
+  - banner:
+    - generic [ref=e2]:
+      - link "跳至主要内容":
+        - /url: "#main"
+      - generic [ref=e4]:
+        - link "OpenAI 主页" [ref=e5] [cursor=pointer]:
+          - /url: /zh-Hans-CN/
+          - img [ref=e7]
+        - generic [ref=e9]:
+          - navigation "主导航" [ref=e11]:
+            - list [ref=e12]:
+              - listitem [ref=e13]:
+                - link "研究" [ref=e14] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/research/index/
+                  - generic [ref=e16]: 研究
+                - button "研究 菜单"
+              - listitem [ref=e17]:
+                - button "产品" [ref=e18] [cursor=pointer]:
+                  - generic [ref=e20]: 产品
+                - button "产品 菜单"
+              - listitem [ref=e21]:
+                - link "企业" [ref=e22] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/business/
+                  - generic [ref=e24]: 企业
+                - button "企业 菜单"
+              - listitem [ref=e25]:
+                - link "开发人员" [ref=e26] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/api/
+                  - generic [ref=e28]: 开发人员
+                - button "开发人员 菜单"
+              - listitem [ref=e29]:
+                - link "公司" [ref=e30] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/about/
+                  - generic [ref=e32]: 公司
+                - button "公司 菜单"
+              - listitem [ref=e33]:
+                - link "基金会 （在新窗口中打开）" [ref=e34] [cursor=pointer]:
+                  - /url: https://openaifoundation.org/zh-Hans-CN/
+                  - generic [ref=e36]: 基金会
+                  - generic [ref=e37]: （在新窗口中打开）
+          - generic [ref=e39]:
+            - button "打开搜索" [ref=e41] [cursor=pointer]:
+              - img [ref=e42]
+            - button "关闭搜索" [ref=e44] [cursor=pointer]:
+              - img [ref=e45]
+          - generic [ref=e48]:
+            - button "登录" [ref=e49] [cursor=pointer]:
+              - text: 登录
+              - img [ref=e50]
+            - link "试用 ChatGPT （在新窗口中打开）" [ref=e52] [cursor=pointer]:
+              - /url: https://chatgpt.com/?openaicom-did=4baed72e-c5f4-41a7-90b7-a4d1789ff92f&openaicom_referred=true
+              - text: 试用 ChatGPT
+              - img [ref=e53]
+              - generic [ref=e55]: （在新窗口中打开）
+  - generic [ref=e56]:
+    - main [ref=e57]:
+      - generic [ref=e58]: 从模型到智能体：为 Responses API 配备计算机环境 | OpenAI
+      - navigation:
+        - generic [ref=e60]:
+          - button "目录" [ref=e61] [cursor=pointer]:
+            - generic [ref=e62]: 目录
+          - img [ref=e64]
+      - article [ref=e66]:
+        - generic [ref=e67]:
+          - generic [ref=e71]:
+            - generic [ref=e72]:
+              - paragraph [ref=e73]: 2026年3月11日
+              - link "工程" [ref=e74] [cursor=pointer]:
+                - /url: /news/engineering/
+            - heading "从模型到智能体：为 Responses API 配备计算机环境" [level=1] [ref=e75]
+            - paragraph [ref=e77]: 作者：Bo Xu、Danny Zhang 和 Rohit Arunachalam
+          - generic [ref=e79]:
+            - generic [ref=e82]:
+              - button "播放页面文本音频" [disabled] [ref=e83]:
+                - img [ref=e84]
+              - generic [ref=e86]: 正在加载…
+            - button "分享" [ref=e91] [cursor=pointer]:
+              - img [ref=e92]
+              - text: 分享
+        - generic [ref=e95]:
+          - paragraph [ref=e97]: 我们目前正经历一场变革：从使用擅长特定任务的模型 (Model)，转向使用能够处理复杂工作流的智能体 (Agent)。通过提示模型，你只能调用它已经学到的能力；但如果为模型提供一个计算机环境，就能实现更广泛的应用场景，例如运行服务、调用 API 请求数据，或生成电子表格和报告等更具实用价值的产物。
+          - paragraph [ref=e99]: 在构建智能体时，开发者通常会面临几个实际痛点：中间文件存放在哪？如何避免将庞大的表格直接粘贴到提示词中？如何在不造成安全隐患的前提下赋予工作流网络访问权限？以及如何在不自行搭建工作流系统的情况下处理超时和重试？
+          - paragraph [ref=e101]:
+            - text: 与其让开发者自行构建执行环境，我们直接打造了必要的组件，为
+            - link "Responses API⁠ （在新窗口中打开）" [ref=e102] [cursor=pointer]:
+              - /url: https://developers.openai.com/api/docs/guides/migrate-to-responses
+              - text: Responses API⁠
+              - generic [ref=e103]: （在新窗口中打开）
+            - text: 配备了计算机环境，从而可靠地执行现实世界中的任务。
+          - paragraph [ref=e105]: OpenAI 的 Responses API 结合 Shell 工具和托管容器工作空间 (Hosted Container Workspace)，旨在解决上述实际问题。模型提出步骤和命令，平台则在隔离环境中运行它们。该环境包含用于输入输出的文件系统、可选的结构化存储（如 SQLite）以及受限的网络访问。
+          - paragraph [ref=e107]: 本文将深入剖析我们是如何为智能体构建计算机环境的，并分享一些早期经验，探讨如何利用该环境实现更快速、更可重复且更安全的生产环境工作流。
+          - heading "Shell 工具" [level=2] [ref=e111]
+          - paragraph [ref=e113]: 一个优秀的智能体工作流始于一个紧密的执行循环 (Execution Loop)：模型提出操作建议（如读取文件或通过 API 获取数据），平台执行该操作，执行结果再反馈给下一步。我们将从 Shell 工具开始 — 这是观察这一循环运作最直观的方式 — 随后将涵盖容器工作空间、网络连接、可重用技能以及上下文压缩 (Context Compaction)。
+          - paragraph [ref=e115]: 要理解 Shell 工具，首先需要了解语言模型通常是如何使用工具的：比如调用函数或与计算机交互。在训练过程中，模型会逐步学习工具的使用示例及其产生的效果。这有助于模型学习判断何时以及如何使用工具。当我们说“使用工具”时，其本质是模型提出 (Propose) 一个工具调用请求，模型本身无法自行执行该调用。
+          - figure [ref=e117]:
+            - img "Shell 工具仅是“另一种工具”，带有示意图" [ref=e125]
+          - paragraph [ref=e127]:
+            - text: Shell 工具极大增强了模型的能力：它通过命令行与计算机交互，从而执行从文本搜索到在本地发送 API 请求等各类任务。我们的 Shell 工具基于成熟的 Unix 工具链构建，支持所有预期功能，并预装了
+            - code [ref=e129]: grep
+            - text: 、
+            - code [ref=e131]: curl
+            - text: 和
+            - code [ref=e133]: awk
+            - text: 等开箱即用的工具。
+          - paragraph [ref=e135]: 与现有的代码解释器 (Code Interpreter) 相比 — 后者仅能执行 Python 代码 — Shell 工具支持更广泛的应用场景，例如运行 Go 或 Java 程序，或者启动 NodeJS 服务器。这种灵活性使模型能够完成复杂的智能体任务。
+          - heading "编排智能体循环" [level=2] [ref=e139]
+          - paragraph [ref=e141]: 模型本身只能提出 Shell 命令，但这些命令是如何执行的？我们需要一个编排器 (Orchestrator) 来获取模型输出、调用工具，并将工具的响应结果循环反馈给模型，直到任务完成。
+          - paragraph [ref=e143]: Responses API 是开发者与 OpenAI 模型交互的方式。当配合自定义工具使用时，Responses API 会将控制权交还给客户端，此时客户端需要自带运行框架 (Harness) 来驱动工具。然而，该 API 也可以直接开箱即用，在模型与托管工具之间进行编排。
+          - paragraph [ref=e145]:
+            - text: 当 Responses API 接收到提示词时，它会组装模型上下文：用户提示词、之前的对话状态以及工具指令。若要实现 Shell 执行，提示词必须声明使用 Shell 工具，
+            - generic [ref=e146]: 且
+            - text: 所选模型必须经过“提出 Shell 命令”的专门训练 — GPT‑5.2 及更高版本的模型已具备此能力。基于所有这些上下文，模型随后决定下一步操作。如果它选择执行 Shell，会将一个或多个 Shell 命令返回给 Responses API 服务。API 服务将这些命令转发给容器运行时 (Container Runtime)，回传 Shell 输出流，并将其作为下一次请求的上下文提供给模型。随后，模型可以检查结果、发布后续命令或生成最终答案。Responses API 会不断重复此循环，直到模型返回不含额外 Shell 命令的最终结果。
+          - figure [ref=e148]:
+            - img "智能体循环示意图：Responses API 在容器中编排模型与 Shell 执行" [ref=e156]
+          - paragraph [ref=e158]: 当 Responses API 执行一条 Shell 命令时，它会与容器服务保持流式连接 (Streaming Connection)。随着输出内容的产生，API 会近乎实时地将其转发给模型，以便模型决定是继续等待更多输出、运行另一条命令，还是直接进入最终回复阶段。
+          - figure [ref=e160]:
+            - generic [ref=e163]:
+              - img "流式传输 Shell 命令的执行输出" [ref=e168]
+              - paragraph [ref=e175]:
+                - generic [ref=e176]: Responses API 会流式传输 Shell 命令的输出
+          - paragraph [ref=e178]: 模型可以在单一步骤中提出多个 Shell 命令，而 Responses API 能够利用独立的容器会话并发执行 (Concurrently Execute) 这些命令。每个会话都会独立地产生输出流，API 则将这些流多路复用 (Multiplex)，整合回结构化的工具输出并作为上下文。换句话说，智能体循环可以实现任务的并行化 (Parallelize)，例如同时搜索文件、获取数据以及验证中间结果。
+          - figure [ref=e180]:
+            - img "Responses API 对命令执行会话进行多路复用" [ref=e188]
+          - paragraph [ref=e190]: 当命令涉及文件操作或数据处理时，Shell 输出可能会变得非常庞大，在不提供有效信号的情况下耗尽上下文配额 (Context Budget)。为了控制这一点，模型会为每个命令指定一个输出上限 (Output Cap)。Responses API 强制执行该上限，并返回一个有界结果 (Bounded Result)：该结果会保留输出的开头和结尾部分，并标记出省略的内容。例如，你可以将输出限制在 1,000 个字符内，并保留首尾：
+          - paragraph [ref=e192]:
+            - code [ref=e194]: 开头部分的文本 ... 已截断 1000 个字符 ... 结尾部分的文本
+          - paragraph [ref=e196]: 并发执行与有界输出相结合，使智能体循环既快速又节省上下文，从而让模型能够持续对相关结果进行推理，而不至于被原始的终端日志淹没。
+          - heading "当上下文窗口填满时：自动压缩" [level=2] [ref=e200]
+          - paragraph [ref=e202]: 智能体循环的一个潜在问题是，任务可能会运行很长时间。长耗时任务会填满上下文窗口，而上下文对于跨轮次和跨智能体提供背景信息至关重要。想象一下：一个智能体调用某项技能，获取响应，添加工具调用和推理总结 — 有限的上下文窗口很快就会占满。为了在智能体持续运行时避免丢失关键上下文，我们需要保留核心细节并移除无关信息。我们没有要求开发者自行设计和维护自定义的总结或状态保留系统，而是在 Responses API 中加入了原生压缩 (Native Compaction) 功能，其设计初衷是与模型的行为模式及训练方式保持高度一致。
+          - paragraph [ref=e204]:
+            - text: 我们最新的模型经过训练，可以分析先前的对话状态并生成一个压缩项 (Compaction Item)。该项以一种加密且节省 Token 的高效表示形式保留了先前的关键状态。压缩完成后，下一个上下文窗口将由该压缩项和早期窗口的高价值部分组成。这使得工作流能够跨越窗口边界保持连贯，即使是在超长、多步骤且由工具驱动的会话中也是如此。
+            - link "Codex 正是依赖这一机制" [ref=e205] [cursor=pointer]:
+              - /url: /zh-Hans-CN/index/unrolling-the-codex-agent-loop/
+            - text: 来维持长耗时的编程任务和迭代式的工具执行，且不会降低质量。
+          - paragraph [ref=e207]: 压缩功能可以内置在服务器上，也可以通过独立的 /compact 端点调用。服务器端压缩允许你配置一个阈值，系统会自动处理压缩时机，从而省去了复杂的客户端逻辑。它允许一个略大的有效输入上下文窗口，以容忍压缩前的轻微超限，确保接近极限的请求仍能被处理和压缩，而不是被直接拒绝。随着模型训练的演进，原生压缩方案也会随每个 OpenAI 模型的发布而同步进化。
+          - paragraph [ref=e209]: Codex 帮助我们构建了压缩系统，同时作为其早期用户使用该系统。当一个 Codex 实例遇到压缩错误时，我们会启动第二个实例进行调查。结果是，Codex 通过解决自身问题，获得了一套原生且高效的压缩系统。这种让 Codex 观察并完善自身的能力，已成为在 OpenAI 工作中最引人入胜的部分。大多数工具只要求用户学习如何使用；而 Codex 则与我们共同学习。
+          - heading "容器上下文" [level=2] [ref=e213]
+          - paragraph [ref=e215]: 现在我们来谈谈状态和资源。容器不仅是运行命令的场所，更是模型的运行上下文。在容器内部，模型可以读取文件、查询数据库，并在网络策略控制下访问外部系统。
+          - figure [ref=e217]:
+            - img "一张展示运行时容器内部结构的示意图：文件、数据库、技能，以及受策略控制的网络" [ref=e225]
+          - heading "文件系统" [level=4] [ref=e229]
+          - paragraph [ref=e231]:
+            - text: 容器上下文的第一部分是用于上传、组织和管理资源的文件系统。我们构建了
+            - link "容器和文件⁠ （在新窗口中打开）" [ref=e232] [cursor=pointer]:
+              - /url: https://developers.openai.com/api/reference/resources/containers
+              - text: 容器和文件⁠
+              - generic [ref=e233]: （在新窗口中打开）
+            - text: API，旨在为模型提供可用数据的结构化视图，帮助其选择针对性的文件操作，而不是进行大范围、高噪声的扫描。
+          - paragraph [ref=e235]: 一种常见的反模式 (Anti-pattern) 是将所有输入直接打包进提示词上下文。随着输入内容的增加，过度填充提示词不仅昂贵，而且会让模型难以理清头绪。更好的模式是将资源暂存在容器文件系统中，让模型决定通过 Shell 命令打开、解析或转换哪些内容。就像人类一样，模型在处理结构化信息时表现更佳。
+          - heading "数据库" [level=4] [ref=e239]
+          - paragraph [ref=e241]: 容器上下文的第二部分是数据库。在许多情况下，我们建议开发者将结构化数据存储在 SQLite 等数据库中并进行查询。例如，与其将整个电子表格复制到提示词中，不如为模型提供表格的描述（包含哪些列及其含义），让它按需提取所需的行。
+          - paragraph [ref=e243]:
+            - text: 举个例子，如果你问：“本季度哪些产品的销量有所下降？”模型可以
+            - generic [ref=e244]: 仅
+            - text: 查询相关的行，而无需扫描整个表格。这种方式更快、成本更低，且更容易扩展到大型数据集。
+          - heading "网络访问" [level=4] [ref=e248]
+          - paragraph [ref=e250]: 容器上下文的第三部分是网络访问，这是智能体工作负载中必不可少的一环。智能体工作流可能需要获取实时数据、调用外部 API 或安装软件包。与此同时，赋予容器不受限的互联网访问权限具有很高的风险：它可能导致信息泄露给外部网站、意外访问敏感的内部或第三方系统，或者导致凭据泄露和数据外传更难防范。
+          - paragraph [ref=e252]: 为了在不损害智能体实用性的前提下解决这些隐忧，我们为托管容器构建了一个边车出口代理 (Sidecar Egress Proxy)。所有出站网络请求都会流经一个中心化的策略层 (Policy Layer)，该层负责强制执行白名单和访问控制，同时保持流量的可观测性。针对凭据管理，我们在请求出口处使用域名作用域的机密注入 (Domain-scoped Secret Injection)。模型和容器只能看到占位符，而原始机密值始终保持在模型可见的上下文之外，且仅在访问获批目标时才会生效。这种做法在支持身份验证的外部调用的同时，降低了泄露风险。
+          - generic [ref=e254]:
+            - tablist "标签" [ref=e255]:
+              - generic [ref=e258]:
+                - tab "容器配置" [selected] [ref=e259] [cursor=pointer]:
+                  - generic [ref=e260]: 容器配置
+                - tab "访问网络" [ref=e261] [cursor=pointer]:
+                  - generic [ref=e262]: 访问网络
+            - tabpanel "容器配置" [ref=e264]:
+              - figure [ref=e265]:
+                - img "通过出口代理实现受控网络访问的示意图：容器配置" [ref=e273]
+          - heading "智能体技能" [level=2] [ref=e277]
+          - paragraph [ref=e279]:
+            - text: Shell 命令固然强大，但许多任务都在重复相同的多步模式。智能体在每次运行时都必须重新探索工作流 — 重新规划、重新发布命令并重新学习规范 — 这导致了结果的不一致和执行资源的浪费。
+            - link "智能体技能⁠ （在新窗口中打开）" [ref=e280] [cursor=pointer]:
+              - /url: https://agentskills.io/home
+              - text: 智能体技能⁠
+              - generic [ref=e281]: （在新窗口中打开）
+            - text: 将这些模式封装为可重用、可组合的构建模块。技能本质上是一个打包的目录，其中包含 ‘
+            - link "SKILL.md⁠ （在新窗口中打开）" [ref=e282] [cursor=pointer]:
+              - /url: http://skill.md
+              - text: SKILL.md⁠
+              - generic [ref=e283]: （在新窗口中打开）
+            - text: ’（包含元数据和指令）以及任何支撑资源，如 API 规范和 UI 资产。
+          - paragraph [ref=e285]: 这种设计可以很好地对应我们前面描述的运行时 (runtime) 架构。容器提供了持久化文件和执行上下文，Shell 工具提供了执行接口。在两者齐备的情况下，模型可以在需要时通过 Shell 命令（如 ls、cat 等）发现技能文件、解析指令，并在同一个智能体循环中运行技能脚本。
+          - paragraph [ref=e287]:
+            - text: 我们在 OpenAI 平台提供了管理技能的
+            - link "API⁠ （在新窗口中打开）" [ref=e288] [cursor=pointer]:
+              - /url: https://developers.openai.com/api/reference/resources/skills
+              - text: API⁠
+              - generic [ref=e289]: （在新窗口中打开）
+            - text: 。开发者将技能文件夹作为带版本的包进行上传和存储，之后可通过技能 ID 进行检索。在将提示词发送给模型之前，Responses API 会加载该技能并将其纳入模型上下文。这一过程具有确定性：
+          - list [ref=e291]:
+            - listitem [ref=e292]: 获取技能元数据，包括名称和描述。
+            - listitem [ref=e293]: 获取技能包，将其复制到容器中并解压。
+            - listitem [ref=e294]: 利用技能元数据和容器路径更新模型上下文。
+          - paragraph [ref=e296]: 在判断某项技能是否相关时，模型会逐步探索其指令，并通过容器中的 Shell 命令执行其脚本。
+          - figure [ref=e298]:
+            - img "技能加载流程示意图：注册表、包、运行时" [ref=e306]
+          - heading "智能体是如何构建的" [level=2] [ref=e310]
+          - paragraph [ref=e312]:
+            - text: 让我们把所有要素整合在一起：
+            - generic [ref=e313]: Responses API
+            - text: 提供编排能力，
+            - generic [ref=e314]: Shell 工具
+            - text: 提供可执行操作，
+            - generic [ref=e315]: 托管容器
+            - text: 提供持久化的运行时上下文，
+            - generic [ref=e316]: 技能
+            - text: 用于分层复用工作流逻辑，而
+            - generic [ref=e317]: 压缩 (compaction)
+            - text: 则让智能体在具备所需上下文的情况下能够长时间运行。
+          - paragraph [ref=e319]: 借助这些基础原语，一个简单的提示语就可以扩展为端到端的工作流：发现合适的技能、获取数据、将其转换为本地结构化状态、高效查询，并生成可持久化的产物。
+          - paragraph [ref=e321]: 下图展示了该系统如何利用实时数据创建电子表格。
+          - generic [ref=e323]:
+            - tablist "标签" [ref=e324]:
+              - generic [ref=e327]:
+                - tab "技能发现" [selected] [ref=e328] [cursor=pointer]:
+                  - generic [ref=e329]: 技能发现
+                - tab "规划和设置" [ref=e330] [cursor=pointer]:
+                  - generic [ref=e331]: 规划和设置
+                - tab "数据获取" [ref=e332] [cursor=pointer]:
+                  - generic [ref=e333]: 数据获取
+                - tab "数据处理" [ref=e334] [cursor=pointer]:
+                  - generic [ref=e335]: 数据处理
+                - tab "产物生成" [ref=e336] [cursor=pointer]:
+                  - generic [ref=e337]: 产物生成
+            - tabpanel "技能发现" [ref=e339]:
+              - figure [ref=e340]:
+                - generic [ref=e343]:
+                  - img "请求生命周期示意图：从单个提示到持久化产物 - 技能发现" [ref=e348]
+                  - paragraph [ref=e355]:
+                    - generic [ref=e356]: Responses API 对一个智能体任务进行编排
+          - heading "自行构建智能体" [level=2] [ref=e360]
+          - paragraph [ref=e362]:
+            - text: 如需查看将 Shell 工具与计算机环境结合以实现端到端工作流的深入示例，请参阅我们的
+            - link "开发者博客文章⁠ （在新窗口中打开）" [ref=e363] [cursor=pointer]:
+              - /url: https://developers.openai.com/blog/skills-shell-tips
+              - text: 开发者博客文章⁠
+              - generic [ref=e364]: （在新窗口中打开）
+            - text: 和
+            - link "实用手册⁠ （在新窗口中打开）" [ref=e365] [cursor=pointer]:
+              - /url: https://developers.openai.com/cookbook/examples/skills_in_api
+              - text: 实用手册⁠
+              - generic [ref=e366]: （在新窗口中打开）
+            - text: ，其中演示了如何打包一个技能并通过 Responses API 予以执行。
+          - paragraph [ref=e368]: 我们很期待看到开发者基于这一组基础原语构建出精彩内容。语言模型的用途不应仅限于生成文本、图像和音频。我们将持续更新平台，使其在大规模处理复杂的真实世界任务方面变得更加强大。
+        - region "本地化效果反馈" [ref=e371]:
+          - generic [ref=e372]:
+            - paragraph [ref=e373]: 翻译反馈
+            - generic [ref=e374]:
+              - paragraph [ref=e375]: 这个页面读起来是否轻松易懂？
+              - generic [ref=e376]:
+                - button "优秀" [ref=e377] [cursor=pointer]:
+                  - generic [ref=e378]:
+                    - img [ref=e380]
+                    - generic [ref=e382]: 优秀
+                - button "良好" [ref=e383] [cursor=pointer]:
+                  - generic [ref=e384]:
+                    - img [ref=e386]
+                    - generic [ref=e388]: 良好
+                - button "较差" [ref=e389] [cursor=pointer]:
+                  - generic [ref=e390]:
+                    - img [ref=e392]
+                    - generic [ref=e394]: 较差
+        - generic [ref=e397]:
+          - list [ref=e399]:
+            - listitem [ref=e400]:
+              - link "2026" [ref=e401] [cursor=pointer]:
+                - /url: /news/?tags=2026
+            - listitem [ref=e402]:
+              - link "API 平台" [ref=e403] [cursor=pointer]:
+                - /url: /news/?tags=api-platform
+          - generic [ref=e404]:
+            - heading "作者" [level=2] [ref=e405]
+            - generic [ref=e406]: Bo Xu、Danny Zhang、Rohit Arunachalam
+        - generic [ref=e407]:
+          - generic [ref=e408]:
+            - heading "继续阅读" [level=2] [ref=e410]
+            - link "查看全部" [ref=e411] [cursor=pointer]:
+              - /url: /zh-Hans-CN/news/
+          - generic [ref=e414]:
+            - generic [ref=e416]:
+              - img "fin eng (credits) > card image" [ref=e422]
+              - link "超越速率限制：扩大 Codex 和 Sora 的访问规模 - 工程 - 2026年2月13日" [ref=e423] [cursor=pointer]:
+                - /url: /zh-Hans-CN/index/beyond-rate-limits/
+                - generic [ref=e424]:
+                  - generic [ref=e425]: 超越速率限制：扩大 Codex 和 Sora 的访问规模
+                  - paragraph [ref=e426]:
+                    - generic [ref=e427]: 工程
+                    - time [ref=e429]: 2026年2月13日
+            - generic [ref=e431]:
+              - img "harness eng > card image" [ref=e437]
+              - link "工程技术：在智能体优先的世界中利用 Codex - 工程 - 2026年2月11日" [ref=e438] [cursor=pointer]:
+                - /url: /zh-Hans-CN/index/harness-engineering/
+                - generic [ref=e439]:
+                  - generic [ref=e440]: 工程技术：在智能体优先的世界中利用 Codex
+                  - paragraph [ref=e441]:
+                    - generic [ref=e442]: 工程
+                    - time [ref=e444]: 2026年2月11日
+            - generic [ref=e446]:
+              - img "Codex harness > card image" [ref=e452]
+              - link "解锁 Codex 运行框架：我们如何构建 App Server - 工程 - 2026年2月4日" [ref=e453] [cursor=pointer]:
+                - /url: /zh-Hans-CN/index/unlocking-the-codex-harness/
+                - generic [ref=e454]:
+                  - generic [ref=e455]: 解锁 Codex 运行框架：我们如何构建 App Server
+                  - paragraph [ref=e456]:
+                    - generic [ref=e457]: 工程
+                    - time [ref=e459]: 2026年2月4日
+    - contentinfo [ref=e460]:
+      - generic [ref=e462]:
+        - generic [ref=e463]:
+          - generic [ref=e464]:
+            - heading "我们的研究" [level=2] [ref=e465]
+            - list [ref=e466]:
+              - listitem [ref=e467]:
+                - link "研究索引" [ref=e468] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/research/index/
+              - listitem [ref=e469]:
+                - link "研究概览" [ref=e470] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/research/
+              - listitem [ref=e471]:
+                - link "研究驻留" [ref=e472] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/residency/
+              - listitem [ref=e473]:
+                - link "经济研究" [ref=e474] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/signals/
+          - generic [ref=e475]:
+            - heading "最新进展" [level=2] [ref=e476]
+            - list [ref=e477]:
+              - listitem [ref=e478]:
+                - link "GPT-5.3 Instant" [ref=e479] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/index/gpt-5-3-instant/
+              - listitem [ref=e480]:
+                - link "GPT-5.3-Codex" [ref=e481] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/index/introducing-gpt-5-3-codex/
+              - listitem [ref=e482]:
+                - link "GPT-5" [ref=e483] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/gpt-5/
+              - listitem [ref=e484]:
+                - link "Codex" [ref=e485] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/index/introducing-gpt-5-3-codex/
+          - generic [ref=e486]:
+            - heading "安全" [level=2] [ref=e487]
+            - list [ref=e488]:
+              - listitem [ref=e489]:
+                - link "安全措施" [ref=e490] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/safety/
+              - listitem [ref=e491]:
+                - link "安全与隐私" [ref=e492] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/security-and-privacy/
+              - listitem [ref=e493]:
+                - link "信任与透明度" [ref=e494] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/trust-and-transparency/
+        - generic [ref=e495]:
+          - generic [ref=e496]:
+            - heading "ChatGPT" [level=2] [ref=e497]
+            - list [ref=e498]:
+              - listitem [ref=e499]:
+                - link "探索 ChatGPT （在新窗口中打开）" [ref=e500] [cursor=pointer]:
+                  - /url: https://chatgpt.com/zh-Hans-CN/overview?openaicom-did=4baed72e-c5f4-41a7-90b7-a4d1789ff92f&openaicom_referred=true
+                  - text: 探索 ChatGPT
+                  - img [ref=e501]
+                  - generic [ref=e503]: （在新窗口中打开）
+              - listitem [ref=e504]:
+                - link "Business 版" [ref=e505] [cursor=pointer]:
+                  - /url: https://chatgpt.com/zh-Hans-CN/business/business-plan?openaicom-did=4baed72e-c5f4-41a7-90b7-a4d1789ff92f&openaicom_referred=true
+              - listitem [ref=e506]:
+                - link "Enterprise 版" [ref=e507] [cursor=pointer]:
+                  - /url: https://chatgpt.com/zh-Hans-CN/business/enterprise?openaicom-did=4baed72e-c5f4-41a7-90b7-a4d1789ff92f&openaicom_referred=true
+              - listitem [ref=e508]:
+                - link "Education 版" [ref=e509] [cursor=pointer]:
+                  - /url: https://chatgpt.com/zh-Hans-CN/business/education?openaicom-did=4baed72e-c5f4-41a7-90b7-a4d1789ff92f&openaicom_referred=true
+              - listitem [ref=e510]:
+                - link "定价 （在新窗口中打开）" [ref=e511] [cursor=pointer]:
+                  - /url: https://chatgpt.com/zh-Hans-CN/pricing?openaicom-did=4baed72e-c5f4-41a7-90b7-a4d1789ff92f&openaicom_referred=true
+                  - text: 定价
+                  - img [ref=e512]
+                  - generic [ref=e514]: （在新窗口中打开）
+              - listitem [ref=e515]:
+                - link "下载 （在新窗口中打开）" [ref=e516] [cursor=pointer]:
+                  - /url: https://chatgpt.com/zh-Hans-CN/download?openaicom-did=4baed72e-c5f4-41a7-90b7-a4d1789ff92f&openaicom_referred=true
+                  - text: 下载
+                  - img [ref=e517]
+                  - generic [ref=e519]: （在新窗口中打开）
+          - generic [ref=e520]:
+            - heading "Sora" [level=2] [ref=e521]
+            - list [ref=e522]:
+              - listitem [ref=e523]:
+                - link "Sora 概览" [ref=e524] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/sora/
+              - listitem [ref=e525]:
+                - link "功能" [ref=e526] [cursor=pointer]:
+                  - /url: /sora/#features
+              - listitem [ref=e527]:
+                - link "定价" [ref=e528] [cursor=pointer]:
+                  - /url: /sora/#pricing
+              - listitem [ref=e529]:
+                - link "Sora 登录 （在新窗口中打开）" [ref=e530] [cursor=pointer]:
+                  - /url: https://sora.com/
+                  - text: Sora 登录
+                  - img [ref=e531]
+                  - generic [ref=e533]: （在新窗口中打开）
+          - generic [ref=e534]:
+            - heading "API 平台" [level=2] [ref=e535]
+            - list [ref=e536]:
+              - listitem [ref=e537]:
+                - link "平台概览" [ref=e538] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/api/
+              - listitem [ref=e539]:
+                - link "定价" [ref=e540] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/api/pricing/
+              - listitem [ref=e541]:
+                - link "API 登录 （在新窗口中打开）" [ref=e542] [cursor=pointer]:
+                  - /url: https://platform.openai.com/login
+                  - text: API 登录
+                  - img [ref=e543]
+                  - generic [ref=e545]: （在新窗口中打开）
+              - listitem [ref=e546]:
+                - link "文档 （在新窗口中打开）" [ref=e547] [cursor=pointer]:
+                  - /url: https://developers.openai.com/api/docs
+                  - text: 文档
+                  - img [ref=e548]
+                  - generic [ref=e550]: （在新窗口中打开）
+              - listitem [ref=e551]:
+                - link "开发者论坛 （在新窗口中打开）" [ref=e552] [cursor=pointer]:
+                  - /url: https://community.openai.com/
+                  - text: 开发者论坛
+                  - img [ref=e553]
+                  - generic [ref=e555]: （在新窗口中打开）
+        - generic [ref=e556]:
+          - generic [ref=e557]:
+            - heading "商业应用" [level=2] [ref=e558]
+            - list [ref=e559]:
+              - listitem [ref=e560]:
+                - link "商业应用概览" [ref=e561] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/business/
+              - listitem [ref=e562]:
+                - link "解决方案" [ref=e563] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/solutions/
+              - listitem [ref=e564]:
+                - link "联系销售团队" [ref=e565] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/contact-sales/
+          - generic [ref=e566]:
+            - heading "公司" [level=2] [ref=e567]
+            - list [ref=e568]:
+              - listitem [ref=e569]:
+                - link "关于我们" [ref=e570] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/about/
+              - listitem [ref=e571]:
+                - link "我们的宪章" [ref=e572] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/charter/
+              - listitem [ref=e573]:
+                - link "基金会 （在新窗口中打开）" [ref=e574] [cursor=pointer]:
+                  - /url: https://openaifoundation.org/zh-Hans-CN/
+                  - text: 基金会
+                  - img [ref=e575]
+                  - generic [ref=e577]: （在新窗口中打开）
+              - listitem [ref=e578]:
+                - link "工作机会" [ref=e579] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/careers/
+              - listitem [ref=e580]:
+                - link "品牌" [ref=e581] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/brand/
+          - generic [ref=e582]:
+            - heading "支持" [level=2] [ref=e583]
+            - list [ref=e584]:
+              - listitem [ref=e585]:
+                - link "帮助中心 （在新窗口中打开）" [ref=e586] [cursor=pointer]:
+                  - /url: https://help.openai.com/
+                  - text: 帮助中心
+                  - img [ref=e587]
+                  - generic [ref=e589]: （在新窗口中打开）
+          - generic [ref=e590]:
+            - heading "更多" [level=2] [ref=e591]
+            - list [ref=e592]:
+              - listitem [ref=e593]:
+                - link "新闻" [ref=e594] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/news/
+              - listitem [ref=e595]:
+                - link "客户案例" [ref=e596] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/stories/
+              - listitem [ref=e597]:
+                - link "Academy" [ref=e598] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/academy/
+              - listitem [ref=e599]:
+                - link "直播" [ref=e600] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/live/
+              - listitem [ref=e601]:
+                - link "播客" [ref=e602] [cursor=pointer]:
+                  - /url: /zh-Hans-CN/podcast/
+              - listitem [ref=e603]:
+                - link "RSS" [ref=e604] [cursor=pointer]:
+                  - /url: /news/rss.xml
+        - generic [ref=e606]:
+          - heading "条款与政策" [level=2] [ref=e607]
+          - list [ref=e608]:
+            - listitem [ref=e609]:
+              - link "使用条款" [ref=e610] [cursor=pointer]:
+                - /url: /zh-Hans-CN/policies/terms-of-use/
+            - listitem [ref=e611]:
+              - link "隐私政策" [ref=e612] [cursor=pointer]:
+                - /url: /zh-Hans-CN/policies/privacy-policy/
+            - listitem [ref=e613]:
+              - link "其他政策" [ref=e614] [cursor=pointer]:
+                - /url: /zh-Hans-CN/policies/
+      - generic [ref=e615]:
+        - generic [ref=e616]:
+          - link "X" [ref=e617] [cursor=pointer]:
+            - /url: https://x.com/OpenAI
+            - img [ref=e618]
+            - generic [ref=e620]: （在新窗口中打开）
+          - link "YouTube" [ref=e621] [cursor=pointer]:
+            - /url: https://www.youtube.com/OpenAI
+            - img [ref=e622]
+            - generic [ref=e624]: （在新窗口中打开）
+          - link "LinkedIn" [ref=e625] [cursor=pointer]:
+            - /url: https://www.linkedin.com/company/openai
+            - img [ref=e626]
+            - generic [ref=e628]: （在新窗口中打开）
+          - link "GitHub" [ref=e629] [cursor=pointer]:
+            - /url: https://github.com/openai
+            - img [ref=e630]
+            - generic [ref=e632]: （在新窗口中打开）
+          - link "Instagram" [ref=e633] [cursor=pointer]:
+            - /url: https://www.instagram.com/openai/
+            - img [ref=e634]
+            - generic [ref=e636]: （在新窗口中打开）
+          - link "TikTok" [ref=e637] [cursor=pointer]:
+            - /url: https://www.tiktok.com/@openai
+            - img [ref=e638]
+            - generic [ref=e640]: （在新窗口中打开）
+          - link "Discord" [ref=e641] [cursor=pointer]:
+            - /url: https://discord.gg/openai
+            - img [ref=e642]
+            - generic [ref=e644]: （在新窗口中打开）
+        - generic [ref=e645]:
+          - generic [ref=e646]: OpenAI © 2015–2026
+          - button "管理 Cookie" [ref=e647] [cursor=pointer]
+        - generic [ref=e648]:
+          - button "更改语言" [ref=e649] [cursor=pointer]:
+            - generic [ref=e650]:
+              - img [ref=e651]
+              - generic [ref=e654]:
+                - text: 中文
+                - generic [ref=e655]: 中国
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - img
+                    - textbox "按名称或地区搜索区域设置":
+                      - /placeholder: 搜索
+  - alert [ref=e656]
