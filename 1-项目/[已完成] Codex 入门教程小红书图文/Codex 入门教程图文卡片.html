@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="Kami">
+<meta name="description" content="面向零基础用户的 Codex 入门图文卡片，从选择入口到验收第一项任务。">
+<meta name="keywords" content="Codex, AI Agent, 入门教程, 小红书">
+<meta name="generator" content="Kami">
+<title>Codex 零基础入门｜9 张图上手</title>
+<style>
+  @font-face {
+    font-family: "TsangerJinKai02";
+    src: url("file:///Users/hongling/.agents/skills/kami/assets/fonts/TsangerJinKai02-W04.ttf") format("truetype");
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: "TsangerJinKai02";
+    src: url("file:///Users/hongling/.agents/skills/kami/assets/fonts/TsangerJinKai02-W05.ttf") format("truetype");
+    font-weight: 500;
+  }
+
+  @page {
+    size: 202.5mm 270mm;
+    margin: 0;
+    background: #f5f4ed;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --parchment: #f5f4ed;
+    --ivory: #faf9f5;
+    --near-black: #141413;
+    --dark-warm: #3d3d3a;
+    --olive: #504e49;
+    --stone: #6b6a64;
+    --brand: #1B365D;
+    --brand-tint: #EEF2F7;
+    --border: #e8e6dc;
+    --border-soft: #e5e3d8;
+    --serif: "TsangerJinKai02", "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong", Georgia, serif;
+  }
+
+  body {
+    color: var(--near-black);
+    font-family: var(--serif);
+    font-size: 18pt;
+    line-height: 1.55;
+    letter-spacing: 0.15pt;
+  }
+
+  .card-page {
+    width: 202.5mm;
+    height: 270mm;
+    padding: 18mm 18mm 20mm;
+    background: var(--parchment);
+    break-after: page;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .card-page:last-child { break-after: auto; }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 4mm;
+    color: var(--stone);
+    font-size: 12pt;
+    letter-spacing: 1.5pt;
+    margin-bottom: 8mm;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 9mm;
+    height: 1.2mm;
+    border-radius: 1mm;
+    background: var(--brand);
+  }
+
+  h1, h2, h3 { font-weight: 500; }
+  h2 {
+    font-size: 32pt;
+    line-height: 1.22;
+    letter-spacing: 0.2pt;
+    margin-bottom: 8mm;
+  }
+  h3 {
+    color: var(--brand);
+    font-size: 21pt;
+    line-height: 1.3;
+    margin-bottom: 3mm;
+  }
+
+  p { color: var(--dark-warm); }
+  .lead {
+    color: var(--olive);
+    font-size: 18pt;
+    line-height: 1.6;
+  }
+  .big-claim {
+    color: var(--near-black);
+    font-size: 25pt;
+    line-height: 1.45;
+    margin-bottom: 8mm;
+  }
+  .big-claim strong { color: var(--brand); font-weight: 500; }
+
+  .rule {
+    width: 100%;
+    height: 0.5pt;
+    background: var(--border);
+    margin: 8mm 0;
+  }
+
+  .panel {
+    background: var(--ivory);
+    border: 0.5pt solid var(--border);
+    border-radius: 8pt;
+    padding: 7mm;
+  }
+  .panel + .panel { margin-top: 5mm; }
+  .panel p { font-size: 16pt; }
+
+  .number-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5mm;
+  }
+  .number-list li {
+    display: table;
+    width: 100%;
+    padding-bottom: 5mm;
+    border-bottom: 0.5pt solid var(--border-soft);
+  }
+  .number-list li:last-child { border-bottom: 0; padding-bottom: 0; }
+  .num, .item-text { display: table-cell; vertical-align: top; }
+  .num {
+    width: 18mm;
+    color: var(--brand);
+    font-size: 24pt;
+    font-weight: 500;
+  }
+  .item-text strong {
+    display: block;
+    color: var(--near-black);
+    font-size: 18pt;
+    font-weight: 500;
+    margin-bottom: 1mm;
+  }
+  .item-text span { color: var(--olive); font-size: 15pt; }
+
+  .compare {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 5mm 0;
+    margin: 0;
+  }
+  .compare td {
+    width: 50%;
+    vertical-align: top;
+    padding: 7mm;
+    border-radius: 8pt;
+  }
+  .compare .muted { background: var(--ivory); border: 0.5pt solid var(--border); }
+  .compare .active { background: var(--brand-tint); border: 0.5pt solid #D0DCE9; }
+  .compare p { font-size: 16pt; line-height: 1.55; }
+
+  .quote {
+    background: var(--ivory);
+    border-left: 2.5pt solid var(--brand);
+    border-radius: 0 8pt 8pt 0;
+    padding: 7mm 8mm;
+    color: var(--dark-warm);
+    font-size: 17pt;
+    line-height: 1.65;
+  }
+
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 4mm;
+  }
+  .flow-row {
+    display: flex;
+    align-items: center;
+    gap: 5mm;
+    padding: 5mm 0;
+    border-bottom: 0.5pt solid var(--border-soft);
+  }
+  .flow-row:last-child { border-bottom: 0; }
+  .flow-index {
+    width: 14mm;
+    color: var(--brand);
+    font-size: 23pt;
+    font-weight: 500;
+  }
+  .flow-row p { font-size: 17pt; }
+
+  .check-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5mm;
+  }
+  .check-list li {
+    position: relative;
+    padding-left: 11mm;
+    color: var(--dark-warm);
+    font-size: 17pt;
+  }
+  .check-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 2mm;
+    width: 5mm;
+    height: 5mm;
+    border: 1.2pt solid var(--brand);
+    border-radius: 2pt;
+  }
+
+  .footer {
+    position: absolute;
+    left: 18mm;
+    right: 18mm;
+    bottom: 9mm;
+    display: flex;
+    justify-content: space-between;
+    color: var(--stone);
+    font-size: 10pt;
+    letter-spacing: 0.6pt;
+  }
+
+  .cover {
+    justify-content: center;
+    padding-bottom: 32mm;
+  }
+  .cover .series {
+    color: var(--brand);
+    font-size: 13pt;
+    letter-spacing: 2pt;
+    margin-bottom: 12mm;
+  }
+  .cover h1 {
+    font-size: 50pt;
+    line-height: 1.18;
+    letter-spacing: 0.4pt;
+    max-width: 155mm;
+  }
+  .cover-line {
+    width: 24mm;
+    height: 2mm;
+    border-radius: 1mm;
+    background: var(--brand);
+    margin: 12mm 0 10mm;
+  }
+  .cover .sub {
+    color: var(--olive);
+    font-size: 20pt;
+    line-height: 1.5;
+  }
+  .cover .badge {
+    display: inline-block;
+    align-self: flex-start;
+    margin-top: 10mm;
+    padding: 2.5mm 5mm;
+    border-radius: 4pt;
+    background: var(--brand-tint);
+    color: var(--brand);
+    font-size: 13pt;
+  }
+
+  .closing-path {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1.5mm;
+    margin: 2mm 0 8mm;
+  }
+  .closing-path span {
+    background: var(--brand-tint);
+    color: var(--brand);
+    border-radius: 4pt;
+    padding: 2mm 2mm;
+    font-size: 12pt;
+    white-space: nowrap;
+  }
+  .closing-path b { color: var(--stone); font-weight: 400; padding-top: 2mm; }
+</style>
+</head>
+<body>
+
+<section class="card-page cover">
+  <div class="series">CODEX 入门课 · 01</div>
+  <h1>Codex<br>零基础入门</h1>
+  <div class="cover-line"></div>
+  <p class="sub">9 张图，完成第一次上手</p>
+  <div class="badge">不会写代码也能看懂</div>
+  <div class="footer"><span>从一个真实任务开始</span><span>01 / 09</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">先建立正确心智</div>
+  <h2>别把 Codex<br>当成聊天框</h2>
+  <p class="big-claim">ChatGPT 帮你想，<br><strong>Codex 还能进项目动手做。</strong></p>
+  <table class="compare">
+    <tr>
+      <td class="muted">
+        <h3>ChatGPT</h3>
+        <p>回答问题<br>提供建议<br>一起讨论</p>
+      </td>
+      <td class="active">
+        <h3>Codex</h3>
+        <p>读取文件<br>修改内容<br>运行命令</p>
+      </td>
+    </tr>
+  </table>
+  <div class="rule"></div>
+  <p class="lead">少问一句“你怎么看”，多交付一个明确任务。</p>
+  <div class="footer"><span>Codex 零基础入门</span><span>02 / 09</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">选择入口</div>
+  <h2>新手从桌面 App 开始</h2>
+  <p class="lead">你能同时看见文件、权限和改动，出错时也更容易定位。</p>
+  <div class="rule"></div>
+  <ol class="number-list">
+    <li><span class="num">01</span><span class="item-text"><strong>桌面 App</strong><span>界面直观，适合第一次上手</span></span></li>
+    <li><span class="num">02</span><span class="item-text"><strong>IDE 扩展</strong><span>适合经常在编辑器里写代码的人</span></span></li>
+    <li><span class="num">03</span><span class="item-text"><strong>CLI</strong><span>适合熟悉终端和命令行的人</span></span></li>
+  </ol>
+  <div class="panel" style="margin-top: 8mm;"><p>入口没有高低之分，先选你看得懂、敢检查的那个。</p></div>
+  <div class="footer"><span>Codex 零基础入门</span><span>03 / 09</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">拆分工作</div>
+  <h2>项目是目录<br>任务是一条工作线</h2>
+  <p class="lead">比如做个人主页，别把所有要求一次塞进同一条任务。</p>
+  <div class="rule"></div>
+  <div class="flow">
+    <div class="flow-row"><span class="flow-index">01</span><p>搭出页面和基础结构</p></div>
+    <div class="flow-row"><span class="flow-index">02</span><p>修改介绍和项目文案</p></div>
+    <div class="flow-row"><span class="flow-index">03</span><p>检查问题和无关改动</p></div>
+  </div>
+  <div class="panel" style="margin-top: 8mm;"><p>一条任务只处理一个目标，后面更容易追问、审查和返工。</p></div>
+  <div class="footer"><span>Codex 零基础入门</span><span>04 / 09</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">权限与安全</div>
+  <h2>权限先用默认设置</h2>
+  <p class="big-claim"><strong>先看懂它想做什么，</strong><br>再决定是否放行。</p>
+  <div class="rule"></div>
+  <ul class="check-list">
+    <li>它准备修改哪些文件？</li>
+    <li>它为什么要运行这条命令？</li>
+    <li>操作是否超出当前项目？</li>
+  </ul>
+  <div class="panel" style="margin-top: 10mm;"><p>熟悉工作方式后，再按可信项目和具体任务调整权限。</p></div>
+  <div class="footer"><span>Codex 零基础入门</span><span>05 / 09</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">提示词模板</div>
+  <h2>第一条指令<br>照着这个结构写</h2>
+  <p class="lead">目标、上下文、约束、完成标准，四件事说清楚。</p>
+  <div class="rule"></div>
+  <div class="quote">在当前项目里做一个极简个人主页。包含个人介绍、项目列表和联系方式。不要修改无关文件。完成后启动本地预览，并告诉我查看地址。</div>
+  <div class="panel" style="margin-top: 8mm;"><p>“帮我做个网站”也能开始，但上面这版更容易一次做对。</p></div>
+  <div class="footer"><span>Codex 零基础入门</span><span>06 / 09</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">计划模式</div>
+  <h2>复杂任务<br>先别急着改文件</h2>
+  <p class="lead">方向还没想清楚时，先让 Codex 说明它准备怎么做。</p>
+  <div class="rule"></div>
+  <ol class="number-list">
+    <li><span class="num">01</span><span class="item-text"><strong>准备做什么</strong></span></li>
+    <li><span class="num">02</span><span class="item-text"><strong>会动哪些文件</strong></span></li>
+    <li><span class="num">03</span><span class="item-text"><strong>分几步完成</strong></span></li>
+    <li><span class="num">04</span><span class="item-text"><strong>怎样验证结果</strong></span></li>
+  </ol>
+  <div class="panel" style="margin-top: 7mm;"><p>计划没问题，再开始执行，返工会少很多。</p></div>
+  <div class="footer"><span>Codex 零基础入门</span><span>07 / 09</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">结果验收</div>
+  <h2>“已完成”<br>不等于验收通过</h2>
+  <p class="big-claim">不要只看结论，<strong>要看证据。</strong></p>
+  <div class="rule"></div>
+  <ul class="check-list">
+    <li>文件真的生成了吗？</li>
+    <li>页面或文档能打开吗？</li>
+    <li>有没有改到无关内容？</li>
+    <li>测试或基础检查通过了吗？</li>
+  </ul>
+  <div class="panel" style="margin-top: 8mm;"><p>还可以另开一条任务，只审查这次改动，不要直接修。</p></div>
+  <div class="footer"><span>Codex 零基础入门</span><span>08 / 09</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">第一次上手</div>
+  <h2>记住这一套就够了</h2>
+  <div class="closing-path">
+    <span>选项目</span><b>→</b><span>说清任务</span><b>→</b><span>先看计划</span><b>→</b><span>检查权限</span><b>→</b><span>验收结果</span>
+  </div>
+  <div class="rule"></div>
+  <h3>新手最常见的三个坑</h3>
+  <ol class="number-list" style="margin-top: 4mm;">
+    <li><span class="num">01</span><span class="item-text"><strong>一个任务塞进很多目标</strong></span></li>
+    <li><span class="num">02</span><span class="item-text"><strong>需求只有一句模糊描述</strong></span></li>
+    <li><span class="num">03</span><span class="item-text"><strong>不看改动就直接接受</strong></span></li>
+  </ol>
+  <div class="panel" style="margin-top: 8mm;"><p>第一次练手：整理资料、生成文档，或者做一个简单网页。</p></div>
+  <div class="footer"><span>收藏后，打开 Codex 跟着做</span><span>09 / 09</span></div>
+</section>
+
+</body>
+</html>

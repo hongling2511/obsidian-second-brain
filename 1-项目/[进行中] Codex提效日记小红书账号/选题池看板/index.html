@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>一句产品想法，生成 5 个小红书选题</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Codex 提效日记 / 一句话做产品原型</p>
+          <h1 id="page-title">一句产品想法，生成 5 个小红书选题</h1>
+          <p class="lede">
+            输入产品想法、目标用户和使用场景，让 AI 生成能继续做成 Web/SaaS 原型的内容卡片。
+          </p>
+        </div>
+
+        <form class="generator" id="generator-form">
+          <div class="form-grid">
+            <label>
+              <span>产品想法</span>
+              <textarea
+                id="product-idea"
+                rows="3"
+                placeholder="例如：我想做一个帮自由职业者快速生成报价单的小工具"
+                required
+              ></textarea>
+            </label>
+
+            <label>
+              <span>目标用户</span>
+              <input
+                id="target-user"
+                type="text"
+                placeholder="例如：自由设计师、咨询顾问、课程创作者"
+                required
+              />
+            </label>
+
+            <label>
+              <span>使用场景</span>
+              <input
+                id="use-case"
+                type="text"
+                placeholder="例如：客户初次咨询后，快速生成一份报价"
+                required
+              />
+            </label>
+          </div>
+
+          <details class="api-panel">
+            <summary>OpenAI 设置</summary>
+            <div class="api-grid">
+              <label>
+                <span>API Key</span>
+                <input
+                  id="api-key"
+                  type="password"
+                  autocomplete="off"
+                  placeholder="sk-..."
+                />
+              </label>
+              <label>
+                <span>Base URL</span>
+                <input
+                  id="base-url"
+                  type="url"
+                  value="https://api.openai.com/v1"
+                  placeholder="https://api.openai.com/v1 或 https://api.gptsapi.net"
+                />
+              </label>
+              <label>
+                <span>模型</span>
+                <input id="model" type="text" value="gpt-5" />
+              </label>
+            </div>
+            <p class="field-note">
+              Key 和 Base URL 只保存在当前浏览器 localStorage，不会写入文件。公开部署时请改为后端代理。
+            </p>
+          </details>
+
+          <div class="actions">
+            <button class="primary" type="submit" id="generate-button">
+              生成选题
+            </button>
+            <button class="secondary" type="button" id="clear-button">
+              清空看板
+            </button>
+          </div>
+
+          <p class="error" id="error-message" role="alert" hidden></p>
+        </form>
+      </section>
+
+      <section class="board-section" aria-labelledby="board-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Topic Board</p>
+            <h2 id="board-title">选题卡片</h2>
+          </div>
+          <p class="count" id="card-count">0 张卡片</p>
+        </div>
+
+        <div class="empty" id="empty-state">
+          <p>还没有选题。先输入一个产品想法，让第一批内容卡片出现。</p>
+        </div>
+
+        <div class="cards" id="cards" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <template id="card-template">
+      <article class="topic-card">
+        <div class="card-topline">
+          <span class="column"></span>
+          <button class="delete-card" type="button" aria-label="删除卡片">×</button>
+        </div>
+        <h3></h3>
+        <dl>
+          <div>
+            <dt>目标用户</dt>
+            <dd class="target"></dd>
+          </div>
+          <div>
+            <dt>可做原型</dt>
+            <dd class="prototype"></dd>
+          </div>
+          <div>
+            <dt>可复制资产</dt>
+            <dd class="asset"></dd>
+          </div>
+        </dl>
+        <div class="status-switch" role="group" aria-label="状态切换">
+          <button type="button" data-status="想法">想法</button>
+          <button type="button" data-status="制作中">制作中</button>
+          <button type="button" data-status="已发布">已发布</button>
+        </div>
+      </article>
+    </template>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

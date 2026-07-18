@@ -1,0 +1,17 @@
+[mcp_servers.bb-browser]
+command = "npx"
+args = [
+    "-y",
+    "bb-browser",
+    "--mcp",
+]
+
+[mcp_servers.yt2obs]
+command = "uv"
+args = [
+    "run",
+    "--project",
+    "/Users/hongling/youtube-to-obsidian",
+    "python",
+    "/Users/hongling/youtube-to-obsidian/mcp_server.py",
+]
