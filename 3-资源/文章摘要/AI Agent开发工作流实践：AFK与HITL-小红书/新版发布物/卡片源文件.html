@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="Kami">
+<meta name="description" content="用 3 个问题判断 AI Agent 任务能否 AFK，并提供可复制的任务模板。">
+<meta name="keywords" content="AI Agent, AFK, HITL, Claude Code, 开发工作流">
+<meta name="generator" content="Kami">
+<title>AI 编程先分 AFK 和 HITL</title>
+<style>
+  @font-face {
+    font-family: "TsangerJinKai02";
+    src: local("TsangerJinKai02"), url("file:///Users/hongling/.agents/skills/kami/assets/fonts/TsangerJinKai02-W04.ttf") format("truetype");
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: "TsangerJinKai02";
+    src: local("TsangerJinKai02"), url("file:///Users/hongling/.agents/skills/kami/assets/fonts/TsangerJinKai02-W05.ttf") format("truetype");
+    font-weight: 500;
+  }
+
+  @page {
+    size: 202.5mm 270mm;
+    margin: 0;
+    background: #f5f4ed;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --parchment: #f5f4ed;
+    --ivory: #faf9f5;
+    --near-black: #141413;
+    --dark-warm: #3d3d3a;
+    --olive: #504e49;
+    --stone: #6b6a64;
+    --brand: #1B365D;
+    --brand-tint: #EEF2F7;
+    --border: #e8e6dc;
+    --border-soft: #e5e3d8;
+    --serif: "TsangerJinKai02", "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong", Georgia, serif;
+  }
+
+  body {
+    color: var(--near-black);
+    font-family: var(--serif);
+    font-size: 18pt;
+    line-height: 1.55;
+    letter-spacing: 0.15pt;
+  }
+
+  .card-page {
+    width: 202.5mm;
+    height: 270mm;
+    padding: 18mm 18mm 20mm;
+    background: var(--parchment);
+    break-after: page;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .card-page:last-child { break-after: auto; }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 4mm;
+    color: var(--stone);
+    font-size: 12pt;
+    letter-spacing: 1.5pt;
+    margin-bottom: 8mm;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 9mm;
+    height: 1.2mm;
+    border-radius: 1mm;
+    background: var(--brand);
+  }
+
+  h1, h2, h3 { font-weight: 500; }
+  h2 {
+    font-size: 32pt;
+    line-height: 1.22;
+    letter-spacing: 0.2pt;
+    margin-bottom: 8mm;
+  }
+  h3 {
+    color: var(--brand);
+    font-size: 21pt;
+    line-height: 1.3;
+    margin-bottom: 3mm;
+  }
+
+  p { color: var(--dark-warm); }
+  .lead {
+    color: var(--olive);
+    font-size: 18pt;
+    line-height: 1.6;
+  }
+  .big-claim {
+    color: var(--near-black);
+    font-size: 25pt;
+    line-height: 1.45;
+    margin-bottom: 8mm;
+  }
+  .big-claim strong { color: var(--brand); font-weight: 500; }
+
+  .rule {
+    width: 100%;
+    height: 0.5pt;
+    background: var(--border);
+    margin: 8mm 0;
+  }
+
+  .panel {
+    background: var(--ivory);
+    border: 0.5pt solid var(--border);
+    border-radius: 8pt;
+    padding: 7mm;
+  }
+  .panel + .panel { margin-top: 5mm; }
+  .panel p { font-size: 16pt; }
+
+  .number-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5mm;
+  }
+  .number-list li {
+    display: table;
+    width: 100%;
+    padding-bottom: 5mm;
+    border-bottom: 0.5pt solid var(--border-soft);
+  }
+  .number-list li:last-child { border-bottom: 0; padding-bottom: 0; }
+  .num, .item-text { display: table-cell; vertical-align: top; }
+  .num {
+    width: 18mm;
+    color: var(--brand);
+    font-size: 24pt;
+    font-weight: 500;
+  }
+  .item-text strong {
+    display: block;
+    color: var(--near-black);
+    font-size: 18pt;
+    font-weight: 500;
+    margin-bottom: 1mm;
+  }
+  .item-text span { color: var(--olive); font-size: 15pt; }
+
+  .compare {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 5mm 0;
+    margin: 0;
+  }
+  .compare td {
+    width: 50%;
+    vertical-align: top;
+    padding: 7mm;
+    border-radius: 8pt;
+  }
+  .compare .muted { background: var(--ivory); border: 0.5pt solid var(--border); }
+  .compare .active { background: var(--brand-tint); border: 0.5pt solid #D0DCE9; }
+  .compare p { font-size: 16pt; line-height: 1.55; }
+
+  .quote {
+    background: var(--ivory);
+    border-left: 2.5pt solid var(--brand);
+    border-radius: 0 8pt 8pt 0;
+    padding: 7mm 8mm;
+    color: var(--dark-warm);
+    font-size: 17pt;
+    line-height: 1.65;
+  }
+
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 4mm;
+  }
+  .flow-row {
+    display: flex;
+    align-items: center;
+    gap: 5mm;
+    padding: 5mm 0;
+    border-bottom: 0.5pt solid var(--border-soft);
+  }
+  .flow-row:last-child { border-bottom: 0; }
+  .flow-index {
+    width: 14mm;
+    color: var(--brand);
+    font-size: 23pt;
+    font-weight: 500;
+  }
+  .flow-row p { font-size: 17pt; }
+
+  .check-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5mm;
+  }
+  .check-list li {
+    position: relative;
+    padding-left: 11mm;
+    color: var(--dark-warm);
+    font-size: 17pt;
+  }
+  .check-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 2mm;
+    width: 5mm;
+    height: 5mm;
+    border: 1.2pt solid var(--brand);
+    border-radius: 2pt;
+  }
+
+  .footer {
+    position: absolute;
+    left: 18mm;
+    right: 18mm;
+    bottom: 9mm;
+    display: flex;
+    justify-content: space-between;
+    color: var(--stone);
+    font-size: 10pt;
+    letter-spacing: 0.6pt;
+  }
+
+  .cover {
+    justify-content: center;
+    padding-bottom: 32mm;
+  }
+  .cover .series {
+    color: var(--brand);
+    font-size: 13pt;
+    letter-spacing: 2pt;
+    margin-bottom: 12mm;
+  }
+  .cover h1 {
+    font-size: 50pt;
+    line-height: 1.18;
+    letter-spacing: 0.4pt;
+    max-width: 155mm;
+  }
+  .cover-line {
+    width: 24mm;
+    height: 2mm;
+    border-radius: 1mm;
+    background: var(--brand);
+    margin: 12mm 0 10mm;
+  }
+  .cover .sub {
+    color: var(--olive);
+    font-size: 20pt;
+    line-height: 1.5;
+  }
+  .cover .badge {
+    display: inline-block;
+    align-self: flex-start;
+    margin-top: 10mm;
+    padding: 2.5mm 5mm;
+    border-radius: 4pt;
+    background: var(--brand-tint);
+    color: var(--brand);
+    font-size: 13pt;
+  }
+
+  .closing-path {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1.5mm;
+    margin: 2mm 0 8mm;
+  }
+  .closing-path span {
+    background: var(--brand-tint);
+    color: var(--brand);
+    border-radius: 4pt;
+    padding: 2mm 2mm;
+    font-size: 12pt;
+    white-space: nowrap;
+  }
+  .closing-path b { color: var(--stone); font-weight: 400; padding-top: 2mm; }
+</style>
+</head>
+<body>
+
+<section class="card-page cover">
+  <div class="series">AI Agent 开发工作流 · 01</div>
+  <h1>AI 编程先分<br>AFK 和 HITL</h1>
+  <div class="cover-line"></div>
+  <p class="sub">用 3 个问题判断，哪些任务能交给 Agent 独立推进</p>
+  <div class="badge">适合用 Agent 做产品的人</div>
+  <div class="footer"><span>Codex 提效日记</span><span>01 / 09</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">先换一个工作方式</div>
+  <h2>别实时盯着 Agent 写代码</h2>
+  <p class="big-claim">把人的参与点<strong>前移到定义任务</strong>，再后移到验收结果。</p>
+  <table class="compare">
+    <tr>
+      <td class="muted">
+        <h3>边猜边写</h3>
+        <p>需求仍然模糊，就让 Agent 一边猜产品决策，一边堆实现。</p>
+      </td>
+      <td class="active">
+        <h3>先建反馈闭环</h3>
+        <p>人先定目标、边界和验收，Agent 执行后再由人检查结果。</p>
+      </td>
+    </tr>
+  </table>
+  <div class="rule"></div>
+  <p class="lead">AFK 不是完全不管，而是把实时监督换成事前定义和事后审查。</p>
+  <div class="footer"><span>AI Agent 开发工作流</span><span>02 / 09</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">AFK 判断</div>
+  <h2>这 3 个问题决定能否 AFK</h2>
+  <p class="lead">三个问题都能答清楚，Agent 才适合离开人的实时监督独立推进。</p>
+  <div class="rule"></div>
+  <ol class="number-list">
+    <li><span class="num">01</span><span class="item-text"><strong>目标和范围是否明确？</strong><span>Agent 知道要改什么，也知道哪些内容这次不做。</span></span></li>
+    <li><span class="num">02</span><span class="item-text"><strong>结果能否自动判断？</strong><span>测试、类型检查、构建或 lint 能给出明确反馈。</span></span></li>
+    <li><span class="num">03</span><span class="item-text"><strong>失败能否复现和回收？</strong><span>有验收标准、错误信息或 QA 步骤，问题能重新进入任务队列。</span></span></li>
+  </ol>
+  <div class="panel" style="margin-top: 8mm;"><p>任意一个问题答不上来，先留在 HITL。</p></div>
+  <div class="footer"><span>AI Agent 开发工作流</span><span>03 / 09</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">工作拆分</div>
+  <h2>把开发拆成三段</h2>
+  <p class="lead">HITL 和 AFK 会在一条流程里交替出现，不是二选一。</p>
+  <div class="rule"></div>
+  <div class="flow">
+    <div class="flow-row"><span class="flow-index">01</span><p><strong>HITL：</strong>澄清需求，统一领域语言，确认 PRD 和范围。</p></div>
+    <div class="flow-row"><span class="flow-index">02</span><p><strong>AFK：</strong>按垂直切片实现，跑测试、类型检查和自动审查。</p></div>
+    <div class="flow-row"><span class="flow-index">03</span><p><strong>HITL：</strong>手动走用户路径，把 QA 问题写成新任务。</p></div>
+  </div>
+  <div class="panel" style="margin-top: 8mm;"><p>人守住决策点，Agent 接走边界清楚的执行块。</p></div>
+  <div class="footer"><span>AI Agent 开发工作流</span><span>04 / 09</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">HITL 边界</div>
+  <h2>这 3 类工作必须有人判断</h2>
+  <p class="big-claim">缺少业务判断时，Agent 会把<strong>模糊需求直接写成代码</strong>。</p>
+  <div class="rule"></div>
+  <ul class="check-list">
+    <li>产品取舍和领域边界：为什么做、做多少、哪些内容不做。</li>
+    <li>UI、命名和体验：文案是否自然，路径是否符合真实用户习惯。</li>
+    <li>架构与高风险操作：接口怎么划分，失败后会影响什么。</li>
+  </ul>
+  <div class="panel" style="margin-top: 10mm;"><p>这些任务需要人理解业务和后果，不能只靠执行力。</p></div>
+  <div class="footer"><span>AI Agent 开发工作流</span><span>05 / 09</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">可复制模板</div>
+  <h2>把 issue 写成 AFK 任务</h2>
+  <p class="lead">内容不必很长，但要让 Agent 知道目标、边界、反馈和停止条件。</p>
+  <div class="rule"></div>
+  <div class="quote">任务目标：……<br>为什么做：……<br>范围：包含……；不包含……<br>验收标准：<br>1. ……<br>2. ……<br>反馈方式：测试 / 类型检查 / 构建 / QA 步骤<br>停止条件：遇到……时暂停并请求确认</div>
+  <div class="panel" style="margin-top: 8mm;"><p>“停止并请求确认”能防止 Agent 在未知分支里继续猜。</p></div>
+  <div class="footer"><span>AI Agent 开发工作流</span><span>06 / 09</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">执行循环</div>
+  <h2>AFK Loop 只跑反馈闭环</h2>
+  <p class="lead">任务一旦被阻塞，或需要新增产品判断，就退出 AFK。</p>
+  <div class="rule"></div>
+  <ol class="number-list">
+    <li><span class="num">01</span><span class="item-text"><strong>读取任务，确认没有阻塞</strong></span></li>
+    <li><span class="num">02</span><span class="item-text"><strong>探索代码，确认模块和接口</strong></span></li>
+    <li><span class="num">03</span><span class="item-text"><strong>先写失败测试，再补实现</strong></span></li>
+    <li><span class="num">04</span><span class="item-text"><strong>跑完检查，记录结果和遗留问题</strong></span></li>
+  </ol>
+  <div class="panel" style="margin-top: 7mm;"><p>并行只用于依赖清楚、相互独立的垂直切片。</p></div>
+  <div class="footer"><span>AI Agent 开发工作流</span><span>07 / 09</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">验收证据</div>
+  <h2>回来后看 4 个证据</h2>
+  <p class="big-claim">完成不是一句“已修复”，而是<strong>可以逐项检查的结果</strong>。</p>
+  <div class="rule"></div>
+  <ul class="check-list">
+    <li>每条验收标准都有对应结果。</li>
+    <li>测试、类型检查、构建和 lint 结果可见。</li>
+    <li>真实用户路径已经由人手动走过。</li>
+    <li>新问题已经写成任务，没有混进当前范围。</li>
+  </ul>
+  <div class="panel" style="margin-top: 8mm;"><p>AI 可以生成 QA plan，体验、术语和边界仍由人判断。</p></div>
+  <div class="footer"><span>AI Agent 开发工作流</span><span>08 / 09</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">完整路径</div>
+  <h2>第一次练手，从一个小 bug 开始</h2>
+  <div class="closing-path">
+    <span>澄清</span><b>→</b><span>PRD</span><b>→</b><span>垂直切片</span><b>→</b><span>AFK 实现</span><b>→</b><span>HITL 验收</span>
+  </div>
+  <div class="rule"></div>
+  <h3>常见的 3 个坑</h3>
+  <ol class="number-list" style="margin-top: 4mm;">
+    <li><span class="num">01</span><span class="item-text"><strong>把 HITL 任务伪装成 AFK</strong></span></li>
+    <li><span class="num">02</span><span class="item-text"><strong>按数据库、API、前端水平拆分</strong></span></li>
+    <li><span class="num">03</span><span class="item-text"><strong>没有测试和可复现的反馈</strong></span></li>
+  </ol>
+  <div class="panel" style="margin-top: 8mm;"><p>挑一个复现步骤清楚的小 bug，用第 6 张模板写成任务，跑完后手动验收。</p></div>
+  <div class="footer"><span>下一篇：Grill Me 需求澄清</span><span>09 / 09</span></div>
+</section>
+
+</body>
+</html>

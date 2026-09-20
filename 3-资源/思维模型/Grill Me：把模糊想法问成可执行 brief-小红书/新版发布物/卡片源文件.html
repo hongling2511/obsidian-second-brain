@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="Codex提效日记">
+<meta name="description" content="用决策树、问题依赖和停止条件，把模糊想法问成可执行 brief。">
+<meta name="keywords" content="Grill Me, brief, 需求澄清, AI Agent, Codex">
+<meta name="generator" content="Kami">
+<title>用 AI 把模糊想法问成 brief</title>
+<style>
+  @font-face {
+    font-family: "TsangerJinKai02";
+    src: local("TsangerJinKai02"), url("https://cdn.jsdelivr.net/gh/tw93/Kami@main/assets/fonts/TsangerJinKai02-W04.ttf") format("truetype");
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: "TsangerJinKai02";
+    src: local("TsangerJinKai02"), url("https://cdn.jsdelivr.net/gh/tw93/Kami@main/assets/fonts/TsangerJinKai02-W05.ttf") format("truetype");
+    font-weight: 500;
+  }
+  @page { size: 202.5mm 270mm; margin: 0; background: #f5f4ed; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --paper: #f5f4ed;
+    --ivory: #faf9f5;
+    --ink: #141413;
+    --warm: #3d3d3a;
+    --muted: #6b6a64;
+    --brand: #1B365D;
+    --tint: #EEF2F7;
+    --line: #e5e3d8;
+    --serif: "TsangerJinKai02", "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong", Georgia, serif;
+  }
+  body { color: var(--ink); font-family: var(--serif); font-size: 18pt; line-height: 1.55; }
+  .card-page {
+    width: 202.5mm; height: 270mm; padding: 18mm 18mm 20mm;
+    background: var(--paper); break-after: page; position: relative;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .card-page:last-child { break-after: auto; }
+  .eyebrow { color: var(--muted); font-size: 12pt; letter-spacing: 1.4pt; margin-bottom: 8mm; display: flex; align-items: center; gap: 4mm; }
+  .eyebrow::before { content: ""; width: 9mm; height: 1.2mm; border-radius: 1mm; background: var(--brand); }
+  h1, h2, h3 { font-weight: 500; }
+  h2 { font-size: 32pt; line-height: 1.22; margin-bottom: 8mm; max-width: 158mm; }
+  h3 { color: var(--brand); font-size: 20pt; line-height: 1.3; margin-bottom: 3mm; }
+  p { color: var(--warm); }
+  .lead { color: #504e49; font-size: 18pt; line-height: 1.6; }
+  .claim { color: var(--ink); font-size: 25pt; line-height: 1.42; margin-bottom: 8mm; }
+  .claim strong { color: var(--brand); font-weight: 500; }
+  .rule { width: 100%; height: 0.5pt; background: var(--line); margin: 8mm 0; }
+  .panel { background: var(--ivory); border: 0.5pt solid var(--line); border-radius: 8pt; padding: 7mm; }
+  .panel p { font-size: 16pt; }
+  .panel + .panel { margin-top: 5mm; }
+  .compare { width: 100%; border-collapse: separate; border-spacing: 5mm 0; }
+  .compare td { width: 50%; vertical-align: top; padding: 7mm; border-radius: 8pt; }
+  .compare .left { background: var(--ivory); border: 0.5pt solid var(--line); }
+  .compare .right { background: var(--tint); border: 0.5pt solid #d0dce9; }
+  .compare p { font-size: 16pt; line-height: 1.55; }
+  .trio { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4mm; }
+  .trio .panel { min-height: 60mm; padding: 6mm; }
+  .trio h3 { font-size: 18pt; }
+  .trio p { font-size: 14pt; line-height: 1.52; }
+  .trio .focus { background: var(--tint); border-color: #d0dce9; }
+  .branch { display: flex; flex-direction: column; gap: 4mm; }
+  .branch-row { display: grid; grid-template-columns: 38mm 1fr; gap: 5mm; padding: 5mm 0; border-bottom: 0.5pt solid var(--line); }
+  .branch-row:last-child { border-bottom: 0; }
+  .branch-label { color: var(--brand); font-size: 18pt; font-weight: 500; }
+  .branch-row p { font-size: 16pt; }
+  .ledger { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+  .ledger .panel { min-height: 45mm; }
+  .ledger .wide { grid-column: 1 / span 2; min-height: auto; background: var(--tint); border-color: #d0dce9; }
+  .quote { background: var(--ivory); border-left: 2.5pt solid var(--brand); border-radius: 0 8pt 8pt 0; padding: 7mm 8mm; color: var(--warm); font-size: 15pt; line-height: 1.62; }
+  .quote p + p { margin-top: 3mm; }
+  .check { list-style: none; display: flex; flex-direction: column; gap: 5mm; }
+  .check li { position: relative; padding-left: 11mm; color: var(--warm); font-size: 17pt; }
+  .check li::before { content: ""; position: absolute; left: 0; top: 2mm; width: 5mm; height: 5mm; border: 1.2pt solid var(--brand); border-radius: 2pt; }
+  .path { display: flex; flex-wrap: nowrap; gap: 1.5mm; margin: 1mm 0 8mm; }
+  .path span { background: var(--tint); color: var(--brand); border-radius: 4pt; padding: 2mm; font-size: 12pt; white-space: nowrap; }
+  .path b { color: var(--muted); font-weight: 400; padding-top: 2mm; }
+  .number-list { list-style: none; display: flex; flex-direction: column; gap: 4mm; }
+  .number-list li { display: grid; grid-template-columns: 16mm 1fr; padding-bottom: 4mm; border-bottom: 0.5pt solid var(--line); }
+  .number-list li:last-child { border-bottom: 0; }
+  .num { color: var(--brand); font-size: 22pt; font-weight: 500; }
+  .item { color: var(--ink); font-size: 17pt; font-weight: 500; padding-top: 1mm; }
+  .footer { position: absolute; left: 18mm; right: 18mm; bottom: 9mm; display: flex; justify-content: space-between; color: var(--muted); font-size: 10pt; letter-spacing: 0.6pt; }
+  .cover { justify-content: center; padding-bottom: 30mm; }
+  .cover .series { color: var(--brand); font-size: 13pt; letter-spacing: 2pt; margin-bottom: 12mm; }
+  .cover h1 { font-size: 47pt; line-height: 1.19; max-width: 160mm; }
+  .cover-line { width: 24mm; height: 2mm; border-radius: 1mm; background: var(--brand); margin: 12mm 0 10mm; }
+  .cover .sub { color: #504e49; font-size: 20pt; line-height: 1.5; max-width: 152mm; }
+  .badge { align-self: flex-start; margin-top: 10mm; padding: 2.5mm 5mm; border-radius: 4pt; background: var(--tint); color: var(--brand); font-size: 13pt; }
+</style>
+</head>
+<body>
+
+<section class="card-page cover">
+  <div class="series">CODEX 提效日记 · 01</div>
+  <h1>把模糊想法<br>问成可执行 brief</h1>
+  <div class="cover-line"></div>
+  <p class="sub">用决策树追问，少问废话，也不替你拍板</p>
+  <div class="badge">产品经理 · 独立开发者 · Agent 用户</div>
+  <div class="footer"><span>Grill Me 需求访谈</span><span>01 / 08</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">先看最常见的偏差</div>
+  <h2>文档很完整，决定却没人做过</h2>
+  <p class="claim">AI 擅长补全空白。它也可能把<strong>猜测写得像结论</strong>。</p>
+  <table class="compare"><tr>
+    <td class="left"><h3>直接生成</h3><p>拿到一句想法，补成目标、功能、流程和验收。读起来顺，关键取舍可能来自模型猜测。</p></td>
+    <td class="right"><h3>先澄清</h3><p>把尚未闭合的分叉列出来，只询问会改变方案形状的决定。</p></td>
+  </tr></table>
+  <div class="rule"></div>
+  <p class="lead">Grill Me 的工作对象是一棵决策树。上游答案变了，下游问题也要跟着重算。</p>
+  <div class="footer"><span>Grill Me 需求访谈</span><span>02 / 08</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">未知也要分工</div>
+  <h2>每个缺口，先放进这 3 格</h2>
+  <div class="trio">
+    <div class="panel"><h3>已确认</h3><p>用户已经拍板的目标、范围和取舍，后面不重复问。</p></div>
+    <div class="panel"><h3>待验证</h3><p>代码、文档、数据或工具能查到的事实，交给 AI 自己查。</p></div>
+    <div class="panel focus"><h3>待决策</h3><p>成功标准、投入意愿、首版范围和偏好，需要人回答。</p></div>
+  </div>
+  <div class="panel" style="margin-top: 8mm;"><p>查不到的事实标成未知或风险。不要把检索任务丢回给用户，也不要把未知写成用户偏好。</p></div>
+  <div class="footer"><span>Grill Me 需求访谈</span><span>03 / 08</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">提问节奏看依赖</div>
+  <h2>一次一问，还是一轮多问？</h2>
+  <p class="lead">分界线很简单：后一个问题是否依赖前一个答案。</p>
+  <div class="rule"></div>
+  <div class="branch">
+    <div class="branch-row"><div class="branch-label">上游分叉</div><p>目标、用户、当前困境、投入意愿，一次问一个。答案会改写后续路径。</p></div>
+    <div class="branch-row"><div class="branch-label">独立细节</div><p>多个问题互不依赖，可以编号后批量询问，减少对话轮次。</p></div>
+    <div class="branch-row"><div class="branch-label">默认节奏</div><p>先单问高影响决定，再批量处理低风险细节。每轮收到答案后，重新计算问题前沿。</p></div>
+  </div>
+  <div class="footer"><span>Grill Me 需求访谈</span><span>04 / 08</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">长对话需要外部记忆</div>
+  <h2>别只记聊天记录，记一份决策账本</h2>
+  <div class="ledger">
+    <div class="panel"><h3>决定 + 理由</h3><p>确认选了什么，以及为什么这样选。</p></div>
+    <div class="panel"><h3>影响</h3><p>这次选择解锁了哪些问题，又排除了哪些分支。</p></div>
+    <div class="panel"><h3>状态</h3><p>已确认、暂定、待验证、有冲突或范围外。</p></div>
+    <div class="panel"><h3>来源</h3><p>用户回答、代码事实、文档事实或明确标注的推断。</p></div>
+    <div class="panel wide"><p>新答案与旧决定冲突时，先处理冲突。不要让范围外内容在最终 brief 里悄悄回来。</p></div>
+  </div>
+  <div class="footer"><span>Grill Me 需求访谈</span><span>05 / 08</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">复制后替换最后一行</div>
+  <h2>一段能直接用的 Grill Me 指令</h2>
+  <div class="quote">
+    <p>把我的模糊想法访谈成可执行 brief。访谈完成前，不写计划、不实现。</p>
+    <p>先检查现有文件、代码和文档。能查到的事实自己查，只问需要我决定的分叉。</p>
+    <p>默认一次问一个最高价值问题；互不依赖的问题可以编号批量问。每题只包含一个决定，并给出推荐答案和简短理由。</p>
+    <p>维护决策账本，持续检查假设、矛盾、边界、风险和范围外内容。关键分叉闭合后，先复述理解，等我确认再生成 brief。</p>
+    <p>我的想法是：［在这里写一句模糊想法］</p>
+  </div>
+  <div class="panel" style="margin-top: 8mm;"><p>推荐答案不是替用户拍板，它让取舍更容易回应，也暴露 AI 当前的理解。</p></div>
+  <div class="footer"><span>Grill Me 需求访谈</span><span>06 / 08</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">停止条件</div>
+  <h2>什么时候可以结束访谈？</h2>
+  <p class="claim">别数问题。看剩余未知还会不会<strong>改变方案形状</strong>。</p>
+  <ul class="check">
+    <li>主问题、成功标准和投入意愿明确</li>
+    <li>核心用户路径能从起点讲到结果</li>
+    <li>高影响决定已确认，或明确留作开放问题</li>
+    <li>关键风险、矛盾和范围外内容可见</li>
+    <li>用户确认 AI 的复述符合原意</li>
+  </ul>
+  <div class="panel" style="margin-top: 8mm;"><p>剩下的问题只影响执行细节时，才进入 brief 阶段。</p></div>
+  <div class="footer"><span>Grill Me 需求访谈</span><span>07 / 08</span></div>
+</section>
+
+<section class="card-page">
+  <div class="eyebrow">最后把共同理解压缩成 brief</div>
+  <h2>从一句想法，到可以开始计划</h2>
+  <div class="path"><span>自查事实</span><b>→</b><span>询问决定</span><b>→</b><span>决策账本</span><b>→</b><span>复述确认</span><b>→</b><span>生成 brief</span></div>
+  <div class="rule"></div>
+  <h3>最容易踩的 3 个坑</h3>
+  <ol class="number-list" style="margin-top: 4mm;">
+    <li><span class="num">01</span><span class="item">用固定问题清单，不根据答案改下一问</span></li>
+    <li><span class="num">02</span><span class="item">把问题数量当成完成标准</span></li>
+    <li><span class="num">03</span><span class="item">写 brief 时偷偷补上用户没做的决定</span></li>
+  </ol>
+  <div class="panel" style="margin-top: 8mm;"><p>第一次练手：挑一个最近想做的小功能，用第 6 张指令跑一轮。结束后检查，新 Agent 能否不再追问核心产品决定就开始计划。</p></div>
+  <div class="footer"><span>下一篇：把流程做成 Grill Me Skill</span><span>08 / 08</span></div>
+</section>
+
+</body>
+</html>
