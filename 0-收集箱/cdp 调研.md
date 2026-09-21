@@ -713,3 +713,91 @@ Profile B
 ```
 
 所以底层仍然是 Chromium 的进程模型，但它在“用户环境隔离”和“浏览器暴露给网页的特征”上做了额外改造。
+
+
+> [!quote] YOU
+
+那mac端的Chrome应用有什么区别
+
+
+> [!abstract] PI
+
+Mac 上的 Chrome 本质上仍然是 **Chromium 系浏览器**，所以多进程架构和 CDP 基本相同。
+
+## 主要关系
+
+```text
+Chromium
+  ↓ Google 加入品牌、服务和专有功能
+Google Chrome for macOS
+```
+
+Chrome 通常包含：
+
+- Chromium 的 Browser、Renderer、GPU 等进程模型
+- Google 账号同步
+- Safe Browsing
+- 自动更新
+- Google 专有服务
+- macOS 签名、公证和沙盒集成
+- 部分专有媒体编解码器
+
+## 和普通 Chromium 的区别
+
+| 项目 | Chromium | Mac Chrome |
+|---|---|---|
+| 核心渲染引擎 | Blink/V8 | Blink/V8 |
+| 多进程模型 | 有 | 有 |
+| CDP | 支持 | 支持 |
+| Google 服务 | 通常没有 | 有 |
+| 自动更新 | 取决于发行版 | 有 |
+| macOS 集成 | 较少 | 更完整 |
+| 品牌和默认配置 | Chromium | Google Chrome |
+
+## macOS 上的进程结构
+
+打开 Chrome 后，活动监视器中通常能看到：
+
+```text
+Google Chrome
+Google Chrome Helper
+Google Chrome Helper (Renderer)
+Google Chrome Helper (GPU)
+```
+
+这些大致对应：
+
+- 主进程：Browser Process
+- Helper Renderer：网页渲染进程
+- Helper GPU：图形处理进程
+- 其他 Helper：网络、音频、扩展等辅助进程
+
+进程名称不同，但原理仍然是 Chromium 的多进程架构。
+
+## 在 Mac 上开启 CDP
+
+可以通过终端启动一个独立 Chrome 实例：
+
+```bash
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
+  --remote-debugging-port=9222 \
+  --user-data-dir=/tmp/chrome-cdp
+```
+
+`--user-data-dir` 很重要：
+
+- 避免和日常 Chrome 共用用户目录
+- 避免已有 Chrome 进程导致启动参数不生效
+- 避免把个人 Cookie、账号和浏览数据暴露给 CDP
+
+然后访问：
+
+```text
+http://127.0.0.1:9222/json/version
+```
+
+获取 WebSocket 地址即可。
+
+因此可以记成：
+
+> **Mac Chrome 是 Chromium 的 Google 发行版；它的进程模型和 CDP 基础能力基本相同，但增加了 Google 服务、更新机制和 macOS 集成。**
