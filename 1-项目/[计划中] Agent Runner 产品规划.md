@@ -12,7 +12,7 @@ tags:
 
 > **把明确的开发任务交给自己的机器，在人不在线时执行；最终交付带验证证据的 Draft PR，或清楚、可接续的阻塞报告。**
 
-版本：v0.1 规划草案。基于 [[构建基于 vps 的开发工作流]]，于 2026-09-22 核对相关官方资料。本文中的技术选型、指标和商业实验均为建议，未视为用户已批准实施。按验收里程碑推进，暂不承诺日历截止日期。
+版本：v0.2 规划草案。基于 [[构建基于 vps 的开发工作流]]，于 2026-09-22 核对相关官方资料，并按用户提供的 OpenAI Symphony 项目补充设计借鉴。本文中的技术选型、指标和商业实验均为建议，未视为用户已批准实施。按验收里程碑推进，暂不承诺日历截止日期。
 
 ## 项目概述
 
@@ -23,7 +23,7 @@ tags:
 | 原讨论明确的目标 | 使用现成编码 Agent，在人不在线时自主领取任务、修改代码和交付结果。 |
 | 原讨论明确的设备选择 | 先利用闲置 MacBook，之后根据实际需求考虑 VPS。 |
 | 沿用原草案的工作基线 | GitHub Issue 输入、人工审核 PR、单任务并发、持久化状态、有限重试、避免接触生产环境。 |
-| 本轮推荐的实现 | Python 单进程调度器、SQLite、Docker worker、容器内独立 Git clone、首个适配器使用 Codex CLI。 |
+| 本轮推荐的实现 | Python 单进程调度器、SQLite、Docker worker、容器内独立 Git clone；借鉴 Symphony 编排规范，首个适配器使用 Codex App Server。 |
 | 本轮新增的产品要求 | 可信的验证证据、发布防重、取消与恢复、预算可见、项目接入诊断、明确的主机可用性边界。 |
 
 **“人不在线”不等于机器断网。** 主机仍需联网访问代码托管与模型服务。本产品的第一目标是减少盯终端和处理重复操作的时间，而不是保证任意需求都能自动完成。
@@ -54,11 +54,11 @@ Runner 不自建模型推理、通用 Agent 循环或新的代码编辑器。它
 
 | 方案 | 官方资料中可确认的能力 | 对本项目的启示 |
 | --- | --- | --- |
-| OpenAI Symphony | 提供持续读取任务、管理工作区、调用编码 Agent 的规范和 Elixir 参考实现；README 将其定位为可信环境中的工程预览。[^symphony] | 参考任务调度、协调和重试语义；需要与它比较实际接入成本。 |
+| OpenAI Symphony | 提供编排规范和 Elixir 参考实现；当前实现已包含 GitHub Issues 适配器，并通过 Codex App Server 执行任务，定位仍为工程预览。[^symphony][^symphony-implementation] | 将其作为编排参考基线；GitHub 接入本身不能再作为差异化理由，具体取舍见第 21 节。 |
 | Vibe Kanban | 已有任务看板、Agent 工作区、代码审阅和多 Agent 接入；当前官方 README 明确显示项目正在 sunset。[^vibe] | 多 CLI 加看板本身不是独特卖点；维护状态应计入依赖选择。 |
 | OpenHands | 当前仓库介绍 Agent Canvas、Agent Server，以及调度和事件自动化相关组件。[^openhands] | 自托管和自动化也不是独占能力，应避免单纯复制完整工作台。 |
 
-**推荐方向：先做个人自托管的轻量任务交付服务。** 采用自己可维护的 Python 单进程实现，参考现成规范，不复制完整产品；把实现投入集中在 GitHub 交付、故障恢复和安装诊断上。选择 Python 是因为本版主要处理进程、文件、HTTP 和持久化，不需要前端或复杂 Agent 框架。
+**推荐方向：先做个人自托管的轻量任务交付服务。** 以 Symphony 的语言无关规范为编排参考，沿用 Python 单进程方案，把实现投入集中在可信交付、持久化恢复和安装诊断上。选择 Python 是因为本版主要处理进程、文件、HTTP 和持久化，不需要前端或复杂 Agent 框架。采用的是经过裁剪的设计，不声称实现完整 Symphony 兼容协议。
 
 最小替代方案是直接配置 Symphony 完成自用。如果自用验证表明它已经以更低维护成本满足这里的验收要求，应停止开发重复内核，改为做接入配置或分发支持。**这是明确的停止条件，不能为了拥有一个新产品而继续增加功能。**
 
@@ -106,6 +106,8 @@ Issue 标签用于呈现：`agent:ready`、`agent:running`、`agent:review`、`a
 
 同一个 Issue 反复加 ready 标签不会自动产生新执行。失败后的重试、需求修改后的重新执行，都要成为有记录的显式操作。Issue 关闭或加 `agent:hold` 后停止待执行及活跃任务；外部操作的生效延迟受轮询周期限制。
 
+`agent:ready` 仅作为入队条件；Runner 开始后将其替换成 `agent:running`，不会因此取消已授权任务。不能直接照搬 Symphony 的“运行中仍必须包含 required_labels”规则，否则状态展示会误触发取消。已入队任务的停止条件是持久化取消、Issue 关闭、hold 或授权失效；`review_ready` 与 `blocked` 即使对应 Issue 仍开放，也不自动重启编码。[^symphony]
+
 轮询及发布前重新读取标题和正文，与任务快照摘要比较；发生变化时阻塞当前修订，由用户明确授权 `revise`。只变化标签或机器人状态评论不应触发需求漂移。关联 PR 的合并与关闭状态单独回读，不能仅根据 Issue 已关闭推断任务是否成功。
 
 ### 6. 交付物的定义
@@ -144,10 +146,10 @@ GitHub Issues / CLI
          │
          ▼
 MacBook：Runner 控制进程（专用 macOS 用户）
-  ├─ 项目配置与任务账本 ── SQLite
-  ├─ 调度 / 恢复 / 取消 / 事件记录
+  ├─ 已批准的 WORKFLOW.md + 宿主配置 + 任务账本 ── SQLite
+  ├─ 先协调再派发 / 恢复 / 取消 / 事件记录
   ├─ 工作区与 Docker 生命周期
-  │        └─ 临时 worker：独立 clone + 编码 CLI → 模型服务
+  │        └─ 临时 worker：独立 clone + Codex App Server → 模型服务
   ├─ 独立 verifier：固定快照 + 已批准的检查命令
   └─ 发布器：干净 Git 检出 + 托管平台凭据 → 分支 / Draft PR
 ```
@@ -158,13 +160,15 @@ MacBook：Runner 控制进程（专用 macOS 用户）
 
 worker 只挂载本任务目录和必要的临时存储，不挂载整个用户目录、Runner 状态目录、发布器凭据或 Docker socket。模型 CLI 与项目命令在 worker 内运行；创建容器的权限仅属于受信任的 Runner。Docker 官方文档明确提醒，能够控制 daemon 的用户具备很强的宿主机访问能力。[^docker-security]
 
+工作区身份绑定“项目 ID + Task ID + 修订号”。同一修订的修复从已保留变更继续，新修订使用自己的 clone；每次 Run 的编码容器仍为临时容器。按创建、执行前、执行后、清理前划分生命周期，但不开放仓库脚本在宿主机上任意执行的 hooks；项目准备命令在受限容器内运行。清理必须遵守第 16 节的证据留存规则。
+
 ### 9. Agent 接口与选型
 
-首版推荐 Codex CLI 的非交互执行，使用 `codex exec` 的 JSONL 事件和明确终止信号。官方提供结构化输出与按会话 ID 续接的接口，因此无需解析终端画面。[^codex]
+参考 Symphony，首个适配器改为通过 stdio 调用容器内的 `codex app-server`，使用结构化会话、执行事件和中断接口。App Server 是 Codex 自带的程序化接口；此处为每个 Run 启动的临时子进程，不新增公开网络服务。`codex exec --json` 仍适合手工单次烟雾测试，但首版产品不同时维护两套 Codex 运行后端。[^codex-app-server][^codex]
 
 | 适配器 | 接入方式 | 排期 |
 | --- | --- | --- |
-| Codex | 非交互进程、JSONL 事件、固定执行目录与权限配置。 | 首版。 |
+| Codex | App Server stdio；显式 thread/turn、事件解析、输入或审批需求、中断与用量归属。 | 首版，替代 v0.1 的 exec 产品适配器。 |
 | Claude Code | `-p` 非交互与 `stream-json` 输出。[^claude] | P3 的第二适配器候选。 |
 | Pi | RPC 模式提供结构化交互、终止与状态读取。[^pi] | 用户的真实模型或工作流需要它时接入。 |
 
@@ -172,7 +176,9 @@ worker 只挂载本任务目录和必要的临时存储，不挂载整个用户�
 
 适配器需声明是否支持续接、精确终止、用量报告和特定鉴权方式。费用或续接不受支持时，明确降级，不伪造数值，不使用其他任务的“最后一次会话”。每次记录 CLI 版本；升级先运行契约测试，再替换固定 worker 镜像。
 
-首版通过创建新的执行调用处理修复，保留任务代码快照和验证反馈；不把跨版本恢复模型内部会话作为可用性的必要条件。
+接入顺序固定为连接初始化、`thread/start`、`turn/start`、读取事件与终态。记录 `thread_id`、`turn_id` 和请求关联 ID；收到输入或审批需求时写入阻塞原因并结束资源占用，不自动代替用户回答。取消时先向当前 Run 的准确 thread/turn 请求 `turn/interrupt`，确认终态；超过停止窗口仍未退出时，按容器终止规则处理。中断请求的确认响应不等于任务已停止。[^codex-app-server]
+
+首版每个 Run 只启动一个编码 turn；turn 正常完成后停止编码容器，进入独立验证；失败、中断或输入需求按第 12 节分类处理。验证失败才以新的 Run、代码快照和失败反馈执行有限修复，不因 GitHub Issue 仍为 open 而连续追加 turn。模型内部工具调用不计作新的 Run；新的 `turn/start` 则必须先占用任务累计编码次数。恢复不依赖跨版本的模型内部会话，后续需要对话续接时再扩展能力。
 
 ### 10. 任务模型、状态与发布防重
 
@@ -182,7 +188,7 @@ worker 只挂载本任务目录和必要的临时存储，不挂载整个用户�
 | --- | --- |
 | Project | 仓库稳定 ID、remote、基线分支、允许的操作者、执行镜像、检查命令、路径政策、配置摘要、凭据引用。 |
 | Task | 来源 ID、修订号、标题正文快照与摘要、基线 SHA、状态、取消标记、累计调用次数、执行截止时刻、发布截止时刻、目标分支、PR 标识。 |
-| Run | Task ID、尝试序号、Agent 与版本、镜像摘要、容器 ID、会话 ID、开始/结束/心跳、用量、错误分类。 |
+| Run | Task ID、尝试序号、Agent 与版本、镜像摘要、容器 ID、thread/turn ID、开始/结束/Runner 心跳/最后有效 Agent 事件、用量、错误分类。 |
 | Artifact / Check | 不可变代码快照摘要、patch/文件清单、候选提交 SHA 与 Git bundle 位置、各检查记录、日志位置、留存状态。 |
 | Outbox | 外部操作类型、稳定操作键、目标分支或 PR、重试时间、外部返回 ID、最近错误。 |
 
@@ -200,6 +206,9 @@ worker 只挂载本任务目录和必要的临时存储，不挂载整个用户�
 
 重新启动时先恢复协调，再领取新任务：检查有标记的容器、持久化阶段和远端发布结果。对于遗留的执行或验证容器，先停止并确认退出，再从保留快照创建新的 Run；对于已验证但发布中断的任务，只恢复发布。不能仅凭 PID 判断任务仍在运行，也不能把重新调用 Agent 作为所有故障的恢复方式。
 
+每轮调度遵循“先协调已有任务，再派发新任务”：先应用本地取消和期限，协调容器、到期重试及 Outbox，再按轮询周期刷新远端状态，最后判断可领取任务和空闲槽位。远端查询失败不等于 Issue 已删除；暂停依赖该查询的新派发和发布，已有执行仍受本地期限约束。配置校验失败不能阻止取消与资源清理。
+
+SQLite 是唯一持久化事实源，内存中的 running、claimed、retry 索引由账本派生。异步回调和重试计时器必须携带 Task ID、修订号与 Run ID，并与当前活跃 Run 比较；旧 Run 的迟到结果不能改变新 Run 的状态。`blocked`、取消及预算跨重启保留，恢复后不得仅凭 Issue 仍开放就解除阻塞。
 ### 11. 验证必须独立于 Agent
 
 项目接入时登记依赖准备、测试、Lint、类型检查和构建中的适用命令。每一项标明必需或不适用，并至少存在一项与任务类别对应的有效检查；不能把“没有配置测试”显示为“测试通过”。文档项目可以配置文档校验，不强制执行不存在的编译步骤。
@@ -243,6 +252,7 @@ Agent 退出后先终止其容器及子进程，再提取变更并固化快照�
 | 同时执行 | 全局 1 个任务；编码和验证不并行运行。 |
 | Issue 轮询 | 60 秒；支持分页、限流退避，避免只读取第一页。 |
 | Runner 心跳 | 10 秒；超过 90 秒未更新视为需要协调，不直接视为可以启动第二个 worker。 |
+| Agent 事件静默 | 默认 5 分钟无属于当前 Run 的有效协议事件时按 stalled 处理；可按项目调整，Runner 心跳不能代替 Agent 事件。 |
 | 任务执行期限 | 从首次启动计 60 分钟，修复与重启不重置截止时刻；不含入队等待。 |
 | 编码调用上限 | 每个任务修订最多 3 次：首轮加最多 2 次修复或重新启动。 |
 | 准备及验证 | 依赖准备最多 10 分钟；每条检查最多 10 分钟，同时受任务总期限约束。 |
@@ -253,6 +263,7 @@ Agent 退出后先终止其容器及子进程，再提取变更并固化快照�
 
 60 分钟执行期限覆盖准备、编码与验证。已验证产物的发布恢复使用独立期限：自首次发布尝试起最多自动协调 24 小时，不启动模型；仍未成功则进入 `blocked:publish_delayed`，保留产物供显式重试。取消标记同时约束执行和发布，不能利用发布恢复绕过取消。
 
+总期限与事件静默分别计时。Symphony 当前参考实现的 `turn_timeout_ms` 在收到流事件后重新开始等待，它不是 turn 的绝对运行上限；`max_turns` 也不能替代跨 Run 的任务累计预算。本方案的 60 分钟截止时刻和最多 3 次编码 turn 不因事件输出、正常续跑、重试或重启而刷新。[^symphony-implementation][^symphony-code]
 主机断电或操作系统挂起时，Runner 无法实时执行终止动作；恢复后首先检查截止时刻。对这种停机窗口不能宣传严格的实时终止保证。
 
 预算分为两个层次：执行时间、调用次数和容器资源由 Runner 控制；美元费用基于 CLI 回传或配置价格估算。金额阈值只能在有足够用量信息时触发停止，存在上报延迟，不能承诺绝对不超支。
@@ -299,7 +310,8 @@ Agent 退出后先终止其容器及子进程，再提取变更并固化快照�
 
 | 命令入口 | 行为 |
 | --- | --- |
-| `runner project add` | 登记仓库、基线分支、执行镜像、检查命令、允许操作者及凭据引用；完成配置校验。 |
+| `runner project add` | 登记仓库、基线分支、执行镜像、允许操作者与凭据引用，导入并批准基线 WORKFLOW.md 的检查配方和内容摘要。 |
+| `runner project sync` | 操作者显式导入指定提交的 WORKFLOW.md；校验通过后采用新配置摘要，仅作用于后续授权的任务修订。 |
 | `runner doctor` | 检查系统、Docker、镜像架构、目录权限、仓库和模型连通性；输出具体可修复问题。付费模型探测需显式选择。 |
 | `runner enqueue` | 从任务文件或指定 Issue 生成任务快照并入队；返回 Task ID。 |
 | `runner serve` | 前台运行同一个调度内核；由 launchd 管理时也调用此入口。 |
@@ -309,7 +321,13 @@ Agent 退出后先终止其容器及子进程，再提取变更并固化快照�
 | `runner gc --dry-run` / `runner gc` | 预览或清理到期资源，仅处理本产品拥有标记的对象。 |
 | `runner export` | 导出指定任务的快照、检查结果及脱敏日志，用于接管和排障。 |
 
-控制配置使用 TOML，包含 `schema_version`、项目执行配方、操作者、资源限制、留存策略和凭据引用。SQLite 使用版本化迁移；运行日志使用 JSONL，统一记录 Task ID、Run ID、阶段、事件时间和错误类型。内部时间使用 UTC，展示时按用户设置转换。
+配置分为两份：宿主 TOML 保存 `schema_version`、仓库登记、操作者、镜像、权限、资源硬上限、留存、凭据引用和已批准的 workflow 提交/摘要；仓库根目录 `WORKFLOW.md` 保存项目工作配方与 Agent 提示正文。前者由操作者控制，后者便于随项目审阅和版本管理。
+
+WORKFLOW.md 采用 YAML front matter 加 Markdown 正文，但使用 Agent Runner 自己的版本化 schema；不承诺可以直接运行 Symphony 配置。首版 front matter 只接受 `schema_version`、`prepare`、`checks`，命令使用参数数组，每项检查声明名称、必需性与超时；非适用项单独说明原因。Markdown 正文作为项目提示，任务快照由 Runner 独立附加，不支持任意模板执行或环境变量展开。未知字段、无效命令和越过宿主上限的配置导入失败；仓库不得覆盖凭据或权限。
+
+接入时必须生成并批准项目配方。每次任务固定代码基线、workflow 内容摘要及有效配置摘要，worker 中对 WORKFLOW.md 的修改不能影响当前或后续运行。配置更新走显式 `project sync`；导入失败不替换上一批准版本，提示新版本未采用。已运行任务维持原快照，新的授权任务使用明确显示的批准版本；首版不引入自动热加载。代码基线中的 workflow 与批准摘要不同则阻塞该次入队，要求先同步或选择匹配基线。
+
+SQLite 使用版本化迁移；运行日志使用 JSONL，统一记录 Task ID、Run ID、thread/turn ID、阶段、事件时间和错误类型。状态输出区分 Runner 心跳、Agent 最后事件、最后完成的检查以及“等待模型、工具执行中、等待验证、等待发布、需人工处理”。协议没有提供某项细节时显示未知，不从持续输出推断任务正在有效推进。内部时间使用 UTC，展示时按用户设置转换。
 
 代码按配置与 CLI、任务账本与调度、GitHub 集成、工作区与容器、Agent 适配器、验证、发布和报告分模块。它们共享明确的数据契约，不拆成多个网络服务。需要另加的实现文件包括项目打包配置、worker 镜像定义、launchd 配置和契约/故障测试。
 
@@ -328,7 +346,7 @@ Agent 退出后先终止其容器及子进程，再提取变更并固化快照�
 | A03 | 轮询重复、CLI 与轮询同时提交同一修订 | 只有一个 Task 和一个活跃执行；无重复 PR。 |
 | A04 | Agent 未通过验证但声称任务完成 | 状态以独立检查为准；触发有限修复或失败。 |
 | A05 | 验证完成后快照改变 | 阻塞发布，无法用旧测试结果给新代码背书。 |
-| A06 | Agent 卡死、超时或不断报错 | 在主机健康时终止整个容器，累计调用数与截止时刻不被重置。 |
+| A06 | Agent 静默，或持续输出但超过总期限 | 分别命中事件静默和绝对期限；在主机健康时终止整个容器，累计调用数与截止时刻不被重置。 |
 | A07 | 本机取消、Issue hold 或关闭 | 在相应检测窗口内停止；不发起新的发布。已有在途请求完成后记录实际远端状态。 |
 | A08 | Runner 在编码中被强制停止 | 重启先终止/协调遗留容器，从持久化快照接续；不能并行重跑同一任务。 |
 | A09 | 推送成功或创建 PR 成功，但响应丢失 | 回读已有远端结果，找回同一分支与 PR；不重复编码和创建。 |
@@ -341,15 +359,21 @@ Agent 退出后先终止其容器及子进程，再提取变更并固化快照�
 | A16 | Docker 重启、睡眠唤醒、系统冷启动 | 分别验证恢复前置条件；未登录或 Docker 未就绪时不虚报健康。 |
 | A17 | Issue 正文在执行中更改、人工推送任务分支 | 检出输入或远端漂移，阻塞有歧义的发布，不覆盖人工工作。 |
 | A18 | 无代码变更，或 PR 被关闭但未合并 | 记录 `no_change` 或 `closed_unmerged`，不计为成功采用。 |
+| A19 | WORKFLOW.md 被任务修改、无效更新或基线与批准摘要不符 | 不能改变固定配方或宿主权限；无效更新不被采用，配置漂移阻塞入队。 |
+| A20 | turn 正常结束或 Draft PR 已生成，但 Issue 仍 open | turn 结束进入验证；review_ready 不自动编码，无一秒续跑或预算重置。 |
+| A21 | 输入或审批需求导致 blocked，随后 Runner 重启 | 阻塞原因仍存在且不派发；只有明确操作才能接续，不自动回答审批。 |
+| A22 | 取消或修复开始后，旧 Run 事件及重试定时器迟到 | 拒绝不匹配 Run ID 的状态更新；取消响应必须与真正停止区分。 |
+| A23 | 入队后 ready 替换成 running；随后加 hold | 展示标签变化不取消，hold 按检测窗口停止；远端读取失败不被误判为已关闭。 |
 
 实现仓库的基础测试入口定为 `python -m unittest discover -s tests -v`，覆盖状态转换、事件解析、预算、授权和发布故障。容器隔离、主机恢复以及实际 GitHub 权限必须另做环境验收，不能以模拟测试通过替代。
 
-P1 至少覆盖 A01—A06、A08—A14 中不依赖 Issue 轮询的部分，以及资源清理；P2 覆盖全表。20 个真实任务评估必须在这些确定性检查通过后进行，避免拿模型结果掩盖调度器缺陷。
+P1 至少覆盖 A01—A06、A08—A14、A19—A22 中不依赖 Issue 轮询的部分，以及资源清理；P2 覆盖全表。20 个真实任务评估必须在这些确定性检查通过后进行，避免拿模型结果掩盖调度器缺陷。
 
 ### 18. 实施、升级与退出路径
 
 第一项实施交付是 P1 的可安装 CLI：接入一个测试仓库，完成单任务容器执行、独立验证和 Draft PR 发布，并具备取消和中断恢复。不是先开发看板或三个 Agent 适配器。
 
+P1 同时交付 WORKFLOW.md 导入及固定快照、App Server 单 turn 适配器、本地恢复协调和取消/预算契约；P2 将协调循环扩展至 Issue 状态、自动领取及状态呈现。Symphony 参考实现只作代码与语义参考，不成为另一个与 Runner 同时争抢任务的常驻服务。
 发布物应包括固定依赖的 Python 包、与其对应的 worker 镜像摘要、配置格式版本、版本变更记录以及可运行的验收命令。CLI 和镜像一同经过兼容测试；生产使用固定版本，避免无人值守期间自动跟随 Agent CLI 最新版本。
 
 升级流程为：暂停领取、结束或停止当前执行、用 SQLite 备份接口获取一致性备份、备份配置与产物索引、应用迁移、运行诊断及单任务烟雾测试，再恢复领取。不能只复制正在使用中的数据库主文件而忽略一致性要求。[^sqlite-backup]
@@ -385,6 +409,28 @@ P1 至少覆盖 A01—A06、A08—A14 中不依赖 Issue 轮询的部分，以�
 
 这些事项不会阻止产出本规划，但会阻止越过相应的发布门槛。本轮没有访问目标闲置 MacBook 的配置，也没有验证其模型账号、GitHub 权限或项目检查命令，不能将公开文档核对当成现场部署验证。
 
+### 21. Symphony 借鉴决策
+
+**采用方向：把 Symphony 作为编排设计参考，把 Agent Runner 的产品承诺落在可验证、可恢复的任务交付。** OpenAI 将 Symphony 定位为规范与参考实现，并明确不计划把它维护成独立产品；借鉴不等于把其演示效果、维护承诺或默认值直接变成我们的承诺。[^symphony-position]
+
+本次核对了 README、SPEC.md、Elixir 使用说明及实际源码；代码基线为 `be10a1b79df723d6d7612b5651c8522704dafb2e`，提交日期为 2026-09-15 UTC，核对日期为 2026-09-22。当前已有 GitHub Issues 适配器与 macOS 发布构建目标，不能将“支持 GitHub / Mac”当作独占能力；发布构建目标也不代表已验证用户这台 MacBook 的安装体验。[^symphony-implementation][^symphony-code]
+
+| 借鉴点 | 本项目采用的具体方式 | 所在章节 |
+| --- | --- | --- |
+| 工作流与项目一起版本管理 | WORKFLOW.md 保存配方和项目提示，任务固定批准摘要；宿主保留凭据与资源控制。 | 第 16 节 |
+| 先协调、后派发 | 同时处理取消、过期、旧容器、远端状态与发布恢复，再派发；所有状态由 SQLite 统一落账。 | 第 10 节 |
+| 显式 Agent 会话协议 | 用 App Server 的 thread、turn、事件、审批需求与中断信号管理单次执行。 | 第 9 节 |
+| 保留工作成果与生命周期 | 同一任务修订可保留变更并有限修复；每次执行仍使用临时容器，清理前保留证据。 | 第 8、16 节 |
+| 失败分类与运行可观测性 | 区分静默、超时、输入缺失、验证失败和发布失败，展示准确阶段与会话归属。 | 第 12、13、16 节 |
+
+参考实现中，`orchestrator.ex` 的 `maybe_dispatch` 先协调运行与阻塞项，再选择候选任务；`agent_runner.ex` 将正常 turn 结束与 Issue 完成分开；`workflow_store.ex` 在重新加载失败时保留上一有效配置；`codex/app_server.ex` 处理会话、流事件和输入请求。这些是本次实际阅读后提取的机制，具体产品策略按上表重新约束。[^symphony-code]
+
+**明确保留的差异**：本项目持久化阻塞和预算，不采用仅靠内存及 tracker 重建全部执行记录；验证、提交与 PR 写操作由 Runner 负责，不仅依靠 Agent 遵守提示；审核态停止编码；配置不在任务执行中热更新；工作区隔离叠加 Docker，并不把目录边界当成完整沙箱。参考实现支持宿主代理 tracker 工具调用，但“Agent 看不到 token”不等于“Agent 只能调用允许的操作”；首版不向 Agent 暴露通用 GitHub 写接口。[^symphony][^symphony-implementation]
+
+暂不引入 Elixir/OTP、Phoenix 看板、全部 tracker 适配器、远程多 worker 或自动合并。保持 Python 与单机范围，是当前产品维护成本的选择，并非认为这些现成能力不可用。直接配置 Symphony 仍是第 3 节的最小替代方案；比较时使用相同仓库、任务、模型配置和交付门槛，登记配置工时、接管次数、人工审阅投入和总费用，不把“能自动开 PR”本身当作优势。
+
+新增 A19—A23，并强化 A06，验证本次借鉴带来的配置、终态、阻塞、迟到事件与标签语义。当前只更新规划；未安装或运行 Symphony，未实现 App Server 适配器，也未启动实际 Agent 或写入远端 Issue/PR。
+
 ### 可执行里程碑
 
 - [ ] #任务 P1：单任务 CLI 交付闭环与发布故障验收。
@@ -398,6 +444,10 @@ P1 至少覆盖 A01—A06、A08—A14 中不依赖 Issue 轮询的部分，以�
 以下均为本次访问的官方文档或项目自有仓库。在线主分支和产品文档会继续变化，实施时应以实际固定版本进行接口验证。
 
 [^symphony]: OpenAI：[Symphony README](https://github.com/openai/symphony)；[Symphony specification](https://github.com/openai/symphony/blob/main/SPEC.md)。用于核对现有编排能力和参考规范，不代表对其稳定性的独立评测。
+[^symphony-implementation]: OpenAI：[固定版本的 Elixir README](https://github.com/openai/symphony/blob/be10a1b79df723d6d7612b5651c8522704dafb2e/elixir/README.md)。核对 tracker 适配器、macOS 构建目标、blocked 内存状态、事件静默超时及宿主代理工具权限边界；本轮在线阅读 main，源码同时固定到所列提交。
+[^symphony-code]: OpenAI Symphony 源码，固定提交 `be10a1b79df723d6d7612b5651c8522704dafb2e`：[调度器](https://github.com/openai/symphony/blob/be10a1b79df723d6d7612b5651c8522704dafb2e/elixir/lib/symphony_elixir/orchestrator.ex)、[执行器](https://github.com/openai/symphony/blob/be10a1b79df723d6d7612b5651c8522704dafb2e/elixir/lib/symphony_elixir/agent_runner.ex)、[工作流加载](https://github.com/openai/symphony/blob/be10a1b79df723d6d7612b5651c8522704dafb2e/elixir/lib/symphony_elixir/workflow_store.ex)、[App Server 客户端](https://github.com/openai/symphony/blob/be10a1b79df723d6d7612b5651c8522704dafb2e/elixir/lib/symphony_elixir/codex/app_server.ex)、[GitHub 适配器](https://github.com/openai/symphony/blob/be10a1b79df723d6d7612b5651c8522704dafb2e/elixir/lib/symphony_elixir/github/adapter.ex)。均通过 GitHub 官方原始文件接口读取，没有执行仓库代码。
+[^symphony-position]: OpenAI：[An open-source spec for Codex orchestration: Symphony](https://openai.com/index/open-source-codex-orchestration-symphony/)。核对规范、参考实现与独立产品维护定位。
+[^codex-app-server]: OpenAI：[Codex App Server](https://developers.openai.com/codex/app-server)。本次重定向至官方 [App Server 文档](https://learn.chatgpt.com/docs/app-server)，用于核对初始化、thread/turn、流事件和中断语义。实施时须固定 Codex 版本验证协议。
 [^vibe]: Vibe Kanban：[官方仓库与 sunset 提示](https://github.com/BloopAI/vibe-kanban)。用于核对看板、工作区、审阅、多 Agent 能力和维护状态。
 [^openhands]: OpenHands：[官方仓库](https://github.com/OpenHands/OpenHands)。用于核对当前 Agent Canvas、Agent Server 和自动化组件的关系。
 [^codex]: OpenAI：[Codex non-interactive mode](https://developers.openai.com/codex/noninteractive)。用于核对非交互执行、JSONL、鉴权、续接与凭据边界。
@@ -417,6 +467,8 @@ P1 至少覆盖 A01—A06、A08—A14 中不依赖 Issue 轮询的部分，以�
 ## 项目笔记
 
 本轮相对原草案的主要修订是：以闲置 MacBook 而非购置 VPS 为首发前提；将市场空白改成竞争验证；将 worktree 从安全边界中移除；将测试、发布和状态事实交给 Runner；把发布去重、停止、恢复和留存纳入首版，而不是在演示成功后补做。
+
+v0.2 按用户提供的 Symphony 项目补充具体借鉴：选择 App Server 执行接口，加入已批准 WORKFLOW.md、每轮先协调后派发和准确会话观察；同时保留持久化状态、独立验证、受控发布和有限任务预算。未将其当前 GitHub 支持、Mac 构建目标或 Agent 自动化能力描述为本项目独有优势。
 
 ## 项目回顾
 
