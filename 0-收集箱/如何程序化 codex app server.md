@@ -1469,3 +1469,44 @@ Codex 运行时
 >
 > 1. 使用 gpt-5.6-sol 继续（Recommended）
 > 2. 先停在这里，讲解现有代码与失败日志
+
+
+> [!example] Answer
+> 1. 使用 gpt-5.6-sol 继续（Recommended）
+
+
+> [!abstract] PI
+
+成功路径已跑通：Codex 通过命令工具读取了 `notes.txt`，返回了其中的验证标记“橙色风筝-731”，最后收到 `turn/completed`；文件哈希前后完全一致。
+
+这次也实际观察到了：**同一轮 turn 里，先有一条说明消息，再有命令执行，最后还有一条总结消息。** 我会把运行命令和日志阅读说明补进 README，再做最后一遍测试。
+
+
+> [!abstract] PI
+
+阶段 1 已完成，项目位于：
+
+`/Users/hongling/learn/codex-client-lab`
+
+**验证结果**
+- 类型检查、25 项离线测试通过。
+- 真实任务成功读取文件并返回验证标记。
+- 收到 `turn/completed`，文件哈希未变。
+- 全局 Codex 配置未修改。
+
+运行：
+
+```bash
+cd /Users/hongling/learn/codex-client-lab
+npm run dev -- --cwd ./playground --model gpt-5.6-sol --trace
+```
+
+核心代码：
+- `src/transport.ts`：子进程与 JSONL 通信
+- `src/client.ts`：消息分派与任务生命周期
+- `src/cli.ts`：终端入口与显示
+
+成功运行的消息日志：
+`.local/traces/1790142310645-54851.jsonl`
+
+**下一步建议先逐条读这份真实日志，再对应代码，不急着进入阶段 2。**
