@@ -2290,3 +2290,440 @@ v.iter().copied().filter(|x| *x > 2)  // ③ 先 copied() 把 &i32 变成 i32，
 3. **回到 `rust-practice`**：把 4 道练习清空，你自己从头写一遍。
 
 想选哪个？
+
+
+> [!quote] YOU
+
+进入下一个主题
+
+
+> [!abstract] PI
+
+新主题是**结构体、`impl` 和 trait**。还是先摸一下你的底。第一题：
+
+
+> [!question] Quiz
+> 在 Go 里，一个类型要“实现”某个 interface，需要做什么？
+>
+> ```go
+> type Shape interface { Area() float64 }
+> type Circle struct { R float64 }
+> ```
+>
+> 1. 必须在使用处用 Shape(c) 显式转换一次才算实现
+> 2. 必须让 Circle 嵌入（embed）一个 Shape 字段
+> 3. 必须在 Circle 的定义里写 implements Shape
+> 4. 只要 Circle 有 Area() float64 这个方法就行，不用显式声明
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 4. 只要 Circle 有 Area() float64 这个方法就行，不用显式声明
+> Correct answer: 4
+>
+> Go 的 interface 是隐式（结构化）实现的：只要方法集合对得上，就自动算实现了，不需要任何声明。Java 则要显式写 implements。Rust 的 trait 在这一点上更像 Java：必须显式写 `impl Shape for Circle`。
+
+
+> [!abstract] PI
+
+下一题用的语法还没讲过，但你可以用所有权的知识推一推：
+
+
+> [!question] Quiz
+> 下面这段代码在哪一行报编译错误？
+>
+> ```rust
+> struct Counter { n: u32 }
+>
+> impl Counter {
+>     fn get(&self) -> u32 { self.n }
+>     fn bump(&mut self) { self.n += 1; }
+>     fn finish(self) -> u32 { self.n }
+> }
+>
+> fn main() {
+>     let mut c = Counter { n: 0 };   // 第 10 行
+>     c.bump();                       // 第 11 行
+>     println!("{}", c.get());        // 第 12 行
+>     let total = c.finish();         // 第 13 行
+>     c.bump();                       // 第 14 行
+>     println!("{}", total);          // 第 15 行
+> }
+> ```
+>
+> 1. 第 11 行：方法里不能修改 self 的字段
+> 2. 第 12 行：bump 的可变借用还没结束，不能再共享借用
+> 3. 第 13 行：get 的共享借用还没结束，不能 move c
+> 4. 第 14 行：finish 拿走了 c 的所有权，之后 c 失效
+
+
+> [!failure] Quiz — incorrect ✗
+> Your answer: 2. 第 12 行：bump 的可变借用还没结束，不能再共享借用
+> Correct answer: 4
+>
+> 方法的第一个参数决定了调用时怎么用调用者。&self 是共享借用，&mut self 是可变借用，self 是 move（拿走所有权）。第 11、12 行的借用在各自那一行就结束了，没有冲突。第 13 行 c.finish() 把 c move 进了方法里，所以第 14 行再用 c，本机实测报 E0382：“`Counter::finish` takes ownership of the receiver `self`, which moves `c`”。
+
+
+> [!question] Quiz
+> 下面这段用普通函数写的代码能编译吗？
+>
+> ```rust
+> struct Counter { n: u32 }
+>
+> fn bump(c: &mut Counter) { c.n += 1; }
+> fn get(c: &Counter) -> u32 { c.n }
+>
+> fn main() {
+>     let mut c = Counter { n: 0 };
+>     bump(&mut c);
+>     println!("{}", get(&c));
+> }
+> ```
+>
+> 1. 不能：bump(&mut c) 把 c move 进了函数，之后 c 失效
+> 2. 不能：&mut c 一直持续到 main 结束，之后不能再借 &c
+> 3. 能：&mut c 只在 bump 调用期间有效，调用结束后可以再借 &c
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 3. 能：&mut c 只在 bump 调用期间有效，调用结束后可以再借 &c
+> Correct answer: 3
+>
+> &mut c 这个引用只是作为参数传给了 bump。bump 返回后，这个引用再也没有被用到，所以借用就结束了（借用区间到最后一次使用为止）。下一行再借 &c 不会冲突。传 &mut c 也不是 move，c 仍然是所有者。
+
+
+> [!abstract] PI
+
+边界找到了：你对函数形式的借用很清楚，但还没把**方法调用 `c.bump()`** 和 **`bump(&mut c)`** 对应起来。这正是这个主题的第一课。再往上探一题：
+
+
+> [!question] Quiz
+> Java 里这个泛型方法的 `<T extends Comparable<T>>` 起什么作用？
+>
+> ```java
+> static <T extends Comparable<T>> T max(T a, T b) {
+>     return a.compareTo(b) >= 0 ? a : b;
+> }
+> ```
+>
+> 1. 声明这个方法会被 Comparable 接口调用
+> 2. 把传入的 a 和 b 在运行时转换成 Comparable 类型
+> 3. 让 T 继承 Comparable 的字段和默认实现
+> 4. 限定 T 必须实现 Comparable，这样函数体里才能调用 compareTo
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 4. 限定 T 必须实现 Comparable，这样函数体里才能调用 compareTo
+> Correct answer: 4
+>
+> 这是泛型约束（bound）：T 可以是任意类型，但必须实现了 Comparable<T>。编译器因此知道 a 一定有 compareTo 方法，允许在函数体里调用。调用方传入没实现 Comparable 的类型，会在编译期报错。Rust 里对应的写法是 `fn max<T: PartialOrd>(a: T, b: T) -> T`。
+
+
+> [!question] Quiz
+> Java 的 `List<Shape>` 能同时装 `Circle` 和 `Square`，而这两个类的字段数量和大小都不一样。它在内存里是怎么做到的？
+>
+> 1. 列表为每种子类各开一个内部数组，按类型分开存
+> 2. 列表把每个元素按最大的那个子类的大小来分配格子
+> 3. 列表把每个对象按 Shape 接口的字段裁剪后直接存进去
+> 4. 列表里存的都是指向堆上对象的引用，引用大小都一样
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 4. 列表里存的都是指向堆上对象的引用，引用大小都一样
+> Correct answer: 4
+>
+> Java 里除了基本类型，所有对象都在堆上，变量和集合元素存的都是引用（指针），大小统一。所以 List 的每个格子大小相同，至于指向的是 Circle 还是 Square，运行时通过对象头里的类信息查方法表（虚函数表）来决定调用哪个 area()。Rust 默认把值直接放在格子里、不自动装箱，所以要实现同样的效果，得显式写 Box<dyn Shape>：放一个指向堆的指针，再加一个指向方法表的指针。
+
+
+> [!question] Quiz
+> 在 Rust 里有一个泛型函数，Circle 和 Square 都实现了 Shape trait：
+>
+> ```rust
+> fn total_area<T: Shape>(xs: &[T]) -> f64 { /* ... */ }
+> ```
+>
+> 下面关于它的说法哪个正确？
+>
+> 1. 每次调用时 T 是一个确定的类型，xs 里只能全是 Circle 或全是 Square
+> 2. xs 里可以混着放，但要先把每个元素 as Shape 转换一次
+> 3. xs 里可以混着放 Circle 和 Square，因为它们都实现了 Shape
+
+
+> [!failure] Quiz — incorrect ✗
+> Your answer: 2. xs 里可以混着放，但要先把每个元素 as Shape 转换一次
+> Correct answer: 1
+>
+> Rust 的泛型在编译期会为每种实际用到的 T 各生成一份代码（单态化）：total_area::<Circle> 和 total_area::<Square> 是两个不同的函数。&[T] 是“一段连续的、同一种 T”，每个格子大小相同，所以不能混放。想混放，就得用 trait 对象：&[Box<dyn Shape>]，也就是上一题 Java 那种做法。这一点和 Java 不同：Java 的泛型在运行时会被擦除，元素本来就都是引用，所以可以混放。
+
+
+> [!question] Question
+> 这个主题你想学到什么程度？
+>
+> 1. 能写完整的小程序：结构体 + 方法 + trait + 泛型和 dyn 的选择
+> 2. 只要结构体和方法，先能把数据和行为组织起来
+> 3. 重点放在 trait：标准库里常见的 trait（Display、Clone、From……）和 derive
+
+
+> [!example] Answer
+> 1. 能写完整的小程序：结构体 + 方法 + trait + 泛型和 dyn 的选择
+
+
+> [!abstract] PI
+
+## 计划
+
+**思路：** 你已经有两块地基：一是函数参数的三种用法（`&T` / `&mut T` / `T`），二是“格子大小必须在编译期确定”（节点 C）。这个主题的内容几乎都能从这两点推出来：
+
+1. **结构体**：把几个字段打包成一个值。和 Java 不同，它**直接放在格子里**，不会自动装箱放到堆上。
+2. **方法**：本质上就是普通函数，只是第一个参数叫 `self`。`c.bump()` 就是 `Counter::bump(&mut c)` 的简写。这样 `&self` / `&mut self` / `self` 就直接对上你已经会的借用规则，正好补上你刚才错的那题。
+3. **trait**：相当于 Java 的 interface，要显式写 `impl Trait for Type`。再加上默认方法、标准库 trait（`Display` 等）和 `#[derive]`。
+4. **泛型 `<T: Trait>`**：编译期为每个具体的 T 生成一份代码。T 只能是一个确定的类型，所以不能混放。这是你刚才错的第二题。
+5. **`dyn Trait`**：想混放，就要回到 Java 的做法，放在指针后面：`Box<dyn Shape>` = 数据指针 + 方法表指针。为什么一定要放在指针后面？因为不同类型大小不同，格子的大小定不下来，这可以从节点 C 推出来。
+6. **怎么选**：泛型还是 dyn。
+7. **最后**写一个完整的小程序，把上面的内容串起来。这次由你来写。
+
+```mermaid
+graph TD
+  R1[已掌握：参数的 &T / &mut T / T] --> M[方法 = 第一个参数是 self 的函数]
+  R2[已掌握：格子大小编译期确定] --> S[结构体：字段直接放在格子里]
+  S --> M
+  M --> T[trait：显式实现的共享行为]
+  T --> G[泛型 T: Trait：每个 T 一份代码，不能混放]
+  R2 --> D[dyn Trait：放在指针后面 = 数据指针 + 方法表]
+  T --> D
+  G --> C[泛型 vs dyn 怎么选]
+  D --> C
+  C --> P[目标：完整小程序]
+```
+
+这个计划可以吗？可以的话，我就从“结构体 + 方法”开始讲。
+
+
+> [!quote] YOU
+
+继续
+
+
+> [!abstract] PI
+
+## 节点 S：结构体
+
+**为什么需要它？** 一个“矩形”有宽和高，一个“用户”有名字和年龄。把相关的几个值打包成一个整体，可以作为一个值来传递、存储和 move。
+
+```rust
+struct Rect { w: f64, h: f64 }
+struct User { name: String, age: u32 }
+
+let r = Rect { w: 2.0, h: 3.0 };
+let u = User { name: String::from("ann"), age: 30 };
+println!("{} {}", u.name, r.w);   // 用 . 访问字段
+```
+
+**和 Java 的关键区别：字段直接放在格子里，不会自动装箱放到堆上。** 本机实测：
+
+- `size_of::<Rect>()` = **16**，就是两个 `f64` 的大小，没有对象头，也没有指针。
+- `size_of::<User>()` = **32**，其中 `String` 的 24 字节（ptr/len/cap）加上 `u32` 的 4 字节，再补齐到 8 的倍数。`name` 的字符内容在堆上，那是 `String` 自己管理的，`User` 这个格子里只有那 24 字节。
+
+```
+  u (栈上 32 字节)
+  ┌──────────────────────┐
+  │ name: ptr ───────────┼──▶ 堆: "ann"
+  │       len=3, cap=3   │
+  │ age: 30   (+ 填充)    │
+  └──────────────────────┘
+```
+
+所以所有权规则对结构体整体成立：`User` 拥有它的 `name`；`User` 被 drop 时，`name` 也跟着被 drop；`let u2 = u;` 会 move 整个结构体。
+
+## 节点 M：方法 = 第一个参数是 `self` 的函数
+
+**为什么需要它？** 计算面积、缩放这类操作，属于 `Rect` 自己的行为，应该和数据放在一起。Rust 用 `impl` 块来放这些函数：
+
+```rust
+impl Rect {
+    fn new(w: f64, h: f64) -> Rect { Rect { w, h } }       // 没有 self：关联函数（相当于构造器）
+    fn area(&self) -> f64 { self.w * self.h }               // &self：只读
+    fn scale(&mut self, k: f64) { self.w *= k; self.h *= k; } // &mut self：修改
+    fn into_square(self) -> Rect {                          // self：拿走所有权
+        let s = self.w.max(self.h);
+        Rect { w: s, h: s }
+    }
+}
+```
+
+**核心：方法调用只是简写。** 下面每组两行完全等价（本机实测，结果相同）：
+
+```rust
+r.area();                 Rect::area(&r);
+r.scale(2.0);             Rect::scale(&mut r, 2.0);
+r.into_square();          Rect::into_square(r);
+```
+
+`r.xxx()` 时，编译器根据方法签名里 `self` 的写法，**自动帮你加上 `&` 或 `&mut`，或者直接 move**。所以 `self` 的三种写法，对应的就是你已经熟悉的三种参数：
+
+| 签名 | 等价于 | 调用之后 `r` |
+|---|---|---|
+| `&self` | `f(&r)` | 还能用；借用在这一行结束 |
+| `&mut self` | `f(&mut r)` | 还能用；借用在这一行结束；要求 `r` 声明为 `mut` |
+| `self` | `f(r)` | **被 move，失效** |
+
+如果 `r` 没有声明为 `mut`，就不能调用 `&mut self` 方法（本机实测）：
+
+```
+error[E0596]: cannot borrow `r` as mutable, as it is not declared as mutable
+5 |     r.scale(2.0);
+  |     ^ cannot borrow as mutable
+```
+
+**其他几点：**
+- `new` 只是一个约定俗成的名字，Rust 没有构造器关键字。没有 `self` 参数的函数叫**关联函数**，用 `Rect::new(...)` 调用。
+- `Rect { w, h }` 是简写：变量名和字段名相同时，可以省掉 `w: w`。
+- 常见的命名约定：`into_xxx` 一般接收 `self`，会消耗原来的值。
+
+确认题，就是你刚才错的那道题：
+
+
+> [!question] Quiz
+> 下面这段代码在哪一行报编译错误？
+>
+> ```rust
+> struct Counter { n: u32 }
+>
+> impl Counter {
+>     fn get(&self) -> u32 { self.n }
+>     fn bump(&mut self) { self.n += 1; }
+>     fn finish(self) -> u32 { self.n }
+> }
+>
+> fn main() {
+>     let mut c = Counter { n: 0 };   // 第 10 行
+>     c.bump();                       // 第 11 行
+>     println!("{}", c.get());        // 第 12 行
+>     let total = c.finish();         // 第 13 行
+>     c.bump();                       // 第 14 行
+>     println!("{}", total);          // 第 15 行
+> }
+> ```
+>
+> 1. 第 15 行：total 借自已经被 move 的 c，成了悬空引用
+> 2. 第 12 行：bump 的可变借用还没结束，不能再共享借用
+> 3. 第 14 行：finish 拿走了 c 的所有权，之后 c 失效
+> 4. 第 13 行：get 的共享借用还没结束，不能 move c
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 3. 第 14 行：finish 拿走了 c 的所有权，之后 c 失效
+> Correct answer: 3
+>
+> 把方法调用展开成函数形式：第 11 行是 Counter::bump(&mut c)，借用在这一行结束；第 12 行是 Counter::get(&c)，借用也在这一行结束；第 13 行是 Counter::finish(c)，c 被 move 进去。第 14 行再调用 Counter::bump(&mut c)，用的是一个已经被 move 走的值，所以报 E0382。total 是 finish 返回的 u32，是一个独立的值，不是引用，所以第 15 行没有问题。
+
+
+> [!abstract] PI
+
+## 节点 T：trait
+
+**为什么需要它？** `Circle` 和 `Square` 是两个毫不相关的结构体，但它们都能“算面积”。我们希望有一份**共同的约定**：凡是遵守这份约定的类型，都保证有 `area()` 方法。之后才能写出“对任何形状都适用”的代码（下一个节点的泛型和 dyn）。这就是你熟悉的 interface，Rust 叫它 **trait**。
+
+```rust
+trait Shape {
+    fn area(&self) -> f64;                                 // 只有签名：实现者必须提供
+    fn name(&self) -> String { String::from("shape") }     // 有方法体：默认实现，可以覆盖
+    fn describe(&self) -> String {                         // 默认实现里可以调用其他方法
+        format!("{} with area {:.1}", self.name(), self.area())
+    }
+}
+
+struct Circle { r: f64 }
+struct Square { s: f64 }
+
+impl Shape for Circle {                                    // 显式声明：Circle 实现 Shape
+    fn area(&self) -> f64 { 3.14 * self.r * self.r }
+    fn name(&self) -> String { String::from("circle") }    // 覆盖默认实现
+}
+impl Shape for Square {
+    fn area(&self) -> f64 { self.s * self.s }              // name 用默认实现
+}
+```
+
+本机实测：`c.describe()` → `circle with area 3.1`，`s.describe()` → `shape with area 4.0`。
+
+**和你已知的对照：**
+- **像 Java，不像 Go**：必须显式写 `impl Shape for Square`。只是碰巧有一个 `area` 方法，并不算实现了 Shape。
+- **默认方法**：类似 Java 的 `default` 方法。只需要实现少数几个必需的方法，就能免费得到一批建立在它们之上的方法。迭代器就是这样：你只实现了 `next`，`map`、`filter`、`sum` 等几十个方法都是 `Iterator` trait 的默认实现。
+- **数据和行为分开写**：`struct` 只放字段，`impl Shape for X` 可以写在别处。一个类型可以实现任意多个 trait，不存在继承链。
+- 漏实现必需方法，会在编译期报错（本机实测）：`error[E0046]: not all trait items implemented, missing: area`
+
+### 标准库 trait 与 `#[derive]`
+
+很多语言功能其实都是 trait。比如 `println!("{}", x)` 要求 `x` 实现了 `Display`（本机实测）：
+
+```
+error[E0277]: `Square` doesn't implement `std::fmt::Display`
+```
+
+自己实现一下：
+
+```rust
+use std::fmt;
+impl fmt::Display for Square {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Square({})", self.s)
+    }
+}
+// println!("{}", s)  →  Square(2)
+```
+
+有些 trait 的实现完全是机械的，编译器可以替你生成，写在结构体定义上方就行：
+
+```rust
+#[derive(Debug, Clone, PartialEq)]
+struct Circle { r: f64 }
+// println!("{:?}", c)  →  Circle { r: 1.0 }    （Debug：调试打印）
+// c.clone()                                     （Clone：显式深拷贝，节点 E）
+// c == c2              →  true                  （PartialEq：==）
+```
+
+| trait | 带来什么 | 能否 derive |
+|---|---|---|
+| `Debug` | `{:?}` 调试打印 | ✅ |
+| `Clone` | `.clone()` | ✅ |
+| `Copy` | 赋值时复制而不是 move（要求所有字段都是 Copy） | ✅ |
+| `PartialEq` | `==` | ✅ |
+| `Display` | `{}` 面向用户的打印 | ❌ 要自己写，因为编译器不知道你想怎么展示 |
+
+> 这里就能看出节点 E 的 `Copy` 也是一个 trait。`#[derive(Clone, Copy)] struct Rect { w: f64, h: f64 }` 之后，`Rect` 赋值就是复制。但给含有 `String` 字段的 `User` 加 `Copy` 会编译失败，原因和节点 E 推出来的一样。
+
+确认题：
+
+
+> [!question] Quiz
+> 下面这段代码能编译吗？如果能，输出什么？
+>
+> ```rust
+> trait Greet {
+>     fn name(&self) -> String;
+>     fn hello(&self) -> String {
+>         format!("hello, {}", self.name())
+>     }
+> }
+>
+> struct Dog;
+> struct Cat;
+>
+> impl Greet for Dog {
+>     fn name(&self) -> String { String::from("dog") }
+> }
+> impl Greet for Cat {
+>     fn name(&self) -> String { String::from("cat") }
+>     fn hello(&self) -> String { String::from("meow") }
+> }
+>
+> fn main() {
+>     println!("{}", Dog.hello());
+>     println!("{}", Cat.hello());
+> }
+> ```
+>
+> 1. 能编译，输出 hello, dog 和 hello, cat
+> 2. 能编译，输出 hello, dog 和 meow
+> 3. 不能编译：Cat 不允许重写已有默认实现的 hello
+> 4. 不能编译：Dog 没有实现 hello
