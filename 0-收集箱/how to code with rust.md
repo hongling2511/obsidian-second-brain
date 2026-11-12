@@ -553,3 +553,783 @@ consume: 3
 > 2. 什么都不释放：s 不是所有者，缓冲区仍由 v 负责
 > 3. 把 v 标记为失效：借用结束后所有权归还给了 inspect
 > 4. 释放堆缓冲区：s 离开作用域，顺着指针把数据 drop 掉
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 2. 什么都不释放：s 不是所有者，缓冲区仍由 v 负责
+> Correct answer: 2
+>
+> 规则 3 说的是“所有者离开作用域时 drop 值”。s 是引用，不是所有者，它离开作用域时只是自己那 8 字节的指针作废，不会去释放它指向的东西。缓冲区仍由 v 负责，在 main 结束时 drop。这就是引用的定义：能访问，不负责释放。v 的栈格子属于 main 的栈帧，只有 main 返回时才会作废，别人释放不了它。
+
+
+> [!question] Quiz
+> 如果 Rust 允许这段代码运行，println 那一行会遇到什么问题？
+>
+> 1. first 指向 v 的栈格子，而栈格子地址不变，所以读到的仍是 1
+> 2. first 会被 push 自动更新到新缓冲区，所以读到的仍是 1
+> 3. first 和 v 都是所有者，函数结束时会发生 double free
+> 4. first 指向旧缓冲区，push 扩容时旧缓冲区已被释放，first 悬空
+
+
+> [!warning] Quiz — cancelled
+> (user skipped)
+
+
+> [!question] Question
+> 你连续跳过了两道题。接下来想怎么上课？
+>
+> 1. 少出题，每个节点最后只来一道确认题
+> 2. 不要题，直接讲，多给可运行的代码和真实报错
+> 3. 保持现在的节奏，刚才只是临时跳过
+> 4. 改成让我自己写/改代码来练习
+
+
+> [!example] Answer
+> 1. 少出题，每个节点最后只来一道确认题
+
+
+> [!quote] YOU
+
+你的问题里面的这段代码要明确
+
+
+> [!abstract] PI
+
+明白了：之前的题目只写了“这段代码”，代码本身却在聊天正文里，答题界面上看不到。以后每道题都会把**完整代码**直接放进题目里。
+
+## 节点 H：共享 XOR 可变
+
+**为什么需要它？** 刚才看到的悬空问题有个固定的模式：**有人拿着引用在读，同时有人在改。** 改动（比如 `push` 扩容）可能让别人手里的引用失效。运行时又没人追踪引用，所以只能在编译期禁止这种组合。
+
+从这一点出发，规则可以一条条推出来：
+
+1. **多个人同时读，安全吗？** 安全。读不会改动任何东西，谁的引用都不会失效。所以 `&T` 可以有任意多个。
+2. **有人在改的时候，别人能读吗？** 不能。改动可能让读的人手里的引用悬空（`first` 和 `push` 的例子）。
+3. **两个人同时改呢？** 也不能。一方的改动同样可能让另一方的引用失效，比如一方触发扩容，另一方还拿着旧缓冲区的地址。
+
+合起来就是：**任一时刻，要么有任意多个 `&T`，要么有恰好一个 `&mut T`。**
+
+本机实测，两个 `&mut` 同时存在会报错：
+
+```rust
+fn main() {
+    let mut v = vec![1, 2, 3];
+    let m1 = &mut v;
+    let m2 = &mut v;
+    m1.push(4);
+    m2.push(5);
+}
+```
+```
+error[E0499]: cannot borrow `v` as mutable more than once at a time
+3 |     let m1 = &mut v;
+  |              ------ first mutable borrow occurs here
+4 |     let m2 = &mut v;
+  |              ^^^^^^ second mutable borrow occurs here
+5 |     m1.push(4);
+  |     -- first borrow later used here
+```
+
+**还有一个关键细节：借用到“最后一次使用”就结束了，不是到 `}` 才结束**（这叫 NLL，非词法生命周期）。所以下面这段可以编译，本机实测输出 `3 1` 和 `1 [1, 2, 3, 4]`：
+
+```rust
+fn main() {
+    let mut v = vec![1, 2, 3];
+
+    let a = &v;
+    let b = &v;
+    println!("{} {}", a.len(), b[0]);   // a、b 最后一次使用，共享借用到此结束
+
+    let first = v[0];                   // i32 是 Copy：复制出一个值，不是引用
+    v.push(4);                          // 此时没有任何活着的借用，可以可变借用
+    println!("{} {:?}", first, v);
+}
+```
+
+注意两个报错信息里都有一句 **"later used here"**。编译器判断冲突的依据是：**在可变借用发生之后，那个旧的借用还会不会被用到。**
+
+确认题：
+
+
+> [!question] Quiz
+> 下面这段代码能通过编译吗？
+>
+> ```rust
+> fn main() {
+>     let mut v = vec![1, 2, 3];
+>     let first = &v[0];
+>     println!("{}", first);
+>     v.push(4);
+>     println!("{:?}", v);
+> }
+> ```
+>
+> 1. 不能：只要创建过 &v[0]，v 就再也不能被修改
+> 2. 不能：first 的借用持续到 main 的 } 为止，和 push 冲突
+> 3. 能：push 扩容时会自动把 first 更新到新缓冲区
+> 4. 能：first 最后一次使用在 push 之前，借用已经结束
+
+
+> [!failure] Quiz — incorrect ✗
+> Your answer: 1. 不能：只要创建过 &v[0]，v 就再也不能被修改
+> Correct answer: 4
+>
+> 借用从创建开始，到最后一次使用为止（NLL）。first 最后一次使用是第一个 println，push 发生在那之后，此时已经没有活着的共享借用，所以和 &mut 不冲突，可以编译。规则要防的是“改动之后还有人拿着旧引用去用”，这里没有这种情况：push 之后 first 再也没被用过，就算它悬空了也无所谓，反正没人会去读它。first 也不会被自动更新，只是不再被使用而已。
+
+
+> [!question] Quiz
+> 下面这段代码的编译结果是什么？
+>
+> ```rust
+> fn main() {
+>     let mut v = vec![1, 2, 3];
+>     let a = &v;
+>     let b = &v;
+>     println!("{}", a.len());
+>     v.push(4);
+>     println!("{}", b.len());
+> }
+> ```
+>
+> 1. 报错：a 和 b 两个共享借用同时存在，彼此冲突
+> 2. 报错：a 的借用区间一直延伸到最后一行，覆盖了 push
+> 3. 报错：b 的借用区间一直延伸到最后一行，覆盖了 push
+> 4. 通过：a 在 push 之前已最后一次使用，借用均已结束
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 3. 报错：b 的借用区间一直延伸到最后一行，覆盖了 push
+> Correct answer: 3
+>
+> 每个借用各算各的区间。a 从第 3 行到第 5 行，在 push 之前就结束了，没有问题。b 从第 4 行一直到第 7 行，push 正好落在它的区间里，所以冲突。本机实测报错 E0502，编译器指向的正是 b：第 4 行“immutable borrow occurs here”，第 7 行“immutable borrow later used here”。a 和 b 同时存在没有问题，因为共享引用可以有任意多个。
+
+
+> [!abstract] PI
+
+答对了，节点 H 讲完。
+
+**F + H 小结：**
+- **引用**：`&T` 只读，`&mut T` 可读可写。两种引用都不是所有者，离开作用域时不释放任何东西。
+- **共享 XOR 可变**：任一时刻，一个值要么有任意多个 `&T`，要么只有一个 `&mut T`。
+- **借用是一段区间**：从创建到最后一次使用为止。编译器只检查这些区间有没有冲突地重叠。
+
+**依赖图进度：** A ✅ B ✅ C ✅ D ✅ F ✅ G ✅ H ✅
+
+还剩下：
+- **E（Copy）**：上面 `let first = v[0]` 为什么不是 move？这一节很短。
+- **I（生命周期）**：H 管的是“借用期间别人不能乱改”。I 管的是另一件事：**引用不能比它指向的东西活得更久**，比如函数返回一个指向自己局部变量的引用。区间这个概念会在那里直接用上。
+- **J（地道写法）**
+
+下一步先快速讲完 E，再讲 I，可以吗？
+
+
+> [!quote] YOU
+
+继续
+
+
+> [!abstract] PI
+
+## 节点 E：Copy
+
+**为什么需要它？** 上一节有这么一行：`let first = v[0];`，之后 `v` 和 `first` 都还能用。按节点 D 的规则，赋值应该是 move，那这里为什么不是？
+
+**回到 move 存在的原因。** 我们规定 move，是因为复制 `Vec` 的 24 字节会让**两份 ptr 指向同一块堆内存**，结果是 double free。问题的根源在于这 24 字节**管理着一份外部资源**。
+
+再看 `i32`。它就是 4 个字节，本身就是全部数据，不指向任何东西，也没有什么需要释放。把这 4 字节复制一份，得到的是一个**完全独立**的值，以后谁也不会去释放谁。
+
+所以：**如果按位复制一份不会引发任何问题，就没必要 move，直接复制就行。** Rust 把这样的类型标记为 `Copy`。
+
+由此可以判断哪些类型是 Copy：
+- **是 Copy**：整数、浮点数、`bool`、`char`，以及全部由 Copy 类型组成的元组和数组，比如 `(i32, bool)`、`[u8; 4]`。
+- **不是 Copy**：`String`、`Vec` 这类拥有堆资源的类型。实现了 `Drop` 的类型一律不能是 Copy：既然有东西要释放，按位复制就会释放两次。要复制它们，得显式写 `.clone()`，深拷贝一份堆数据。
+
+**引用的情况能和节点 H 对上**（本机实测）：
+
+```rust
+fn main() {
+    let v = vec![1, 2, 3];
+    let r1 = &v;
+    let r2 = r1;               // &T 是 Copy，r1 仍可用
+    println!("{} {}", r1.len(), r2.len());   // 输出：3 3
+}
+```
+
+```rust
+fn main() {
+    let mut v = vec![1, 2, 3];
+    let m1 = &mut v;
+    let m2 = m1;               // &mut T 不是 Copy → move
+    m2.push(4);
+    m1.push(5);
+}
+```
+```
+error[E0382]: borrow of moved value: `m1`
+  |     let m1 = &mut v;
+  |         -- move occurs because `m1` has type `&mut Vec<i32>`, which does not implement the `Copy` trait
+```
+
+`&T` 可以随便复制，因为共享引用本来就允许有任意多个。`&mut T` 如果能复制，就会同时出现两个可变引用，违反“只能有一个 `&mut`”。所以它只能 move。**Copy 与否，直接取决于 H 的规则。**
+
+确认题：
+
+
+> [!question] Quiz
+> 下面哪些类型是 Copy？（多选）
+>
+> ```rust
+> i32
+> (i32, bool)
+> String
+> &String
+> &mut String
+> ```
+>
+> 1. String
+> 2. &String
+> 3. &mut String
+> 4. i32
+> 5. (i32, bool)
+
+
+> [!failure] Quiz — incorrect ✗
+> Your answer: 4. i32, 5. (i32, bool)
+> Correct answer: 2, 4, 5
+>
+> i32：纯数据，不管理任何资源，是 Copy。(i32, bool)：每个成员都是 Copy，整体也是。String：管理着堆缓冲区，复制 ptr 会导致 double free，所以不是。&String：共享引用，允许有任意多个，复制一份不违反任何规则，是 Copy（被复制的是引用本身，不是它指向的 String）。&mut String：复制会产生两个可变引用，违反共享 XOR 可变，所以不是。
+
+
+> [!question] Quiz
+> 下面这段代码能编译吗？
+>
+> ```rust
+> fn show(s: &String) {
+>     println!("{}", s);
+> }
+>
+> fn main() {
+>     let s = String::from("hi");
+>     let r = &s;
+>     show(r);
+>     show(r);
+> }
+> ```
+>
+> 1. 不能：s 已经被 r 借走，show 不能再借第二次
+> 2. 不能：第一次 show(r) 把 r move 走了，第二次使用报 E0382
+> 3. 能：传参时复制的是引用 r，r 是 Copy，之后仍可用
+> 4. 能：传参时自动 clone 了一份 String，每次传的是新副本
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 3. 能：传参时复制的是引用 r，r 是 Copy，之后仍可用
+> Correct answer: 3
+>
+> show(r) 相当于 `let s_param = r;`，而 r 的类型是 &String，是 Copy，所以这里复制的是 8 字节的地址，r 不会失效。String 没有被复制，也没有被 clone，自始至终只有 s 这一个所有者、一个堆缓冲区。共享借用可以有任意多个，所以也不存在借用冲突。如果把参数类型换成 String、传 s 进去，那就是 move，第二次调用会报 E0382。
+
+
+> [!abstract] PI
+
+答对了，节点 E 讲完。
+
+**E 小结：** Copy 不是一条额外的规则，它可以从前面的规则推出来。把值本身的字节复制一份，只要不违反“唯一所有者”和“共享 XOR 可变”，这个类型就可以是 Copy。所以 `i32` 和 `&T` 是 Copy；`String`、`Vec`、`&mut T` 不是，它们在赋值和传参时会 move，想复制得显式 `.clone()`。
+
+**进度：** A B C D E F G H ✅，还剩 **I（生命周期）** 和 **J（地道写法）**。
+
+下一个讲 I，它从这个问题开始：
+
+```rust
+fn make_ref() -> &String {
+    let s = String::from("hi");
+    &s
+}
+```
+
+这个函数想把局部变量的引用返回出去，它会出什么问题，编译器又是怎么发现的？准备好了说“继续”。
+
+
+> [!quote] YOU
+
+继续
+
+
+> [!abstract] PI
+
+## 节点 I：生命周期（上半部分）
+
+**为什么需要它？** H 防的是“借用期间所有者被改”。还有另一种情况 H 管不到：**借用期间所有者直接没了**。
+
+```rust
+fn make_ref() -> &String {
+    let s = String::from("hi");
+    &s
+}
+```
+
+跟着规则走一遍：`s` 是所有者，在 `}` 处离开作用域，堆缓冲区被 drop，`s` 所在的栈帧也作废了。可是返回出去的 `&s` 指向的正是这个已经作废的栈格子。调用者拿到的从一开始就是悬空引用。
+
+这里没有任何修改，所以 H 拦不住。我们需要第二条约束。把节点 H 里“借用是一段区间”的说法再用一次：
+
+- **借用区间**：引用从创建到最后一次使用
+- **所有者存活区间**：所有者从创建到被 drop（或被 move 走）
+
+> **借用区间必须完整地落在所有者存活区间之内。** 引用不能比它指向的东西活得更久。
+
+一个引用的有效区间就叫它的**生命周期**（lifetime）。编译器的“借用检查器”做的就是这两件事：区间不能冲突地重叠（H），区间不能超出所有者（I）。
+
+**函数内部的例子**（本机实测）：
+
+```rust
+fn main() {
+    let r;
+    {
+        let s = String::from("hi");
+        r = &s;
+    }                       // s 在这里被 drop
+    println!("{}", r);      // r 还在用
+}
+```
+```
+error[E0597]: `s` does not live long enough
+5 |         r = &s;
+  |             ^^ borrowed value does not live long enough
+6 |     }
+  |     - `s` dropped here while still borrowed
+7 |     println!("{}", r);
+  |                    - borrow later used here
+```
+
+报错信息就是那条规则的原话：**`s` 已经被 drop，借用却还在用。**
+
+**回到 `make_ref`。** 本机编译会先报 E0106 `missing lifetime specifier`，并附一句 *"there is no value for it to be borrowed from"*：返回的是引用，但参数里什么都没有，那它借的是谁？下半部分会讲这一点。编译器给出的修法是：
+
+```rust
+fn make_ref() -> String {        // 不返回引用，直接把所有权 move 出去
+    let s = String::from("hi");
+    s
+}
+```
+
+所有权跟着返回值交给调用者，不会悬空。这就是节点 D 里“责任跟着数据走”。
+
+确认题：
+
+
+> [!question] Quiz
+> 下面这段代码能编译吗？
+>
+> ```rust
+> fn main() {
+>     let s = String::from("hi");
+>     let r;
+>     {
+>         let t = &s;
+>         r = t;
+>     }
+>     println!("{}", r);
+> }
+> ```
+>
+> 1. 能：r 借的是 s，s 活到 main 结束，覆盖了 r 的使用
+> 2. 不能：r = t 把 t move 走了，之后 t 离开作用域时会出错
+> 3. 不能：t 在内层 } 处失效，从 t 复制来的 r 也跟着悬空
+> 4. 不能：s 同时被 t 和 r 两个引用借用，发生冲突
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 1. 能：r 借的是 s，s 活到 main 结束，覆盖了 r 的使用
+> Correct answer: 1
+>
+> 关键要看引用指向的是谁。t 和 r 都指向 s，不指向 t。t 是 &String，是 Copy，所以 r = t 复制的是地址。t 在内层 } 处失效，只是 t 这个变量没了，r 手里的地址仍然指着 s。s 一直活到 main 结束，r 的借用区间完整地落在 s 的存活区间里，所以合法。两个共享引用同时存在也没有问题。与 E0597 那个例子对比：那里是被借的 s 在内层作用域里，这里在内层作用域里的只是 t 这个引用。
+
+
+> [!abstract] PI
+
+## 节点 I：生命周期（下半部分）——函数签名上的 `'a`
+
+**为什么需要它？** 刚才的例子都在一个函数里，编译器能看到所有代码。但 Rust **单独检查每个函数**：检查调用方时，它**只看被调函数的签名，不看函数体**。这样编译快，改函数体也不会牵连调用方。
+
+于是有个问题。看这个签名（本机实测会报错）：
+
+```rust
+fn longer(a: &String, b: &String) -> &String {
+    if a.len() >= b.len() { a } else { b }
+}
+```
+```
+error[E0106]: missing lifetime specifier
+  = help: this function's return type contains a borrowed value,
+          but the signature does not say whether it is borrowed from `a` or `b`
+```
+
+调用方拿到返回的引用后，要检查“借用区间不超出所有者”。可**所有者是谁**？是 `a` 指向的那个，还是 `b` 指向的那个？光看签名回答不了。
+
+**所以签名里需要一个标注，把输出和输入连起来：**
+
+```rust
+fn longer<'a>(a: &'a String, b: &'a String) -> &'a String {
+    if a.len() >= b.len() { a } else { b }
+}
+```
+
+`'a` 是一个**生命周期参数**，用法和泛型 `<T>` 一样。它的意思是：**返回的引用最多只能活到 `a` 和 `b` 指向的东西都还活着的时候。** 它不会改变任何东西的实际寿命，只是一个约定，让调用方能检查。
+
+调用方按签名检查（本机实测）：
+
+```rust
+fn main() {
+    let x = String::from("hello");
+    let r;
+    {
+        let y = String::from("hi");
+        r = longer(&x, &y);
+    }                       // y 被 drop
+    println!("{}", r);
+}
+```
+```
+error[E0597]: `y` does not live long enough
+ 9 |         r = longer(&x, &y);
+   |                        ^^ borrowed value does not live long enough
+10 |     }
+   |     - `y` dropped here while still borrowed
+11 |     println!("{}", r);
+```
+
+注意：运行时 `x` 更长，`r` 实际会指向 `x`，本来是安全的。但编译器**只看签名**，签名说 `r` 可能借自 `y`，所以拒绝。这就是“只看签名”的代价：宁可多拦，也不漏过。
+
+**为什么平时很少写 `'a`？** 大部分情况编译器能按**省略规则**自己补上。最常见的一条是：**只有一个输入引用时，输出引用就借自它。**
+
+```rust
+fn first(v: &Vec<i32>) -> &i32 {   // 自动推断成 fn first<'a>(v: &'a Vec<i32>) -> &'a i32
+    &v[0]
+}
+```
+
+只有像 `longer` 这样有多个输入引用、编译器猜不出来的时候，才需要你自己写。（另外，带 `&self` 的方法默认输出借自 `self`。）
+
+确认题：
+
+
+> [!question] Quiz
+> 下面这段代码能编译吗？
+>
+> ```rust
+> fn pick<'a, 'b>(a: &'a String, b: &'b String) -> &'a String {
+>     println!("{}", b);
+>     a
+> }
+>
+> fn main() {
+>     let x = String::from("hello");
+>     let r;
+>     {
+>         let y = String::from("hi");
+>         r = pick(&x, &y);
+>     }
+>     println!("{}", r);
+> }
+> ```
+>
+> 1. 能：签名说返回值只借自 a（x），x 活得够久
+> 2. 不能：y 也被传进了 pick，在内层 } 处 drop 后 r 可能悬空
+> 3. 不能：'a 和 'b 不同，两个参数必须用同一个生命周期
+> 4. 能：编译器看了函数体，发现实际返回的是 a
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 1. 能：签名说返回值只借自 a（x），x 活得够久
+> Correct answer: 1
+>
+> 签名写的是返回值 &'a String，只和 a 的生命周期绑定，和 'b 无关。所以调用方只要求 x 活得比 r 久，y 被 drop 不影响 r。本机实测能编译，输出 hi、hello。编译器不是靠看函数体得出这个结论的，它只看签名：如果签名写成 &'b String，或者像 longer 那样两个参数共用 'a，同样的 main 就会报 E0597。函数体内部则会被单独检查：如果函数体里返回 b，就和签名里的 'a 对不上，pick 自己会编译失败。
+
+
+> [!abstract] PI
+
+答对了，节点 I 讲完。
+
+**I 小结：**
+- **生命周期** = 引用有效的那段区间。规则只有一条：**它必须落在所有者的存活区间之内**，否则报 E0597 或 E0515。
+- 编译器**分函数检查、只看签名**，所以返回引用的函数要在签名里说明返回值借自哪个参数（`'a`）。只有一个输入引用这类常见情况，可以按省略规则自动推断。
+
+**到目前为止，整个所有权体系都从两个根节点推出来：**
+
+```mermaid
+graph TD
+  B[堆内存恰好释放一次] --> D[唯一所有者 + 离开作用域 drop]
+  C[栈上小结构 → 堆缓冲区<br>运行时不追踪指针] --> D
+  D --> E[move；无资源的类型可 Copy]
+  D --> F[借用：用而不负责释放]
+  F --> H[区间不冲突：共享 XOR 可变]
+  F --> I[区间不越界：生命周期]
+  H --> E
+```
+
+还剩最后一个节点 **J：地道写法**，内容包括：
+- `&str` 和 `String`（以及 `&[T]` 和 `Vec<T>`）：函数参数为什么通常写 `&str`
+- `Option`/`Result` + `match` + `?`：可以直接套用你熟悉的可辨识联合
+- 什么时候 `clone` 是合理的，迭代器为什么能绕开很多借用冲突
+
+要继续讲 J 吗？
+
+
+> [!quote] YOU
+
+继续
+
+
+> [!abstract] PI
+
+J 的内容比较多，分三段讲，每段一道题。
+
+## J1：`&str` 和 `&[T]`：参数为什么通常写切片
+
+**为什么需要它？** 前面的函数参数一直写的是 `&String`。这样写会出问题（本机实测）：
+
+```rust
+fn shout(s: &String) -> String { s.to_uppercase() }
+fn main() { shout("literal"); }
+```
+```
+error[E0308]: mismatched types
+  |             ^^^^^^^^^ expected `&String`, found `&str`
+```
+
+字符串字面量 `"literal"` 不是 `String`。它是编译进程序里的一段只读字节，没有放在堆上，也没有 cap。另外，如果只想传 `"hello world"` 的前 5 个字符，用 `&String` 也做不到，因为 `&String` 只能指向一整个 `String`。
+
+**推一下：** 一个**只读**字符串的函数，到底需要知道什么？
+- `ptr`：从哪里开始读，需要。
+- `len`：读多少个字节，需要。
+- `cap`：不需要。只读的话不能 push，容量和它无关。
+
+所以只需要 **(ptr, len)**。这就是**切片**：`&str` 是字符串切片，`&[T]` 是数组切片。它们直接指向某块数据中的**一段**，不管这段数据住在哪里：
+
+```
+  owned: [ptr, len=11, cap=11] ──▶ 堆: h e l l o ␣ w o r l d
+                                      ▲
+  &owned[0..5]: [ptr, len=5] ─────────┘           （指向同一缓冲区的前 5 字节）
+
+  "literal":   [ptr, len=7] ──▶ 程序只读数据区: l i t e r a l
+```
+
+本机测量的大小：`&String` 8 字节（一个地址），`&str` 16 字节（ptr + len），`String` 24 字节（ptr + len + cap）。
+
+所以函数参数写 `&str`，**哪种来源都能接收**（本机实测）：
+
+```rust
+fn shout(s: &str) -> String { s.to_uppercase() }
+fn sum(xs: &[i32]) -> i32 { let mut t = 0; for x in xs { t += x; } t }
+
+fn main() {
+    let owned = String::from("hello world");
+    shout(&owned);        // &String 自动转成 &str  → "HELLO WORLD"
+    shout("literal");     // 字面量本身就是 &str    → "LITERAL"
+    shout(&owned[0..5]);  // 子串                   → "HELLO"
+
+    let v = vec![1, 2, 3, 4];
+    sum(&v);              // &Vec<i32> 自动转成 &[i32] → 10
+    sum(&v[1..3]);        // 子切片                    → 5
+    sum(&[10, 20]);       // 数组                      → 30
+}
+```
+
+**地道写法的规则：**
+- **只读参数用 `&str` / `&[T]`。**
+- **需要拥有或修改时用 `String` / `Vec<T>`**，比如存进结构体、要 push、要从函数里返回新数据。
+
+切片也是借用，所以 H 和 I 的规则照样适用：
+
+
+> [!question] Quiz
+> 下面这段代码能编译吗？
+>
+> ```rust
+> fn first_word(s: &str) -> &str {
+>     match s.find(' ') {
+>         Some(i) => &s[..i],
+>         None => s,
+>     }
+> }
+>
+> fn main() {
+>     let mut s = String::from("hello world");
+>     let w = first_word(&s);
+>     s.clear();
+>     println!("{}", w);
+> }
+> ```
+>
+> 1. 能：clear 只把 len 设为 0，不释放缓冲区，w 仍然有效
+> 2. 不能：w 借自 s，它的借用区间覆盖了需要 &mut s 的 clear
+> 3. 能：w 是一个独立的 &str，和 s 的缓冲区没有关系
+> 4. 不能：first_word 有输入输出引用却没写 'a，签名缺少生命周期
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 2. 不能：w 借自 s，它的借用区间覆盖了需要 &mut s 的 clear
+> Correct answer: 2
+>
+> first_word 只有一个输入引用，按省略规则，返回值借自 s，签名不用写 'a。所以 w 是指向 s 缓冲区前 5 字节的切片，它的借用区间从第 10 行持续到第 12 行的 println。clear 的签名是 &mut self，需要可变借用，而且正好落在 w 的区间里，违反共享 XOR 可变，本机实测报 E0502。至于 clear 实际会不会释放缓冲区，编译器不关心：它只看签名里有没有 &mut，不看实现细节。这和 I 里“只看签名”是同一个原则。
+
+
+> [!abstract] PI
+
+## J2：`Option` / `Result` + `match` + `?`
+
+**为什么需要它？** 你熟悉的两种做法各有一个坑：
+- **null**（Java/Go/JS）：任何引用都可能是 null。类型系统不区分“可能没有”和“一定有”，所以忘了检查要到运行时才炸。
+- **异常**（Java/Python）：函数签名里看不出它会不会失败，错误会隐形地往上抛。
+
+Rust 的做法是用你已经掌握的**可辨识联合**，把“可能没有”和“可能失败”**写进类型里**：
+
+```rust
+enum Option<T> { Some(T), None }        // 可能没有值
+enum Result<T, E> { Ok(T), Err(E) }     // 可能失败，失败时带着错误 E
+```
+
+这里没有新机制。它们就是标准库里定义的两个普通 `enum`，相当于 TypeScript 的 `{kind:"some", value:T} | {kind:"none"}`。
+
+**拿到 `Option<i32>`，就不能直接当 `i32` 用**（本机实测）：
+
+```rust
+let x = find_even(&[1, 4]);   // x: Option<i32>
+println!("{}", x + 1);
+```
+```
+error[E0369]: cannot add `{integer}` to `Option<i32>`
+```
+
+必须先用 `match` 拆开，而且 **`match` 必须覆盖所有变体**（本机实测）：
+
+```rust
+fn f(o: Option<i32>) -> i32 {
+    match o {
+        Some(x) => x,
+    }
+}
+```
+```
+error[E0004]: non-exhaustive patterns: `None` not covered
+```
+
+这正是 null 那个坑的反面：**“忘了处理没有值的情况”在编译期就会被拦下来。**
+
+**`?`：把错误往上传，但写在明处。** 处理 `Result` 时，最常见的需求是“这一步失败了，就把错误原样交给调用者”。每次都写 `match` 很啰嗦，`?` 就是它的简写：
+
+```rust
+let n = s.parse::<i32>()?;
+// 等价于：
+let n = match s.parse::<i32>() {
+    Ok(v) => v,
+    Err(e) => return Err(e.into()),   // 提前返回
+};
+```
+
+它像异常一样会往上传，但有两点不同：**每个可能失败的地方都标着 `?`，函数签名里也必须写明 `Result`。**
+
+完整例子（本机实测）：
+
+```rust
+use std::num::ParseIntError;
+
+fn find_even(xs: &[i32]) -> Option<i32> {
+    for &x in xs {
+        if x % 2 == 0 { return Some(x); }
+    }
+    None
+}
+
+fn parse_and_double(s: &str) -> Result<i32, ParseIntError> {
+    let n = s.parse::<i32>()?;
+    Ok(n * 2)
+}
+
+fn main() {
+    match find_even(&[1, 3, 4, 5]) {
+        Some(x) => println!("found {}", x),   // → found 4
+        None => println!("none"),
+    }
+    println!("{:?}", parse_and_double("21"));  // → Ok(42)
+    println!("{:?}", parse_and_double("abc")); // → Err(ParseIntError { kind: InvalidDigit })
+}
+```
+
+确认题：
+
+
+> [!question] Quiz
+> 下面这段程序输出什么？
+>
+> ```rust
+> use std::num::ParseIntError;
+>
+> fn total(a: &str, b: &str) -> Result<i32, ParseIntError> {
+>     let x = a.parse::<i32>()?;
+>     let y = b.parse::<i32>()?;
+>     println!("parsed both");
+>     Ok(x + y)
+> }
+>
+> fn main() {
+>     println!("{:?}", total("1", "x"));
+> }
+> ```
+>
+> 1. 先输出 parsed both，再输出 Err(ParseIntError { kind: InvalidDigit })
+> 2. 程序 panic 崩溃，打印解析错误信息后退出
+> 3. 只输出 Err(ParseIntError { kind: InvalidDigit })
+> 4. 输出 Ok(1)，解析失败的 b 被当作 0
+
+
+> [!failure] Quiz — incorrect ✗
+> Your answer: 1. 先输出 parsed both，再输出 Err(ParseIntError { kind: InvalidDigit })
+> Correct answer: 3
+>
+> "1" 解析成功，x = 1。"x" 解析失败，第二个 ? 拿到 Err，立即 return Err(...)，后面的 println 和 Ok(x + y) 都不会执行。main 收到 Err 并打印出来。本机实测只输出这一行。? 不会 panic，也不会把错误吞掉换成默认值，它只做提前返回，把错误交给调用者处理。
+
+
+> [!question] Quiz
+> 下面这段程序输出什么？
+>
+> ```rust
+> fn get(xs: &[i32], i: usize) -> Option<i32> {
+>     let v = xs.get(i)?;          // 越界时 get 返回 None
+>     println!("got {}", v);
+>     Some(v * 10)
+> }
+>
+> fn main() {
+>     println!("{:?}", get(&[1, 2], 0));
+>     println!("{:?}", get(&[1, 2], 5));
+> }
+> ```
+>
+> 1. got 1 / Some(10)，然后程序因为越界 panic
+> 2. got 1 / Some(10) / None
+> 3. got 1 / Some(10) / got 0 / None
+> 4. got 1 / Some(10) / got None / None
+
+
+> [!failure] Quiz — incorrect ✗
+> Your answer: 4. got 1 / Some(10) / got None / None
+> Correct answer: 2
+>
+> 第一次调用：get(0) 返回 Some(&1)，? 取出值，继续执行，打印 got 1，返回 Some(10)。第二次调用：get(5) 越界，返回 None，? 立即 return None，println 执行不到。所以输出是三行：got 1、Some(10)、None。? 用在 Option 上和用在 Result 上一样，都是“失败就提前返回”。xs.get(i) 不会 panic，用 xs[i] 越界才会 panic，这也是地道写法更常用 get 的原因。
+
+
+> [!question] Quiz
+> 下面代码中 a 和 b 的类型分别是什么？
+>
+> ```rust
+> fn demo(xs: &[i32]) -> Option<i32> {
+>     let a = xs.get(0);
+>     let b = xs.get(0)?;
+>     Some(*b)
+> }
+> ```
+>
+> 1. a: Option<&i32>，b: &i32
+> 2. a: Option<&i32>，b: Option<&i32>
+> 3. a: &i32，b: Option<&i32>
+> 4. a: Option<&i32>，b: Option<i32>
