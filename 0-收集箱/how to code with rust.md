@@ -1493,3 +1493,107 @@ graph TD
 - **动手练习**：[Rustlings](https://github.com/rust-lang/rustlings) 的 move_semantics、options、error_handling 几组题，正好对应今天的内容。
 
 下一步想学哪一块，还是先找段代码动手写写？
+
+
+> [!quote] YOU
+
+先找段代码动手写下
+
+
+> [!abstract] PI
+
+我建好了一个练习项目，一共 4 道题，每道题对应今天讲过的一个节点。我先在一份临时副本里写了参考答案，确认 6 个测试都能通过。答案没有放进你的项目里。
+
+**项目位置：** `/Users/hongling/learn/rust-practice/src/lib.rs`
+
+| 题 | 内容 | 练的节点 |
+|---|---|---|
+| 练习 4（**先做这道**） | 给 `total_len` 选对参数类型 | F 借用 / D 所有权 / J1 切片 |
+| 练习 1 | `longest_word(s: &str) -> Option<&str>` | J1 切片、I 生命周期省略、J2 Option |
+| 练习 2 | `parse_scores`：解析 `"90, 85,100"` | J2 Result + `?` |
+| 练习 3 | 把每个奇数 ×10 追加到 Vec 末尾 | H 共享 XOR 可变、J3 迭代器 |
+
+**为什么先做练习 4？** 它的签名现在故意写错了，导致测试代码整体编译不过，其他题也就跑不了。`cargo test` 会把所有测试一起编译。
+
+**怎么做：**
+1. 打开 `src/lib.rs`，把 `todo!()` 换成你的实现。除了练习 4，不要改函数签名，也不要改测试。
+2. 在终端里运行：
+   ```bash
+   cd /Users/hongling/learn/rust-practice
+   cargo test            # 跑全部测试
+   cargo test ex1        # 只跑练习 1
+   ```
+3. 先读编译器的报错，它通常已经指向答案了。
+4. 练习 3 建议先写最直接的错误写法（`for x in &v { v.push(..) }`），亲眼看一次 E0502，再改对。
+
+**卡住了，或者做完一题，就把报错或代码贴给我，或者直接说“看看练习 N”，我去读你的文件。** 我会先看你的思路哪里对、哪里偏，然后再给提示，不会直接给答案。
+
+
+> [!quote] YOU
+
+帮我填上练习 1
+
+
+> [!abstract] PI
+
+文件好像被你改过了，我先读一下当前内容：
+
+
+> [!abstract] PI
+
+练习 1 已经填好，两个 `ex1` 测试都通过了：
+
+```rust
+pub fn longest_word(s: &str) -> Option<&str> {
+    let mut best: Option<&str> = None; // 还没见过任何单词
+
+    for w in s.split_whitespace() {
+        // w: &str，指向 s 缓冲区里的一段（没有复制任何字符）
+        let is_longer = match best {
+            None => true,                 // 第一个单词，直接收
+            Some(b) => w.len() > b.len(), // 严格更长才替换 → 平局保留先出现的
+        };
+        if is_longer {
+            best = Some(w);
+        }
+    }
+
+    best
+}
+```
+
+**每一行用到的知识：**
+- **`Option<&str>` 作为“目前最好的”（J2）**：一开始没有单词，所以初始值是 `None`。`match` 强制你处理“还没有”这种情况，不会出现 null 那样的坑。
+- **`w` 是切片（J1）**：`split_whitespace()` 不复制任何字符，每个 `w` 都是 `(ptr, len)`，直接指向 `s` 的缓冲区。`best` 里存的也只是这样一个切片。
+- **为什么不用写 `'a`（I）**：只有一个输入引用 `s`，按省略规则，返回值借自 `s`。返回的那个切片确实指向 `s` 的缓冲区，所以签名说的是实话。这就是测试 `ex1_result_borrows_from_input` 能通过的原因：`owned` 活着，`w` 就有效。
+- **`>` 而不是 `>=`**：长度相同时不替换，保留先出现的那个，这是题目的要求。
+
+**一个陷阱（本机验证过）：** 你可能会想用更短的写法 `s.split_whitespace().max_by_key(|w| w.len())`，它也返回 `Option<&str>`。但遇到多个一样长的单词时，`max_by_key` 返回的是**最后一个**：`"a bb cc"` 会得到 `Some("cc")`，测试会失败。所以这里自己写了循环。
+
+**顺带看了一下你的练习 4：** 你把签名改成了 `&Vec<String>`，测试能编译了，这一步是对的。但它现在失败了（`left: 2, right: 5`），因为 `words.len()` 返回的是**单词个数**，题目要的是**所有单词的字节长度之和**。另外，`&Vec<String>` 和 `&[String]` 哪个更地道，可以回想一下 J1。
+
+练习 2、3 还是 `todo!()`，所以会 panic，这是预期中的。下一步你想自己修练习 4，还是先做练习 2？
+
+
+> [!quote] YOU
+
+有修改本地文件嘛
+
+
+> [!abstract] PI
+
+有改。下面是我做过的全部本地修改：
+
+**`/Users/hongling/learn/rust-practice/`（练习项目）**
+1. **创建项目**：运行了 `cargo new --lib rust-practice`，生成 `Cargo.toml`、`src/lib.rs`、`.gitignore`，并初始化了一个 git 仓库（还没有任何提交）。`Cargo.lock` 是之后跑 `cargo test` 时自动生成的。
+2. **写入 `src/lib.rs`**：4 道练习题、`todo!()` 占位和测试代码。
+3. **在文件头加了一段提示**：“⚠️ 先做练习 4……”。
+4. **刚才填了练习 1**：只改了 `longest_word` 的函数体。把你那边的 `{}` 换成了上一条消息里那段实现。
+
+**没动的：** 你自己改的练习 4（`&Vec<String>` 签名和 `words.len()`）我没碰，练习 2、3 也没碰。
+
+**`/tmp/` 下的临时文件**（和你的项目无关）：讲课时用来实测编译器报错的小 `.rs` 文件放在 `/tmp/rs/`；验证参考答案用的项目副本放在 `/tmp/rp`、`/tmp/rp1`。`/tmp/rp` 里有全部 4 题的参考答案。
+
+`/Users/hongling/learn` 下的其他目录我都没动过。
+
+如果想撤回练习 1 的填写、自己重新做，我可以把它恢复成 `todo!()`。另外，项目还没有任何 git 提交，所以要看改动只能看当前文件内容，没法用 `git diff`。
