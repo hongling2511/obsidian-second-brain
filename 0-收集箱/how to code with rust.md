@@ -3336,3 +3336,176 @@ pub fn describe_all(&self) -> Vec<String> {
 - `.as_ref()` 用对了地方，`Option<&dyn Shape>` 的生命周期也没出问题。
 
 **建议：** 按第 1 点把 `largest` 改掉，然后再跑一次 `cargo test`。如果想更进一步，可以把这个零面积的反例**自己写成一个测试**加进 tests 模块。发现 bug 之后先写一个能复现它的测试，再去修，这在实际开发中是很好的习惯。
+
+
+> [!quote] YOU
+
+好的 下一个主题把
+
+
+> [!question] Question
+> 下一个主题想学哪个？
+>
+> 1. 智能指针：Box / Rc / RefCell，多个所有者和“内部可变性”
+> 2. 并发：线程、Arc / Mutex、Send / Sync
+> 3. 错误处理进阶 + 工程化：自定义错误、From、模块、Cargo 依赖
+> 4. 集合与闭包进阶：HashMap、Fn / FnMut / FnOnce、结构体里的生命周期
+
+
+> [!example] Answer
+> 3. 错误处理进阶 + 工程化：自定义错误、From、模块、Cargo 依赖
+
+
+> [!abstract] PI
+
+先摸一下底。错误处理这块你已经掌握了 `Result` 和 `?` 的基本用法，所以直接从更难的地方开始问：
+
+
+> [!question] Quiz
+> 下面这段代码的编译结果是什么？（`fs::read_to_string` 返回 `Result<String, std::io::Error>`）
+>
+> ```rust
+> use std::fs;
+> use std::num::ParseIntError;
+>
+> fn read_number(path: &str) -> Result<i32, ParseIntError> {
+>     let text = fs::read_to_string(path)?;
+>     let n = text.trim().parse::<i32>()?;
+>     Ok(n)
+> }
+> ```
+>
+> 1. 编译失败：一个函数里只能使用一次 ?
+> 2. 能编译：? 会把任何错误都原样向上传，不管类型
+> 3. 编译失败：第一个 ? 的错误是 io::Error，转不成函数声明的 ParseIntError
+> 4. 能编译，但读文件失败时会 panic，因为 io::Error 没处从返回
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 3. 编译失败：第一个 ? 的错误是 io::Error，转不成函数声明的 ParseIntError
+> Correct answer: 3
+>
+> ? 失败时执行的是 return Err(From::from(e))：它会尝试把错误转换成函数签名里声明的错误类型。这里函数声明返回 ParseIntError，但第一个 ? 拿到的是 io::Error，而标准库并没有提供 io::Error → ParseIntError 的转换，所以编译失败。本机实测报 E0277：“`?` couldn't convert the error to `ParseIntError`”，并附注 ? 会用 From trait 转换错误值。一个函数里可以用任意多个 ?，但所有错误都必须能转换成同一个返回类型。这就是要学自定义错误和 From 的原因。
+
+
+> [!question] Quiz
+> 不定义任何新类型，只修改返回类型里的错误类型 `???`，哪一种能让下面的代码编译通过？
+>
+> ```rust
+> use std::fs;
+>
+> fn read_number(path: &str) -> Result<i32, ???> {
+>     let text = fs::read_to_string(path)?;          // 错误类型 io::Error
+>     let n = text.trim().parse::<i32>()?;           // 错误类型 ParseIntError
+>     Ok(n)
+> }
+> ```
+>
+> 1. dyn std::error::Error
+> 2. std::io::Error
+> 3. Box<dyn std::error::Error>
+> 4. String
+
+
+> [!failure] Quiz — incorrect ✗
+> Your answer: 1. dyn std::error::Error
+> Correct answer: 3
+>
+> io::Error 和 ParseIntError 都实现了 std::error::Error trait，而标准库提供了“任何实现了 Error 的类型 → Box<dyn Error>”的 From 转换，所以两个 ? 都能转换成功，本机实测能编译。这和上一主题的 dyn 是同一个道理：用 trait 对象装下不同的具体类型。String 和 io::Error 都没有接收另外那种错误的 From 实现，本机实测都报 E0277。裸的 dyn Error 大小不确定，不能直接作为值返回，必须放在指针后面。
+
+
+> [!abstract] PI
+
+方向是对的：用 trait 对象装下不同的错误类型。漏掉的是 `dyn` 必须放在指针后面，和 `Vec<dyn Shape>` 不能编译是同一个原因。接着探模块和 Cargo：
+
+
+> [!question] Quiz
+> 下面这段代码在 `main` 里调用 `shapes::area` 时会怎样？
+>
+> ```rust
+> mod shapes {
+>     fn area(w: f64, h: f64) -> f64 { w * h }
+> }
+>
+> fn main() {
+>     println!("{}", shapes::area(2.0, 3.0));
+> }
+> ```
+>
+> 1. 编译失败：area 默认是私有的，模块外面调用不了
+> 2. 编译失败：mod 必须放在单独的文件 shapes.rs 里
+> 3. 编译失败：必须先写 use shapes; 才能用 shapes::
+> 4. 正常输出 6：同一个文件里的代码互相都能访问
+
+
+> [!failure] Quiz — incorrect ✗
+> Your answer: 4. 正常输出 6：同一个文件里的代码互相都能访问
+> Correct answer: 1
+>
+> Rust 里所有条目默认都是私有的，只在定义它的模块（及其子模块）内可见，和是否在同一个文件无关。要让外面调用，得写 pub fn area。模块可以直接内联写在同一个文件里，不一定要单独开文件。shapes::area 这种完整路径不需要 use 也能直接写，use 只是用来起个短名字。
+
+
+> [!question] Quiz
+> 想在 Cargo 项目里使用第三方库（比如 serde），一般要怎么做？
+>
+> 1. 先用系统包管理器全局安装，再在代码里 use 它
+> 2. 把库的源码下载到 src/ 下，再用 mod 引入
+> 3. 在 Cargo.toml 的 [dependencies] 里加一行（或运行 cargo add），构建时自动下载
+> 4. 直接在代码里写 use serde;，编译器会自动去下载
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 3. 在 Cargo.toml 的 [dependencies] 里加一行（或运行 cargo add），构建时自动下载
+> Correct answer: 3
+>
+> Cargo 的依赖都声明在项目自己的 Cargo.toml 里，比如 serde = "1"，也可以用 cargo add serde 自动写进去。cargo build 时会从 crates.io 下载并编译，具体用到的版本锁定在 Cargo.lock 里。这和 npm 的 package.json、Go 的 go.mod 是同一种模式：依赖跟着项目走，不需要全局安装。光写 use 不会触发下载。
+
+
+> [!question] Question
+> 想做哪个命令行小工具来练手？
+>
+> 1. 成绩统计：读一个 CSV 文件，输出平均分、最高分等；格式错误时给出行号和原因
+> 2. 待办清单：add / list / done 子命令，数据存成 JSON 文件
+> 3. 日志分析：统计日志文件里各级别（ERROR/WARN/INFO）的数量
+
+
+> [!example] Answer
+> 1. 成绩统计：读一个 CSV 文件，输出平均分、最高分等；格式错误时给出行号和原因
+
+
+> [!abstract] PI
+
+## 计划
+
+**思路：** 你已经知道 `?` 在失败时会执行 `return Err(From::from(e))`，整个主题都从这句话展开。
+
+1. **错误是给谁看的？** 先回答这个问题：调用方的**程序**需要按错误种类分别处理，而**人**需要读懂错误信息。从这两个需求出发，评估两种方案：
+2. **快捷方案 `Box<dyn Error>`**：任何错误都能装进去（这里会顺带补上刚才漏掉的 `Box`），代价是调用方没法用 `match` 区分错误种类。
+3. **自定义错误 `enum`**：每种错误一个变体，比如文件读不了、第 N 行格式错、分数不是数字。再实现 `Display`（给人看）和 `Error` trait。
+4. **`impl From`**：让 `?` 能自动把 `io::Error` 转成你的错误类型，这是 R1 的直接应用。但行号这种上下文 `From` 拿不到，所以还要学 `map_err`。
+5. **`main` 返回 `Result`**：错误一路传到最顶层，然后打印出来并退出。
+6. **模块**：把代码拆成 `error.rs`、`parse.rs`、`stats.rs`。规则只有一条：**每个条目默认只在自己的模块里可见，要给外面用就加 `pub`**。这一条正好对应你刚才错的那题。
+7. **Cargo 依赖**：引入 `thiserror`，看它怎样用几行 `#[derive]` 替你写掉第 3、4 步的样板代码。手写一遍之后再用它，你就知道它到底替你做了什么。
+8. **最终目标**：成绩统计 CLI，由你来写。
+
+```mermaid
+graph TD
+  R1[已掌握：? = return Err From::from e] --> F[impl From：让 ? 自动转换]
+  R2[已掌握：enum + match] --> E[自定义错误 enum]
+  R3[已掌握：trait / dyn 要放在指针后面] --> B[Box dyn Error：快捷方案]
+  W[错误的两类读者：程序和人] --> B
+  W --> E
+  R3 --> E
+  E --> F
+  F --> C[map_err：补充行号等上下文]
+  C --> M[main 返回 Result]
+  B --> M
+  P[可见性按模块：默认私有，pub 才对外] --> MOD[拆分模块和文件]
+  E --> T[thiserror：用 derive 生成样板代码]
+  F --> T
+  M --> G[目标：成绩统计 CLI]
+  MOD --> G
+  T --> G
+```
+
+这个计划可以吗？可以的话，我就从“错误是给谁看的”开始讲。
