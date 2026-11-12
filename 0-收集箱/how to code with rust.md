@@ -3509,3 +3509,303 @@ graph TD
 ```
 
 这个计划可以吗？可以的话，我就从“错误是给谁看的”开始讲。
+
+
+> [!quote] YOU
+
+就按这个吧
+
+
+> [!abstract] PI
+
+## 节点 W：错误是给谁看的？
+
+**为什么从这里开始？** 设计错误类型之前，得先想清楚：**一个错误被创建出来以后，谁会去读它？读它想得到什么？** 不想清楚这一点，就没法判断哪种设计更好。
+
+拿我们的成绩统计工具来说，可能出现这些错误：
+- 文件不存在或没有权限读
+- 某一行的列数不对，比如应该是 `姓名,分数`，结果只有一列
+- 分数不是数字，比如 `张三,abc`
+- 文件是空的，算不出平均分
+
+**读者一：调用方的代码。** 假设这个统计功能被别的程序调用，它可能想要：**文件不存在时换一个路径重试，格式错误时直接放弃。** 要做到这一点，它需要能用 `match` 区分**错误的种类**。
+
+**读者二：人。** 用户在终端里看到的应该是 `第 3 行：分数 "abc" 不是数字`，而不是 `invalid digit found in string`。前者告诉他**去哪里改、改什么**。
+
+所以一个好的错误类型要同时满足两件事：**能被程序区分**，**能给人看懂**。下面用这两条标准来评估方案。
+
+## 节点 B：快捷方案 `Box<dyn Error>`
+
+上次那道题的答案，补上 `Box` 之后就能编译（本机实测）：
+
+```rust
+use std::error::Error;
+use std::fs;
+
+fn read_number(path: &str) -> Result<i32, Box<dyn Error>> {
+    let text = fs::read_to_string(path)?;          // io::Error → Box<dyn Error>
+    let n = text.trim().parse::<i32>()?;           // ParseIntError → Box<dyn Error>
+    Ok(n)
+}
+```
+
+**它为什么能工作：**
+- `std::error::Error` 是一个 trait，`io::Error`、`ParseIntError` 等标准库错误都实现了它。
+- `dyn Error` 大小不确定，所以要放在 `Box` 里。`size_of::<Box<dyn Error>>()` 实测是 **16**：数据指针加 vtable 指针，和 `Box<dyn Shape>` 完全一样。
+- 标准库提供了“**任何**实现了 Error 的类型 → `Box<dyn Error>`”的 `From`，所以 `?` 都能自动转换。
+
+`main` 也可以直接返回它，错误一路 `?` 到最顶层（本机实测）：
+
+```rust
+fn main() -> Result<(), Box<dyn Error>> {
+    run()?;
+    Ok(())
+}
+```
+```
+Error: ParseIntError { kind: InvalidDigit }      ← 进程退出码为 1
+```
+
+**用两条标准来评估：**
+
+| 读者 | 结果 |
+|---|---|
+| 程序能否区分种类 | ❌ 拿到的只是“某种 Error”，没法 `match` 出“是文件问题还是格式问题” |
+| 人能否看懂 | ⚠️ 只有底层库的原始信息：`No such file or directory (os error 2)`、`invalid digit found in string`。没有行号，也不知道是哪个文件 |
+
+**结论：** `Box<dyn Error>` 适合**写原型、小脚本**，或者**直接在 `main` 里报错退出**的场景，因为这时没有人需要区分错误种类。如果你写的是会被别的代码调用的库函数，它就不够用了。
+
+确认题：
+
+
+> [!question] Quiz
+> 函数签名是：
+>
+> ```rust
+> fn load_scores(path: &str) -> Result<Vec<u32>, Box<dyn std::error::Error>>
+> ```
+>
+> 调用方想实现“文件不存在时改用默认路径重试，其他错误直接退出”。用这个签名，最主要的困难是什么？
+>
+> 1. Box<dyn Error> 不能用 ? 继续向上传，只能当场处理
+> 2. 一旦出错就会 panic，调用方根本没机会重试
+> 3. 拿到的只是某种 Error 的 trait 对象，没法直接 match 出是哪种错误
+> 4. Box<dyn Error> 里的错误信息打印不出来，用户看不到原因
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 3. 拿到的只是某种 Error 的 trait 对象，没法直接 match 出是哪种错误
+> Correct answer: 3
+>
+> Box<dyn Error> 把具体类型“擦掉”了，调用方只知道它实现了 Error，没法写 match e { 文件不存在 => ..., _ => ... }。（技术上可以用 downcast_ref::<io::Error>() 在运行时试着还原具体类型，但这很笨拙，而且函数签名里看不出来可能有哪些错误。）它照样可以用 ? 继续往上传，用 {} 也能打印出底层信息（本机实测就打印出了 No such file or directory），也不会 panic。缺的只是“按种类区分”的能力，这正是下一个节点自定义 enum 要解决的。
+
+
+> [!question] Quiz
+> 表示“某一行的分数不是数字”这个错误时，下面哪种变体设计最好？
+>
+> ```rust
+> enum ScoreError {
+>     // 选一种：
+>     // A: BadScore { line: usize, value: String },
+>     // B: BadScore(String),          // 存一句拼好的话："第 3 行: 分数 \"abc\" 不是有效数字"
+>     // C: BadScore,                  // 不带数据
+>     // D: BadScore(ParseIntError),   // 只存底层的解析错误
+> }
+> ```
+>
+> 1. C：只用变体名表示种类，不带数据
+> 2. D：只包一层底层的 ParseIntError
+> 3. A：用字段分别存行号和原始值
+> 4. B：存一句拼好的完整错误信息
+
+
+> [!failure] Quiz — incorrect ✗
+> Your answer: 4. B：存一句拼好的完整错误信息
+> Correct answer: 3
+>
+> A 同时满足两类读者。程序可以 match 出这种错误，还能直接取 line（比如在编辑器里跳到那一行）；给人看的文字可以由 Display 用这两个字段拼出来。B 把数据压成了一句话，程序想拿行号就只能去解析字符串，而且文字格式被写死了。C 丢了行号和值，人不知道去哪里改。D 只有底层错误，没有行号，ParseIntError 里也不包含原始文本 "abc"。原则是：错误里存结构化的数据，展示文字交给 Display 去生成。
+
+
+> [!abstract] PI
+
+选 B 的直觉很常见，在 Java 里大家也常写 `throw new Exception("第 3 行: ...")`。但把数据压成一句话，会让**程序这类读者**拿不到数据。设想几个调用方：
+
+- **编辑器插件**想把第 3 行标红。用 A，直接读 `line` 字段；用 B，得用正则去解析 `"第 3 行"`。如果哪天措辞改成了 `"Line 3:"`，解析就失效了。
+- **测试**想断言“报错的是第 3 行”。用 A，`assert!(matches!(e, BadScore { line: 3, .. }))`；用 B，只能比较整句话，改一个字测试就挂了。
+- **要做英文版**。用 A，再写一个英文的展示方式就行；用 B，中文已经写死在数据里了。
+
+> **原则：错误里存结构化的数据（是什么、在哪里、原始值是什么），给人看的文字交给 `Display` 临时生成。**
+
+这和节点 W 的两类读者正好对上：**字段给程序用，`Display` 给人看。**
+
+### 完整的错误类型（本机实测）
+
+```rust
+use std::fmt;
+use std::io;
+
+#[derive(Debug)]
+pub enum ScoreError {
+    Io(io::Error),                                  // 包住底层错误，保留全部信息
+    BadLine { line: usize, content: String },       // 列数不对
+    BadScore { line: usize, value: String },        // 分数不是数字
+    Empty,                                          // 没有任何数据
+}
+
+// 给人看：每个变体怎么展示成文字
+impl fmt::Display for ScoreError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            ScoreError::Io(e) => write!(f, "无法读取文件: {}", e),
+            ScoreError::BadLine { line, content } =>
+                write!(f, "第 {} 行格式错误: \"{}\"（应为 姓名,分数）", line, content),
+            ScoreError::BadScore { line, value } =>
+                write!(f, "第 {} 行: 分数 \"{}\" 不是有效数字", line, value),
+            ScoreError::Empty => write!(f, "文件里没有任何成绩"),
+        }
+    }
+}
+
+// 声明“这是一个错误类型”：方法都有默认实现，空着就行
+impl std::error::Error for ScoreError {}
+```
+
+**三个 trait 各有分工：**
+- `Debug`（derive）：开发者调试时用 `{:?}` 打印。`Error` trait 要求必须有它。
+- `Display`（手写）：给最终用户看的文字。`Error` trait 也要求必须有它。
+- `Error`（空实现）：表明这是一个错误类型。有了它，`ScoreError` 也能被装进 `Box<dyn Error>`，和标准库的错误一起用。
+
+**调用方现在可以区分种类了**（本机实测）：
+
+```rust
+match load("scores.csv") {
+    Err(ScoreError::Io(e)) if e.kind() == io::ErrorKind::NotFound => println!("重试: 文件不存在"),
+    Err(e) => println!("退出: {}", e),   // {} 调用 Display
+    Ok(_) => {}
+}
+// 输出：
+// 重试: 文件不存在
+// 退出: 第 3 行: 分数 "abc" 不是有效数字
+// 退出: 文件里没有任何成绩
+```
+
+再确认一次刚才那条原则：
+
+
+> [!question] Quiz
+> 要给 ScoreError 增加一种错误：“分数超出 0–100 的范围”。哪种设计最符合刚才的原则？
+>
+> ```rust
+> enum ScoreError {
+>     // ...已有变体...
+>     // 新增哪一种？
+> }
+> ```
+>
+> 1. OutOfRange { line: usize, score: u32 }
+> 2. 不加新变体，复用 BadScore { line, value: "120".to_string() }
+> 3. OutOfRange(String)，存 "第 5 行: 分数 120 超出 0–100"
+> 4. OutOfRange，不带数据
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 1. OutOfRange { line: usize, score: u32 }
+> Correct answer: 1
+>
+> 新加一个变体，用结构化字段存行号和实际分数，展示文字在 Display 里写，比如“第 5 行: 分数 120 超出 0–100”。这样程序既能 match 出这种错误，又能拿到具体的值。存字符串会把数据压扁；不带数据，人就不知道是哪一行；复用 BadScore 则会把两种不同的问题混在一起（“不是数字”和“是数字但超出范围”），调用方就没法区分了。不同种类的错误就应该是不同的变体。
+
+
+> [!abstract] PI
+
+## 节点 F：`impl From`，让 `?` 自动转换
+
+**为什么需要它？** 有了 `ScoreError`，读文件时还是会遇到上次那个报错：`fs::read_to_string` 返回的是 `io::Error`，而函数声明返回 `ScoreError`。
+
+回到你已经掌握的那条规则：**`?` 失败时执行 `return Err(From::from(e))`**。所以只要告诉编译器“`io::Error` 怎样变成 `ScoreError`”，`?` 就会自动用上它：
+
+```rust
+impl From<io::Error> for ScoreError {
+    fn from(e: io::Error) -> ScoreError {
+        ScoreError::Io(e)            // 用 Io 变体包起来，原始错误一点不丢
+    }
+}
+
+fn load(path: &str) -> Result<Vec<(String, u32)>, ScoreError> {
+    let text = fs::read_to_string(path)?;   // ✅ io::Error → ScoreError::Io，自动转换
+    // ...
+}
+```
+
+`From` 只是一个普通的 trait，`?` 只是会去调用它。没有任何魔法，上一节 `Box<dyn Error>` 能工作，也只是因为标准库为它写好了这样一个 `impl From`。
+
+## 节点 C：`map_err` 和 `ok_or`，补充上下文
+
+**`From` 有一个限制：它只拿得到错误本身。** 解析分数失败时，`ParseIntError` 里既没有行号，也没有原始文本 `"abc"`。所以 `impl From<ParseIntError> for ScoreError` 没法构造出 `BadScore { line, value }`，`from` 函数根本拿不到 `line`。
+
+解决办法是**在出错的地方就地转换**，因为那里能拿到上下文：
+
+```rust
+fn parse_line(line_no: usize, line: &str) -> Result<(String, u32), ScoreError> {
+    // Option → Result：没有逗号时，split_once 返回 None
+    let (name, score) = line.split_once(',').ok_or_else(|| ScoreError::BadLine {
+        line: line_no,
+        content: line.to_string(),
+    })?;
+
+    let score = score.trim();
+    // Result<u32, ParseIntError> → Result<u32, ScoreError>：换一种错误
+    let n = score.parse::<u32>().map_err(|_| ScoreError::BadScore {
+        line: line_no,                 // ← 闭包捕获了外面的上下文
+        value: score.to_string(),
+    })?;
+
+    Ok((name.trim().to_string(), n))
+}
+```
+
+- **`map_err(|e| ...)`**：如果是 `Err(e)`，用闭包把它换成另一种错误；如果是 `Ok`，原样不动。可以理解为专门作用在错误一侧的 `map`。
+- **`ok_or_else(|| ...)`**：把 `Option` 变成 `Result`，`None` 变成你给的错误。
+- 两者都用**闭包**，这样就能捕获 `line_no`、`score` 这些上下文（迭代器那一课的节点 E）。
+- 用 `ok_or_else` 而不是 `ok_or`：`ok_or(值)` 不管成功与否，都会先把错误值构造出来，这里每次都要 `to_string()` 分配一次内存；`ok_or_else(闭包)` 只在 `None` 时才执行闭包。这和迭代器“惰性”的思路是一样的。
+
+**整体运行**（本机实测，`load` 遍历每一行并调用 `parse_line(i + 1, line)?`）：
+
+```
+s_ok.csv   → [("张三", 90), ("李四", 85)]
+s_bad.csv  → 错误: 第 2 行格式错误: "李四 85"
+s_bad2.csv → 错误: 第 2 行: 分数 "8x5" 不是有效数字
+none.csv   → 错误: 无法读取文件: No such file or directory (os error 2)
+```
+
+**怎么选：**
+
+| 情况 | 用什么 |
+|---|---|
+| 底层错误本身就包含了全部需要的信息，在哪里出错都一样转换 | `impl From`，然后直接 `?` |
+| 需要补充只有当前位置才知道的上下文（行号、文件名、原始值） | `.map_err(\|e\| ...)?` |
+| 手里是 `Option`，`None` 应该算作错误 | `.ok_or_else(\|\| ...)?` |
+
+确认题：
+
+
+> [!question] Quiz
+> 已有 `impl From<io::Error> for ScoreError`。现在要实现：读取第二个文件 `names.txt` 失败时，错误信息里要写明是哪个文件。下面哪种写法最合适？
+>
+> ```rust
+> #[derive(Debug)]
+> pub enum ScoreError {
+>     Io(io::Error),
+>     ReadFile { path: String, source: io::Error },   // 新增
+>     // ...
+> }
+>
+> fn load_names(path: &str) -> Result<String, ScoreError> {
+>     let text = /* ??? */;
+>     Ok(text)
+> }
+> ```
+>
+> 1. fs::read_to_string(path)?，并把 From<io::Error> 改成返回 ReadFile { path, source }
+> 2. fs::read_to_string(path).ok_or_else(|| ScoreError::ReadFile { path: path.to_string(), source: ??? })?
+> 3. fs::read_to_string(path).map_err(|e| ScoreError::ReadFile { path: path.to_string(), source: e })?
+> 4. fs::read_to_string(path).unwrap()，文件读不了让它 panic 就会显示路径
