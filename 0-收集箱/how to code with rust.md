@@ -1333,3 +1333,163 @@ fn main() {
 > 2. a: Option<&i32>，b: Option<&i32>
 > 3. a: &i32，b: Option<&i32>
 > 4. a: Option<&i32>，b: Option<i32>
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 1. a: Option<&i32>，b: &i32
+> Correct answer: 1
+>
+> a 没有加 ?，所以就是 get 原样返回的 Option<&i32>，可能是 Some 也可能是 None，用之前必须 match。b 加了 ?：None 的情况在这里直接 return None 离开函数，能走到下一行的只有 Some 的情况，所以 b 被剥掉一层，类型是 &i32。这就是 ? 和 JS 的 ?. 的根本区别：?. 之后的值仍可能是 undefined，? 之后的值一定存在。
+
+
+> [!abstract] PI
+
+这次对了。**J2 小结：**
+- `Option` 和 `Result` 就是普通的可辨识联合，“可能没有”和“可能失败”都写在类型里，`match` 必须覆盖所有变体。
+- **`?` 剥掉一层 `Option`/`Result`：成功时取出值，失败时立刻 `return`。** 它像 `throw`，不像 JS 的 `?.`。所以 `?` 之后拿到的值一定存在。
+
+最后一段是 **J3：迭代器与 `clone`**。我们会用 `for x in &v`、`iter().map().filter()` 改写一些常见的“边遍历边修改”写法，这类写法在 Rust 里会撞上 H 的规则。还会讲清楚什么时候 `clone` 是合理选择、什么时候只是在掩盖设计问题。要继续吗？
+
+
+> [!quote] YOU
+
+继续
+
+
+> [!abstract] PI
+
+## J3：迭代器与 `clone`
+
+**为什么需要它？** 在 GC 语言里，“边遍历边往列表里加东西”很常见（虽然 Java 会抛 `ConcurrentModificationException`）。在 Rust 里这样写，**正面撞上 H 的规则**（本机实测）：
+
+```rust
+fn main() {
+    let mut v = vec![1, 2, 3];
+    for x in &v {
+        if *x % 2 == 1 {
+            v.push(*x * 10);
+        }
+    }
+}
+```
+```
+error[E0502]: cannot borrow `v` as mutable because it is also borrowed as immutable
+3 |       for x in &v {
+  |                -- immutable borrow occurs here
+5 |             v.push(*x * 10);
+  |             ^^^^^^^^^^^^^^^ mutable borrow occurs here
+```
+
+这其实就是节点 C/G 的那个 bug：遍历器手里拿着指向**旧缓冲区**的指针，`push` 扩容就会让它悬空。整个循环期间 `&v` 都活着，所以循环里不能出现 `&mut v`。
+
+**地道的解法：分两步，先读完旧的、生成新的，再修改。**
+
+### 三种遍历方式：对应三种所有权关系
+
+| 写法 | `x` 的类型 | 含义 |
+|---|---|---|
+| `for x in &v` | `&T` | 共享借用：只读 |
+| `for x in &mut v` | `&mut T` | 可变借用：原地修改元素 |
+| `for x in v` | `T` | **move**：消耗 `v`，之后 `v` 不能再用 |
+
+### 迭代器链：读旧的 → 生成新的
+
+完整代码（本机实测）：
+
+```rust
+fn main() {
+    let mut v = vec![1, 2, 3];
+    for x in &v { print!("{} ", x); }    // 1 2 3
+    println!();
+    for x in &mut v { *x *= 10; }        // 原地修改
+    println!("{:?}", v);                 // [10, 20, 30]
+
+    let extra: Vec<i32> = v.iter()       // 共享借用 v
+        .filter(|x| **x > 10)
+        .map(|x| x + 1)
+        .collect();                      // 生成一个新的 Vec；借用到此结束
+    println!("{:?}", extra);             // [21, 31]
+
+    v.extend(extra);                     // 现在没有活着的借用，可以修改
+    println!("{:?}", v);                 // [10, 20, 30, 21, 31]
+}
+```
+
+`collect()` 生成一个**新的、独立拥有的** `Vec`。`v.iter()` 的借用到这一行就结束了，所以下一行 `extend` 不会冲突。这就是用 H 的区间规则来安排代码顺序。
+
+### 什么时候用 `clone`
+
+`clone` 会深拷贝堆数据，得到一个独立的新所有者。
+
+- **合理的情况：确实需要两个独立的所有者。** 比如一个 `String` 既要存进结构体，原来的变量之后还要继续用：
+  ```rust
+  let u = User { name: name.clone() };   // name 之后还要用
+  ```
+  如果之后**不再用** `name`，直接 move 进去就行：`User { name }`。
+- **代码异味：只是为了让编译器闭嘴。** 比如循环里每次都 `v.clone()`，只为绕过“边遍历边修改”。这通常说明代码顺序没安排好，应该改成上面那种“先生成新的、再修改”的写法。
+
+**判断标准：clone 之后，你是真的需要两份独立的数据，还是其实只需要“借一下”或者“交出去”？** 只需要借一下就用 `&`，交出去就用 move，只有真的需要两份时才用 `clone`。
+
+确认题：
+
+
+> [!question] Quiz
+> 下面这段代码在哪一行报编译错误？
+>
+> ```rust
+> fn main() {
+>     let mut v = vec![1, 2, 3];               // 第 2 行
+>     for x in &mut v { *x += 1; }             // 第 3 行
+>     for x in &v { println!("{}", x); }       // 第 4 行
+>     for x in v { println!("{}", x); }        // 第 5 行
+>     println!("{}", v.len());                 // 第 6 行
+> }
+> ```
+>
+> 1. 第 3 行：*x += 1 修改元素需要 clone 一份 v
+> 2. 第 6 行：v 已在第 5 行被 for 循环 move 走
+> 3. 第 4 行：第 3 行的 &mut v 借用还没结束，不能再共享借用
+> 4. 第 5 行：第 4 行的 &v 借用还没结束，不能 move v
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 2. 第 6 行：v 已在第 5 行被 for 循环 move 走
+> Correct answer: 2
+>
+> 第 3 行的 &mut v 借用在循环结束时就结束了，因为之后不再使用。第 4 行的 &v 也一样，在循环结束时结束。所以第 4、5 行都没有冲突。第 5 行 `for x in v` 会调用 into_iter()，拿走 v 的所有权，v 在这里被 move，之后失效。第 6 行再用 v，本机实测报 E0382：“`v` moved due to this implicit call to `.into_iter()`”。如果之后还要用 v，第 5 行应该写成 `for x in &v`。
+
+
+> [!abstract] PI
+
+答对了。整个计划到这里全部讲完。
+
+## 总结：一张图串起来
+
+```mermaid
+graph TD
+  B[堆内存恰好释放一次] --> D[唯一所有者 + 离开作用域 drop]
+  C[栈上小结构 → 堆缓冲区<br>运行时不追踪指针] --> D
+  D --> E[move；无资源的类型可 Copy]
+  D --> F[借用：用而不负责释放]
+  F --> H[区间不冲突：共享 XOR 可变]
+  F --> I[区间不越界：生命周期]
+  H --> E
+  H --> J1[参数用 &str / &T 切片]
+  I --> J1
+  K[可辨识联合] --> J2[Option/Result + match + ?]
+  H --> J3[迭代器：先生成新的再修改；clone 只在真需要两份时用]
+```
+
+**这一路纠正过的几个错误模型：**
+1. 指针会被自动更新。这是 GC 语言的经验，Rust 在运行时没人追踪指针。
+2. 借过一次就永远不能改。实际上借用只是一段区间，到最后一次使用就结束。
+3. `&String` 是 Copy 意味着复制了 String。实际复制的只是 8 字节地址。
+4. `?` 失败后继续执行。它其实是 `return`，跟 JS 的 `?.` 是两回事。
+
+**接下来可以学的方向**（都建立在今天这张图上）：
+- **结构体、`impl`、trait**：Rust 的“类”和“接口”。方法签名里的 `self` / `&self` / `&mut self` 正好对应 move、共享借用、可变借用。
+- **`Rc` / `RefCell`**：确实需要多个所有者时用它们，相当于把引用计数和借用检查挪到运行时。
+- **多线程（`Send` / `Sync`）**：共享 XOR 可变怎么顺带消灭了数据竞争。
+- **动手练习**：[Rustlings](https://github.com/rust-lang/rustlings) 的 move_semantics、options、error_handling 几组题，正好对应今天的内容。
+
+下一步想学哪一块，还是先找段代码动手写写？
