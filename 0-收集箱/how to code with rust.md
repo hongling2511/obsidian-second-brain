@@ -1597,3 +1597,558 @@ pub fn longest_word(s: &str) -> Option<&str> {
 `/Users/hongling/learn` 下的其他目录我都没动过。
 
 如果想撤回练习 1 的填写、自己重新做，我可以把它恢复成 `todo!()`。另外，项目还没有任何 git 提交，所以要看改动只能看当前文件内容，没法用 `git diff`。
+
+
+> [!quote] YOU
+
+你在检查一下为什么我本地文件没看到练习 1 的修改
+
+
+> [!abstract] PI
+
+找到原因了：**我的修改确实写进去过，但随后被你编辑器里的旧内容覆盖掉了。**
+
+证据：
+1. 我改完之后立刻跑了 `cargo test`，结果是 `ex1_longest_word ... ok`。这说明当时磁盘上的文件里确实有练习 1 的实现，否则编译不过。
+2. 现在 `src/lib.rs` 的修改时间是 **14:02:59**，晚于我那次修改。文件内容又回到了 `pub fn longest_word(s: &str) -> Option<&str> {}`，而这正是你自己改到一半的那个版本。你的练习 4（`&Vec<String>` / `words.len()`）也还在。
+
+最可能的过程是：你在编辑器里打开着 `lib.rs`，我从外部改了文件，编辑器里还是旧的缓冲区，之后编辑器保存（手动、自动保存或切换窗口时保存都有可能），把旧内容写回了磁盘，覆盖了我的修改。
+
+**怎么避免再次被覆盖：** 我重新写入之前，你需要先让编辑器不再持有旧内容：
+- **VS Code / Cursor**：先关掉 `lib.rs` 的标签页；如果提示有未保存的修改，选“不保存”。或者在我写完之后，执行命令面板里的 “File: Revert File”。
+- **Vim**：我写完之后执行 `:e!` 重新加载。
+- **其他编辑器**：找“重新加载 / Revert”之类的操作。
+
+现在要我重新写入练习 1 吗？写之前请先关掉编辑器里的 `lib.rs`，或者确认它没有未保存的修改。
+
+
+> [!quote] YOU
+
+重新写入
+
+
+> [!abstract] PI
+
+练习 1 已经重新写进 `/Users/hongling/learn/rust-practice/src/lib.rs` 第 25–40 行，文件修改时间是 14:07:55。我从磁盘重新读了这个文件，确认实现在里面，`cargo test ex1` 也跑过了，2 个测试都通过。练习 4 你的改动没动。
+
+上次被覆盖，是因为编辑器把旧版本存回了磁盘。所以接下来：
+
+- **如果你的编辑器还开着 `lib.rs`**，先从磁盘重新加载，再保存或者继续改。VS Code / Cursor 用 “File: Revert File”，Vim 用 `:e!`。不重新加载就保存，会再覆盖一次。
+- 重新加载后，确认第 25 行之后能看到 `let mut best: Option<&str> = None;`。
+
+接下来你想先修练习 4（它现在返回的是单词个数 2，测试要的是 5），还是做练习 2？
+
+
+> [!quote] YOU
+
+填写练习 2
+
+
+> [!abstract] PI
+
+练习 2 已经写进 `src/lib.rs`，`cargo test ex2` 的两个测试都通过了。
+
+```rust
+pub fn parse_scores(input: &str) -> Result<Vec<u32>, ParseIntError> {
+    let mut scores = Vec::new(); // 自己拥有的 Vec，最后 move 给调用者
+
+    for part in input.split(',') {
+        // part: &str，指向 input 的一段；trim() 也只是缩小切片，不复制
+        let n = part.trim().parse::<u32>()?; // 失败 → 立刻 return Err(...)
+        scores.push(n); // 能走到这里，n 一定是 u32
+    }
+
+    Ok(scores)
+}
+```
+
+**各行用到的知识：**
+- **`split(',')` 和 `trim()` 都只产出切片（J1）**：`" 85"` 经过 `trim()` 变成 `"85"`，只是 ptr 往后挪一位、len 减一，不复制字符。
+- **`?`（J2）**：`parse` 返回 `Result<u32, ParseIntError>`。成功时剥掉一层，`n` 就是 `u32`；失败时整个函数立刻 `return Err(...)`，后面的 `push` 和 `Ok(scores)` 都不会执行。`"90, abc, 100"` 遇到 `"abc"` 就直接返回错误了。
+- **`"90,,100"` 为什么也报错**：中间那段是空字符串，`"".parse::<u32>()` 返回 `Err(ParseIntError { kind: Empty })`（本机验证过），所以同样被 `?` 返回出去。
+- **返回值是 move（D）**：`scores` 是函数里的局部 `Vec`，它的所有者就是这个函数。`Ok(scores)` 把所有权交给调用者，堆缓冲区不会在函数结束时被 drop。这和 I 里 `make_ref` 的修法是同一回事：要返回新数据，就返回拥有所有权的值，不要返回引用。
+
+**等价的迭代器写法**（本机验证结果一样）：
+
+```rust
+input.split(',')
+    .map(|p| p.trim().parse::<u32>())
+    .collect()   // Iterator<Item = Result<u32, E>> → Result<Vec<u32>, E>
+```
+
+`collect` 能把一串 `Result` 收集成一个 `Result<Vec<_>, _>`，遇到第一个 `Err` 就停下来并返回它，效果和循环里的 `?` 一样。题目要求用 `?`，所以文件里写的是循环版本。
+
+**再提醒一次：** 如果编辑器还开着 `lib.rs`，先从磁盘重新加载再保存，否则练习 1、2 会被一起覆盖。
+
+现在只剩练习 3 和你改到一半的练习 4。练习 3 推荐你自己先写错误的版本（`for x in &v { v.push(..) }`），亲眼看一次 E0502。要自己试，还是我来填？
+
+
+> [!quote] YOU
+
+你先填写错误的
+
+
+> [!abstract] PI
+
+这里的原文没匹配上，文件可能又被改过了。我先看一下：
+
+
+> [!abstract] PI
+
+文件没出问题：练习 1、2 都还在，是你在 14:13 把练习 3 的函数体清成了 `{}`，所以原文对不上。我按现在的内容重新写入：
+
+
+> [!abstract] PI
+
+错误版本已经写进练习 3（`src/lib.rs` 第 72–80 行），`cargo test ex3` 的真实报错如下：
+
+```
+error[E0502]: cannot borrow `*v` as mutable because it is also borrowed as immutable
+  --> src/lib.rs:77:13
+   |
+74 |       for x in v.iter() {
+   |       -        --------
+   |       |        |
+   |       |        immutable borrow occurs here
+   |  _____|        immutable borrow later used here
+   | |
+76 | |         if *x % 2 != 0 {
+77 | |             v.push(*x * 10);
+   | |             ^^^^^^^^^^^^^^^ mutable borrow occurs here
+78 | |         }
+79 | |     }
+   | |_____- this for loop borrows `*v` immutably, preventing mutation within its body
+   |
+   = help: consider using an index-based loop instead, or collecting modifications into a separate collection
+```
+
+**逐句对照 H 的规则：**
+- **`immutable borrow occurs here`（第 74 行）**：`v.iter()` 创建了一个共享借用。迭代器内部拿着指向 `v` 缓冲区的指针。
+- **`immutable borrow later used here`（还是第 74 行，那条竖线）**：`for` 每一轮都要调用这个迭代器取下一个元素，所以共享借用的区间**贯穿整个循环**，而不是只在第一行。
+- **`mutable borrow occurs here`（第 77 行）**：`push` 的签名是 `&mut self`，需要可变借用，而这一行正好落在共享借用的区间里，于是冲突。
+- 如果编译器放行：`push` 一旦扩容，迭代器手里的指针就指向了已经释放的旧缓冲区。这就是节点 C 里 C++ 的那个 bug。
+
+**编译器在最后一行给了两个修法提示：**
+1. *index-based loop*：用下标遍历，不持有贯穿循环的借用
+2. *collecting modifications into a separate collection*：先把要加的元素收集到一个新集合，再一次性修改，也就是 J3 讲的“先生成新的，再修改”
+
+注意：现在这个编译错误会让**所有**测试都编译不过，包括 ex1、ex2，直到练习 3 改对为止。
+
+要不要你自己按第 2 种思路改一下？提示：用 `v.iter().filter(...).map(...).collect()` 得到一个新的 `Vec<i32>`，然后调用 `v.extend(...)`。改完运行 `cargo test ex3`。如果想让我来改，也可以直接说。
+
+
+> [!quote] YOU
+
+先按 1 修法改
+
+
+> [!abstract] PI
+
+练习 3 已经按修法 1 改好，`ex3_append` 通过了，练习 1、2 也都恢复编译、测试通过。现在只剩练习 4 失败（你那个还没改完的版本）。
+
+```rust
+pub fn append_odd_times_ten(v: &mut Vec<i32>) {
+    // ✅ 修法 1：下标循环
+    let n = v.len(); // 先记下原长度：只遍历原有元素，不碰新追加的
+    for i in 0..n {
+        // 0..n 只是一串整数，不借用 v
+        let x = v[i]; // i32 是 Copy：复制出值，这一行的借用到此结束
+        if x % 2 != 0 {
+            v.push(x * 10); // 此刻没有活着的共享借用 → 可以 &mut
+        }
+    }
+}
+```
+
+**为什么这样就能编译？** 关键在于借用区间变短了：
+
+| | 错误版本 | 修法 1 |
+|---|---|---|
+| 循环靠什么推进 | `v.iter()`，拿着指向 `v` 缓冲区的指针 | `0..n`，一串普通整数，和 `v` 无关 |
+| 共享借用的区间 | **贯穿整个循环** | **只在 `v[i]` 那一个表达式里** |
+| `push` 时有没有活着的共享借用 | 有，冲突 | 没有，可以 `&mut` |
+
+- **`let x = v[i];` 用到了 E（Copy）**：`i32` 是 Copy，`x` 是一个复制出来的独立值，不是引用。所以这一行结束后，对 `v` 的借用就结束了。如果写成 `let x = &v[i];`，`x` 就是引用，下一行 `push` 时它还活着，会再次报 E0502。
+- **为什么先存 `n = v.len()`**：`0..n` 在循环开始时就固定了范围，只遍历原来的元素。如果每轮都重新读 `v.len()`，新追加的元素也会被遍历到。这道题碰巧没事，因为奇数乘 10 后是偶数，但写法上应该先固定范围。
+- **这样为什么安全**：每一轮都通过下标**重新**去 `v` 里取值。即使 `push` 扩容换了缓冲区，下一轮 `v[i]` 也是从新的 `ptr` 算地址，没有人手里拿着旧指针。
+
+**修法 1 和修法 2 怎么选：** 修法 1 是原地追加，不需要额外的临时 Vec，但只适合能用下标访问、元素又是 Copy 的情况。修法 2（`filter/map/collect` + `extend`）更通用，也是更常见的地道写法。想看修法 2，我可以把它写成注释放在旁边对照。
+
+现在只剩**练习 4**：测试期望 5，你现在返回的是 2。要自己修，还是我来？
+
+
+> [!quote] YOU
+
+改成修法 2
+
+
+> [!abstract] PI
+
+练习 3 已经改成修法 2，`ex3_append` 仍然通过。练习 1、2 也都通过，只剩你的练习 4 还是失败。
+
+```rust
+pub fn append_odd_times_ten(v: &mut Vec<i32>) {
+    // ✅ 修法 2：先生成新的，再修改
+    let extra: Vec<i32> = v
+        .iter()                     // 共享借用 *v 开始；产出 &i32
+        .filter(|x| **x % 2 != 0)   // filter 的闭包拿到 &&i32，所以解两次引用
+        .map(|x| x * 10)            // &i32 * 10 → i32（新值，不再指向 v）
+        .collect();                 // 收集成独立拥有的 Vec → 共享借用到此结束
+
+    v.extend(extra);                // 此刻没有活着的借用 → 可以 &mut；extra 被 move 进去
+}
+```
+
+**借用区间是怎么安排的：**
+
+```
+let extra = v.iter()...collect();   ← 共享借用只活在这一条语句里
+v.extend(extra);                    ← 可变借用，和上面不重叠 ✅
+```
+
+和错误版本相比，读和写原本混在同一个循环里，现在拆成了**两个先后的阶段**，区间不再重叠。
+
+**两个细节：**
+- **为什么 `filter` 里是 `**x`？** `iter()` 产出的元素是 `&i32`。`filter` 只是检查元素、不拿走它，所以它给闭包的是“元素的引用”，也就是 `&&i32`，要解两次引用才能拿到 `i32`。`map` 会拿走元素，所以拿到的就是 `&i32`。这是新手常卡的地方，记住一句话：**filter 借着看，map 拿走用。**
+- **`map` 之后就和 `v` 脱钩了**：`x * 10` 算出一个新的 `i32`。`extra` 里存的都是独立的值，没有任何指向 `v` 缓冲区的引用，所以 `collect` 之后，对 `v` 的借用就彻底结束了。
+- **`v.extend(extra)` 是 move（D）**：`extra` 的所有权交给了 `extend`，它的元素被搬进 `v`。之后再用 `extra` 会报 E0382。
+
+**和修法 1 比较：** 修法 2 多分配了一个临时 Vec，但它不依赖下标，也不要求元素是 Copy，读写分成两个阶段，意图更清楚。这是更常见的地道写法。
+
+现在只剩**练习 4**。你已经把签名改成了 `&Vec<String>`，测试失败是因为函数体返回的是单词个数。要自己改，还是我来？
+
+
+> [!quote] YOU
+
+修改测试 4
+
+
+> [!abstract] PI
+
+我理解你是要我修**练习 4 的函数**，测试本身按规则不改（测试是对的：它期望 5）。
+
+
+> [!abstract] PI
+
+练习 4 改好了，**6 个测试全部通过**。测试代码没改。
+
+```rust
+pub fn total_len(words: &[String]) -> usize {
+    words
+        .iter()             // 产出 &String
+        .map(|w| w.len())   // 每个单词的字节数（不是单词个数）
+        .sum()              // 加起来；返回类型 usize 由签名推断
+}
+```
+
+**改了两处：**
+
+**1. 函数体：之前测试失败的原因。** `words.len()` 是 Vec 里**有几个单词**，结果是 2。题目要的是**所有单词的字节数之和**，`"ab"` 的 2 加上 `"cde"` 的 3，等于 5。所以要先对每个单词取 `len()`，再求和。
+
+**2. 签名：从 `&Vec<String>` 改成 `&[String]`。** 你原来的 `&Vec<String>` 能用，但不是最地道的写法。四个候选逐一看：
+
+| 候选 | 结果 | 原因 |
+|---|---|---|
+| `Vec<String>` | ❌ 编译不过 | 会 move，调用之后测试里的 `words.len()` 报 E0382（D）；测试传的 `&words` 类型也对不上 |
+| `&mut Vec<String>` | ❌ 编译不过，也不合适 | 测试传的是 `&words`，不是 `&mut words`；而且只读不需要可变借用（H） |
+| `&Vec<String>` | ✅ 能用 | 只读借用，调用之后 `words` 还能用 |
+| **`&[String]`** | ✅ **最地道** | 同样是只读借用，而且能接受更多来源（J1） |
+
+为什么 `&[String]` 比 `&Vec<String>` 好？这和 J1 里 `&str` 比 `&String` 好是同一个道理。函数只需要“一段连续的 `String`”，也就是 `(ptr, len)`，不需要 `cap`。写成切片以后：
+
+```rust
+total_len(&words);         // &Vec<String> 自动转成 &[String]（测试就是这样调用的）
+total_len(&words[1..]);    // 只算一部分
+total_len(&[a, b]);        // 数组也行
+```
+
+`&Vec<String>` 只能接受一个完整的 `Vec`。
+
+**练习全部完成：**
+
+| 练习 | 状态 | 练的节点 |
+|---|---|---|
+| 1 `longest_word` | ✅ | 切片、生命周期省略、Option |
+| 2 `parse_scores` | ✅ | Result、`?`、返回值 move |
+| 3 `append_odd_times_ten` | ✅ | 共享 XOR 可变、迭代器两阶段 |
+| 4 `total_len` | ✅ | 借用 vs 所有权、切片参数 |
+
+需要说明的是，这 4 题的代码都是我写的，你主要是在看。要真正掌握，最好亲手写一遍。我可以再出一组**同样知识点、不同题面**的练习，这次你自己写，我只看报错、给提示。你想这么做，还是进入下一个主题（结构体、trait）？
+
+
+> [!quote] YOU
+
+在介绍一下 filter map这些表达式的写法
+
+
+> [!abstract] PI
+
+先问一题，看看你从 JS 带过来的直觉是什么样的，我好知道从哪里讲起：
+
+
+> [!question] Quiz
+> 下面这段 Rust 代码打印的顺序是什么？
+>
+> ```rust
+> let v = vec![1, 2, 3, 4];
+> let r: Vec<i32> = v.iter()
+>     .filter(|x| { println!("filter {}", x); **x % 2 == 0 })
+>     .map(|x| { println!("map {}", x); x * 10 })
+>     .collect();
+> ```
+>
+> 1. filter 1, filter 2, filter 3, filter 4, map 2, map 4
+> 2. 什么都不打印，因为迭代器是惰性的
+> 3. map 2, map 4, filter 1, filter 2, filter 3, filter 4
+> 4. filter 1, filter 2, map 2, filter 3, filter 4, map 4
+
+
+> [!failure] Quiz — incorrect ✗
+> Your answer: 3. map 2, map 4, filter 1, filter 2, filter 3, filter 4
+> Correct answer: 4
+>
+> Rust 的迭代器是惰性的，而且每次只处理一个元素：collect 向链条要一个元素，map 就向 filter 要一个，filter 再向 iter 要，直到找到一个通过的元素。所以每个元素都是从头流到尾，再轮到下一个。本机实测输出：filter 1 / filter 2 / map 2 / filter 3 / filter 4 / map 4。JS 的数组 .filter().map() 则是先完整跑一遍 filter，生成一个中间数组，再完整跑一遍 map，也就是第一个选项。这里也不会什么都不打印，因为末尾有 collect 这个消费者在驱动整条链。
+
+
+> [!abstract] PI
+
+这道题选错很正常，而且你的选项里有一半是对的，后面会讲到。从这道题看，你对“链条里到底是谁在什么时候执行”还没有一个清楚的模型。而 `filter` / `map` 的所有写法（闭包参数为什么有时是 `&&i32`、为什么不写 `collect` 就什么都不发生）都取决于这个模型。所以我打算从最底层讲起。
+
+## 计划
+
+**思路：** 先给出迭代器的**真正定义**：它只是一个能反复调用 `next()`、每次返回 `Option` 的东西。然后让你自己推出 `filter` 和 `map` 应该怎么实现。推出来以后，“惰性”和“逐个流过”就不需要死记，它们是定义的直接结果。接着讲闭包 `|x| ...` 的写法，以及参数类型是怎么来的，`&&i32` 的问题也就清楚了。最后快速过一遍常用的适配器和消费者。
+
+```mermaid
+graph TD
+  A[定义：迭代器 = 反复调用 next，返回 Option] --> B[消费者：collect/sum/for 负责调用 next]
+  A --> C[适配器：filter/map 包住另一个迭代器]
+  B --> D[惰性 + 逐个流过]
+  C --> D
+  E[闭包 = 匿名函数，可以捕获外部变量] --> F[闭包参数类型从哪来：&T / &&T]
+  C --> F
+  D --> G[常用词汇：find/any/count/enumerate/zip/filter_map...]
+  F --> G
+```
+
+可以开始吗？
+
+
+> [!quote] YOU
+
+可以开始
+
+
+> [!abstract] PI
+
+## 节点 A：迭代器的定义
+
+**为什么从定义开始？** `filter`、`map`、`collect`、`for` 这些东西，背后都只靠**一个方法**运转。把这个方法弄清楚，后面的行为都能推出来，不用一条条死记。
+
+**定义**（标准库里 `Iterator` trait 的核心，只有这一个必须实现的方法）：
+
+```rust
+trait Iterator {
+    type Item;                                   // 每次产出的元素类型
+    fn next(&mut self) -> Option<Self::Item>;    // 要一个元素
+}
+```
+
+> **迭代器 = 一个可以反复调用 `next()` 的东西。每次调用返回 `Some(下一个元素)`，没有元素了就返回 `None`。**
+
+就这么简单。它不是数组，也不是列表，而是一个**“你要，它才给一个”的元素来源**。
+
+**自己写一个**（本机实测）：
+
+```rust
+struct Countdown { n: u32 }
+
+impl Iterator for Countdown {
+    type Item = u32;
+    fn next(&mut self) -> Option<u32> {
+        if self.n == 0 {
+            None
+        } else {
+            self.n -= 1;
+            Some(self.n + 1)
+        }
+    }
+}
+
+fn main() {
+    let mut c = Countdown { n: 3 };
+    println!("{:?}", c.next());   // Some(3)
+    println!("{:?}", c.next());   // Some(2)
+    println!("{:?}", c.next());   // Some(1)
+    println!("{:?}", c.next());   // None
+    println!("{:?}", c.next());   // None
+}
+```
+
+**注意 `next` 的签名是 `&mut self`。** 每要一个元素，迭代器都要更新自己内部的状态（这里是 `n`，`Vec` 的迭代器则是“现在读到第几个”）。所以迭代器变量要声明成 `let mut`。
+
+`Vec` 的迭代器也是这样工作的：
+
+```rust
+let v = vec![10, 20];
+let mut it = v.iter();
+it.next();   // Some(&10)   ← 注意是 &i32：iter() 借着看，不拿走
+it.next();   // Some(&20)
+it.next();   // None
+```
+
+`v.iter()` 产出的是 `&i32`。它只是借用 `v`，然后一个个指给你看。这和 J3 里的那张表对得上：`iter()` 产出 `&T`，`iter_mut()` 产出 `&mut T`，`into_iter()` 产出 `T`（会 move 掉整个 Vec）。
+
+> 顺带一个刚才实测踩到的坑：如果写 `let mut it = vec![10, 20].iter();`，会报 **E0716**。临时创建的 `Vec` 在这条语句结束时就被 drop 了，但 `it` 还借着它。这是节点 I“借用不能比所有者活得久”的又一个例子，所以要先 `let v = ...` 给它一个所有者。
+
+确认题：
+
+
+> [!question] Quiz
+> 下面这段代码打印什么？
+>
+> ```rust
+> fn main() {
+>     let v = vec![7, 8, 9];
+>     let mut it = v.iter();
+>     it.next();
+>     let a = it.next();
+>     let b = it.next();
+>     let c = it.next();
+>     println!("{:?} {:?} {:?}", a, b, c);
+> }
+> ```
+>
+> 1. Some(7) Some(8) Some(9)
+> 2. 8 9 然后因为越界 panic
+> 3. Some(8) Some(9) None
+> 4. Some(8) Some(9) Some(7)
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 3. Some(8) Some(9) None
+> Correct answer: 3
+>
+> 迭代器有内部状态，每次调用 next 都会往前走一步，不会从头开始，也不会循环回去。第一次 next() 拿到了 Some(&7)，但结果被丢掉了。a 是第二个元素 Some(&8)，b 是 Some(&9)，c 时已经没有元素了，返回 None。用 Option 表示“没有了”，所以不会 panic。打印时 {:?} 不显示 &，看到的就是 Some(8)。
+
+
+> [!question] Quiz
+> MyMap 的 next() 最合理的实现是哪一个？
+>
+> ```rust
+> struct MyMap {
+>     inner: /* 被包住的迭代器 */,
+>     f:     /* 加工函数 */,
+> }
+> // 调用方：my_map.next()  —— 要一个元素
+> ```
+>
+> 1. 先调用 f 得到一个结果，再向 inner 要一个元素来替换它并返回
+> 2. 先把 inner 全部取完并对每个调用 f，存成数组，再从数组里返回一个
+> 3. 向 inner 要一个；拿到 Some(x) 就返回 Some(f(x))，拿到 None 就返回 None
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 3. 向 inner 要一个；拿到 Some(x) 就返回 Some(f(x))，拿到 None 就返回 None
+> Correct answer: 3
+>
+> 调用方只要一个元素，那就只向 inner 要一个，加工后交出去，不多做任何事。这样不需要中间数组，也不会处理没人要的元素。“全部取完存成数组”就是 JS 数组那种急切的做法：多分配内存，还会白白处理调用方可能根本不要的元素。“先调用 f”没有意义，因为 f 需要一个输入元素才能算。
+
+
+> [!abstract] PI
+
+对。`filter` 也一样，只多了一点：如果要来的元素没通过检查，就**继续向 inner 要**，直到有一个通过，或者 inner 已经没有元素了：
+
+```rust
+// MyFilter::next 的逻辑
+loop {
+    let x = self.inner.next()?;   // inner 没了 → ? 直接 return None
+    if (self.pred)(&x) {          // 注意：传给检查函数的是 &x（只看不拿）
+        return Some(x);           // 通过 → 交出去
+    }
+    // 没通过 → 丢掉，继续要下一个
+}
+```
+
+**消费者**负责发起整个过程。`collect`、`sum`、`for` 循环，本质上都是**反复调用 `next()`，直到拿到 `None`**：
+
+```rust
+// collect 的本质
+let mut out = Vec::new();
+while let Some(x) = it.next() {
+    out.push(x);
+}
+```
+
+完整可运行的版本我在本机实测过，输出和标准库的 `filter`、`map` 完全一样。里面的泛型写法先看个大概，不必细究：
+
+```rust
+struct MyMap<I, F> { inner: I, f: F }
+impl<I: Iterator, B, F: FnMut(I::Item) -> B> Iterator for MyMap<I, F> {
+    type Item = B;
+    fn next(&mut self) -> Option<B> {
+        match self.inner.next() {
+            Some(x) => Some((self.f)(x)),
+            None => None,
+        }
+    }
+}
+
+struct MyFilter<I, P> { inner: I, pred: P }
+impl<I: Iterator, P: FnMut(&I::Item) -> bool> Iterator for MyFilter<I, P> {
+    type Item = I::Item;
+    fn next(&mut self) -> Option<I::Item> {
+        loop {
+            let x = self.inner.next()?;
+            if (self.pred)(&x) { return Some(x); }
+        }
+    }
+}
+```
+
+## 节点 D：惰性和逐个流过，都是推出来的
+
+现在回头看开头那道题。`v.iter().filter(..).map(..).collect()` 搭起来的其实是一层套一层的结构：
+
+```
+collect ──要──▶ map ──要──▶ filter ──要──▶ iter ──▶ v 的缓冲区
+```
+
+**为什么是惰性的？** `v.iter().filter(..).map(..)` 这一步只是**把几个结构体套在一起**，没有任何人调用 `next()`，所以什么都不会执行。编译器甚至会警告你（本机实测）：
+
+```
+warning: unused `Map` that must be used
+  = note: iterators are lazy and do nothing unless consumed
+```
+
+**为什么是逐个流过？** 跟着调用顺序走一遍：
+
+1. `collect` 调用 `map.next()`
+2. `map` 调用 `filter.next()`
+3. `filter` 调用 `iter.next()`，拿到 1，打印 `filter 1`，没通过；再要一个，拿到 2，打印 `filter 2`，通过，把 2 返回给 `map`
+4. `map` 拿到 2，打印 `map 2`，返回 20 给 `collect`
+5. `collect` 再调用 `map.next()`……
+
+所以输出是 `filter 1, filter 2, map 2, filter 3, filter 4, map 4`。
+
+**你之前选的“map 先”其实有一半对：** 最先**被调用**的确实是 `map.next()`。但它得先向 `filter` 要到元素，才能执行自己的加工代码。所以第一行**打印**出来的是 filter。
+
+最后确认这个节点：
+
+
+> [!question] Quiz
+> 下面这段代码会打印哪些行？（`find` 是消费者：一直调用 next，直到找到第一个满足条件的元素就停下）
+>
+> ```rust
+> fn main() {
+>     let v = vec![1, 2, 3, 4, 5];
+>     let r = v.iter()
+>         .map(|x| { println!("map {}", x); x * 10 })
+>         .find(|y| *y > 20);
+>     println!("{:?}", r);
+> }
+> ```
+>
+> 1. map 3, Some(30)
+> 2. map 1, map 2, map 3, Some(30)
+> 3. 只打印 Some(30)，因为迭代器是惰性的
+> 4. map 1, map 2, map 3, map 4, map 5, Some(30)
