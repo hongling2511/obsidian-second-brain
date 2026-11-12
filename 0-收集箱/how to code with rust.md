@@ -2727,3 +2727,314 @@ struct Circle { r: f64 }
 > 2. 能编译，输出 hello, dog 和 meow
 > 3. 不能编译：Cat 不允许重写已有默认实现的 hello
 > 4. 不能编译：Dog 没有实现 hello
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 2. 能编译，输出 hello, dog 和 meow
+> Correct answer: 2
+>
+> hello 有默认实现，Dog 只实现了必需的 name，所以 Dog.hello() 用的是默认版本，结果是 hello, dog。Cat 覆盖了 hello，所以用自己的版本，输出 meow。没有方法体的 name 是必须实现的，有方法体的 hello 可以不实现，也可以覆盖。struct Dog; 是没有字段的单元结构体，Dog 本身就是它的值。
+
+
+> [!abstract] PI
+
+## 节点 G：泛型 `<T: Trait>`
+
+**为什么需要它？** 有了 `Shape`，我们想写一个函数“打印任何形状的面积”。参数类型写什么？不能写 `Circle`，否则 `Square` 就传不进来。需要的是：**任意类型 T，只要它实现了 Shape**。这就是你熟悉的泛型约束：
+
+```rust
+fn print_area<T: Shape>(x: &T) {   // 相当于 Java 的 <T extends Shape>
+    println!("{}", x.area());      // 有 T: Shape 这个约束，才能调用 area()
+}
+
+print_area(&Circle { r: 1.0 });   // 3
+print_area(&Square { s: 2.0 });   // 4
+print_area(&5);                   // ❌ E0277: the trait `Shape` is not implemented for `{integer}`
+```
+
+参数位置还有一种简写，意思一样：`fn print_area(x: &impl Shape)`。
+
+**和 Java 的关键区别：单态化。** Java 的泛型在运行时会被擦除，所有 T 共用一份代码，靠“全是引用 + 运行时查方法表”来工作。Rust 则是**在编译期为每个实际用到的 T 各生成一份专门的代码**：
+
+```rust
+print_area(&circle);   // 编译器生成 print_area::<Circle>，里面直接调用 Circle::area
+print_area(&square);   // 编译器生成 print_area::<Square>，里面直接调用 Square::area
+```
+
+就好像你手写了两个函数。结果是：**调用时不需要运行时查表，可以内联，和手写的专用函数一样快**（这叫静态分派）。
+
+**由此能推出你刚才错的那道题。** 看这个签名：
+
+```rust
+fn total<T: Shape>(xs: &[T]) -> f64 { xs.iter().map(|x| x.area()).sum() }
+```
+
+- 每次调用，T 是**一个**确定的类型，编译器生成的就是那一份专用代码。
+- `&[T]` 是“一段连续的、**同一种** T”（J1）。生成的代码按 T 的布局去读每个格子，然后直接调用 `T::area`。
+- 所以 `xs` 里不可能一半是 Circle、一半是 Square。没有一份代码能同时把每个格子既当 Circle 又当 Square 来读。
+
+本机实测：
+
+```rust
+total(&[Square { s: 1.0 }, Square { s: 2.0 }]);   // ✅ 5
+total(&[Circle { r: 1.0 }, Square { s: 2.0 }]);   // ❌
+```
+```
+error[E0308]: mismatched types
+  |     total(&[Circle { r: 1.0 }, Square { s: 2.0 }])
+  |                                ^^^^^^^^^^^^^^^^^ expected `Circle`, found `Square`
+```
+
+编译器看到第一个元素，就确定了 T = Circle，第二个元素自然对不上。
+
+确认题：
+
+
+> [!question] Quiz
+> 关于下面这段代码，哪个说法正确？
+>
+> ```rust
+> trait Shape { fn area(&self) -> f64; }
+> struct Circle { r: f64 }
+> struct Square { s: f64 }
+> impl Shape for Circle { fn area(&self) -> f64 { 3.0 * self.r * self.r } }
+> impl Shape for Square { fn area(&self) -> f64 { self.s * self.s } }
+>
+> fn print_area<T: Shape>(x: &T) { println!("{}", x.area()); }
+>
+> fn main() {
+>     print_area(&Circle { r: 1.0 });
+>     print_area(&Square { s: 2.0 });
+>     print_area(&Square { s: 3.0 });
+> }
+> ```
+>
+> 1. 编译器生成 3 份 print_area，每个调用点各一份
+> 2. 编译器生成 2 份 print_area（Circle 版和 Square 版），各自直接调用对应的 area
+> 3. 编译失败：同一个泛型函数不能先后用于两种不同的 T
+> 4. 只生成 1 份 print_area，运行时查方法表决定调用哪个 area
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 2. 编译器生成 2 份 print_area（Circle 版和 Square 版），各自直接调用对应的 area
+> Correct answer: 2
+>
+> 单态化是按“用到了哪些具体类型”来生成代码的，不是按调用点。这里用到了 T = Circle 和 T = Square 两种类型，所以生成 print_area::<Circle> 和 print_area::<Square> 两份，两次 Square 调用共用同一份。每份代码在编译期就确定了调用哪个 area，不需要运行时查表；只生成一份、运行时查表的是 Java 泛型擦除的做法，也是下一个节点 dyn 的做法。同一个泛型函数在不同调用处用不同的 T 完全合法；不能混用的是同一次调用里的同一个 T。
+
+
+> [!question] Quiz
+> 要让一个 Vec 混装 Circle（8 字节）和 Rect（16 字节），并且能对每个元素调用正确的 area()，每个固定大小的格子里至少要放什么？
+>
+> ```rust
+> trait Shape { fn area(&self) -> f64; }
+> struct Circle { r: f64 }          // 8 字节
+> struct Rect { w: f64, h: f64 }    // 16 字节
+> ```
+>
+> 1. 按最大的 16 字节开格子直接放数据，再调用 Shape::area
+> 2. 指向堆上数据的指针 + 元素的字节大小
+> 3. 指向堆上数据的指针 + 指向该类型方法表的指针
+> 4. 只要一个指向堆上数据的指针，调用时编译器自然知道类型
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 3. 指向堆上数据的指针 + 指向该类型方法表的指针
+> Correct answer: 3
+>
+> 数据本身大小不一，所以放到堆上，格子里只放一个固定大小的指针。但光有数据指针还不够：编译器现在只知道“这是某种 Shape”，不知道具体是哪种，也就不知道该调用 Circle::area 还是 Rect::area。所以还要带上第二个指针，指向这个具体类型的方法表（vtable），表里记着它的 area 函数地址。调用时先查表再跳转，这就是动态分派。只记大小不够，因为知道大小也不知道该调用哪个函数。按最大尺寸开格子也解决不了“调用哪个 area”的问题。
+
+
+> [!abstract] PI
+
+你推出来的就是 Rust 的 **trait 对象**。
+
+**`dyn Shape`** 的意思是“某个实现了 Shape 的类型，具体是哪个要到运行时才知道”。它本身大小不确定，所以**不能直接放进格子**（本机实测）：
+
+```rust
+let v: Vec<dyn Shape> = Vec::new();
+```
+```
+error[E0277]: the size for values of type `dyn Shape` cannot be known at compilation time
+  = help: the trait `Sized` is not implemented for `dyn Shape`
+```
+
+它必须放在**指针后面**。这个指针是一个**胖指针**：数据指针加上方法表（vtable）指针。本机实测 `size_of::<&dyn Shape>()` = `size_of::<Box<dyn Shape>>()` = **16**，正好是两个指针的大小。
+
+```
+  shapes: Vec<Box<dyn Shape>>
+  ┌─────────────────────┐
+  │ [data ptr│vtable ptr]──┬──▶ 堆: Circle { r: 1.0 }
+  │          └───────────┼─▶ Circle 的 vtable: area → Circle::area
+  │ [data ptr│vtable ptr]──┬──▶ 堆: Rect { w: 2.0, h: 3.0 }
+  │          └───────────┼─▶ Rect 的 vtable:   area → Rect::area
+  └─────────────────────┘     每个格子 16 字节
+```
+
+两种指针写法：
+- **`Box<dyn Shape>`**：拥有。`Box` 是“指向堆上数据的唯一所有者”，Box 被 drop 时，堆上的数据也一起被 drop。要存进集合时用它。
+- **`&dyn Shape`**：借用。只是临时拿来用时用它。
+
+完整例子（本机实测）：
+
+```rust
+fn total(xs: &[Box<dyn Shape>]) -> f64 {
+    xs.iter().map(|x| x.area()).sum()     // 每次 area() 都通过 vtable 查表调用
+}
+fn print_area(x: &dyn Shape) { println!("{}", x.area()); }
+
+fn main() {
+    let shapes: Vec<Box<dyn Shape>> = vec![
+        Box::new(Circle { r: 1.0 }),       // Box::new 把值放到堆上
+        Box::new(Rect { w: 2.0, h: 3.0 }),
+    ];
+    println!("{}", total(&shapes));        // 9  （3 + 6）
+    print_area(&Circle { r: 2.0 });        // 12 （&Circle 自动转成 &dyn Shape）
+}
+```
+
+这正是 Java 的 `List<Shape>` 背后的做法，只不过 Java 对所有对象都**默认**这么做，而 Rust 只在你写了 `dyn` 的地方才这么做。
+
+## 节点 C：泛型还是 dyn？
+
+| | 泛型 `<T: Shape>` / `impl Shape` | `dyn Shape`（`Box` / `&`） |
+|---|---|---|
+| 具体类型在什么时候确定 | **编译期**，每份代码一种 | **运行时**，每个值可以不同 |
+| 能否混装 | ❌ | ✅ |
+| 调用方式 | 直接调用，可以内联 | 通过 vtable 查表，多一次间接跳转 |
+| 代价 | 每种 T 一份代码，二进制会变大 | 运行时开销（堆分配、查表） |
+
+**选择规则：默认用泛型。只有当“同一处需要容纳不同类型”，而且具体是哪些类型要到运行时才知道时，才用 `dyn`。** 最典型的场景就是异构集合，比如图形列表、插件列表、事件处理器列表。
+
+确认题：
+
+
+> [!question] Quiz
+> 下面四个需求中，哪一个必须用 dyn Trait，用泛型做不到？
+>
+> ```rust
+> trait Plugin { fn run(&self); }
+> ```
+>
+> 1. 根据配置文件在运行时加载若干个不同类型的插件，存进一个列表依次运行
+> 2. 写一个函数，接收任意一个插件并调用它的 run
+> 3. 写一个函数，接收一组同一种类型的插件并依次调用 run
+> 4. 对一个插件类型调用 run 一百万次，并且要尽可能快
+
+
+> [!success] Quiz — correct ✓
+> Your answer: 1. 根据配置文件在运行时加载若干个不同类型的插件，存进一个列表依次运行
+> Correct answer: 1
+>
+> 运行时才决定加载哪些、类型各不相同，还要放进同一个列表：这里的具体类型在编译期不确定，而且需要混装，只能用 Vec<Box<dyn Plugin>>。另外三个需求里，具体类型在每次调用时都是确定的一种，用泛型（fn f<T: Plugin>(p: &T) 或 &[T]）就能做到，而且更快。最后一个“调用一百万次且要尽可能快”正是泛型的强项：静态分派，可以内联。
+
+
+> [!abstract] PI
+
+测试会调用 `Circle` 的 `area()` 和 `Rect` 的 `{}` 格式化。如果对应的 `impl` 不存在，整个项目就编译不过。所以我把这几个 `impl` 也写成 `todo!()` 占位：
+
+
+> [!abstract] PI
+
+我建好了练习项目，也确认过两件事：
+- 你的版本能编译，5 个测试目前都失败，因为函数体都还是 `todo!()`，这是预期的。
+- 我在 `/tmp/shapes-ref` 里另写了一份参考答案，5 个测试全部通过。这说明题目本身没问题。答案不在你的项目里。
+
+**项目位置：** `/Users/hongling/learn/rust-shapes/src/lib.rs`
+
+| 部分 | 你要写的 | 练的节点 |
+|---|---|---|
+| part1 | `Rect::new` / `square` / `scale` / `is_square` | 结构体、关联函数、`&self` 和 `&mut self` |
+| part2 | `Shape` 的默认方法 `describe`，以及 Circle 和 Rect 的 `area` / `name` | trait、默认方法 |
+| part3 | `impl Display for Rect`，输出 `Rect(2x3)` | 标准库 trait |
+| part4 | `bigger<'a, T: Shape>(a, b)` | 泛型、生命周期 |
+| part5 | `Board`：用 `Vec<Box<dyn Shape>>` 做加入、求总面积、列出描述、找最大 | dyn、迭代器、`Option` |
+
+最后一部分会把这几次课的内容都用上：`largest()` 返回的是 `Option<&dyn Shape>`，同时涉及借用、生命周期省略、Option 和 trait 对象。
+
+**怎么做：**
+```bash
+cd /Users/hongling/learn/rust-shapes
+cargo test part1     # 一部分一部分地来
+```
+
+**这次我建议你自己写。** 卡住了就把报错或者你的代码思路发给我，我会先指出问题在哪、给提示，不直接给答案。如果某一部分你确实想看答案，直接说“给我 partN 的答案”就行。
+
+**还有一个提醒：** 如果我之后要改这个文件，请先在编辑器里重新加载它（Revert / `:e!`），否则会像上次那样，编辑器里的旧内容把文件覆盖掉。
+
+
+> [!quote] YOU
+
+我已经修改了 part1, 请检查
+
+
+> [!abstract] PI
+
+**part1 通过了**（`part1_rect_methods ... ok`）。代码我逐行看过：
+
+```rust
+pub fn new(w: f64, h: f64) -> Rect { Rect { w, h } }          // ✅ 用了字段简写，很地道
+pub fn square(s: f64) -> Rect { Rect { w: s, h: s } }         // ✅ 结果正确，有一点可以改进，见下
+pub fn scale(&mut self, k: f64) { self.w *= k; self.h *= k; } // ✅
+pub fn is_square(&self) -> bool { self.w == self.h }          // ✅
+```
+
+**做得好的地方：**
+- `Rect { w, h }` 用了字段简写。
+- `scale` 和 `is_square` 的 `self` 用法都对。
+
+**一处小改进：** `square` 的注释写的是“复用 new”。你的写法结果没错，但地道的做法是 `Rect::new(s, s)`。原因是，以后如果 `new` 里加了校验（比如“宽高必须大于 0”），`square` 会自动用上同一套逻辑，不会出现两处构造各写各的。这不影响测试，改不改都行。
+
+**再提一点（不用改）：** 浮点数用 `==` 比较，在这里没问题，因为测试用的都是能精确表示的数。但如果宽高是计算出来的，比如 `0.1 + 0.2` 和 `0.3`，`==` 会返回 false。实际项目里比较浮点数，通常会判断差值是否小于一个很小的阈值，测试里的 `close()` 就是这么做的。
+
+**关于那 5 条 warning：** 它们都来自还没写的 part3–part5（`todo!()` 没用到参数），和 part1 无关，写完之后会自动消失。
+
+**签名里的思考题：** `scale` 为什么是 `&mut self`，而不是 `&self` 或 `self`？可以用一句话说说你的想法，也可以直接进入 part2。
+
+
+> [!quote] YOU
+
+检查 part2
+
+
+> [!abstract] PI
+
+**part2 还没通过，差一个字符。** Circle 和 Rect 的 `area` / `name` 都写对了，trait 结构也对：只实现了必需的两个方法，`describe` 走默认实现。问题在格式化字符串上。
+
+测试的报错：
+```
+assertion `left == right` failed
+  left: "circle: 3.141592653589793"
+ right: "circle: 3.14"
+```
+
+你写的是：
+```rust
+format!("{}: {:2}", self.name(), self.area())
+//              ^^^^
+```
+
+**提示：** 格式说明符里，冒号后面的数字有两种含义。数字**前面有没有一个点**，意思完全不同。本机实测，`x = 3.14159`：
+
+```
+{:2}    → [3.14159]     ← 最小宽度 2（不够就补空格；本来就够长，所以原样输出）
+{:8}    → [ 3.14159]    ← 最小宽度 8，左边补了 1 个空格
+{:8.2}  → [    3.14]    ← 宽度 8，并且保留 2 位小数
+```
+
+对照题目注释里的提示 `format!("{}: {:.2}", ...)`，看看你的写法少了什么，改完运行 `cargo test part2`。
+
+
+> [!quote] YOU
+
+已加上小数点
+
+
+> [!abstract] PI
+
+**part2 通过了。** 第 63 行现在是 `{:.2}`，part1 和 part2 都是 ok。part3–5 失败是因为还没写，函数体还是 `todo!()`。
+
+**记一下这条规则：** 冒号后面的数字，**有点表示精度（小数位数），没有点表示最小宽度**，两者可以组合使用，比如 `{:8.2}`。
+
+**part2 里有一点值得注意：** 你只给 Circle 和 Rect 写了 `area` 和 `name`，`describe` 一行都没写，却能直接用。这就是默认方法的作用：trait 用你提供的两个必需方法，替你拼出了第三个。迭代器也是一样，你只要实现 `next`，就能用上 `map`、`filter`、`sum`。
+
+下一个是 **part3**：为 Rect 实现 `Display`，让它输出 `Rect(2x3)`。可以参考讲 trait 时 `Square` 的那个例子。
