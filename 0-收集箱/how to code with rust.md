@@ -3038,3 +3038,301 @@ format!("{}: {:2}", self.name(), self.area())
 **part2 里有一点值得注意：** 你只给 Circle 和 Rect 写了 `area` 和 `name`，`describe` 一行都没写，却能直接用。这就是默认方法的作用：trait 用你提供的两个必需方法，替你拼出了第三个。迭代器也是一样，你只要实现 `next`，就能用上 `map`、`filter`、`sum`。
 
 下一个是 **part3**：为 Rect 实现 `Display`，让它输出 `Rect(2x3)`。可以参考讲 trait 时 `Square` 的那个例子。
+
+
+> [!quote] YOU
+
+检查part3
+
+
+> [!abstract] PI
+
+**part3 通过了**（`part3_display ... ok`）。
+
+```rust
+impl fmt::Display for Rect {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Rect({}x{})", self.w, self.h)
+    }
+}
+```
+
+**几个细节都写对了：**
+- **最后一行没加分号**：`write!` 返回的是 `fmt::Result`（成功是 `Ok(())`，失败是 `Err`），它正好就是函数的返回值。如果加了分号，函数体就会返回 `()`，类型对不上，编译报错。
+- **`f` 是 `&mut`**：`fmt` 要把文字写进 `Formatter` 这个输出缓冲里，所以需要可变借用。`self` 只读，所以是 `&self`。
+- **`{}` 打印 `f64`**：`2.0` 显示成 `2`，`1.5` 显示成 `1.5`，所以第二个测试 `Rect(1.5x4)` 也通过了，不需要做特别处理。
+
+**这样做之后得到了什么：** `println!("{}", r)`、`format!("{}", r)`、`r.to_string()` 现在都能用了。它们内部都调用你写的这个 `fmt`。`to_string()` 不用你自己写，标准库为所有实现了 `Display` 的类型自动提供了它。这和 part2 的默认方法是同一个思路。
+
+下一个是 **part4**：`bigger<'a, T: Shape>(a, b)`，返回面积较大的那个的引用，面积相等时返回 `a`。
+
+
+> [!quote] YOU
+
+检查 part4
+
+
+> [!abstract] PI
+
+**part4 差一点。** 失败在第 197 行，也就是测试的最后一句：
+
+```rust
+let c1 = Circle { r: 1.0 };
+let c2 = Circle { r: 1.0 };
+assert!(std::ptr::eq(bigger(&c1, &c2), &c1)); // 相等时返回 a
+```
+
+前两句断言（面积不同的情况）都通过了，泛型、生命周期和比较逻辑都是对的。问题只出在**面积相等**这种边界情况上。
+
+**提示：** 把 `c1` 和 `c2` 代入你的代码走一遍：
+
+```rust
+if a.area() > b.area() { a } else { b }
+```
+
+两个面积都是 π。`π > π` 的结果是什么？于是会走哪个分支？题目要求返回哪一个？
+
+改的方法不止一种，可以只改比较运算符，也可以把条件反过来写。改完运行 `cargo test part4`。
+
+> **关于 `std::ptr::eq`：** 前两句用的是 `assert_eq!`，比较的是**值**（靠 `#[derive(PartialEq)]`）。但 `c1` 和 `c2` 的值完全一样，用 `==` 分不出返回的是哪一个。所以最后一句用 `ptr::eq` 比较**地址**，检查返回的引用是否指向 `c1` 这个变量本身。这里能看出引用的本质：`&c1` 就是 `c1` 的地址。
+
+
+> [!quote] YOU
+
+在测一次
+
+
+> [!abstract] PI
+
+**part4 通过了。** 你把 `>` 改成了 `>=`，面积相等时就返回 `a`。part1 到 part4 现在全部通过。part5 失败是因为第 120 行的 `Board::new()` 还是 `todo!()`。
+
+```rust
+pub fn bigger<'a, T: Shape>(a: &'a T, b: &'a T) -> &'a T {
+    if a.area() >= b.area() { a } else { b }
+}
+```
+
+**签名里的两个思考题，答案其实都写在签名里：**
+- **为什么 a 和 b 必须是同一种 T？** 返回类型是 `&'a T`，只有**一个**类型。如果 a 是 Circle、b 是Rect，返回值就既可能是 Circle 也可能是 Rect，一个确定的类型 T 装不下这两种可能。想支持不同类型，就得返回 `&dyn Shape`，也就是 part5 的做法。
+- **为什么返回值需要 `'a`？** 有两个输入引用，编译器不知道返回值借自哪一个（就是节点 I 里 `longer` 的那个情况）。`'a` 告诉调用方：返回值可能借自 a，也可能借自 b，所以两者都要活得够久。
+
+**边界情况的习惯：** 这次的 bug 出在“相等”这个边界上。以后写比较逻辑时，可以先问自己一句：相等时应该怎样？`>` 和 `>=`、`<` 和 `<=` 的区别，就在这一种情况上。
+
+最后是 **part5：`Board`**。它会把所有内容合在一起：`Vec<Box<dyn Shape>>`、`&mut self`、迭代器、`Option<&dyn Shape>`。其中 `largest` 最难，相等时要返回先加入的那个，刚才的经验正好能用上。
+
+
+> [!quote] YOU
+
+Option<&dyn Shape> 怎么定义和初始化
+
+
+> [!abstract] PI
+
+这里会碰到几个具体问题，下面分步说明。代码都在本机编译验证过。
+
+## 1. 定义和初始化：类型要写清楚
+
+```rust
+let mut best: Option<&dyn Shape> = None;
+```
+
+- `mut`：后面要给它重新赋值。
+- **类型标注不能省。** 只写 `None` 的话，编译器不知道 `Option` 里装的是什么（本机实测）：
+  ```
+  let mut best = None;
+  error[E0282]: type annotations needed for `Option<_>`
+  ```
+  `None` 本身不带任何类型信息，所以要么写上标注，要么保证后面有赋值能让编译器推断出类型。这里直接写上最清楚。
+
+## 2. 关键的坑：从 `&Box<dyn Shape>` 到 `&dyn Shape`
+
+遍历 `&self.shapes` 时，拿到的每个元素是 **`&Box<dyn Shape>`**（对 Box 的引用），不是 `&dyn Shape`。直接放进去会报错（本机实测）：
+
+```rust
+for s in &shapes { best = Some(s); }
+```
+```
+error[E0277]: the trait bound `Box<dyn Shape>: Shape` is not satisfied
+```
+
+编译器的意思是：你要的是 `&dyn Shape`，给的却是 `&Box<...>`，而 `Box` 本身并没有实现 `Shape`。
+
+看一下内存就明白了，它们中间隔着一层：
+
+```
+  s: &Box<dyn Shape>  ──▶  Box [data ptr | vtable ptr]  ──▶  堆上的 Circle
+                           ↑ 这个 Box 就是 &dyn Shape 需要的那个胖指针
+```
+
+需要“穿过”Box，拿到里面的东西。有两种写法：
+
+```rust
+let a: &dyn Shape = s.as_ref();   // ① 推荐：读起来最清楚
+let b: &dyn Shape = &**s;         // ② 手动：*s 得到 Box，**s 得到 dyn Shape，再取 &
+```
+
+## 3. 赋值和读取
+
+```rust
+best = Some(s.as_ref());          // 赋值：用 Some 包起来
+
+match best {                      // 读取方式一：match
+    Some(b) => println!("{}", b.area()),
+    None => println!("empty"),
+}
+
+if let Some(b) = best {           // 读取方式二：if let，只关心 Some 的情况
+    println!("{}", b.area());
+}
+```
+
+**`best` 为什么能反复拷贝来比较？** `Option<&dyn Shape>` 是 **Copy** 的：里面装的是引用，而引用是 Copy（节点 E）。所以 `match best` 不会 move 掉 `best`，后面还能继续用。
+
+## 4. 放到 `largest` 里的大致结构
+
+```rust
+pub fn largest(&self) -> Option<&dyn Shape> {
+    let mut best: Option<&dyn Shape> = None;
+    for s in &self.shapes {
+        let s: &dyn Shape = s.as_ref();
+        // TODO: 决定要不要把 best 换成 Some(s)
+        //   - best 是 None 时：怎么办？
+        //   - best 是 Some(b) 时：和 b 比面积。相等时要保留先加入的那个
+        //     （part4 刚踩过这个边界：用 > 还是 >=？）
+    }
+    best
+}
+```
+
+中间那段比较逻辑留给你写。提示：它和练习 1 的 `longest_word` 是同一个模式，那里也是“保留先出现的”。
+
+**生命周期也顺便说一下：** 返回的 `&dyn Shape` 借自 `&self`，按省略规则，方法的输出引用默认借自 `self`，所以签名里不用写 `'a`。这也说得通：只要 Board 还活着，它里面的图形就还在。
+
+
+> [!quote] YOU
+
+这个shapes: Vec<Box<dyn Shape>>, 怎么初始化
+
+
+> [!abstract] PI
+
+在 `Board::new()` 里，初始化成一个**空的 Vec** 就行。下面几种写法都在本机编译验证过。
+
+## 在 `Board::new` 里
+
+```rust
+pub fn new() -> Board {
+    Board { shapes: Vec::new() }
+}
+```
+
+`Vec::new()` 创建一个空 Vec。一开始 ptr 不指向任何堆内存，len 和 cap 都是 0，第一次 `push` 时才会分配。
+
+**元素类型不用写，编译器能推断出来。** 结构体定义里已经写了 `shapes: Vec<Box<dyn Shape>>`，所以编译器知道这个 `Vec::new()` 就是 `Vec<Box<dyn Shape>>`。上一条消息里的 `let best = None` 需要标注，是因为它旁边没有任何类型信息；这里字段的类型就是线索。
+
+`vec![]` 也行，效果一样：`Board { shapes: vec![] }`。
+
+## 如果一开始就要放入元素
+
+```rust
+let v: Vec<Box<dyn Shape>> = vec![Box::new(Circle { r: 1.0 }), Box::new(Rect::new(2.0, 3.0))];
+```
+
+**这里的类型标注同样不能省。** 不写的话（本机实测）：
+
+```rust
+let v = vec![Box::new(C), Box::new(R)];
+```
+```
+error[E0308]: mismatched types
+  |     let v = vec![Box::new(C), Box::new(R)];
+  |                               -------- ^ expected `C`, found `R`
+```
+
+原因和节点 G 里泛型不能混放一样：没有标注时，编译器看到第一个元素，就认定这是 `Vec<Box<C>>`，第二个元素自然对不上。写上 `Vec<Box<dyn Shape>>` 以后，编译器才知道要把每个 `Box<C>`、`Box<R>` **转换**成 `Box<dyn Shape>`，也就是在旁边加上对应的 vtable 指针。
+
+放在结构体字段里时也一样：字段类型就相当于标注，所以 `Board { shapes: vec![Box::new(C), Box::new(R)] }` 能编译。
+
+## `add` 怎么写
+
+`add` 收到的参数 `s` 已经是 `Box<dyn Shape>`，直接 `push` 进去就行。所有权从调用方 move 到 Board 里（节点 D）。测试里是这样调用的：
+
+```rust
+board.add(Box::new(Rect::new(2.0, 3.0)));   // Box<Rect> 在传参时自动转成 Box<dyn Shape>
+```
+
+接下来 `new`、`add`、`len` 应该都很快能写完。`total_area` 和 `describe_all` 可以用迭代器：`self.shapes.iter()` 产出 `&Box<dyn Shape>`，直接调用 `.area()` 是可以的，方法调用会自动穿过 Box。`largest` 就用上一条的结构。写完运行 `cargo test part5`。
+
+
+> [!quote] YOU
+
+测试 part5
+
+
+> [!abstract] PI
+
+**5 个测试全部通过 🎉**，画板程序完成了。不过我在临时副本里加了一个边界测试，发现 `largest` 有一个现有测试没覆盖到的 bug。
+
+## 1. 一个真实的 bug：`largest` 的哨兵值 0.0
+
+```rust
+let mut area_max: f64 = 0.0;          // ← 假定“至少会有一个面积 > 0 的图形”
+for shape in &self.shapes {
+    if (shape.area() > area_max) { ... }
+}
+```
+
+**反例**（本机实测）：画板里只放一个 `Rect::new(0.0, 5.0)`，面积是 0：
+
+```
+len=1 largest_is_none=true
+```
+
+画板里明明有一个图形，却返回了 `None`。原因是 `0 > 0` 为假，所以 `max` 一直没被赋值。
+
+问题的根源在于：**`0.0` 被你当成了“还没有”的意思。** 但 0.0 同时也是一个合法的面积，两个含义撞在了一起。这正是 `Option` 要解决的问题：“还没有”应该用 `None` 来表示，不要借用一个特殊值。你的 `max` 已经是 `Option` 了，只要**直接拿它来比较**，就不需要 `area_max`：
+
+```rust
+for shape in &self.shapes {
+    let s = shape.as_ref();
+    match max {
+        None => max = Some(s),                        // 第一个：直接收下
+        Some(b) if s.area() > b.area() => max = Some(s), // 严格更大才替换 → 相等保留先加入的
+        _ => {}
+    }
+}
+```
+
+`Some(b) if ...` 是 **match 守卫**：只有模式匹配上、并且 if 条件成立时，才走这个分支。这和练习 1 的 `longest_word` 是同一个模式。
+
+## 2. 小问题：if 条件的括号
+
+```
+warning: unnecessary parentheses around `if` condition
+```
+
+Rust 的 `if` 条件不需要括号：写 `if shape.area() > area_max { ... }` 就行。这是 Java/JS 的习惯带过来的。
+
+## 3. 风格：注释说“用迭代器”
+
+你的 `total_area` 和 `describe_all` 用 `for` 循环写，结果完全正确。这里给出迭代器版本对照一下，两种都可以：
+
+```rust
+pub fn total_area(&self) -> f64 {
+    self.shapes.iter().map(|s| s.area()).sum()
+}
+
+pub fn describe_all(&self) -> Vec<String> {
+    self.shapes.iter().map(|s| s.describe()).collect()
+}
+```
+
+当要做的事情就是“对每个元素做一次转换，然后汇总”时，迭代器版本把意图直接写了出来，也不需要可变的累加变量。
+
+## 做得好的地方
+
+- `new` / `add` / `len` 都写得很干净。`add` 把 `Box` 直接 `push` 进去，所有权从调用方 move 进了 Board。
+- `shape.area()` 直接穿过了 `&Box<dyn Shape>`，方法调用的自动解引用用对了。
+- `.as_ref()` 用对了地方，`Option<&dyn Shape>` 的生命周期也没出问题。
+
+**建议：** 按第 1 点把 `largest` 改掉，然后再跑一次 `cargo test`。如果想更进一步，可以把这个零面积的反例**自己写成一个测试**加进 tests 模块。发现 bug 之后先写一个能复现它的测试，再去修，这在实际开发中是很好的习惯。
